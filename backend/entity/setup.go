@@ -96,6 +96,7 @@ func SetupDatabase() {
 		Name:     "Banana",
 		Quantity: 20,
 		Price:    20,
+		Employee: *Em1,
 		Kind:     *Kind2,
 		Storage:  *Storage2,
 	}
@@ -105,6 +106,7 @@ func SetupDatabase() {
 		Name:     "Pork",
 		Quantity: 20,
 		Price:    80,
+		Employee: *Em1,
 		Kind:     *Kind1,
 		Storage:  *Storage1,
 	}
@@ -114,6 +116,7 @@ func SetupDatabase() {
 		Name:     "Milk",
 		Quantity: 20,
 		Price:    20,
+		Employee: *Em1,
 		Kind:     *Kind3,
 		Storage:  *Storage3,
 	}
