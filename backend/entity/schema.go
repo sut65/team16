@@ -42,25 +42,27 @@ type Invetory struct {
 	Name     string
 	Quantity int
 	Price    int
-	Employee Employee `gorm:"reference:id"`
-	Kind     Kind     `gorm:"references:id"`
-	Storage  Storage  `gorm:"reference:id"`
-	Stock    []Stock  `gorm:"references:Invetory_ID"`
+	Employee_ID *uint
+	Employee Employee
+	Kind_ID *uint
+	Kind     Kind
+	Storage_ID *uint     
+	Storage  Storage  
 }
 type Stock struct {
 	gorm.Model
 
 	Employee_ID *uint
-	Employee    Employee `gorm:"reference:id"`
+	Employee    Employee 
 
 	Kind_ID *uint
-	Kind    Kind `gorm:"references:id"`
+	Kind    Kind 
 
 	Invetory_ID *uint
-	Invetory    Invetory `gorm:"references:id"`
+	Invetory    Invetory 
 
 	Storage_ID *uint
-	Storage    Storage `gorm:"references:id"`
+	Storage    Storage 
 
 	DateTime time.Time
 }
