@@ -15,17 +15,50 @@ func main() {
 
 	r.Use(CORSMiddleware())
 
-	// User Routes
+	// Employee Routes
 
-	r.GET("/users", controller.ListEmployees)
+	r.GET("/emloyees", controller.ListEmployees)
 
-	r.GET("/user/:id", controller.GetEmployee)
+	r.GET("/emloyee/:id", controller.GetEmployee)
 
-	r.POST("/users", controller.CreateEmployee)
+	r.POST("/emloyees", controller.CreateEmployee)
 
-	r.PATCH("/users", controller.UpdateEmployee)
+	r.PATCH("/emloyees", controller.UpdateEmployee)
 
-	r.DELETE("/users/:id", controller.DeleteEmployee)
+	r.DELETE("/emloyees/:id", controller.DeleteEmployee)
+
+	//Kind Routes
+	r.GET("/kinds", controller.ListKinds)
+
+	r.GET("/kind/:id", controller.GetKind)
+
+	r.POST("/kinds", controller.CreateKind)
+
+	r.PATCH("/kinds", controller.UpdateKind)
+
+	r.DELETE("/kinds/:id", controller.DeleteKind)
+
+	// Product Routes
+	r.GET("/products", controller.ListProducts)
+
+	r.GET("/product/:id", controller.GetProduct)
+
+	r.POST("/products", controller.CreateProduct)
+
+	r.PATCH("/products/:id", controller.UpdateProduct)
+
+	r.DELETE("/products/:id", controller.DeleteProduct)
+
+	//Stock Routes
+	r.GET("/stocks", controller.ListStocks)
+
+	r.GET("/stock/:id", controller.GetStock)
+
+	r.POST("/stocks", controller.CreateStock)
+
+	r.PATCH("/stocks/:id", controller.UpdateStock)
+
+	r.DELETE("/stocks/:id", controller.DeleteStock)
 
 	// Run the server
 
