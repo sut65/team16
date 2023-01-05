@@ -17,7 +17,9 @@ type Employee struct {
 
 	Position string
 
-	Stock []Stock `gorm:"uniqueIndex" valid:"EmployeeID"`
+	Stock []Stock `gorm:"foreignKey:EmployeeID"`
+
+	Product []Product `gorm:"foreignKey:EmployeeID"`
 }
 
 type Kind struct {
@@ -32,8 +34,9 @@ type Product struct {
 	Name     string
 	Quantity int
 	Price    int
-	Kind     Kind    `gorm:"references:id"`
-	Stock    []Stock `gorm:"references:ProductID"`
+	Employee Employee `gorm:"reference:id"`
+	Kind     Kind     `gorm:"references:id"`
+	Stock    []Stock  `gorm:"references:ProductID"`
 }
 type Stock struct {
 	gorm.Model
