@@ -28,7 +28,7 @@ func SetupDatabase() {
 
 	// Migrate the schema
 
-	database.AutoMigrate(&Employee{}, &Kind{}, &Invetory{}, &Stock{})
+	database.AutoMigrate(&Employee{}, &Kind{}, &Inventory{}, &Stock{})
 
 	db = database
 
@@ -91,8 +91,8 @@ func SetupDatabase() {
 	}
 	db.Model(&Storage{}).Create(&Storage3)
 
-	//Invetory
-	Invetory1 := &Invetory{
+	//Inventory
+	Inventory1 := &Inventory{
 		Name:     "Banana",
 		Quantity: 20,
 		Price:    20,
@@ -100,9 +100,9 @@ func SetupDatabase() {
 		Kind:     *Kind2,
 		Storage:  *Storage2,
 	}
-	db.Model(&Invetory{}).Create(&Invetory1)
+	db.Model(&Inventory{}).Create(&Inventory1)
 
-	Invetory2 := &Invetory{
+	Inventory2 := &Inventory{
 		Name:     "Pork",
 		Quantity: 20,
 		Price:    80,
@@ -110,9 +110,9 @@ func SetupDatabase() {
 		Kind:     *Kind1,
 		Storage:  *Storage1,
 	}
-	db.Model(&Invetory{}).Create(&Invetory2)
+	db.Model(&Inventory{}).Create(&Inventory2)
 
-	Invetory3 := &Invetory{
+	Inventory3 := &Inventory{
 		Name:     "Milk",
 		Quantity: 20,
 		Price:    20,
@@ -120,34 +120,34 @@ func SetupDatabase() {
 		Kind:     *Kind3,
 		Storage:  *Storage3,
 	}
-	db.Model(&Invetory{}).Create(&Invetory3)
+	db.Model(&Inventory{}).Create(&Inventory3)
 
 	//Stock
 	Stock1 := &Stock{
-		Employee: *Em1,
-		Kind:     *Kind1,
-		Storage:  *Storage1,
-		Invetory: *Invetory2,
+		Employee:  *Em1,
+		Kind:      *Kind1,
+		Storage:   *Storage1,
+		Inventory: *Inventory2,
 
 		DateTime: time.Now(),
 	}
 	db.Model(&Stock{}).Create(&Stock1)
 
 	Stock2 := &Stock{
-		Employee: *Em1,
-		Kind:     *Kind2,
-		Storage:  *Storage2,
-		Invetory: *Invetory1,
+		Employee:  *Em1,
+		Kind:      *Kind2,
+		Storage:   *Storage2,
+		Inventory: *Inventory1,
 
 		DateTime: time.Now(),
 	}
 	db.Model(&Stock{}).Create(&Stock2)
 
 	Stock3 := &Stock{
-		Employee: *Em1,
-		Kind:     *Kind3,
-		Storage:  *Storage3,
-		Invetory: *Invetory3,
+		Employee:  *Em1,
+		Kind:      *Kind3,
+		Storage:   *Storage3,
+		Inventory: *Inventory3,
 
 		DateTime: time.Now(),
 	}

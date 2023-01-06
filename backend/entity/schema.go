@@ -21,48 +21,48 @@ type Employee struct {
 
 	Stock []Stock `gorm:"foreignKey:Employee_ID"`
 
-	Invetory []Invetory `gorm:"foreignKey:Employee_ID"`
+	Inventory []Inventory `gorm:"foreignKey:Employee_ID"`
 }
 
 type Kind struct {
 	gorm.Model
-	Name     string
-	Invetory []Invetory `gorm:"foreignKey:Kind_ID"`
-	Stock    []Stock    `gorm:"foreignKey:Kind_ID"`
+	Name      string
+	Inventory []Inventory `gorm:"foreignKey:Kind_ID"`
+	Stock     []Stock     `gorm:"foreignKey:Kind_ID"`
 }
 
 type Storage struct {
 	gorm.Model
-	Name     string
-	Invetory []Invetory `gorm:"foreignKey:Storage_ID"`
+	Name      string
+	Inventory []Inventory `gorm:"foreignKey:Storage_ID"`
 }
 
-type Invetory struct {
+type Inventory struct {
 	gorm.Model
-	Name     string
-	Quantity int
-	Price    int
+	Name        string
+	Quantity    int
+	Price       int
 	Employee_ID *uint
-	Employee Employee
-	Kind_ID *uint
-	Kind     Kind
-	Storage_ID *uint     
-	Storage  Storage  
+	Employee    Employee
+	Kind_ID     *uint
+	Kind        Kind
+	Storage_ID  *uint
+	Storage     Storage
 }
 type Stock struct {
 	gorm.Model
 
 	Employee_ID *uint
-	Employee    Employee 
+	Employee    Employee
 
 	Kind_ID *uint
-	Kind    Kind 
+	Kind    Kind
 
-	Invetory_ID *uint
-	Invetory    Invetory 
+	Inventory_ID *uint
+	Inventory    Inventory
 
 	Storage_ID *uint
-	Storage    Storage 
+	Storage    Storage
 
 	DateTime time.Time
 }

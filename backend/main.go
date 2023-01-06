@@ -39,15 +39,15 @@ func main() {
 	r.DELETE("/kinds/:id", controller.DeleteKind)
 
 	// Invetory Routes
-	r.GET("/invetorys", controller.ListInvetorys)
+	r.GET("/inventorys", controller.ListInventorys)
 
-	r.GET("/invetory/:id", controller.GetInvetory)
+	r.GET("/inventory/:id", controller.GetInventory)
 
-	r.POST("/invetorys", controller.CreateInvetory)
+	r.POST("/inventorys", controller.CreateInventory)
 
-	r.PATCH("/invetorys", controller.UpdateInvetory)
+	r.PATCH("/inventorys", controller.UpdateInventory)
 
-	r.DELETE("/invetorys/:id", controller.DeleteInvetory)
+	r.DELETE("/inventorys/:id", controller.DeleteInventory)
 
 	//Stock Routes
 	r.GET("/stocks", controller.ListStocks)
