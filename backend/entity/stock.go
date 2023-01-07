@@ -49,4 +49,3 @@ type Stock struct {
 
 	DateTime time.Time
 }
-
