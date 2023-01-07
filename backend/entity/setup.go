@@ -165,4 +165,49 @@ func SetupDatabase() {
 	}
 	db.Model(&Reason{}).Create(&Reason2)
 
+	ReviewP1 := &Review_Point{
+		Point:  1,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP1)
+
+	ReviewP2 := &Review_Point{
+		Point:  2,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP2)
+
+	ReviewP3 := &Review_Point{
+		Point:  3,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP3)
+
+	ReviewP4 := &Review_Point{
+		Point:  4,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP4)
+
+	ReviewP5 := &Review_Point{
+		Point:  5,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP5)
+
+	TypeCom1 := &Type_Comment{
+		Type_Com_Name:        "เสนอความคิดเห็น",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom1)
+
+	TypeCom2 := &Type_Comment{
+		Type_Com_Name:        "ความรู้สึกหลังใช้สินค้า",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom2)
+
+	TypeCom3 := &Type_Comment{
+		Type_Com_Name:        "ความรู้สึกเกี่ยวกับการบริการในร้าน",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom3)
+
+	TypeCom4 := &Type_Comment{
+		Type_Com_Name:        "แจ้งปัญหาหรือข้อบกพร่อง",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom4)
+
 }
