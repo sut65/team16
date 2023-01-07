@@ -23,7 +23,7 @@ type Inventory struct {
 	gorm.Model
 	Name        string
 	Quantity    int
-	Price       int
+	Price       float64
 	Employee_ID *uint
 	Employee    Employee
 	Kind_ID     *uint
