@@ -6,18 +6,19 @@ import (
 
 type Shopping_Cart struct {
 	gorm.Model
-	Total float64
-	Oder  []Oder `gorm:"foreignKey:Kind_ID"`
+	Total		float64
+	Employee_ID *uint
+	Employee    Employee
+	Oder  		[]Oder 		`gorm:"foreignKey:Shopping_Cart_ID"`
+	Payment  	[]Payment 	`gorm:"foreignKey:Shopping_Cart_ID"`
+	Member_Tal  string
+	Member		Member 
+
 }
 
 type Oder struct {
 	gorm.Model
-	Quantity    int
-	Price       int
-	Employee_ID *uint
-	Employee    Employee
-	Payment  []Payment `gorm:"foreignKey:Oder_ID"`
-
-	//Mem_tal    `db:"member_tal"`
-	//Member     Member
+	Quantity    		int
+	Shopping_Cart_ID	*uint
+	Shopping_Cart		Shopping_Cart
 }
