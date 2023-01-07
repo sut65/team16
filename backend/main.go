@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.con/MaeMethas/se-65-example/controller"
-	"github.con/MaeMethas/se-65-example/entity"
+	"github.com/MaeMethas/se-65-example/controller"
+	"github.com/MaeMethas/se-65-example/entity"
 
 	"github.com/gin-gonic/gin"
 )

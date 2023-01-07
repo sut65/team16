@@ -1,8 +1,8 @@
 package controller
 
 import (
+	"github.com/MaeMethas/se-65-example/entity"
 	"github.com/gin-gonic/gin"
-	"github.con/MaeMethas/se-65-example/entity"
 
 	"net/http"
 )

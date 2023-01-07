@@ -3,9 +3,9 @@ package controller
 import (
 	"net/http"
 
+	"github.com/MaeMethas/se-65-example/entity"
+	"github.com/MaeMethas/se-65-example/service"
 	"github.com/gin-gonic/gin"
-	"github.con/MaeMethas/se-65-example/entity"
-	"github.con/MaeMethas/se-65-example/service"
 	"golang.org/x/crypto/bcrypt"
 )
 

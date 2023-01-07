@@ -1,4 +1,4 @@
-module github.con/MaeMethas/se-65-example
+module github.com/MaeMethas/se-65-example
 
 go 1.19
 

@@ -9,7 +9,7 @@ import (
 
 // POST /kinds
 
-func CreateKind(c *gin.Context) {
+func CreateLabel(c *gin.Context) {
 
 	var kind entity.Kind
 
@@ -35,7 +35,7 @@ func CreateKind(c *gin.Context) {
 
 // GET /kind/:id
 
-func GetKind(c *gin.Context) {
+func GetLabel(c *gin.Context) {
 
 	var kind entity.Kind
 
@@ -55,7 +55,7 @@ func GetKind(c *gin.Context) {
 
 // GET /users
 
-func ListKinds(c *gin.Context) {
+func ListLabel(c *gin.Context) {
 
 	var kinds []entity.Kind
 
@@ -73,7 +73,7 @@ func ListKinds(c *gin.Context) {
 
 // DELETE /kinds/:id
 
-func DeleteKind(c *gin.Context) {
+func DeleteLabel(c *gin.Context) {
 
 	id := c.Param("id")
 
@@ -91,7 +91,7 @@ func DeleteKind(c *gin.Context) {
 
 // PATCH /kinds
 
-func UpdateKind(c *gin.Context) {
+func UpdateLabel(c *gin.Context) {
 
 	var kind entity.Kind
 

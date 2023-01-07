@@ -9,7 +9,7 @@ import (
 
 // POST /storages
 
-func CreateStorage(c *gin.Context) {
+func CreateShelving(c *gin.Context) {
 
 	var storage entity.Storage
 
@@ -35,7 +35,7 @@ func CreateStorage(c *gin.Context) {
 
 // GET /storage/:id
 
-func GetStorage(c *gin.Context) {
+func GetShelving(c *gin.Context) {
 
 	var storage entity.Storage
 
@@ -55,7 +55,7 @@ func GetStorage(c *gin.Context) {
 
 // GET /storages
 
-func ListStorages(c *gin.Context) {
+func ListShelving(c *gin.Context) {
 
 	var storages []entity.Storage
 
@@ -73,7 +73,7 @@ func ListStorages(c *gin.Context) {
 
 // DELETE /storages/:id
 
-func DeleteStorage(c *gin.Context) {
+func DeleteShelving(c *gin.Context) {
 
 	id := c.Param("id")
 
@@ -91,7 +91,7 @@ func DeleteStorage(c *gin.Context) {
 
 // PATCH /storages
 
-func UpdateStorage(c *gin.Context) {
+func UpdateShelving(c *gin.Context) {
 
 	var storage entity.Storage
 

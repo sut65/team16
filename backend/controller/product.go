@@ -9,9 +9,9 @@ import (
 
 // POST /inventorys
 
-func CreateInventory(c *gin.Context) {
+func CreateProduct(c *gin.Context) {
 
-	var inventory entity.Inventory
+	var inventory entity.Product
 
 	if err := c.ShouldBindJSON(&inventory); err != nil {
 
@@ -35,7 +35,7 @@ func CreateInventory(c *gin.Context) {
 
 // GET /inventory/:id
 
-func GetInventory(c *gin.Context) {
+func GetProduct(c *gin.Context) {
 
 	var inventory entity.Inventory
 
@@ -55,7 +55,7 @@ func GetInventory(c *gin.Context) {
 
 // GET /inventorys
 
-func ListInventorys(c *gin.Context) {
+func ListProduct(c *gin.Context) {
 
 	var inventorys []entity.Inventory
 
@@ -73,7 +73,7 @@ func ListInventorys(c *gin.Context) {
 
 // DELETE /inventorys/:id
 
-func DeleteInventory(c *gin.Context) {
+func DeleteProduct(c *gin.Context) {
 
 	id := c.Param("id")
 
@@ -91,7 +91,7 @@ func DeleteInventory(c *gin.Context) {
 
 // PATCH /inventorys
 
-func UpdateInventory(c *gin.Context) {
+func UpdateProduct(c *gin.Context) {
 
 	var inventory entity.Inventory
 
