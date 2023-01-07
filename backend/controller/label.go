@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// POST /kinds
+// POST //kinds
 
 func CreateLabel(c *gin.Context) {
 
