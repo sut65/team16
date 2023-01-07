@@ -190,4 +190,24 @@ func SetupDatabase() {
 	}
 	db.Model(&Review_Point{}).Create(&ReviewP5)
 
+	TypeCom1 := &Type_Comment{
+		Type_Com_Name:        "เสนอความคิดเห็น",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom1)
+
+	TypeCom2 := &Type_Comment{
+		Type_Com_Name:        "ความรู้สึกหลังใช้สินค้า",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom2)
+
+	TypeCom3 := &Type_Comment{
+		Type_Com_Name:        "ความรู้สึกเกี่ยวกับการบริการในร้าน",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom3)
+
+	TypeCom4 := &Type_Comment{
+		Type_Com_Name:        "แจ้งปัญหาหรือข้อบกพร่อง",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom4)
+
 }
