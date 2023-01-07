@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// POST /inventorys
+// POST /inventories
 
 func CreateProduct(c *gin.Context) {
 

@@ -7,21 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// POST //kinds
+// POST //Labels
 
 func CreateLabel(c *gin.Context) {
 
-	var kind entity.Kind
+	var label entity.Label
 
-	if err := c.ShouldBindJSON(&kind); err != nil {
-
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
-		return
-
-	}
-
-	if err := entity.DB().Create(&kind).Error; err != nil {
+	if err := c.ShouldBindJSON(&label); err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -29,19 +21,27 @@ func CreateLabel(c *gin.Context) {
 
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": kind})
+	if err := entity.DB().Create(&label).Error; err != nil {
+
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": label})
 
 }
 
-// GET /kind/:id
+// GET /Label/:id
 
 func GetLabel(c *gin.Context) {
 
-	var kind entity.Kind
+	var label entity.Label
 
 	id := c.Param("id")
 
-	if err := entity.DB().Raw("SELECT * FROM kinds WHERE id = ?", id).Scan(&kind).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM labels WHERE id = ?", id).Scan(&label).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -49,17 +49,17 @@ func GetLabel(c *gin.Context) {
 
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": kind})
+	c.JSON(http.StatusOK, gin.H{"data": label})
 
 }
 
-// GET /users
+// GET /Labels
 
 func ListLabel(c *gin.Context) {
 
-	var kinds []entity.Kind
+	var labels []entity.Label
 
-	if err := entity.DB().Raw("SELECT * FROM kinds").Scan(&kinds).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM labels").Scan(&labels).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -67,19 +67,19 @@ func ListLabel(c *gin.Context) {
 
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": kinds})
+	c.JSON(http.StatusOK, gin.H{"data": labels})
 
 }
 
-// DELETE /kinds/:id
+// DELETE /Labels/:id
 
 func DeleteLabel(c *gin.Context) {
 
 	id := c.Param("id")
 
-	if tx := entity.DB().Exec("DELETE FROM kinds WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM labels WHERE id = ?", id); tx.RowsAffected == 0 {
 
-		c.JSON(http.StatusBadRequest, gin.H{"error": "kind not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "label not found"})
 
 		return
 
@@ -89,29 +89,13 @@ func DeleteLabel(c *gin.Context) {
 
 }
 
-// PATCH /kinds
+// PATCH /labels
 
 func UpdateLabel(c *gin.Context) {
 
-	var kind entity.Kind
+	var label entity.Label
 
-	if err := c.ShouldBindJSON(&kind); err != nil {
-
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
-		return
-
-	}
-
-	if tx := entity.DB().Where("id = ?", kind.ID).First(&kind); tx.RowsAffected == 0 {
-
-		c.JSON(http.StatusBadRequest, gin.H{"error": "kind not found"})
-
-		return
-
-	}
-
-	if err := entity.DB().Save(&kind).Error; err != nil {
+	if err := c.ShouldBindJSON(&label); err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -119,6 +103,22 @@ func UpdateLabel(c *gin.Context) {
 
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": kind})
+	if tx := entity.DB().Where("id = ?", label.ID).First(&label); tx.RowsAffected == 0 {
+
+		c.JSON(http.StatusBadRequest, gin.H{"error": "label not found"})
+
+		return
+
+	}
+
+	if err := entity.DB().Save(&label).Error; err != nil {
+
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+
+		return
+
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": label})
 
 }

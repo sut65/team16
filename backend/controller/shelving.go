@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-// POST /storages
+// POST //storages
 
 func CreateShelving(c *gin.Context) {
 
