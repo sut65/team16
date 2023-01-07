@@ -155,4 +155,14 @@ func SetupDatabase() {
 	}
 	db.Model(&Stock{}).Create(&Stock3)
 
+	Reason1 := &Reason{
+		cuase:  "สินค้าหมดอายุ",
+	}
+	db.Model(&Reason{}).Create(&Reason1)
+
+	Reason2 := &Reason{
+		cuase:  "สินค้าเสียหาย",
+	}
+	db.Model(&Reason{}).Create(&Reason2)
+
 }
