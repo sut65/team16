@@ -9,7 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// LoginPayload login body
+// LoginPayload loginn body
 type LoginPayload struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
