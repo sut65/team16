@@ -19,7 +19,11 @@ func DB() *gorm.DB {
 
 func SetupDatabase() {
 
+<<<<<<< HEAD
 	database, err := gorm.Open(sqlite.Open("stock_farm_mart.db"), &gorm.Config{})
+=======
+	database, err := gorm.Open(sqlite.Open("farm_mart.db"), &gorm.Config{})
+>>>>>>> main
 
 	if err != nil {
 
@@ -29,6 +33,7 @@ func SetupDatabase() {
 
 	// Migrate the schema
 
+<<<<<<< HEAD
 	database.AutoMigrate(&Employee{}, &Kind{}, &Inventory{}, &Stock{}, &Label{}, &Product{}, &Shelving{})
 
 	db = database
@@ -42,6 +47,19 @@ func SetupDatabase() {
 	Em1 := Employee{
 		Name:     "นายเมธัส ภาคภูมิพงศ์",
 		Email:    "m@gmail.com",
+=======
+	database.AutoMigrate(&Employee{}, &Kind{}, &Inventory{}, &Stock{}, Product{}, &Label{}, &Shelving{})
+
+	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
+	password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+
+	db = database
+
+	Em1 := Employee{
+		Name:     "นายคณาการ เชิดในเมือง",
+		Email:    "k@gmail.com",
+>>>>>>> main
 		Password: string(password1),
 		Position: "Full-Time",
 	}
@@ -147,7 +165,11 @@ func SetupDatabase() {
 	}
 	db.Model(&Stock{}).Create(&Stock2)
 
+<<<<<<< HEAD
 	Stock3 := Stock{
+=======
+	Stock3 := &Stock{
+>>>>>>> main
 		Employee:  Em1,
 		Kind:      Kind3,
 		Storage:   Storage3,
@@ -156,5 +178,126 @@ func SetupDatabase() {
 		DateTime: time.Now(),
 	}
 	db.Model(&Stock{}).Create(&Stock3)
+
+	//Label
+	Label1 := Label{
+		Name: "Meat",
+	}
+	db.Model(&Label{}).Create(&Label1)
+
+	Label2 := Label{
+		Name: "Fresh",
+	}
+	db.Model(&Label{}).Create(&Label2)
+
+	Label3 := Label{
+		Name: "Dairy",
+	}
+	db.Model(&Label{}).Create(&Label3)
+
+	//Product
+	Product1 := Product{
+		Name:     "Banana",
+		Price:    20.00,
+		Employee: Em1,
+		Label:    Label2,
+	}
+	db.Model(&Product{}).Create(&Product1)
+
+	Product2 := Product{
+		Name:     "Pork",
+		Price:    80.00,
+		Employee: Em1,
+		Label:    Label1,
+	}
+	db.Model(&Product{}).Create(&Product2)
+
+	Product3 := Product{
+		Name:     "Milk",
+		Price:    20.00,
+		Employee: Em1,
+		Label:    Label3,
+	}
+	db.Model(&Product{}).Create(&Product3)
+
+	//Shelving
+	Shelving1 := Shelving{
+		Employee: Em1,
+		Label:    Label1,
+		Product:  Product2,
+		Quantity: 20,
+	}
+	db.Model(&Shelving{}).Create(&Shelving1)
+
+	Shelving2 := Shelving{
+		Employee: Em1,
+		Label:    Label2,
+		Product:  Product1,
+		Quantity: 20,
+	}
+	db.Model(&Shelving{}).Create(&Shelving2)
+
+	Shelving3 := &Shelving{
+		Employee: Em1,
+		Label:    Label3,
+		Product:  Product3,
+		Quantity: 20,
+	}
+	db.Model(&Shelving{}).Create(&Shelving3)
+
+	Reason1 := &Reason{
+		cuase: "สินค้าหมดอายุ",
+	}
+	db.Model(&Reason{}).Create(&Reason1)
+
+	Reason2 := &Reason{
+		cuase: "สินค้าเสียหาย",
+	}
+	db.Model(&Reason{}).Create(&Reason2)
+
+	ReviewP1 := &Review_Point{
+		Point: 1,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP1)
+
+	ReviewP2 := &Review_Point{
+		Point: 2,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP2)
+
+	ReviewP3 := &Review_Point{
+		Point: 3,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP3)
+
+	ReviewP4 := &Review_Point{
+		Point: 4,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP4)
+
+	ReviewP5 := &Review_Point{
+		Point: 5,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP5)
+
+	TypeCom1 := &Type_Comment{
+		Type_Com_Name: "เสนอความคิดเห็น",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom1)
+
+	TypeCom2 := &Type_Comment{
+		Type_Com_Name: "ความรู้สึกหลังใช้สินค้า",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom2)
+
+	TypeCom3 := &Type_Comment{
+		Type_Com_Name: "ความรู้สึกเกี่ยวกับการบริการในร้าน",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom3)
+
+	TypeCom4 := &Type_Comment{
+		Type_Com_Name: "แจ้งปัญหาหรือข้อบกพร่อง",
+	}
+	db.Model(&Type_Comment{}).Create(&TypeCom4)
 
 }

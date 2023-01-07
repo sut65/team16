@@ -31,6 +31,10 @@ type Inventory struct {
 	Storage_ID  *uint
 	Storage     Storage
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 type Stock struct {
 	gorm.Model
 

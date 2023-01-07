@@ -1,7 +1,11 @@
 package controller
 
 import (
+<<<<<<< HEAD
 	"github.com/MaeMethas/se-65-example/entity"
+=======
+	"github.com/Team16/farm_mart/entity"
+>>>>>>> main
 	"github.com/gin-gonic/gin"
 
 	"net/http"

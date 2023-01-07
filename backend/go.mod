@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 module github.com/MaeMethas/se-65-example
+=======
+module github.com/Team16/farm_mart
+>>>>>>> main
 
 go 1.19
 
@@ -11,6 +15,7 @@ require (
 )
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect

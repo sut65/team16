@@ -3,8 +3,13 @@ package controller
 import (
 	"net/http"
 
+<<<<<<< HEAD
 	"github.com/MaeMethas/se-65-example/entity"
 	"github.com/MaeMethas/se-65-example/service"
+=======
+	"github.com/Team16/farm_mart/entity"
+	"github.com/Team16/farm_mart/service"
+>>>>>>> main
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )

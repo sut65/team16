@@ -3,7 +3,11 @@ package controller
 import (
 	"net/http"
 
+<<<<<<< HEAD
 	"github.com/MaeMethas/se-65-example/entity"
+=======
+	"github.com/Team16/farm_mart/entity"
+>>>>>>> main
 	"github.com/gin-gonic/gin"
 )
 
@@ -41,7 +45,7 @@ func GetInventory(c *gin.Context) {
 
 	id := c.Param("id")
 
-	if err := entity.DB().Raw("SELECT * FROM inventorys WHERE id = ?", id).Scan(&inventory).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM inventories WHERE id = ?", id).Scan(&inventory).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -55,11 +59,11 @@ func GetInventory(c *gin.Context) {
 
 // GET /inventorys
 
-func ListInventorys(c *gin.Context) {
+func ListInventories(c *gin.Context) {
 
-	var inventorys []entity.Inventory
+	var inventories []entity.Inventory
 
-	if err := entity.DB().Raw("SELECT * FROM inventorys").Scan(&inventorys).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM inventories").Scan(&inventories).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -67,17 +71,17 @@ func ListInventorys(c *gin.Context) {
 
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": inventorys})
+	c.JSON(http.StatusOK, gin.H{"data": inventories})
 
 }
 
-// DELETE /inventorys/:id
+// DELETE /inventories/:id
 
 func DeleteInventory(c *gin.Context) {
 
 	id := c.Param("id")
 
-	if tx := entity.DB().Exec("DELETE FROM inventorys WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM inventories WHERE id = ?", id); tx.RowsAffected == 0 {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": "inventory not found"})
 
@@ -89,7 +93,7 @@ func DeleteInventory(c *gin.Context) {
 
 }
 
-// PATCH /inventorys
+// PATCH /inventories
 
 func UpdateInventory(c *gin.Context) {
 

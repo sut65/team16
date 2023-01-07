@@ -4,7 +4,11 @@ import (
 	"net/http"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/MaeMethas/se-65-example/service"
+=======
+	"github.com/Team16/farm_mart/service"
+>>>>>>> main
 	"github.com/gin-gonic/gin"
 )
 
