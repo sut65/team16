@@ -165,4 +165,29 @@ func SetupDatabase() {
 	}
 	db.Model(&Reason{}).Create(&Reason2)
 
+	ReviewP1 := &Review_Point{
+		Point:  1,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP1)
+
+	ReviewP2 := &Review_Point{
+		Point:  2,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP2)
+
+	ReviewP3 := &Review_Point{
+		Point:  3,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP3)
+
+	ReviewP4 := &Review_Point{
+		Point:  4,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP4)
+
+	ReviewP5 := &Review_Point{
+		Point:  5,
+	}
+	db.Model(&Review_Point{}).Create(&ReviewP5)
+
 }
