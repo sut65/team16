@@ -2,7 +2,6 @@ package controller
 
 import (
 	"net/http"
-
 	"github.com/Team16/farm_mart/entity"
 	"github.com/gin-gonic/gin"
 )
@@ -10,45 +9,82 @@ import (
 // POST /Shopping_Cart
 func CreateShopping_Cart(c *gin.Context) {
 
-	var Shopping_Cart entity.Shopping_Cart
-	var resolution entity.Resolution
-	var playlist entity.Playlist
-	var video entity.Video
+	var cart entity.Shopping_Cart
+	var employee entity.Employee
+	var member entity.Member
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Shopping_Cart
-	if err := c.ShouldBindJSON(&Shopping_Cart); err != nil {
+	if err := c.ShouldBindJSON(&cart); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// 9: ค้นหา video ด้วย id
-	if tx := entity.DB().Where("id = ?", Shopping_Cart.VideoID).First(&video); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "video not found"})
+
+	// 10: ค้นหา Employee ด้วย id
+	if tx := entity.DB().Where("id = ?", cart.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
 
-	// 10: ค้นหา resolution ด้วย id
-	if tx := entity.DB().Where("id = ?", Shopping_Cart.ResolutionID).First(&resolution); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "resolution not found"})
-		return
-	}
-
-	// 11: ค้นหา playlist ด้วย id
-	if tx := entity.DB().Where("id = ?", Shopping_Cart.PlaylistID).First(&playlist); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "playlist not found"})
+	// 11: ค้นหา Member ด้วย Mem_Tel
+	if tx := entity.DB().Where("Mem_Tel = ?", cart.Member_Tal).First(&member); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
 		return
 	}
 	// 12: สร้าง Shopping_Cart
-	wv := entity.Shopping_Cart{
-		Resolution:  resolution,             // โยงความสัมพันธ์กับ Entity Resolution
-		Video:       video,                  // โยงความสัมพันธ์กับ Entity Video
-		Playlist:    playlist,               // โยงความสัมพันธ์กับ Entity Playlist
-		WatchedTime: Shopping_Cart.WatchedTime, // ตั้งค่าฟิลด์ watchedTime
+	sc := entity.Shopping_Cart{
+		Employee:  employee,             // โยงความสัมพันธ์กับ Entity Employee
+		Member:    member,               // โยงความสัมพันธ์กับ Entity Member
 	}
 
 	// 13: บันทึก
-	if err := entity.DB().Create(&wv).Error; err != nil {
+	if err := entity.DB().Create(&sc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(
+	c.JSON(http.StatusCreated, gin.H{"data": cart})
+}
+
+
+// GET /Shopping_Cart
+func ListShopping_Cart(c *gin.Context) {
+	var cart []entity.Shopping_Cart
+	if err := entity.DB().Raw("SELECT * FROM carts").Scan(&cart).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": cart})
+}
+
+// DELETE /Shopping_Cart/:id
+func DeleteShopping_Cart(c *gin.Context) {
+	id := c.Param("id")
+	if tx := entity.DB().Exec("DELETE FROM carts WHERE id = ?", id); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "cart not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": id})
+}
+
+// PATCH /Shopping_Cart
+func UpdateShopping_Cart(c *gin.Context) {
+	var cart entity.Shopping_Cart
+	if err := c.ShouldBindJSON(&cart); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", cart.ID).First(&cart); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "cart not found"})
+		return
+	}
+
+	if err := entity.DB().Save(&cart).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": cart})
+}
