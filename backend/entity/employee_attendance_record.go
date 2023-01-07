@@ -1,7 +1,7 @@
 package entity
 
 import (
-	"time"
+	_"time"
 
 	"gorm.io/gorm"
 )
