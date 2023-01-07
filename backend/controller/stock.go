@@ -3,8 +3,8 @@ package controller
 import (
 	"net/http"
 
+	"github.com/Team16/farm_mart/entity"
 	"github.com/gin-gonic/gin"
-	"github.con/MaeMethas/se-65-example/entity"
 )
 
 // POST /stocks

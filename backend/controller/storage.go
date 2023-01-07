@@ -1,8 +1,8 @@
 package controller
 
 import (
+	"github.com/Team16/farm_mart/entity"
 	"github.com/gin-gonic/gin"
-	"github.con/MaeMethas/se-65-example/entity"
 
 	"net/http"
 )

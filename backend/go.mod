@@ -1,4 +1,4 @@
-module github.con/MaeMethas/se-65-example
+module github.com/Team16/farm_mart
 
 go 1.19
 

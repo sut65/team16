@@ -3,6 +3,7 @@ package entity
 import (
 	"time"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
 	"gorm.io/driver/sqlite"
@@ -18,7 +19,7 @@ func DB() *gorm.DB {
 
 func SetupDatabase() {
 
-	database, err := gorm.Open(sqlite.Open("se-65.db"), &gorm.Config{})
+	database, err := gorm.Open(sqlite.Open("farm_mart.db"), &gorm.Config{})
 
 	if err != nil {
 
@@ -30,32 +31,33 @@ func SetupDatabase() {
 
 	database.AutoMigrate(&Employee{}, &Kind{}, &Inventory{}, &Stock{})
 
+	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
+	password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+
 	db = database
 
 	Em1 := &Employee{
-		FirstName: "First",
-		LastName:  "Employ1",
-		Email:     "Employee1@gmail.com",
-		Password:  "Em1Password",
+		Name: "นายคณาการ เชิดในเมือง",
+		Email:     "k@gmail.com",
+		Password:  string(password1),
 		Position:  "Full-Time",
 	}
 	db.Model(&Employee{}).Create(&Em1)
 
 	Em2 := &Employee{
-		FirstName: "First",
-		LastName:  "Employ2",
-		Email:     "Employee2@gmail.com",
-		Password:  "Em2Password",
+		Name: "นางญาตา ประสานวงศ์",
+		Email:     "y@gmail.com",
+		Password:  string(password2),
 		Position:  "Part-Time",
 	}
 	db.Model(&Employee{}).Create(&Em2)
 
 	Em3 := &Employee{
-		FirstName: "First",
-		LastName:  "Employ3",
-		Email:     "Employee3@gmail.com",
-		Password:  "Em3Password",
-		Position:  "Casual",
+		Name: "นางรสนันท์ กลับเพชร",
+		Email:     "r@gmail.com",
+		Password:  string(password3),
+		Position:  "Trainee",
 	}
 	db.Model(&Employee{}).Create(&Em3)
 

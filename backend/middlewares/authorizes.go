@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/Team16/farm_mart/service"
 	"github.com/gin-gonic/gin"
-	"github.con/MaeMethas/se-65-example/service"
 )
 
 // validates token
