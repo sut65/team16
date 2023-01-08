@@ -26,7 +26,6 @@ func main() {
 	r.PATCH("/kinds", controller.UpdateKind)
 	r.DELETE("/kinds/:id", controller.DeleteKind)
 
-<<<<<<< HEAD
 	// Inventory Routes
 	r.GET("/inventories", controller.ListInventories)
 
@@ -37,14 +36,6 @@ func main() {
 	r.PATCH("/inventories", controller.UpdateInventory)
 
 	r.DELETE("/inventories/:id", controller.DeleteInventory)
-=======
-	// Invetory Routes
-	r.GET("/inventorys", controller.ListInventorys)
-	r.GET("/inventory/:id", controller.GetInventory)
-	r.POST("/inventorys", controller.CreateInventory)
-	r.PATCH("/inventorys", controller.UpdateInventory)
-	r.DELETE("/inventorys/:id", controller.DeleteInventory)
->>>>>>> issue-90
 
 	//Stock Routes
 	r.GET("/stocks", controller.ListStocks)
@@ -53,7 +44,6 @@ func main() {
 	r.PATCH("/stocks/:id", controller.UpdateStock)
 	r.DELETE("/stocks/:id", controller.DeleteStock)
 
-<<<<<<< HEAD
 	//Products Routes
 	r.GET("/products", controller.ListProducts)
 
@@ -86,7 +76,7 @@ func main() {
 	r.PATCH("/Shelving", controller.UpdateShelving)
 
 	r.DELETE("/Shelving/:id", controller.DeleteShelving)
-=======
+
 	//Member Routes
 	r.GET("/members", controller.ListMember)
 	r.GET("/member/:id", controller.GetMember)
@@ -128,7 +118,6 @@ func main() {
 	r.POST("/l_types", controller.CreateL_Type)
 	r.PATCH("/l_types/:id", controller.UpdateL_Type)
 	r.DELETE("/l_types/:id", controller.DeleteL_Type)
->>>>>>> issue-90
 
 	// Run the server
 	r.Run()
