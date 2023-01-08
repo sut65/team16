@@ -21,4 +21,5 @@ type Payment struct {
 	Payment_method		Payment_method
 	Employee_ID 		*uint
 	Employee    		Employee
+	Delivery  			[]Delivery 			  `gorm:"foreignKey:Payment_ID"`
 }

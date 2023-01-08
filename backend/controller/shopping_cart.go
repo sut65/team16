@@ -45,10 +45,21 @@ func CreateShopping_Cart(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"data": cart})
 }
 
+// GET /Shopping_Cart/:id
+func GetShopping_Cart(c *gin.Context) {
+	var cart entity.Shopping_Cart
+	id := c.Param("id")
+	if err := entity.DB().Preload("Employee").Preload("Member").Raw("SELECT * FROM shopping_carts WHERE id = ?", id).Find(&cart).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": cart})
+}
+
 // GET /Shopping_Cart
 func ListShopping_Cart(c *gin.Context) {
 	var cart []entity.Shopping_Cart
-	if err := entity.DB().Raw("SELECT * FROM carts").Scan(&cart).Error; err != nil {
+	if err := entity.DB().Preload("Employee").Preload("Member").Raw("SELECT * FROM shopping_carts").Find(&cart).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

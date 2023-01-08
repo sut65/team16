@@ -45,10 +45,21 @@ func CreateOrder(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"data": order})
 }
 
+// GET /Order/:id
+func GetOrder(c *gin.Context) {
+	var order entity.Order
+	id := c.Param("id")
+	if err := entity.DB().Preload("Shelving").Preload("Shopping_Cart").Raw("SELECT * FROM orders WHERE id = ?", id).Find(&order).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": order})
+}
+
 // GET /Order
 func ListOrder(c *gin.Context) {
 	var order []entity.Order
-	if err := entity.DB().Raw("SELECT * FROM orders").Scan(&order).Error; err != nil {
+	if err := entity.DB().Preload("Shelving").Preload("Shopping_Cart").Raw("SELECT * FROM orders").Find(&order).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

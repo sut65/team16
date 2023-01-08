@@ -17,4 +17,6 @@ type Employee struct {
 	Leave                 []Leave                 `gorm:"foreignKey:Employee_ID"`
 	Employee_attendance   []Employee_attendance   `gorm:"foreignKey:Employee_ID"`
 	Record_employee_leave []Record_employee_leave `gorm:"foreignKey:Employee_ID"`
+	Discount			  []Discount 			  `gorm:"foreignKey:Employee_ID"`
+	Delivery  			  []Delivery 			  `gorm:"foreignKey:Employee_ID"`
 }
