@@ -89,7 +89,7 @@ func DeleteLabel(c *gin.Context) {
 
 }
 
-// PATCH /Labels
+//PATCH /Labels
 
 func UpdateLabel(c *gin.Context) {
 
