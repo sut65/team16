@@ -6,7 +6,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// ยังไม่เชื่อมFKกับ Inventory และ Employee
 type Discount struct {
 	gorm.Model
 	Discount_Price float64
