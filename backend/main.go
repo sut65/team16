@@ -38,16 +38,16 @@ func main() {
 
 	r.DELETE("/kinds/:id", controller.DeleteKind)
 
-	// Invetory Routes
-	r.GET("/inventorys", controller.ListInventorys)
+	// Inventory Routes
+	r.GET("/inventories", controller.ListInventories)
 
 	r.GET("/inventory/:id", controller.GetInventory)
 
-	r.POST("/inventorys", controller.CreateInventory)
+	r.POST("/inventories", controller.CreateInventory)
 
-	r.PATCH("/inventorys", controller.UpdateInventory)
+	r.PATCH("/inventories", controller.UpdateInventory)
 
-	r.DELETE("/inventorys/:id", controller.DeleteInventory)
+	r.DELETE("/inventories/:id", controller.DeleteInventory)
 
 	//Stock Routes
 	r.GET("/stocks", controller.ListStocks)
@@ -59,6 +59,39 @@ func main() {
 	r.PATCH("/stocks/:id", controller.UpdateStock)
 
 	r.DELETE("/stocks/:id", controller.DeleteStock)
+
+	//Products Routes
+	r.GET("/products", controller.ListProducts)
+
+	r.GET("/product/:id", controller.GetProduct)
+
+	r.POST("/products", controller.CreateProduct)
+
+	r.PATCH("/products", controller.UpdateProduct)
+
+	r.DELETE("/products/:id", controller.DeleteProduct)
+
+	//Labels Routes
+	r.GET("/labels", controller.ListLabels)
+
+	r.GET("/label/:id", controller.GetLabel)
+
+	r.POST("/labels", controller.CreateLabel)
+
+	r.PATCH("/labels", controller.UpdateLabel)
+
+	r.DELETE("/labels/:id", controller.DeleteLabel)
+
+	//Shelving Routes
+	r.GET("/Shelving", controller.ListShelvings)
+
+	r.GET("/Shelving/:id", controller.GetShelving)
+
+	r.POST("/Shelving", controller.CreateShelving)
+
+	r.PATCH("/Shelving", controller.UpdateShelving)
+
+	r.DELETE("/Shelving/:id", controller.DeleteShelving)
 
 	// Run the server
 
