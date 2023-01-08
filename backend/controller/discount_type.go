@@ -12,23 +12,15 @@ import (
 func CreateDiscount_Type(c *gin.Context) {
 
 	var discount_type entity.Discount_Type
-
 	if err := c.ShouldBindJSON(&discount_type); err != nil {
-
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
 		return
-
 	}
 
 	if err := entity.DB().Create(&discount_type).Error; err != nil {
-
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
 		return
-
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": discount_type})
 
 }

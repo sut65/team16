@@ -4,6 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// struct entity
 type Employee struct {
 	gorm.Model
 	Name     string
