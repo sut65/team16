@@ -28,7 +28,6 @@ func CreateCar(c *gin.Context) {
 // GET /car/:id
 
 func GetCar(c *gin.Context) {
-
 	var car entity.Car
 	id := c.Param("id")
 	if err := entity.DB().Raw("SELECT * FROM cars WHERE id = ?", id).Scan(&car).Error; err != nil {
