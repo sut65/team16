@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// POST /inventorys
+// POST /inventories
 
 func CreateInventory(c *gin.Context) {
 
@@ -53,7 +53,7 @@ func GetInventory(c *gin.Context) {
 
 }
 
-// GET /inventorys
+// GET /inventories
 
 func ListInventories(c *gin.Context) {
 
