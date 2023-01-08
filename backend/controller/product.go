@@ -33,7 +33,7 @@ func CreateProduct(c *gin.Context) {
 
 }
 
-// GET /product/:id
+// GET / a product/:id
 
 func GetProduct(c *gin.Context) {
 
