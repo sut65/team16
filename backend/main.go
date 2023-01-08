@@ -40,40 +40,28 @@ func main() {
 	r.PATCH("/stocks/:id", controller.UpdateStock)
 	r.DELETE("/stocks/:id", controller.DeleteStock)
 
-<<<<<<< HEAD
+
 	//Products Routes
 	r.GET("/products", controller.ListProducts)
-
 	r.GET("/product/:id", controller.GetProduct)
-
 	r.POST("/products", controller.CreateProduct)
-
 	r.PATCH("/products", controller.UpdateProduct)
-
 	r.DELETE("/products/:id", controller.DeleteProduct)
 
 	//Labels Routes
 	r.GET("/labels", controller.ListLabels)
-
 	r.GET("/label/:id", controller.GetLabel)
-
 	r.POST("/labels", controller.CreateLabel)
-
 	r.PATCH("/labels", controller.UpdateLabel)
-
 	r.DELETE("/labels/:id", controller.DeleteLabel)
 
 	//Shelving Routes
 	r.GET("/Shelving", controller.ListShelvings)
-
 	r.GET("/Shelving/:id", controller.GetShelving)
-
 	r.POST("/Shelving", controller.CreateShelving)
-
 	r.PATCH("/Shelving", controller.UpdateShelving)
-
 	r.DELETE("/Shelving/:id", controller.DeleteShelving)
-=======
+
 	//Member Routes
 	r.GET("/members", controller.ListMember)
 	r.GET("/member/:id", controller.GetMember)
