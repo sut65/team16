@@ -32,6 +32,7 @@ type Inventory struct {
 	Storage     Storage
 }
 
+// stock
 type Stock struct {
 	gorm.Model
 

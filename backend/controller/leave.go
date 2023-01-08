@@ -32,13 +32,13 @@ func CreateLeave(c *gin.Context) {
 		return
 	}
 	lf := entity.Leave{
-		Doc_Reason:  leave.Doc_Reason,             
-		Doc_DateS: leave.Doc_DateS,
-		Doc_DateE: leave.Doc_DateE, 
-		Doc_Cont: leave.Doc_Cont,            
-		Employee:    employee,               
-		Section: section,  
-		L_Type: l_type,     
+		Doc_Reason: leave.Doc_Reason,
+		Doc_DateS:  leave.Doc_DateS,
+		Doc_DateE:  leave.Doc_DateE,
+		Doc_Cont:   leave.Doc_Cont,
+		Employee:   employee,
+		Section:    section,
+		L_Type:     l_type,
 	}
 	if _, err := govalidator.ValidateStruct(lf); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -46,7 +46,7 @@ func CreateLeave(c *gin.Context) {
 	}
 	if err := entity.DB().Create(&lf).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return 
+		return
 	}
 	c.JSON(http.StatusCreated, gin.H{"data": lf})
 }
