@@ -54,10 +54,21 @@ func CreatePayment(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"data": payment})
 }
 
-// GET /Payment
+// GET /Payment/:id
+func GetPayment(c *gin.Context) {
+	var payment entity.Payment
+	id := c.Param("id")
+	if err := entity.DB().Preload("Shelving").Preload("Shopping_Cart").Raw("SELECT * FROM payments WHERE id = ?", id).Find(&payment).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": payment})
+}
+
+// GET /payment
 func ListPayment(c *gin.Context) {
 	var payment []entity.Payment
-	if err := entity.DB().Raw("SELECT * FROM payments").Scan(&payment).Error; err != nil {
+	if err := entity.DB().Preload("Shelving").Preload("Shopping_Cart").Raw("SELECT * FROM payments").Find(&payment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
