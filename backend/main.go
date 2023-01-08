@@ -28,13 +28,9 @@ func main() {
 
 	// Inventory Routes
 	r.GET("/inventories", controller.ListInventories)
-
 	r.GET("/inventory/:id", controller.GetInventory)
-
 	r.POST("/inventories", controller.CreateInventory)
-
 	r.PATCH("/inventories", controller.UpdateInventory)
-
 	r.DELETE("/inventories/:id", controller.DeleteInventory)
 
 	//Stock Routes
@@ -44,6 +40,7 @@ func main() {
 	r.PATCH("/stocks/:id", controller.UpdateStock)
 	r.DELETE("/stocks/:id", controller.DeleteStock)
 
+<<<<<<< HEAD
 	//Products Routes
 	r.GET("/products", controller.ListProducts)
 
@@ -76,7 +73,7 @@ func main() {
 	r.PATCH("/Shelving", controller.UpdateShelving)
 
 	r.DELETE("/Shelving/:id", controller.DeleteShelving)
-
+=======
 	//Member Routes
 	r.GET("/members", controller.ListMember)
 	r.GET("/member/:id", controller.GetMember)
