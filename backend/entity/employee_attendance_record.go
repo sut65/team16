@@ -56,6 +56,3 @@ type Record_employee_leave struct {
 	Time_OUT        time.Time
 	Number_Em       string
 }
-
-//ยังไม่ได้ อ้างอิง Employee_attendance   []Employee_attendance `gorm:"foreignKey:Employee_ID"` ที่ไฟล์ รวม
-//ยังไม่ได้ อ้างอิง Record_employee_leave   []Record_employee_leave `gorm:"foreignKey:Employee_ID"` ที่ไฟล์ รวม

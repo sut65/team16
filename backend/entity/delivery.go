@@ -13,7 +13,6 @@ type Car struct {
 	Delivery  []Delivery `gorm:"foreignKey:Car_ID"`
 }
 
-//ยังไม่เชื่อม FK กับ Employee และ Playmet
 type Delivery struct {
 	gorm.Model
 	Location string
