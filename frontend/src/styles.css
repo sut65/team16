@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Prompt:wght@400&display=swap");
+
+.good-font {
+  font-family: "Prompt", sans-serif;
+  font-size: large;
+}
+
+.good-font-white {
+  font-family: "Prompt", sans-serif;
+  color: #faf7f0;
+  font-size: large;
+}
+
+.good-font-big {
+  font-family: "Prompt", sans-serif;
+  font-size: larger;
+}
+
+.good-font-green {
+  font-family: "Prompt", sans-serif;
+  color: aquamarine;
+  font-size: large;
+}
+
+.header {
+  font-family: "Prompt", sans-serif;
+  display: grid;
+  grid-template-columns: auto;
+  background-color: #faf7f0;
+  text-align: center;
+}
+
+.border {
+  font-size: x-large;
+  color: #000000;
+  border-radius: 10px;
+  margin-right: 10%;
+  margin-left: 10%;
+  border-width: 10px;
+  transition: color 0.2s;
+  background: linear-gradient(#98A8F8, #faf7f0),
+    linear-gradient(to right, darkblue, rgb(255, 255, 255)) border-box;
+
+}
+
+.project-detail{
+  margin-left: 10%;
+  margin-right: 10%;
+  font-size: 23px;
+}
+
+.border:hover {
+  color: #000000cc;
+}
+.member{
+  font-size: xx-large;
+}
+
+.container {
+  font-family: "Prompt", sans-serif;
+  font-size: 61%;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto;
+  background-color: #faf7f0;
+  margin-right: 82px;
+}
+
+.fa {
+  display: grid;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+  width: 50%;
+  text-decoration: none;
+}
+
+.avatar:hover {
+	animation: wiggle 1s linear infinite;
+  /* animation: flip-horizontal-bottom 1s cubic-bezier(0.455, 0.030, 0.515, 0.955) both; */
+}
+
+@keyframes flip-horizontal-bottom {
+  0% {
+    transform: rotateX(0);
+  }
+  50% {
+    transform: rotateX(-180deg);
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+
+@keyframes wiggle {
+  0%, 7% {
+    transform: rotateZ(0);
+  }
+  15% {
+    transform: rotateZ(-5deg);
+  }
+  20% {
+    transform: rotateZ(5deg);
+  }
+  25% {
+    transform: rotateZ(-5deg);
+  }
+  30% {
+    transform: rotateZ(5deg);
+  }
+  35% {
+    transform: rotateZ(-5deg);
+  }
+  40%, 100% {
+    transform: rotateZ(0);
+  }
+}
+
+.devname {
+  font-family: "Prompt", sans-serif;
+  margin-left: center;
+  margin-right: center;
+  text-align: center;
+  font-size: medium;
+  font-weight: 100;
+  transition: color 0.2s;
+}
+
+.devname:hover{
+  color: #faf7f0;
+}
+
+.avatar {
+  padding: 5%;
+  border-radius: 8%;
+}
