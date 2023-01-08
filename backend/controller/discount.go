@@ -11,7 +11,7 @@ import (
 // POST /discount
 func CreateDiscount(c *gin.Context) {
 	var discount entity.Discount
-	var inventory entity.Inventory
+	var inventory entity.Stock
 	var employee entity.Employee
 	var discount_type entity.Discount_Type
 
@@ -27,7 +27,7 @@ func CreateDiscount(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "discount_type not found"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", discount.Inventory_ID).First(&inventory); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", discount.Stock_ID).First(&inventory); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "inventory not found"})
 		return
 	}
@@ -37,7 +37,7 @@ func CreateDiscount(c *gin.Context) {
 		Discount_e:	discount.Discount_e,             
 		Employee:	employee,               
 		Discount_Type:	discount_type,  
-		Inventory:		inventory,     
+		Stock:		inventory,     
 	}
 	if _, err := govalidator.ValidateStruct(dc); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -54,7 +54,7 @@ func CreateDiscount(c *gin.Context) {
 func GetDiscount(c *gin.Context) {
 	var discount entity.Discount
 	id := c.Param("id")
-	if err := entity.DB().Preload("Inventory").Preload("Employee").Preload("Discount_Type").Raw("SELECT * FROM discounts WHERE id = ?", id).Find(&discount).Error; err != nil {
+	if err := entity.DB().Preload("Stock").Preload("Employee").Preload("Discount_Type").Raw("SELECT * FROM discounts WHERE id = ?", id).Find(&discount).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -64,7 +64,7 @@ func GetDiscount(c *gin.Context) {
 // GET /discount
 func ListDiscount(c *gin.Context) {
 	var discount []entity.Discount
-	if err := entity.DB().Preload("Inventory").Preload("Employee").Preload("Discount_Type").Raw("SELECT * FROM discounts").Find(&discount).Error; err != nil {
+	if err := entity.DB().Preload("Stock").Preload("Employee").Preload("Discount_Type").Raw("SELECT * FROM discounts").Find(&discount).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

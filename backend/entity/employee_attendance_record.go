@@ -8,24 +8,24 @@ import (
 
 type Duty struct {
 	gorm.Model
-	Name string
-	Employee_attendance  []Employee_attendance  `gorm:"foreignKey:Duty_ID"`
-	Record_employee_leave  []Record_employee_leave  `gorm:"foreignKey:Duty_ID"`
+	Name                  string
+	Employee_attendance   []Employee_attendance   `gorm:"foreignKey:Duty_ID"`
+	Record_employee_leave []Record_employee_leave `gorm:"foreignKey:Duty_ID"`
 }
 
 type Overtime struct {
 	gorm.Model
-	Name string
-	Employee_attendance  []Employee_attendance  `gorm:"foreignKey:Overtime_ID"`
-	Record_employee_leave  []Record_employee_leave  `gorm:"foreignKey:Overtime_ID"`
+	Name                  string
+	Employee_attendance   []Employee_attendance   `gorm:"foreignKey:Overtime_ID"`
+	Record_employee_leave []Record_employee_leave `gorm:"foreignKey:Overtime_ID"`
 }
 
 type Working_time struct {
 	gorm.Model
-	Name    string
-	WT_Time string
-	Employee_attendance  []Employee_attendance  `gorm:"foreignKey:Working_time_ID"`
-	Record_employee_leave  []Record_employee_leave  `gorm:"foreignKey:Working_time_ID"`
+	Name                  string
+	WT_Time               string
+	Employee_attendance   []Employee_attendance   `gorm:"foreignKey:Working_time_ID"`
+	Record_employee_leave []Record_employee_leave `gorm:"foreignKey:Working_time_ID"`
 }
 
 type Employee_attendance struct {
@@ -53,6 +53,6 @@ type Record_employee_leave struct {
 	Working_time    Working_time
 	Overtime_ID     *uint
 	Overtime        Overtime
-	Time_OUT         time.Time
+	Time_OUT        time.Time
 	Number_Em       string
 }

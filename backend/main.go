@@ -26,17 +26,6 @@ func main() {
 	r.PATCH("/kinds", controller.UpdateKind)
 	r.DELETE("/kinds/:id", controller.DeleteKind)
 
-	// Inventory Routes
-	r.GET("/inventories", controller.ListInventories)
-
-	r.GET("/inventory/:id", controller.GetInventory)
-
-	r.POST("/inventories", controller.CreateInventory)
-
-	r.PATCH("/inventories", controller.UpdateInventory)
-
-	r.DELETE("/inventories/:id", controller.DeleteInventory)
-
 	//Stock Routes
 	r.GET("/stocks", controller.ListStocks)
 	r.GET("/stock/:id", controller.GetStock)
@@ -44,37 +33,18 @@ func main() {
 	r.PATCH("/stocks/:id", controller.UpdateStock)
 	r.DELETE("/stocks/:id", controller.DeleteStock)
 
-	//Products Routes
-	r.GET("/products", controller.ListProducts)
-
-	r.GET("/product/:id", controller.GetProduct)
-
-	r.POST("/products", controller.CreateProduct)
-
-	r.PATCH("/products", controller.UpdateProduct)
-
-	r.DELETE("/products/:id", controller.DeleteProduct)
-
 	//Labels Routes
 	r.GET("/labels", controller.ListLabels)
-
 	r.GET("/label/:id", controller.GetLabel)
-
 	r.POST("/labels", controller.CreateLabel)
-
 	r.PATCH("/labels", controller.UpdateLabel)
-
 	r.DELETE("/labels/:id", controller.DeleteLabel)
 
 	//Shelving Routes
 	r.GET("/Shelving", controller.ListShelvings)
-
 	r.GET("/Shelving/:id", controller.GetShelving)
-
 	r.POST("/Shelving", controller.CreateShelving)
-
 	r.PATCH("/Shelving", controller.UpdateShelving)
-
 	r.DELETE("/Shelving/:id", controller.DeleteShelving)
 
 	//Member Routes
@@ -118,6 +88,20 @@ func main() {
 	r.POST("/l_types", controller.CreateL_Type)
 	r.PATCH("/l_types/:id", controller.UpdateL_Type)
 	r.DELETE("/l_types/:id", controller.DeleteL_Type)
+
+	//Employee_attendence Routes
+	r.GET("/employee_attendances", controller.ListEmployee_attendance)
+	r.GET("/employee_attendances/:id", controller.GetEmployee_attendance)
+	r.POST("/employee_attendances", controller.CreateEmployee_attendance)
+	r.PATCH("/employee_attendances/:id", controller.UpdateEmployee_attendance)
+	r.DELETE("/employee_attendances/:id", controller.DeleteEmployee_attendance)
+
+	//Record_employee_leave Routes
+	r.GET("/record_employee_leaves", controller.ListRecord_employee_leave)
+	r.GET("/record_employee_leaves/:id", controller.GetRecord_employee_leave)
+	r.POST("/record_employee_leaves", controller.CreateRecord_employee_leave)
+	r.PATCH("/record_employee_leaves/:id", controller.UpdateRecord_employee_leave)
+	r.DELETE("/record_employee_leaves/:id", controller.DeleteRecord_employee_leave)
 
 	// Run the server
 	r.Run()
