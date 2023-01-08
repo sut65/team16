@@ -16,7 +16,7 @@ type Shopping_Cart struct {
 }
 
 type Order struct {
-gorm.Model
+	gorm.Model
 	Quantity    		int
 	
 	Shelving_ID			*uint
