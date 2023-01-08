@@ -71,7 +71,7 @@ func ListInventories(c *gin.Context) {
 
 }
 
-// DELETE /inventories/:id
+// DELETE a /inventories/:id
 
 func DeleteInventory(c *gin.Context) {
 
