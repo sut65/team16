@@ -20,8 +20,8 @@ type Separation struct {
 	Employee_ID *uint
 	Employee    Employee
 	Shelving_ID *uint
-	// Shelving    Shelving
-	DateTime    time.Time
+	Shelving    Shelving
+	Date_Out    time.Time
 	Amount      int
 	Status      string
 }
