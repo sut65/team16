@@ -7,13 +7,8 @@ import (
 type Label struct {
 	gorm.Model
 	Name     string
-<<<<<<< HEAD
 	Product  []Product  `gorm:"foreignKey:Label_ID"`
 	Shelving []Shelving `gorm:"foreignKey:Label_ID"`
-=======
-	Product  []Product  `gorm:"foreignKey:label_ID"`
-	Shelving []Shelving `gorm:"foreignKey:label_ID"`
->>>>>>> main
 }
 
 type Product struct {
@@ -25,10 +20,6 @@ type Product struct {
 	Label_ID    *uint
 	Label       Label
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 type Shelving struct {
 	gorm.Model
 

@@ -19,11 +19,7 @@ func DB() *gorm.DB {
 
 func SetupDatabase() {
 
-<<<<<<< HEAD
-	database, err := gorm.Open(sqlite.Open("stock_farm_mart.db"), &gorm.Config{})
-=======
 	database, err := gorm.Open(sqlite.Open("farm_mart.db"), &gorm.Config{})
->>>>>>> main
 
 	if err != nil {
 
@@ -33,21 +29,6 @@ func SetupDatabase() {
 
 	// Migrate the schema
 
-<<<<<<< HEAD
-	database.AutoMigrate(&Employee{}, &Kind{}, &Inventory{}, &Stock{}, &Label{}, &Product{}, &Shelving{})
-
-	db = database
-
-	database.AutoMigrate(&Employee{}, &Kind{}, &Inventory{}, &Stock{})
-
-	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
-	password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
-	password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
-
-	Em1 := Employee{
-		Name:     "นายเมธัส ภาคภูมิพงศ์",
-		Email:    "m@gmail.com",
-=======
 	database.AutoMigrate(&Employee{}, &Kind{}, &Inventory{}, &Stock{}, Product{}, &Label{}, &Shelving{})
 
 	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
@@ -59,7 +40,6 @@ func SetupDatabase() {
 	Em1 := Employee{
 		Name:     "นายคณาการ เชิดในเมือง",
 		Email:    "k@gmail.com",
->>>>>>> main
 		Password: string(password1),
 		Position: "Full-Time",
 	}
@@ -117,7 +97,7 @@ func SetupDatabase() {
 	Inventory1 := Inventory{
 		Name:     "Banana",
 		Quantity: 20,
-		Price:    20,
+		Price:    20.00,
 		Employee: Em1,
 		Kind:     Kind2,
 		Storage:  Storage2,
@@ -127,7 +107,7 @@ func SetupDatabase() {
 	Inventory2 := Inventory{
 		Name:     "Pork",
 		Quantity: 20,
-		Price:    80,
+		Price:    80.00,
 		Employee: Em1,
 		Kind:     Kind1,
 		Storage:  Storage1,
@@ -137,7 +117,7 @@ func SetupDatabase() {
 	Inventory3 := Inventory{
 		Name:     "Milk",
 		Quantity: 20,
-		Price:    20,
+		Price:    20.00,
 		Employee: Em1,
 		Kind:     Kind3,
 		Storage:  Storage3,
@@ -165,11 +145,7 @@ func SetupDatabase() {
 	}
 	db.Model(&Stock{}).Create(&Stock2)
 
-<<<<<<< HEAD
 	Stock3 := Stock{
-=======
-	Stock3 := Stock{
->>>>>>> main
 		Employee:  Em1,
 		Kind:      Kind3,
 		Storage:   Storage3,
