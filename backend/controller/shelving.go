@@ -53,7 +53,7 @@ func GetShelving(c *gin.Context) {
 
 }
 
-// GET /users
+// GET /shelvings
 
 func ListShelvings(c *gin.Context) {
 
