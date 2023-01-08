@@ -168,7 +168,7 @@ func SetupDatabase() {
 <<<<<<< HEAD
 	Stock3 := Stock{
 =======
-	Stock3 := &Stock{
+	Stock3 := Stock{
 >>>>>>> main
 		Employee:  Em1,
 		Kind:      Kind3,

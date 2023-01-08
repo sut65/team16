@@ -18,7 +18,7 @@ func CreateShelving(c *gin.Context) {
 =======
 	"net/http"
 
-	"github.com/Team16/farm_mart/entity"
+	"github.com/MaeMethas/se-65-example/entity"
 	"github.com/gin-gonic/gin"
 )
 

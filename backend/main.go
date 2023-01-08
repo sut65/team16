@@ -2,11 +2,11 @@ package main
 
 import (
 <<<<<<< HEAD
-	"github.com/MaeMethas/se-65-example/controller"
-	"github.com/MaeMethas/se-65-example/entity"
-=======
 	"github.com/Team16/farm_mart/controller"
 	"github.com/Team16/farm_mart/entity"
+=======
+"github.com/Team16/farm_mart/controller"
+"github.com/Team16/farm_mart/entity"
 >>>>>>> main
 
 	"github.com/gin-gonic/gin"

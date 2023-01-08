@@ -1,8 +1,7 @@
-<<<<<<< HEAD
+
 module github.com/MaeMethas/se-65-example
-=======
-module github.com/Team16/farm_mart
->>>>>>> main
+
+
 
 go 1.19
 
