@@ -10,7 +10,7 @@ type Section struct {
 	gorm.Model
 	Sec_Name   string
 	Sec_Salary int
-	Section    []Section `gorm:"foreignkey:SectionID"`
+	Section    []Section `gorm:"foreignkey:Section_ID"`
 }
 
 type L_Type struct {
@@ -18,7 +18,7 @@ type L_Type struct {
 	Tpye_Name      string
 	Type_Condition string
 	Type_NTime     int
-	L_Type         []L_Type `gorm:"foreignkey:L_TypeID"`
+	L_Type         []L_Type `gorm:"foreignkey:L_Type_ID"`
 }
 
 type Leave struct {
@@ -28,9 +28,9 @@ type Leave struct {
 	Doc_DateE  time.Time
 	Doc_Cont   string
 
-	SectionID   *uint
+	Section_ID  *uint
 	Section     Section
-	L_TypeID    *uint
+	L_Type_ID   *uint
 	L_Type      L_Type
 	Employee_ID *uint
 	Employee    Employee

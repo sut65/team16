@@ -23,11 +23,11 @@ func CreateLeave(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", leave.SectionID).First(&section); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", leave.Section_ID).First(&section); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "gender not found"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", leave.L_TypeID).First(&l_type); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", leave.L_Type_ID).First(&l_type); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "level not found"})
 		return
 	}

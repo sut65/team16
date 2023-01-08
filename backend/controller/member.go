@@ -23,21 +23,21 @@ func CreateMember(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", member.GenderID).First(&gender); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", member.Gender_ID).First(&gender); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "gender not found"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", member.LevelID).First(&level); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", member.Level_ID).First(&level); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "level not found"})
 		return
 	}
 	mb := entity.Member{
-		Mem_Name:  member.Mem_Name,             
-		Mem_Age: member.Mem_Age,
-		Mem_Tel: member.Mem_Tel,             
-		Employee:    employee,               
-		Gender: gender,  
-		Level: level,     
+		Mem_Name: member.Mem_Name,
+		Mem_Age:  member.Mem_Age,
+		Mem_Tel:  member.Mem_Tel,
+		Employee: employee,
+		Gender:   gender,
+		Level:    level,
 	}
 	if _, err := govalidator.ValidateStruct(mb); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -45,7 +45,7 @@ func CreateMember(c *gin.Context) {
 	}
 	if err := entity.DB().Create(&mb).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return 
+		return
 	}
 	c.JSON(http.StatusCreated, gin.H{"data": mb})
 }
