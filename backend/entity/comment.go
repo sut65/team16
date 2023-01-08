@@ -25,10 +25,10 @@ type Comment struct {
 	Comments    string
 
 	Review_point_ID  *uint
-	Reason      Reason
+	Review_point      Review_Point
 
 	Payment_ID *uint
-	// Payment     Payment
+	Payment     Payment
 
 	Type_Com_ID *uint
 	Type_Com    Type_Comment
