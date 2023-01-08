@@ -29,7 +29,7 @@ func SetupDatabase() {
 
 	// Migrate the schema
 
-	database.AutoMigrate(&Employee{}, &Kind{}, &Inventory{}, &Stock{}, Product{}, &Label{}, &Shelving{})
+	database.AutoMigrate(&Employee{}, &Kind{}, &Stock{}, &Label{}, &Shelving{})
 
 	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
@@ -93,67 +93,40 @@ func SetupDatabase() {
 	}
 	db.Model(&Storage{}).Create(&Storage3)
 
-	//Inventory
-	Inventory1 := Inventory{
+	//Stock
+	Stock1 := Stock{
 		Name:     "Banana",
 		Quantity: 20,
 		Price:    20,
 		Employee: Em1,
 		Kind:     Kind2,
 		Storage:  Storage2,
+		DateTime: time.Now(),
 	}
-	db.Model(&Inventory{}).Create(&Inventory1)
+	db.Model(&Stock{}).Create(&Stock1)
 
-	Inventory2 := Inventory{
+	Stock2 := Stock{
 		Name:     "Pork",
 		Quantity: 20,
 		Price:    80,
 		Employee: Em1,
 		Kind:     Kind1,
 		Storage:  Storage1,
+		DateTime: time.Now(),
 	}
-	db.Model(&Inventory{}).Create(&Inventory2)
+	db.Model(&Stock{}).Create(&Stock2)
 
-	Inventory3 := Inventory{
+	Stock3 := Stock{
 		Name:     "Milk",
 		Quantity: 20,
 		Price:    20,
 		Employee: Em1,
 		Kind:     Kind3,
 		Storage:  Storage3,
-	}
-	db.Model(&Inventory{}).Create(&Inventory3)
-
-	//Stock
-	Stock1 := Stock{
-		Employee:  Em1,
-		Kind:      Kind1,
-		Storage:   Storage1,
-		Inventory: Inventory2,
-
-		DateTime: time.Now(),
-	}
-	db.Model(&Stock{}).Create(&Stock1)
-
-	Stock2 := Stock{
-		Employee:  Em1,
-		Kind:      Kind2,
-		Storage:   Storage2,
-		Inventory: Inventory1,
-
-		DateTime: time.Now(),
-	}
-	db.Model(&Stock{}).Create(&Stock2)
-
-	Stock3 := &Stock{
-		Employee:  Em1,
-		Kind:      Kind3,
-		Storage:   Storage3,
-		Inventory: Inventory3,
-
 		DateTime: time.Now(),
 	}
 	db.Model(&Stock{}).Create(&Stock3)
+
 
 	//Label
 	Label1 := Label{
@@ -171,36 +144,12 @@ func SetupDatabase() {
 	}
 	db.Model(&Label{}).Create(&Label3)
 
-	//Product
-	Product1 := Product{
-		Name:     "Banana",
-		Price:    20.00,
-		Employee: Em1,
-		Label:    Label2,
-	}
-	db.Model(&Product{}).Create(&Product1)
-
-	Product2 := Product{
-		Name:     "Pork",
-		Price:    80.00,
-		Employee: Em1,
-		Label:    Label1,
-	}
-	db.Model(&Product{}).Create(&Product2)
-
-	Product3 := Product{
-		Name:     "Milk",
-		Price:    20.00,
-		Employee: Em1,
-		Label:    Label3,
-	}
-	db.Model(&Product{}).Create(&Product3)
 
 	//Shelving
 	Shelving1 := Shelving{
 		Employee: Em1,
 		Label:    Label1,
-		Product:  Product2,
+		Stock:  Stock2,
 		Quantity: 20,
 	}
 	db.Model(&Shelving{}).Create(&Shelving1)
@@ -208,7 +157,7 @@ func SetupDatabase() {
 	Shelving2 := Shelving{
 		Employee: Em1,
 		Label:    Label2,
-		Product:  Product1,
+		Stock:  Stock1,
 		Quantity: 20,
 	}
 	db.Model(&Shelving{}).Create(&Shelving2)
@@ -216,7 +165,7 @@ func SetupDatabase() {
 	Shelving3 := &Shelving{
 		Employee: Em1,
 		Label:    Label3,
-		Product:  Product3,
+		Stock:  Stock3,
 		Quantity: 20,
 	}
 	db.Model(&Shelving{}).Create(&Shelving3)

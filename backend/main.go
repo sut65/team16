@@ -26,27 +26,12 @@ func main() {
 	r.PATCH("/kinds", controller.UpdateKind)
 	r.DELETE("/kinds/:id", controller.DeleteKind)
 
-	// Inventory Routes
-	r.GET("/inventories", controller.ListInventories)
-	r.GET("/inventory/:id", controller.GetInventory)
-	r.POST("/inventories", controller.CreateInventory)
-	r.PATCH("/inventories", controller.UpdateInventory)
-	r.DELETE("/inventories/:id", controller.DeleteInventory)
-
 	//Stock Routes
 	r.GET("/stocks", controller.ListStocks)
 	r.GET("/stock/:id", controller.GetStock)
 	r.POST("/stocks", controller.CreateStock)
 	r.PATCH("/stocks/:id", controller.UpdateStock)
 	r.DELETE("/stocks/:id", controller.DeleteStock)
-
-
-	//Products Routes
-	r.GET("/products", controller.ListProducts)
-	r.GET("/product/:id", controller.GetProduct)
-	r.POST("/products", controller.CreateProduct)
-	r.PATCH("/products", controller.UpdateProduct)
-	r.DELETE("/products/:id", controller.DeleteProduct)
 
 	//Labels Routes
 	r.GET("/labels", controller.ListLabels)
