@@ -59,7 +59,7 @@ func ListShopping_Cart(c *gin.Context) {
 // DELETE /Shopping_Cart/:id
 func DeleteShopping_Cart(c *gin.Context) {
 	id := c.Param("id")
-	if tx := entity.DB().Exec("DELETE FROM carts WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM shopping_carts WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "cart not found"})
 		return
 	}
