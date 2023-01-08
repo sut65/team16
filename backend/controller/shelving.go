@@ -12,6 +12,9 @@ import (
 func CreateShelving(c *gin.Context) {
 
 	var shelving entity.Shelving
+	var employee entity.Employee
+	var label entity.Label
+	var stock entity.Stock
 
 	if err := c.ShouldBindJSON(&shelving); err != nil {
 
@@ -21,7 +24,27 @@ func CreateShelving(c *gin.Context) {
 
 	}
 
-	if err := entity.DB().Create(&shelving).Error; err != nil {
+	if tx := entity.DB().Where("id = ?", shelving.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", shelving.Label_ID).First(&label); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "kind not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", shelving.Stock_ID).First(&stock); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "storage not found"})
+		return
+	}
+	sv := entity.Shelving{
+		Employee: employee,
+		Label:    label,
+		Stock:    stock,
+		Quantity: shelving.Quantity,
+	}
+	if err := entity.DB().Create(&sv).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 

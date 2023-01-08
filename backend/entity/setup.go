@@ -97,7 +97,7 @@ func SetupDatabase() {
 	Stock1 := Stock{
 		Name:     "Banana",
 		Quantity: 20,
-		Price:    20,
+		Price:    20.00,
 		Employee: Em1,
 		Kind:     Kind2,
 		Storage:  Storage2,
@@ -108,7 +108,7 @@ func SetupDatabase() {
 	Stock2 := Stock{
 		Name:     "Pork",
 		Quantity: 20,
-		Price:    80,
+		Price:    80.00,
 		Employee: Em1,
 		Kind:     Kind1,
 		Storage:  Storage1,
@@ -119,14 +119,13 @@ func SetupDatabase() {
 	Stock3 := Stock{
 		Name:     "Milk",
 		Quantity: 20,
-		Price:    20,
+		Price:    20.00,
 		Employee: Em1,
 		Kind:     Kind3,
 		Storage:  Storage3,
 		DateTime: time.Now(),
 	}
 	db.Model(&Stock{}).Create(&Stock3)
-
 
 	//Label
 	Label1 := Label{
@@ -144,12 +143,11 @@ func SetupDatabase() {
 	}
 	db.Model(&Label{}).Create(&Label3)
 
-
 	//Shelving
 	Shelving1 := Shelving{
 		Employee: Em1,
 		Label:    Label1,
-		Stock:  Stock2,
+		Stock:    Stock2,
 		Quantity: 20,
 	}
 	db.Model(&Shelving{}).Create(&Shelving1)
@@ -157,7 +155,7 @@ func SetupDatabase() {
 	Shelving2 := Shelving{
 		Employee: Em1,
 		Label:    Label2,
-		Stock:  Stock1,
+		Stock:    Stock1,
 		Quantity: 20,
 	}
 	db.Model(&Shelving{}).Create(&Shelving2)
@@ -165,7 +163,7 @@ func SetupDatabase() {
 	Shelving3 := &Shelving{
 		Employee: Em1,
 		Label:    Label3,
-		Stock:  Stock3,
+		Stock:    Stock3,
 		Quantity: 20,
 	}
 	db.Model(&Shelving{}).Create(&Shelving3)
