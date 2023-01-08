@@ -53,7 +53,7 @@ func GetStock(c *gin.Context) {
 
 }
 
-// GET /users
+// GET /stocks
 
 func ListStocks(c *gin.Context) {
 
