@@ -1,13 +1,8 @@
 package main
 
 import (
-<<<<<<< HEAD
 	"github.com/Team16/farm_mart/controller"
 	"github.com/Team16/farm_mart/entity"
-=======
-"github.com/Team16/farm_mart/controller"
-"github.com/Team16/farm_mart/entity"
->>>>>>> main
 
 	"github.com/gin-gonic/gin"
 )
