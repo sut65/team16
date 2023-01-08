@@ -21,7 +21,7 @@ func CreateLevel(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": level})
 }
 
-// GET /gender/:id
+// GET /level/:id
 func GetLevel(c *gin.Context) {
 	var level entity.Level
 	id := c.Param("id")
@@ -33,7 +33,7 @@ func GetLevel(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": level})
 }
 
-// GET /gender
+// GET /level
 func ListLevel(c *gin.Context) {
 	var level []entity.Level
 	if err := entity.DB().Raw("SELECT * FROM levels").Scan(&level).Error; err != nil {
@@ -44,7 +44,7 @@ func ListLevel(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": level})
 }
 
-// DELETE /gender/:id
+// DELETE /level/:id
 func DeleteLevel(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM levels WHERE id = ?", id); tx.RowsAffected == 0 {
@@ -55,7 +55,7 @@ func DeleteLevel(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": id})
 }
 
-// PATCH /gender
+// PATCH /level
 func UpdateLevel(c *gin.Context) {
 	var level entity.Level
 	if err := c.ShouldBindJSON(&level); err != nil {
