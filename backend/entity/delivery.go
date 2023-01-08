@@ -24,7 +24,7 @@ type Delivery struct {
 	Car	Car
 	Employee_ID *uint
 	Employee    Employee
-	Playment_ID		*uint
-	// Playment	Playment
+	Payment_ID		*uint
+	Payment	Payment
 }
 
