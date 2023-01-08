@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+
 	"github.com/Team16/farm_mart/entity"
 	"github.com/gin-gonic/gin"
 )
@@ -19,7 +20,6 @@ func CreateShopping_Cart(c *gin.Context) {
 		return
 	}
 
-
 	// 10: ค้นหา Employee ด้วย id
 	if tx := entity.DB().Where("id = ?", cart.Employee_ID).First(&employee); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
@@ -27,14 +27,14 @@ func CreateShopping_Cart(c *gin.Context) {
 	}
 
 	// 11: ค้นหา Member ด้วย Mem_Tel
-	if tx := entity.DB().Where("Mem_Tel = ?", cart.Member_Tal).First(&member); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("Mem_Tel = ?", cart.Mem_Tel).First(&member); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
 		return
 	}
 	// 12: สร้าง Shopping_Cart
 	sc := entity.Shopping_Cart{
-		Employee:  employee,             // โยงความสัมพันธ์กับ Entity Employee
-		Member:    member,               // โยงความสัมพันธ์กับ Entity Member
+		Employee: employee, // โยงความสัมพันธ์กับ Entity Employee
+		Member:   member,   // โยงความสัมพันธ์กับ Entity Member
 	}
 
 	// 13: บันทึก
@@ -44,7 +44,6 @@ func CreateShopping_Cart(c *gin.Context) {
 	}
 	c.JSON(http.StatusCreated, gin.H{"data": cart})
 }
-
 
 // GET /Shopping_Cart
 func ListShopping_Cart(c *gin.Context) {
