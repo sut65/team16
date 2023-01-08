@@ -13,7 +13,6 @@ type Employee struct {
 	Position string
 
 	Stock                 []Stock                 `gorm:"foreignKey:Employee_ID"`
-	Inventory             []Inventory             `gorm:"foreignKey:Employee_ID"`
 	Member                []Member                `gorm:"foreignKey:Employee_ID"`
 	Leave                 []Leave                 `gorm:"foreignKey:Employee_ID"`
 	Employee_attendance   []Employee_attendance   `gorm:"foreignKey:Employee_ID"`

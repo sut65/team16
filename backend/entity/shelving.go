@@ -7,18 +7,8 @@ import (
 type Label struct {
 	gorm.Model
 	Name     string
-	Product  []Product  `gorm:"foreignKey:label_ID"`
+	Stock    []Stock    `gorm:"foreignKey:label_ID"`
 	Shelving []Shelving `gorm:"foreignKey:label_ID"`
-}
-
-type Product struct {
-	gorm.Model
-	Name        string
-	Price       float64
-	Employee_ID *uint
-	Employee    Employee
-	Label_ID    *uint
-	Label       Label
 }
 
 type Shelving struct {
@@ -30,8 +20,8 @@ type Shelving struct {
 	Label_ID *uint
 	Label    Label
 
-	Product_ID *uint
-	Product    Product
+	Stock_ID *uint
+	Stock    Stock
 
 	Quantity int
 }

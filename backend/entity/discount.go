@@ -17,8 +17,8 @@ type Discount struct {
 	Discount_Type    Discount_Type
 	Employee_ID      *uint
 	Employee         Employee
-	Inventory_ID     *uint
-	Inventory        Inventory
+	Stock_ID     *uint
+	Stock        Stock
 }
 
 type Discount_Type struct {
