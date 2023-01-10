@@ -2,6 +2,7 @@ import { EmployeeInterface } from "../IEmployee";
 import { KindsInterface } from "./IKind";
 import { StoragesInterface } from "./IStorage";
 
+//ระบบสต๊อกสินค้า
 export interface StocksInterface{
     ID: number;
     Name: string;

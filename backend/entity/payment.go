@@ -7,7 +7,7 @@ import (
 
 type Payment_method struct {
 	gorm.Model
-	Name	string
+	Method	string
 	Payment  []Payment `gorm:"foreignKey:Payment_method_ID"`
 }
 
