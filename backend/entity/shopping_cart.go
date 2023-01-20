@@ -9,7 +9,7 @@ type Shopping_Cart struct {
 	Total       float64
 	Employee_ID *uint
 	Employee    Employee
-	Mem_Tel     string
+	Member_ID     *uint
 	Member      Member
 	Oder        []Order   `gorm:"foreignKey:Shopping_Cart_ID"`
 	Payment     []Payment `gorm:"foreignKey:Shopping_Cart_ID"`

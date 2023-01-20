@@ -19,4 +19,8 @@ type Employee struct {
 	Record_employee_leave []Record_employee_leave `gorm:"foreignKey:Employee_ID"`
 	Discount			  []Discount 			  `gorm:"foreignKey:Employee_ID"`
 	Delivery  			  []Delivery 			  `gorm:"foreignKey:Employee_ID"`
+	Payment  			  []Payment 			  `gorm:"foreignKey:Employee_ID"`
+	Separation			  []Separation 			  `gorm:"foreignKey:Employee_ID"`
+	Shelving			  []Shelving 			  `gorm:"foreignKey:Employee_ID"`
+	Shopping_Cart		  []Shopping_Cart 		  `gorm:"foreignKey:Employee_ID"`
 }
