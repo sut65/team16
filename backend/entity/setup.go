@@ -29,7 +29,18 @@ func SetupDatabase() {
 
 	// Migrate the schema
 
-	database.AutoMigrate(&Employee{}, &Kind{}, &Stock{}, &Label{}, &Shelving{})
+	database.AutoMigrate(
+		&Employee{}, &Kind{}, &Storage{}, &Stock{}, 
+		&Label{}, &Shelving{}, 
+		&Discount_Type{}, &Discount{}, 
+		&Delivery{}, &Car{},
+		&Shopping_Cart{}, &Order{}, 
+		&Payment_method{}, &Payment{},
+		&Review_Point{}, &Type_Comment{}, &Comment{}, 
+		&Reason{}, &Separation{},
+		&Section{}, &L_Type{}, &Leave{}, 
+		&Gender{}, &Level{},&Member{},
+		&Duty{}, &Overtime{}, &Working_time{}, &Employee_attendance{}, &Record_employee_leave{})
 
 	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
@@ -96,7 +107,7 @@ func SetupDatabase() {
 	//Stock
 	Stock1 := Stock{
 		Name:     "Banana",
-		Quantity: 20,
+		Amount: 20,
 		Price:    20.00,
 		Employee: Em1,
 		Kind:     Kind2,
@@ -107,7 +118,7 @@ func SetupDatabase() {
 
 	Stock2 := Stock{
 		Name:     "Pork",
-		Quantity: 20,
+		Amount: 20,
 		Price:    80.00,
 		Employee: Em1,
 		Kind:     Kind1,
@@ -118,7 +129,7 @@ func SetupDatabase() {
 
 	Stock3 := Stock{
 		Name:     "Milk",
-		Quantity: 20,
+		Amount: 20,
 		Price:    20.00,
 		Employee: Em1,
 		Kind:     Kind3,
@@ -223,4 +234,24 @@ func SetupDatabase() {
 	}
 	db.Model(&Type_Comment{}).Create(&TypeCom4)
 
+	//Payment_method
+	Pay1 := Kind{
+		Name: "Cash",
+	}
+	db.Model(&Payment_method{}).Create(&Pay1)
+
+	Pay2 := Kind{
+		Name: "Banking",
+	}
+	db.Model(&Payment_method{}).Create(&Pay2)
+
+	Pay3 := Kind{
+		Name: "Prompt Pay",
+	}
+	db.Model(&Payment_method{}).Create(&Pay3)
+
+	Pay4 := Kind{
+		Name: "Debit/Credit Card",
+	}
+	db.Model(&Payment_method{}).Create(&Pay4)
 }

@@ -6,7 +6,7 @@ import { StoragesInterface } from "./IStorage";
 export interface StocksInterface{
     ID: number;
     Name: string;
-    Quantity: number;
+    Amount: number;
     Price: number;
     Employee_ID: number;
     Employee: EmployeeInterface;
