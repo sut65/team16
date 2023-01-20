@@ -10,8 +10,8 @@ export interface Shopping_CartInterface {
 
     Employee_ID?: number;
     Employee?: EmployeeInterface;
-    Discount_Type_ID?: Discount_TypeInterface;
-    Discount_Type?: number;
+    Discount_Type_ID?: number;
+    Discount_Type?: Discount_TypeInterface;
     Stock_ID?: number;
     Stock?: StocksInterface;
 }
