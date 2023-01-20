@@ -21,7 +21,7 @@ type Storage struct {
 type Stock struct {
 	gorm.Model
 	Name        string
-	Quantity    int
+	Amount    int
 	Price       float64
 	Employee_ID *uint
 	Employee    Employee
