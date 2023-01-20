@@ -9,7 +9,7 @@ import (
 
 type Reason struct {
 	gorm.Model
-	cuase        string
+	Cuase        string
 	Separation   []Separation `gorm:"foreignKey:Reason_ID"`
 }
 

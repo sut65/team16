@@ -10,7 +10,7 @@ type Section struct {
 	gorm.Model
 	Sec_Name   string
 	Sec_Salary int
-	Section    []Section `gorm:"foreignkey:Section_ID"`
+	Leave    []Leave `gorm:"foreignkey:Section_ID"`
 }
 
 type L_Type struct {
@@ -18,7 +18,7 @@ type L_Type struct {
 	Tpye_Name      string
 	Type_Condition string
 	Type_NTime     int
-	L_Type         []L_Type `gorm:"foreignkey:L_Type_ID"`
+	Leave         []Leave `gorm:"foreignkey:L_Type_ID"`
 }
 
 type Leave struct {

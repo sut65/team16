@@ -1,6 +1,6 @@
 import { EmployeeInterface } from "../IEmployee";
 import { Shopping_CartInterface } from "./IShopping_Cart";
-//import { ShelvingInterface } from "../Methus/IShopping_Shelving";
+import { IShelving } from "../methas/IShelving";
 
 
 export interface OrderInterface {
@@ -10,5 +10,5 @@ export interface OrderInterface {
     Shopping_Cart_ID?: number;
     Shopping_Cart?: Shopping_CartInterface;
     Shelving_ID?: number;
-    //Shelving?: ShelvingInterface;
+    Shelving?: IShelving;
 }

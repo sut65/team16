@@ -15,7 +15,7 @@ type Level struct {
 	Level_Name    string
 	Level_Pay     int
 	Level_Benefit string
-	Level         []Level `gorm:"foreignkey:Level_ID"`
+	Member         []Member `gorm:"foreignkey:Level_ID"`
 }
 
 type Member struct {
@@ -30,4 +30,7 @@ type Member struct {
 	Level       Level
 	Employee_ID *uint
 	Employee    Employee
+
+	Shopping_Cart         []Shopping_Cart `gorm:"foreignkey:Member_ID"`
+
 }
