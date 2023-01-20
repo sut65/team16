@@ -29,7 +29,7 @@ func SetupDatabase() {
 
 	// Migrate the schema
 
-	database.AutoMigrate(&Employee{}, &Kind{}, &Stock{}, &Label{}, &Shelving{})
+	database.AutoMigrate(&Employee{}, &Kind{}, &Stock{}, &Label{}, &Shelving{}, &Discount_Type{}, &Discount{}, &Delivery{}, &Car{})
 
 	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
