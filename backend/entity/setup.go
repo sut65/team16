@@ -107,7 +107,7 @@ func SetupDatabase() {
 	//Stock
 	Stock1 := Stock{
 		Name:     "Banana",
-		Quantity: 20,
+		Amount: 20,
 		Price:    20.00,
 		Employee: Em1,
 		Kind:     Kind2,
@@ -118,7 +118,7 @@ func SetupDatabase() {
 
 	Stock2 := Stock{
 		Name:     "Pork",
-		Quantity: 20,
+		Amount: 20,
 		Price:    80.00,
 		Employee: Em1,
 		Kind:     Kind1,
@@ -129,7 +129,7 @@ func SetupDatabase() {
 
 	Stock3 := Stock{
 		Name:     "Milk",
-		Quantity: 20,
+		Amount: 20,
 		Price:    20.00,
 		Employee: Em1,
 		Kind:     Kind3,
