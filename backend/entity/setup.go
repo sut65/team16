@@ -106,39 +106,39 @@ func SetupDatabase() {
 	// }
 	// db.Model(&Storage{}).Create(&Storage3)
 
-	// //Stock
-	// Stock1 := Stock{
-	// 	Name:     "Banana",
-	// 	Quantity: 20,
-	// 	Price:    20.00,
-	// 	Employee: Em1,
-	// 	Kind:     Kind2,
-	// 	Storage:  Storage2,
-	// 	DateTime: time.Now(),
-	// }
-	// db.Model(&Stock{}).Create(&Stock1)
+	//Stock
+	Stock1 := Stock{
+		Name:     "Banana",
+		Quantity: 20,
+		Price:    20.00,
+		Employee: Em1,
+		Kind:     Kind2,
+		Storage:  Storage2,
+		DateTime: time.Now(),
+	}
+	db.Model(&Stock{}).Create(&Stock1)
 
-	// Stock2 := Stock{
-	// 	Name:     "Pork",
-	// 	Quantity: 20,
-	// 	Price:    80.00,
-	// 	Employee: Em1,
-	// 	Kind:     Kind1,
-	// 	Storage:  Storage1,
-	// 	DateTime: time.Now(),
-	// }
-	// db.Model(&Stock{}).Create(&Stock2)
+	Stock2 := Stock{
+		Name:     "Pork",
+		Quantity: 20,
+		Price:    80.00,
+		Employee: Em1,
+		Kind:     Kind1,
+		Storage:  Storage1,
+		DateTime: time.Now(),
+	}
+	db.Model(&Stock{}).Create(&Stock2)
 
-	// Stock3 := Stock{
-	// 	Name:     "Milk",
-	// 	Quantity: 20,
-	// 	Price:    20.00,
-	// 	Employee: Em1,
-	// 	Kind:     Kind3,
-	// 	Storage:  Storage3,
-	// 	DateTime: time.Now(),
-	// }
-	// db.Model(&Stock{}).Create(&Stock3)
+	Stock3 := Stock{
+		Name:     "Milk",
+		Quantity: 20,
+		Price:    20.00,
+		Employee: Em1,
+		Kind:     Kind3,
+		Storage:  Storage3,
+		DateTime: time.Now(),
+	}
+	db.Model(&Stock{}).Create(&Stock3)
 
 	// //Label
 	// Label1 := Label{
@@ -236,4 +236,24 @@ func SetupDatabase() {
 	// }
 	// db.Model(&Type_Comment{}).Create(&TypeCom4)
 
+	//Payment_method
+	Pay1 := Kind{
+		Name: "Cash",
+	}
+	db.Model(&Payment_method{}).Create(&Pay1)
+
+	Pay2 := Kind{
+		Name: "Banking",
+	}
+	db.Model(&Payment_method{}).Create(&Pay2)
+
+	Pay3 := Kind{
+		Name: "Prompt Pay",
+	}
+	db.Model(&Payment_method{}).Create(&Pay3)
+
+	Pay4 := Kind{
+		Name: "Debit/Credit Card",
+	}
+	db.Model(&Payment_method{}).Create(&Pay4)
 }

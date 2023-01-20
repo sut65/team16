@@ -40,7 +40,7 @@ func CreateStock(c *gin.Context) {
 	}
 	st := entity.Stock{
 		Name:     stock.Name,
-		Quantity: stock.Quantity,
+		Amount: stock.Amount,
 		Price:    stock.Price,
 		Employee: employee,
 		Kind:     kind,
