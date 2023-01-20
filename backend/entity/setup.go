@@ -234,4 +234,24 @@ func SetupDatabase() {
 	}
 	db.Model(&Type_Comment{}).Create(&TypeCom4)
 
+	//Payment_method
+	Pay1 := Kind{
+		Name: "Cash",
+	}
+	db.Model(&Payment_method{}).Create(&Pay1)
+
+	Pay2 := Kind{
+		Name: "Banking",
+	}
+	db.Model(&Payment_method{}).Create(&Pay2)
+
+	Pay3 := Kind{
+		Name: "Prompt Pay",
+	}
+	db.Model(&Payment_method{}).Create(&Pay3)
+
+	Pay4 := Kind{
+		Name: "Debit/Credit Card",
+	}
+	db.Model(&Payment_method{}).Create(&Pay4)
 }
