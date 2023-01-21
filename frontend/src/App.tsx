@@ -29,10 +29,12 @@ import ContactPageIcon from '@mui/icons-material/ContactPage';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import Homepage from "./components/Homepage";
-import StockCreate from "./components/methas/StockCreate";
 
 import "./styles.css"
 import Stocks from "./components/methas/Stock";
+import StockCreate from "./components/methas/StockCreate";
+import Member from "./components/theerawat/Member";
+import MemberCreate from "./components/theerawat/MemberCreate";
 
 var adminName = "";
 
@@ -89,6 +91,7 @@ const Drawer = styled(MuiDrawer, {
 const menu = [
   { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
   { name: "สต๊อกสินค้า", icon: <InventoryIcon />, path: "/Stock" },
+  { name: "สมาชิก", icon: <PeopleIcon />, path: "/Member" },
 ];
 
 
@@ -226,6 +229,8 @@ export default function App() {
               <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Routes>
                   <Route path="/" element={<Homepage />} />
+                  <Route path="/Member" element={<Member />} />
+                  <Route path="/MemberCreate" element={<MemberCreate />} />
                   <Route path="/Stock" element={<Stocks />} />
                   <Route path="/StockCreate" element={<StockCreate />} />
                 </Routes>
