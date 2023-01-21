@@ -2,11 +2,11 @@ import { Discount_TypeInterface } from "./IDiscount_Type";
 import { EmployeeInterface } from "../IEmployee";
 import { StocksInterface } from "../methas/IStock";
 
-export interface Shopping_CartInterface {
+export interface DiscountInterface {
     ID?: number,
     Discount_Price?: number
-    Discount_s?: number,
-    Discount_e?: number,
+    Discount_s: Date | null,
+    Discount_e: Date | null,
 
     Employee_ID?: number;
     Employee?: EmployeeInterface;

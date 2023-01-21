@@ -19,7 +19,7 @@ func DB() *gorm.DB {
 
 func SetupDatabase() {
 
-	database, err := gorm.Open(sqlite.Open("farm_mart.db"), &gorm.Config{})
+	database, err := gorm.Open(sqlite.Open("farm_mart0.db"), &gorm.Config{})
 
 	if err != nil {
 
