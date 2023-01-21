@@ -24,6 +24,32 @@ async function Login(data: SigninInterface) {
   return res;
 }
 
+async function GetCurrentEmployee() {
+  let ce = localStorage.getItem("aid");
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(
+    `${apiUrl}/employee/${ce}`, requestOptions
+  )
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+    return res;
+}
+
 export {
   Login,
+  GetCurrentEmployee,
 };
