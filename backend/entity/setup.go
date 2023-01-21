@@ -28,8 +28,6 @@ func SetupDatabase() {
 	}
 
 	// Migrate the schema
-
-
 	database.AutoMigrate(
 		&Employee{}, &Kind{}, &Storage{}, &Stock{}, 
 		&Label{}, &Shelving{}, 
@@ -257,3 +255,5 @@ func SetupDatabase() {
 	// }
 	// db.Model(&Payment_method{}).Create(&Pay4)
 }
+
+
