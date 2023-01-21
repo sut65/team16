@@ -103,9 +103,24 @@ func main() {
 	r.PATCH("/record_employee_leaves/:id", controller.UpdateRecord_employee_leave)
 	r.DELETE("/record_employee_leaves/:id", controller.DeleteRecord_employee_leave)
 
+	//Discount Routes
+	r.GET("/discounts", controller.ListDiscount)
+	r.GET("/discount/:id", controller.GetDiscount)
+	r.POST("/discounts", controller.CreateDiscount)
+	r.PATCH("/discount/:id", controller.UpdateDiscount)
+	r.DELETE("/discount/:id", controller.DeleteDiscount)
+
+	//Discount_Type Routes
+	r.GET("/discount_types", controller.ListDiscount_Type)
+	r.GET("/discount_type/:id", controller.GetDiscount_Type)
+	r.POST("/discount_types", controller.CreateDiscount_Type)
+	r.PATCH("/discount_type/:id", controller.UpdateDiscount_Type)
+	r.DELETE("/discount_type/:id", controller.DeleteDiscount_Type)
+
 	// Run the server
 	r.Run()
 }
+
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")

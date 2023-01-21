@@ -21,20 +21,18 @@ import Button from "@mui/material/Button";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleIcon from "@mui/icons-material/People";
-import Diversity3Icon from '@mui/icons-material/Diversity3';
-import SchoolIcon from '@mui/icons-material/School';
-import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
-import Diversity2Icon from '@mui/icons-material/Diversity2';
-import ContactPageIcon from '@mui/icons-material/ContactPage';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import Homepage from "./components/Homepage";
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 
 import "./styles.css"
 import Stocks from "./components/methas/Stock";
 import StockCreate from "./components/methas/StockCreate";
 import Member from "./components/theerawat/Member";
 import MemberCreate from "./components/theerawat/MemberCreate";
+import Discount from "./components/thanadet/Discount";
+import DiscountCreate from "./components/thanadet/DiscountCreate";
 
 var adminName = "";
 
@@ -92,6 +90,7 @@ const menu = [
   { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
   { name: "สต๊อกสินค้า", icon: <InventoryIcon />, path: "/Stock" },
   { name: "สมาชิก", icon: <PeopleIcon />, path: "/Member" },
+  { name: "ส่วนลด", icon: <MonetizationOnIcon />, path: "/Discount" },
 ];
 
 
@@ -233,6 +232,8 @@ export default function App() {
                   <Route path="/MemberCreate" element={<MemberCreate />} />
                   <Route path="/Stock" element={<Stocks />} />
                   <Route path="/StockCreate" element={<StockCreate />} />
+                  <Route path="/Discount" element={<Discount />} />
+                  <Route path="/DiscountCreate" element={<DiscountCreate />} />
                 </Routes>
               </Container>
             </Box>
