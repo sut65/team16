@@ -22,7 +22,7 @@ type Member struct {
 	gorm.Model
 	Mem_Name string
 	Mem_Age  int
-	Mem_Tel  string
+	Mem_Tel  string	`gorm:"primary_key;not null"`
 
 	Gender_ID   *uint
 	Gender      Gender
@@ -31,6 +31,6 @@ type Member struct {
 	Employee_ID *uint
 	Employee    Employee
 
-	Shopping_Cart         []Shopping_Cart `gorm:"foreignkey:Member_ID"`
+	Shopping_Cart	[]Shopping_Cart `gorm:"foreignkey:Mem_Tel"`
 
 }
