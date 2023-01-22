@@ -37,6 +37,8 @@ import DiscountCreate from "./components/thanadet/DiscountCreate";
 import { GetCurrentEmployee } from "./services/HttpClientService";
 import Leave from "./components/theerawat/Leave";
 import LeaveCreate from "./components/theerawat/LeaveCreate";
+import SeparationShow from "./components/apisit/separationShow";
+import SeparationCreate from "./components/apisit/separationCreate";
 
 var employeeName = "";
 
@@ -105,6 +107,7 @@ const menu = [
   { name: "สมาชิก", icon: <PeopleIcon />, path: "/Member" },
   { name: "ส่วนลด", icon: <MonetizationOnIcon />, path: "/Discount" },
   { name: "แจ้งลา", icon: <ArticleIcon />, path: "/Leave" },
+  { name: "จำหน่ายสินค้า", icon: <InventoryIcon />, path: "/SeparationShow" },
 ];
 
 
@@ -252,6 +255,8 @@ export default function App() {
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />
                   <Route path="/Leave" element={<Leave />} />
                   <Route path="/LeaveCreate" element={<LeaveCreate />} />
+                  <Route path="/separationShow" element={<SeparationShow />} />
+                  <Route path="/separationCreate" element={<SeparationCreate />} />
                 </Routes>
               </Container>
             </Box>
