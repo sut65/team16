@@ -123,6 +123,15 @@ func main() {
 			r.POST("/discount_types", controller.CreateDiscount_Type)
 			r.PATCH("/discount_type/:id", controller.UpdateDiscount_Type)
 			r.DELETE("/discount_type/:id", controller.DeleteDiscount_Type)
+
+			//Separartion Routes
+			r.GET("/separations", controller.ListSeparations)
+			r.GET("/separation/:id", controller.GetSeparation)
+			r.POST("/separations", controller.CreateSeparation)
+			r.PATCH("/separation/:id", controller.UpdateSeparation)
+			r.DELETE("/separation/:id", controller.DeleteSeparation)
+
+			
 		}
 	}
 

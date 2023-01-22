@@ -1,4 +1,4 @@
 export interface ReasonInterface {
     ID?: number,
-    cuase?: string,
+    Cuase?: string,
 }
