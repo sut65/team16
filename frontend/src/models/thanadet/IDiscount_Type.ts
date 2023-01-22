@@ -1,4 +1,4 @@
-export interface Discount_TypeInterface {
-    ID?: number,
-    Type_Name?: string,
+export interface Discount_Type_Interface {
+    ID: number;
+    Type_Name: string
 }

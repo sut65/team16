@@ -1,7 +1,7 @@
 package entity
 
 import (
-	 "time"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -33,7 +33,7 @@ func SetupDatabase() {
 		&Label{}, &Shelving{}, 
 		&Discount_Type{}, &Discount{}, 
 		&Delivery{}, &Car{},
-		&Shopping_Cart{}, &Order{}, 
+		&Order{}, 
 		&Payment_method{}, &Payment{},
 		&Review_Point{}, &Type_Comment{}, &Comment{}, 
 		&Reason{}, &Separation{},
@@ -363,4 +363,18 @@ func SetupDatabase() {
 		Sec_Salary: 13700,
 	}
 	db.Model(&Section{}).Create(&Section3)
+
+	// Discount Type
+	Discount_Type1 := Discount_Type{
+		Type_Name: "ลดราคาทั่วไป",
+	}
+	db.Model(&Discount_Type{}).Create(&Discount_Type1)
+	Discount_Type2 := Discount_Type{
+		Type_Name: "ลดราคาช่วงเทศกาล",
+	}
+	db.Model(&Discount_Type{}).Create(&Discount_Type2)
+	Discount_Type3 := Discount_Type{
+		Type_Name: "ลดราคาทั่วไป",
+	}
+	db.Model(&Discount_Type{}).Create(&Discount_Type3)
 }

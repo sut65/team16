@@ -11,7 +11,7 @@ import (
 func CreatePayment(c *gin.Context) {
 
 	var payment entity.Payment
-	var cart entity.Shopping_Cart
+	var order entity.Order
 	var method entity.Payment_method
 	var employee entity.Employee
 
@@ -22,7 +22,7 @@ func CreatePayment(c *gin.Context) {
 	}
 
 	// 10: ค้นหา cart ด้วย id
-	if tx := entity.DB().Where("id = ?", payment.Shopping_Cart_ID).First(&cart); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", payment.Order_ID).First(&order); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "cart not found"})
 		return
 	}
@@ -34,16 +34,16 @@ func CreatePayment(c *gin.Context) {
 	}
 
 	// 12: ค้นหา Employee ด้วย id
-	if tx := entity.DB().Where("id = ?", cart.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", payment.Employee_ID).First(&employee); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
 
 	// 12: สร้าง Payment
 	sc := entity.Payment{
-		Shopping_Cart: cart, // โยงความสัมพันธ์กับ Entity Shopping_Cart
+		Order: order, 				// โยงความสัมพันธ์กับ Entity Order
 		Payment_method:   method,   // โยงความสัมพันธ์กับ Entity Payment_method
-		Employee: employee, // โยงความสัมพันธ์กับ Entity Employee
+		Employee: employee, 		// โยงความสัมพันธ์กับ Entity Employee
 	}
 
 	// 13: บันทึก

@@ -11,7 +11,8 @@ import (
 func CreateOrder(c *gin.Context) {
 
 	var order entity.Order
-	var cart entity.Shopping_Cart
+	var member entity.Member
+	var employee entity.Employee
 	var shelv entity.Shelving
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Order
@@ -19,22 +20,29 @@ func CreateOrder(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	
+	// 9: ค้นหา Member ด้วย id
+	if tx := entity.DB().Where("id = ?", order.Member_ID).First(&member); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
+		return
+	}
 
 	// 10: ค้นหา Employee ด้วย id
-	if tx := entity.DB().Where("id = ?", order.Shopping_Cart_ID).First(&cart); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", order.Employee_ID).First(&employee); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
 
 	// 11: ค้นหา shelv ด้วย id
-	if tx := entity.DB().Where("Mem_Tel = ?", order.Shelving_ID).First(&shelv); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", order.Shelving_ID).First(&shelv); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
 		return
 	}
 	// 12: สร้าง Order
 	sc := entity.Order{
-		Shopping_Cart: 	cart, // โยงความสัมพันธ์กับ Entity Employee
-		Shelving:   	shelv,   // โยงความสัมพันธ์กับ Entity shelving
+		Employee: 	employee, // โยงความสัมพันธ์กับ Entity Employee
+		Member:   	member,   // โยงความสัมพันธ์กับ Entity shelving
+		Shelving:   shelv,   // โยงความสัมพันธ์กับ Entity shelving
 	}
 
 	// 13: บันทึก

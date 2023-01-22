@@ -43,11 +43,19 @@ function Discount() {
         { field: "Discount_Price", headerName: "ราคาที่ลด", width: 120 },
         {
             field: "Discount_s", headerName: "วันที่เริ่มลดราคา", width: 210,
-            renderCell: (params) => moment(params.row.date_rec).format('YY-MM-DD')
+            renderCell: (params) => moment(params.row.Discount_s).format('YY-MM-DD')
         },
         {
             field: "Discount_e", headerName: "วันที่สิ้นสุด", width: 210,
-            renderCell: (params) => moment(params.row.date_rec).format('YY-MM-DD')
+            renderCell: (params) => moment(params.row.Discount_e).format('YY-MM-DD')
+        },
+        {
+            field: "Discount_Type", headerName: "ประเภท", width: 210,
+            valueFormatter : (params) => params.value.Type_Name,
+        },
+        {
+            field: "Stock", headerName: "สินค้า", width: 210,
+            valueFormatter : (params) => params.value.Name,
         },
     ];
 

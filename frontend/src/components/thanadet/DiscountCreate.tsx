@@ -18,7 +18,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
 
 import { DiscountInterface } from "../../models/thanadet/IDiscount"
-import { Discount_TypeInterface } from "../../models/thanadet/IDiscount_Type"
+import { Discount_Type_Interface } from "../../models/thanadet/IDiscount_Type"
 import { EmployeeInterface } from "../../models/IEmployee"
 import { StocksInterface } from "../../models/methas/IStock"
 import { GetCurrentEmployee } from "../../services/HttpClientService";
@@ -35,9 +35,9 @@ function DiscountCreate() {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const [stock, setStock] = React.useState<StocksInterface[]>([]);
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
-    const [dt, setDt] = React.useState<Discount_TypeInterface[]>([]);
+    const [stock, setStock] = React.useState<StocksInterface[]>([]);
+    const [dt, setDt] = React.useState<Discount_Type_Interface[]>([]);
     const [discount, setDiscount] = React.useState<DiscountInterface>({
         Discount_s: new Date(),
         Discount_e: new Date(),
@@ -91,19 +91,6 @@ function DiscountCreate() {
             });
     };
 
-    // const getEmployee = async () => {
-    //     fetch(`${apiUrl}/emloyees`, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((res) => {
-    //             if (res.data) {
-    //                 console.log(res.data)
-    //                 setEmployee(res.data);
-    //             }
-    //             else { console.log("NO DATA") }
-    //         });
-    // };
-
-
     const getStock = async () => {
         fetch(`${apiUrl}/stocks`, requestOptions)
             .then((response) => response.json())
@@ -125,9 +112,9 @@ function DiscountCreate() {
         }
     };
 
-    useEffect(() => { // ยังไม่มี get current user
-        getDiscount_Type();
+    useEffect(() => {
         getEmployee();
+        getDiscount_Type();
         getStock();
     }, []);
 
@@ -207,7 +194,7 @@ function DiscountCreate() {
 
                         >
                             <div className="good-font">
-                                เพ่ิมส่วนลด
+                                เพิ่มส่วนลด
                             </div>
                         </Typography>
                     </Box>
@@ -215,13 +202,32 @@ function DiscountCreate() {
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                <Grid item xs={6}>
+                
+                    
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">ประเภทของส่วนลด</p>
+                            <Autocomplete
+                                disablePortal
+                                id="Discount_Type_ID"
+                                getOptionLabel={(item: Discount_Type_Interface) => `${item.Type_Name}`}
+                                options={dt}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { discount.Discount_Type_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกประเภทของส่วนลด" />}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">สินค้า</p>
                             <Autocomplete
                                 disablePortal
                                 id="Stock_ID"
-                                getOptionLabel={(item: StocksInterface) => `${item.Name} ${item.Price}`}
+                                getOptionLabel={(item: StocksInterface) => `${item.Name} ราคา ${item.Price}`}
                                 options={stock}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
@@ -232,23 +238,6 @@ function DiscountCreate() {
                         </FormControl>
                     </Grid>
 
-                    
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">ประเภทของส่วนลด</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Discount_Type_ID"
-                                getOptionLabel={(item: Discount_TypeInterface) => `${item.Type_Name}`}
-                                options={dt}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
-                                onChange={(e, value) => { discount.Discount_Type_ID = value?.ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกประเภทของส่วนลด" />}
-                            />
-                        </FormControl>
-                    </Grid>
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
