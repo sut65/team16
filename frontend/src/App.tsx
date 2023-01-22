@@ -39,6 +39,8 @@ import Leave from "./components/theerawat/Leave";
 import LeaveCreate from "./components/theerawat/LeaveCreate";
 import SeparationShow from "./components/apisit/separationShow";
 import SeparationCreate from "./components/apisit/separationCreate";
+import Shopping from "./components/Shopping/Shopping";
+import OrderCreate from "./components/Shopping/OrderCreate";
 
 var employeeName = "";
 
@@ -258,6 +260,8 @@ export default function App() {
                   <Route path="/LeaveCreate" element={<LeaveCreate />} />
                   <Route path="/separationShow" element={<SeparationShow />} />
                   <Route path="/separationCreate" element={<SeparationCreate />} />
+                  <Route path="/Order" element={<Shopping />} />
+                  <Route path="/OrderCreate" element={<OrderCreate />} />
                 </Routes>
               </Container>
             </Box>
