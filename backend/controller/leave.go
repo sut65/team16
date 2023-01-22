@@ -55,7 +55,7 @@ func CreateLeave(c *gin.Context) {
 func GetLeave(c *gin.Context) {
 	var leave entity.Leave
 	id := c.Param("id")
-	if err := entity.DB().Preload("Section").Preload("L_Type").Raw("SELECT * FROM leaves WHERE id = ?", id).Find(&leave).Error; err != nil {
+	if err := entity.DB().Preload("Section").Preload("L_Type").Preload("Employee").Raw("SELECT * FROM leaves WHERE id = ?", id).Find(&leave).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -65,7 +65,7 @@ func GetLeave(c *gin.Context) {
 // GET /leave
 func ListLeave(c *gin.Context) {
 	var leave []entity.Leave
-	if err := entity.DB().Preload("Section").Preload("L_Type").Raw("SELECT * FROM leaves").Find(&leave).Error; err != nil {
+	if err := entity.DB().Preload("Section").Preload("L_Type").Preload("Employee").Raw("SELECT * FROM leaves").Find(&leave).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

@@ -13,10 +13,11 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 function Member() {
  const [member, setMember] = React.useState<MemberInterface[]>([]);
  const getMember = async () => {
-   const apiUrl = "http://localhost:8080/member";
+   const apiUrl = "http://localhost:8080/members";
    const requestOptions = {
      method: "GET",
-     headers: { "Content-Type": "application/json" },
+     headers: {Authorization: `Bearer ${localStorage.getItem("token")}`,
+     "Content-Type": "application/json",},
    };
 
    fetch(apiUrl, requestOptions)
@@ -31,11 +32,11 @@ function Member() {
 
  const columns: GridColDef[] = [
    { field: "ID", headerName: "ID", width: 50,  headerAlign:"center" },
-   { field: "Name", headerName: "Name", width: 250, headerAlign:"center" },
-   { field: "Age", headerName: "Age", width: 100, headerAlign:"center" },
-   { field: "Tel", headerName: "Phone number", width: 150, headerAlign:"center" },
-   { field: "Gender", headerName: "Gender", width: 100, headerAlign:"center" },
-   { field: "Level", headerName: "Level", width: 200, headerAlign:"center" },
+   { field: "Mem_Name", headerName: "Name", width: 250, headerAlign:"center" },
+   { field: "Mem_Age", headerName: "Age", width: 100, headerAlign:"center" },
+   { field: "Mem_Tel", headerName: "Phone number", width: 150, headerAlign:"center" },
+   { field: "Gender", headerName: "Gender", width: 100, headerAlign:"center",valueFormatter: (params)=>params.value.Gender_Name },
+   { field: "Level", headerName: "Level", width: 200, headerAlign:"center" ,valueFormatter: (params)=>params.value.Level_Name},
  ];
 
  useEffect(() => {

@@ -54,7 +54,7 @@ func CreateMember(c *gin.Context) {
 func GetMember(c *gin.Context) {
 	var member entity.Member
 	id := c.Param("id")
-	if err := entity.DB().Preload("Gender").Preload("Level").Raw("SELECT * FROM members WHERE id = ?", id).Find(&member).Error; err != nil {
+	if err := entity.DB().Preload("Gender").Preload("Level").Preload("Employee").Raw("SELECT * FROM members WHERE id = ?", id).Find(&member).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -64,7 +64,7 @@ func GetMember(c *gin.Context) {
 // GET /member
 func ListMember(c *gin.Context) {
 	var member []entity.Member
-	if err := entity.DB().Preload("Gender").Preload("Level").Raw("SELECT * FROM members").Find(&member).Error; err != nil {
+	if err := entity.DB().Preload("Gender").Preload("Level").Preload("Employee").Raw("SELECT * FROM members").Find(&member).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

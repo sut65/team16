@@ -138,7 +138,7 @@ async function submit() {
        body: JSON.stringify(data),
    };
 
-   fetch(`${apiUrl}/Members`, requestOptions)
+   fetch(`${apiUrl}/members`, requestOptions)
        .then((response) => response.json())
        .then((res) => {
            if (res.data) {

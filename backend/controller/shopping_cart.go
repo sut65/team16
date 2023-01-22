@@ -27,7 +27,7 @@ func CreateShopping_Cart(c *gin.Context) {
 	}
 
 	// 11: ค้นหา Member ด้วย Mem_Tel
-	if tx := entity.DB().Where("Mem_Tel = ?", cart.Mem_Tel).First(&member); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", cart.Member_ID).First(&member); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
 		return
 	}
