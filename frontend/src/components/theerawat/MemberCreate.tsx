@@ -193,7 +193,7 @@ async function submit() {
            <p>Name</p>
            <FormControl fullWidth variant="outlined">
              <TextField
-               id="Name"
+               id="Mem_Name"
                variant="outlined"
                type="string"
                size="medium"
@@ -207,7 +207,7 @@ async function submit() {
            <FormControl fullWidth variant="outlined">
              <p>Age</p>
              <TextField
-               id="Age"
+               id="Mem_Age"
                variant="outlined"
                type="number"
                size="medium"
@@ -225,7 +225,7 @@ async function submit() {
            <FormControl fullWidth variant="outlined">
              <p>Phone Number</p>
              <TextField
-               id="Email"
+               id="Mem_Tel"
                variant="outlined"
                type="string"
                size="medium"
