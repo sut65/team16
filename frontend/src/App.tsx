@@ -34,12 +34,9 @@ import Member from "./components/theerawat/Member";
 import MemberCreate from "./components/theerawat/MemberCreate";
 import Discount from "./components/thanadet/Discount";
 import DiscountCreate from "./components/thanadet/DiscountCreate";
-<<<<<<< HEAD
 import { GetCurrentEmployee } from "./services/HttpClientService";
-=======
 import Leave from "./components/theerawat/Leave";
 import LeaveCreate from "./components/theerawat/LeaveCreate";
->>>>>>> 58d7d7e (edit member/add leave - close #91)
 
 var employeeName = "";
 
