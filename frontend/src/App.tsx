@@ -108,6 +108,7 @@ const menu = [
   { name: "ส่วนลด", icon: <MonetizationOnIcon />, path: "/Discount" },
   { name: "แจ้งลา", icon: <ArticleIcon />, path: "/Leave" },
   { name: "จำหน่ายสินค้า", icon: <InventoryIcon />, path: "/SeparationShow" },
+  { name: "ตะกร้าสินค้า", icon: <InventoryIcon />, path: "/Order" },
 ];
 
 

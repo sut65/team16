@@ -131,7 +131,26 @@ func main() {
 			r.PATCH("/separation/:id", controller.UpdateSeparation)
 			r.DELETE("/separation/:id", controller.DeleteSeparation)
 
-			
+			//Order Routes
+			r.GET("/orders", controller.ListOrder)
+			r.GET("/order/:id", controller.GetOrder)
+			r.POST("/orders", controller.CreateOrder)
+			r.PATCH("/order/:id", controller.UpdateOrder)
+			r.DELETE("/order/:id", controller.DeleteOrder)
+
+			//payment Routes
+			r.GET("/payments", controller.ListPayment)
+			r.GET("/payment/:id", controller.GetPayment)
+			r.POST("/payments", controller.CreatePayment)
+			r.PATCH("/payment/:id", controller.UpdatePayment)
+			r.DELETE("/payment/:id", controller.DeletePayment)
+
+			//Separartion Routes
+			r.GET("/payment_methods", controller.Listpayment_method)
+			r.GET("/payment_method/:id", controller.GetPayment_method)
+			r.POST("/payment_methods", controller.CreatePayment_method)
+			r.PATCH("/payment_method/:id", controller.UpdatePayment_method)
+			r.DELETE("/payment_method/:id", controller.DeletePayment_method)
 		}
 	}
 
