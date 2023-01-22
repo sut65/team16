@@ -39,14 +39,14 @@ function Discount() {
     }, []);
     
     const columns: GridColDef[] = [
-        { field: "id", headerName: "ลำดับ", width: 50 },
-        { field: "discount_price", headerName: "ราคาที่ลด", width: 120 },
+        { field: "ID", headerName: "ลำดับ", width: 50 },
+        { field: "Discount_Price", headerName: "ราคาที่ลด", width: 120 },
         {
-            field: "discount_s", headerName: "วันที่เริ่มลดราคา", width: 210,
+            field: "Discount_s", headerName: "วันที่เริ่มลดราคา", width: 210,
             renderCell: (params) => moment(params.row.date_rec).format('YY-MM-DD')
         },
         {
-            field: "discount_e", headerName: "วันที่สิ้นสุด", width: 210,
+            field: "Discount_e", headerName: "วันที่สิ้นสุด", width: 210,
             renderCell: (params) => moment(params.row.date_rec).format('YY-MM-DD')
         },
     ];
