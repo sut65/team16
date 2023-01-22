@@ -22,6 +22,7 @@ import { IShelving } from "../../models/methas/IShelving";
 import { SeparationInterface } from "../../models/apisit/ISeparation";
 // import { GetCurrentAdmin } from "../services/HttpClientService";
 import Autocomplete from "@mui/material/Autocomplete";
+import { GetCurrentEmployee } from "../../services/HttpClientService";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -100,16 +101,25 @@ function SeparationCreate() {
             });
     };
     
+    // const getEmployee = async () => {
+    //     fetch(`${apiUrl}/emloyees`, requestOptions)
+    //         .then((response) => response.json())
+    //         .then((res) => {
+    //             if (res.data) {
+    //                 console.log(res.data)
+    //                 setEmployee(res.data);
+    //             }
+    //             else { console.log("NO DATA") }
+    //         });
+    // };
+
     const getEmployee = async () => {
-        fetch(`${apiUrl}/emloyees`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setEmployee(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
+        let res = await GetCurrentEmployee();
+        sep.Employee_ID = res.ID;
+        if (res) {
+            setEmployee(res);
+            console.log(res)
+        }
     };
 
     // const getAdmin = async () => {
@@ -220,7 +230,7 @@ function SeparationCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
                             <p>พนักงาน</p>
                             <Select
@@ -234,6 +244,28 @@ function SeparationCreate() {
                             >
                                 <option aria-label="None" value="">
                                     --เลือกพนักงาน--
+                                </option>
+                                <option value={emp?.ID} key={emp?.ID}>
+                                    {emp?.Name}
+                                </option>
+                            </Select>
+                        </FormControl>
+                    </Grid> */}
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">พนักงาน</p>
+                            <Select
+                                native
+                                value={sep.Employee_ID + ""}
+                                onChange={handleChange}
+                                disabled
+                                inputProps={{
+                                    name: "Employee_ID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    เลือกพนักงาน
                                 </option>
                                 <option value={emp?.ID} key={emp?.ID}>
                                     {emp?.Name}
