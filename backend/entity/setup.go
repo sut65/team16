@@ -1,7 +1,7 @@
 package entity
 
 import (
-	 "time"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -19,7 +19,7 @@ func DB() *gorm.DB {
 
 func SetupDatabase() {
 
-	database, err := gorm.Open(sqlite.Open("farm_mart.db"), &gorm.Config{})
+	database, err := gorm.Open(sqlite.Open("farm_mart00.db"), &gorm.Config{})
 
 	if err != nil {
 
@@ -363,4 +363,18 @@ func SetupDatabase() {
 		Sec_Salary: 13700,
 	}
 	db.Model(&Section{}).Create(&Section3)
+
+	// Discount Type
+	Discount_Type1 := Discount_Type{
+		Type_Name: "ลดราคาทั่วไป",
+	}
+	db.Model(&Discount_Type{}).Create(&Discount_Type1)
+	Discount_Type2 := Discount_Type{
+		Type_Name: "ลดราคาช่วงเทศกาล",
+	}
+	db.Model(&Discount_Type{}).Create(&Discount_Type2)
+	Discount_Type3 := Discount_Type{
+		Type_Name: "ลดราคาทั่วไป",
+	}
+	db.Model(&Discount_Type{}).Create(&Discount_Type3)
 }
