@@ -113,9 +113,9 @@ export default function App() {
   }, []);
 
 
-  // if (!token) {
-  //   return <SignIn />;
-  // }
+  if (!token) {
+    return <SignIn />;
+  }
 
   const signout = () => {
     localStorage.clear();

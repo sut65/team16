@@ -20,11 +20,11 @@ func main() {
 		{
 			
 			// Employee Routes
-			r.GET("/emloyees", controller.ListEmployees)
-			r.GET("/emloyee/:id", controller.GetEmployee)
-			r.POST("/emloyees", controller.CreateEmployee)
-			r.PATCH("/emloyees", controller.UpdateEmployee)
-			r.DELETE("/emloyees/:id", controller.DeleteEmployee)
+			r.GET("/employees", controller.ListEmployees)
+			r.GET("/employee/:id", controller.GetEmployee)
+			r.POST("/employees", controller.CreateEmployee)
+			r.PATCH("/employees", controller.UpdateEmployee)
+			r.DELETE("/employees/:id", controller.DeleteEmployee)
 			
 			//Kind Routes
 			r.GET("/kinds", controller.ListKinds)

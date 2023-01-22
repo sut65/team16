@@ -3,7 +3,7 @@ package entity
 import (
 	// "time"
 
-	"golang.org/x/crypto/bcrypt"
+	// "golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
 	"gorm.io/driver/sqlite"
@@ -42,35 +42,35 @@ func SetupDatabase() {
 		&Duty{}, &Overtime{}, &Working_time{}, &Employee_attendance{}, &Record_employee_leave{},
 	)
 
-	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
-	password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
-	password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	// password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	// password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
+	// password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 
 	db = database
 
-	Em1 := Employee{
-		Name:     "นายคณาการ เชิดในเมือง",
-		Email:    "k@gmail.com",
-		Password: string(password1),
-		Position: "Full-Time",
-	}
-	db.Model(&Employee{}).Create(&Em1)
+	// Em1 := Employee{
+	// 	Name:     "นายคณาการ เชิดในเมือง",
+	// 	Email:    "k@gmail.com",
+	// 	Password: string(password1),
+	// 	Position: "Full-Time",
+	// }
+	// db.Model(&Employee{}).Create(&Em1)
 
-	Em2 := Employee{
-		Name:     "นางญาตา ประสานวงศ์",
-		Email:    "y@gmail.com",
-		Password: string(password2),
-		Position: "Part-Time",
-	}
-	db.Model(&Employee{}).Create(&Em2)
+	// Em2 := Employee{
+	// 	Name:     "นางญาตา ประสานวงศ์",
+	// 	Email:    "y@gmail.com",
+	// 	Password: string(password2),
+	// 	Position: "Part-Time",
+	// }
+	// db.Model(&Employee{}).Create(&Em2)
 
-	Em3 := Employee{
-		Name:     "นางรสนันท์ กลับเพชร",
-		Email:    "r@gmail.com",
-		Password: string(password3),
-		Position: "Trainee",
-	}
-	db.Model(&Employee{}).Create(&Em3)
+	// Em3 := Employee{
+	// 	Name:     "นางรสนันท์ กลับเพชร",
+	// 	Email:    "r@gmail.com",
+	// 	Password: string(password3),
+	// 	Position: "Trainee",
+	// }
+	// db.Model(&Employee{}).Create(&Em3)
 
 	// //Kind
 	// Kind1 := Kind{

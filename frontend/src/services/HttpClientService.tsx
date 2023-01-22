@@ -25,7 +25,7 @@ async function Login(data: SigninInterface) {
 }
 
 async function GetCurrentEmployee() {
-  let ce = localStorage.getItem("aid");
+  let ce = localStorage.getItem("eid");
   const requestOptions = {
     method: "GET",
     headers: {
