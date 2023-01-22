@@ -21,6 +21,7 @@ import { DiscountInterface } from "../../models/thanadet/IDiscount"
 import { Discount_TypeInterface } from "../../models/thanadet/IDiscount_Type"
 import { EmployeeInterface } from "../../models/IEmployee"
 import { StocksInterface } from "../../models/methas/IStock"
+import { GetCurrentEmployee } from "../../services/HttpClientService";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -90,17 +91,17 @@ function DiscountCreate() {
             });
     };
 
-    const getEmployee = async () => {
-        fetch(`${apiUrl}/emloyees`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setEmployee(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
-    };
+    // const getEmployee = async () => {
+    //     fetch(`${apiUrl}/emloyees`, requestOptions)
+    //         .then((response) => response.json())
+    //         .then((res) => {
+    //             if (res.data) {
+    //                 console.log(res.data)
+    //                 setEmployee(res.data);
+    //             }
+    //             else { console.log("NO DATA") }
+    //         });
+    // };
 
 
     const getStock = async () => {
@@ -115,14 +116,14 @@ function DiscountCreate() {
             });
     };
 
-    // const getAdmin = async () => {
-    //     let res = await GetCurrentAdmin();
-    //     behaviorPoint.AdminID = res.ID;
-    //     if (res) {
-    //         setAdmin(res);
-    //         console.log(res)
-    //     }
-    // };
+    const getEmployee = async () => {
+        let res = await GetCurrentEmployee();
+        discount.Employee_ID = res.ID;
+        if (res) {
+            setEmployee(res);
+            console.log(res)
+        }
+    };
 
     useEffect(() => { // ยังไม่มี get current user
         getDiscount_Type();

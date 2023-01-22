@@ -41,12 +41,12 @@ func SetupDatabase() {
 		&Gender{}, &Level{}, &Member{},
 		&Duty{}, &Overtime{}, &Working_time{}, &Employee_attendance{}, &Record_employee_leave{},
 	)
+	db = database // ห้าม comment บรรทัดนี้
 
 	// password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	// password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
 	// password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 
-	// db = database
 
 	// Em1 := Employee{
 	// 	Name:     "นายคณาการ เชิดในเมือง",

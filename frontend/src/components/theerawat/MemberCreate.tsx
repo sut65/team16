@@ -190,7 +190,7 @@ async function submit() {
        <Divider />
        <Grid container spacing={3} sx={{ padding: 2 }}>
          <Grid item xs={8}>
-           <p>Name</p>
+           <p className="good-font">ชื่อ - นามสกุล</p>
            <FormControl fullWidth variant="outlined">
              <TextField
                id="Mem_Name"
@@ -205,7 +205,7 @@ async function submit() {
 
          <Grid item xs={4}>
            <FormControl fullWidth variant="outlined">
-             <p>Age</p>
+             <p className="good-font">อายุ</p>
              <TextField
                id="Mem_Age"
                variant="outlined"
@@ -223,7 +223,7 @@ async function submit() {
 
          <Grid item xs={7}>
            <FormControl fullWidth variant="outlined">
-             <p>Phone Number</p>
+             <p className="good-font">เบอร์มือถือ</p>
              <TextField
                id="Mem_Tel"
                variant="outlined"
@@ -237,7 +237,7 @@ async function submit() {
 
          <Grid item xs={5}>
             <FormControl fullWidth variant="outlined">
-                <p>Gender</p>
+                <p className="good-font">เพศ</p>
                 <Autocomplete
                 disablePortal
                 id="Gender_ID"
@@ -254,7 +254,7 @@ async function submit() {
 
         <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-                <p>Level</p>
+                <p className="good-font">ระดับสมาชิก</p>
                 <Autocomplete
                 disablePortal
                 id="Level_ID"
@@ -271,7 +271,7 @@ async function submit() {
 
         <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-                <p>Employee</p>
+                <p className="good-font">พนักงานที่บันทึก</p>
                 <Select
                     native
                     value={member.Employee_ID + ""}

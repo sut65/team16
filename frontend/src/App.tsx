@@ -25,6 +25,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import Homepage from "./components/Homepage";
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import ArticleIcon from '@mui/icons-material/Article';
 
 import "./styles.css"
 import Stocks from "./components/methas/Stock";
@@ -33,8 +34,23 @@ import Member from "./components/theerawat/Member";
 import MemberCreate from "./components/theerawat/MemberCreate";
 import Discount from "./components/thanadet/Discount";
 import DiscountCreate from "./components/thanadet/DiscountCreate";
+<<<<<<< HEAD
+import { GetCurrentEmployee } from "./services/HttpClientService";
+=======
+import Leave from "./components/theerawat/Leave";
+import LeaveCreate from "./components/theerawat/LeaveCreate";
+>>>>>>> 58d7d7e (edit member/add leave - close #91)
 
-var adminName = "";
+var employeeName = "";
+
+const getEmployee = async () => {
+  let res = await GetCurrentEmployee();
+  employeeName = res.Name;
+  if (res) {
+    console.log(res);
+    console.log(employeeName);
+  }
+};
 
 const drawerWidth = 240;
 
@@ -91,6 +107,7 @@ const menu = [
   { name: "สต๊อกสินค้า", icon: <InventoryIcon />, path: "/Stock" },
   { name: "สมาชิก", icon: <PeopleIcon />, path: "/Member" },
   { name: "ส่วนลด", icon: <MonetizationOnIcon />, path: "/Discount" },
+  { name: "แจ้งลา", icon: <ArticleIcon />, path: "/Leave" },
 ];
 
 
@@ -102,6 +119,8 @@ export default function App() {
   };
 
   useEffect(() => {
+    getEmployee();
+
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
@@ -113,9 +132,9 @@ export default function App() {
   }, []);
 
 
-  // if (!token) {
-  //   return <SignIn />;
-  // }
+  if (!token) {
+    return <SignIn />;
+  }
 
   const signout = () => {
     localStorage.clear();
@@ -172,7 +191,7 @@ export default function App() {
                   variant="inherit"
                   sx={{ flexGrow: 0.1}}
                 >
-                  <span className="good-font-white">{adminName}</span><span className="good-font-green"> : กำลังใช้งาน</span>
+                  <span className="good-font-white">{employeeName}</span><span className="good-font-green"> : กำลังใช้งาน</span>
                 </Typography>
                 <Button color="secondary" onClick={signout} variant="outlined">
                   <LogoutIcon />
@@ -234,6 +253,8 @@ export default function App() {
                   <Route path="/StockCreate" element={<StockCreate />} />
                   <Route path="/Discount" element={<Discount />} />
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />
+                  <Route path="/Leave" element={<Leave />} />
+                  <Route path="/LeaveCreate" element={<LeaveCreate />} />
                 </Routes>
               </Container>
             </Box>
