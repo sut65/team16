@@ -25,6 +25,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import Homepage from "./components/Homepage";
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import ArticleIcon from '@mui/icons-material/Article';
 
 import "./styles.css"
 import Stocks from "./components/methas/Stock";
@@ -33,7 +34,12 @@ import Member from "./components/theerawat/Member";
 import MemberCreate from "./components/theerawat/MemberCreate";
 import Discount from "./components/thanadet/Discount";
 import DiscountCreate from "./components/thanadet/DiscountCreate";
+<<<<<<< HEAD
 import { GetCurrentEmployee } from "./services/HttpClientService";
+=======
+import Leave from "./components/theerawat/Leave";
+import LeaveCreate from "./components/theerawat/LeaveCreate";
+>>>>>>> 58d7d7e (edit member/add leave - close #91)
 
 var employeeName = "";
 
@@ -101,6 +107,7 @@ const menu = [
   { name: "สต๊อกสินค้า", icon: <InventoryIcon />, path: "/Stock" },
   { name: "สมาชิก", icon: <PeopleIcon />, path: "/Member" },
   { name: "ส่วนลด", icon: <MonetizationOnIcon />, path: "/Discount" },
+  { name: "แจ้งลา", icon: <ArticleIcon />, path: "/Leave" },
 ];
 
 
@@ -246,6 +253,8 @@ export default function App() {
                   <Route path="/StockCreate" element={<StockCreate />} />
                   <Route path="/Discount" element={<Discount />} />
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />
+                  <Route path="/Leave" element={<Leave />} />
+                  <Route path="/LeaveCreate" element={<LeaveCreate />} />
                 </Routes>
               </Container>
             </Box>

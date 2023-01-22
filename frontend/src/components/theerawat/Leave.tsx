@@ -5,15 +5,16 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { MemberInterface } from "../../models/theerawat/IMember";
+import { LeaveInterface} from "../../models/theerawat/ILeave";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import ArticleIcon from '@mui/icons-material/Article';
+import moment from "moment";
 
-function Member() {
- const [member, setMember] = React.useState<MemberInterface[]>([]);
- const getMember = async () => {
-   const apiUrl = "http://localhost:8080/member";
+function Leave() {
+ const [leave, setLeave] = React.useState<LeaveInterface[]>([]);
+ const getLeave = async () => {
+   const apiUrl = "http://localhost:8080/leave";
    const requestOptions = {
      method: "GET",
      headers: { "Content-Type": "application/json" },
@@ -24,22 +25,25 @@ function Member() {
      .then((res) => {
        console.log(res.data);
        if (res.data) {
-         setMember (res.data);
+         setLeave (res.data);
        }
      });
  };
 
  const columns: GridColDef[] = [
    { field: "ID", headerName: "ID", width: 50,  headerAlign:"center" },
-   { field: "Name", headerName: "Name", width: 250, headerAlign:"center" },
-   { field: "Age", headerName: "Age", width: 100, headerAlign:"center" },
-   { field: "Tel", headerName: "Phone number", width: 150, headerAlign:"center" },
-   { field: "Gender", headerName: "Gender", width: 100, headerAlign:"center" },
-   { field: "Level", headerName: "Level", width: 200, headerAlign:"center" },
+   { field: "Type", headerName: "Type", width: 150, headerAlign:"center" },
+   { field: "Section", headerName: "Section", width: 120, headerAlign:"center" },
+   { field: "Reason", headerName: "Reason", width: 200, headerAlign:"center" },
+   {field: "Doc_DateS", headerName: "Start Date", width: 115,
+            renderCell: (params) => moment(params.row.date_rec).format('YY-MM-DD')},
+   {field: "Doc_DateE", headerName: "End Date", width: 115,
+            renderCell: (params) => moment(params.row.date_rec).format('YY-MM-DD')},
+   { field: "Contact", headerName: "Contact", width: 100, headerAlign:"center" },
  ];
 
  useEffect(() => {
-   getMember();
+   getLeave();
  }, []);
 
  return (
@@ -57,7 +61,7 @@ function Member() {
              color="primary"
              gutterBottom
            >
-             Member
+             Leave
            </Typography>
          </Box>
 
@@ -84,10 +88,10 @@ function Member() {
          <Box sx={{ paddingX: 1, paddingY: 0 }}>
            <Button
              component={RouterLink}
-             to="/MemberCreate"
+             to="/LeaveCreate"
              variant="contained"
              color="primary"
-             startIcon={<GroupAddIcon />}
+             startIcon={<ArticleIcon />}
            >
              Create
            </Button>
@@ -96,7 +100,7 @@ function Member() {
        </Box>
        <div style={{ height: 400, width: "100%", marginTop: '20px'}}>
          <DataGrid
-           rows={member}
+           rows={leave}
            getRowId={(row) => row.ID}
            columns={columns}
            pageSize={5}
@@ -107,4 +111,4 @@ function Member() {
    </div>
  );
 }
-export default Member;
+export default Leave;
