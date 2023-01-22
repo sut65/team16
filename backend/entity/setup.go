@@ -33,7 +33,7 @@ func SetupDatabase() {
 		&Label{}, &Shelving{}, 
 		&Discount_Type{}, &Discount{}, 
 		&Delivery{}, &Car{},
-		&Shopping_Cart{}, &Order{}, 
+		&Order{}, 
 		&Payment_method{}, &Payment{},
 		&Review_Point{}, &Type_Comment{}, &Comment{}, 
 		&Reason{}, &Separation{},

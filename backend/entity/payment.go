@@ -15,8 +15,8 @@ type Payment struct {
 	gorm.Model
 	Time				time.Time
 	Price       		int
-	Shopping_Cart_ID	*uint
-	Shopping_Cart		Shopping_Cart
+	Order_ID			*uint
+	Order				Order
 	Payment_method_ID	*uint
 	Payment_method		Payment_method
 	Employee_ID 		*uint

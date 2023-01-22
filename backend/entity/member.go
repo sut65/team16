@@ -31,6 +31,6 @@ type Member struct {
 	Employee_ID *uint
 	Employee    Employee
 
-	Shopping_Cart	[]Shopping_Cart `gorm:"foreignkey:Member_ID"`
+	Order	[]Order `gorm:"foreignkey:Member_ID"`
 
 }
