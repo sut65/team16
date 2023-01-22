@@ -1,8 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
-import MainLayout from '../layouts/MainLayout'
-import axios from "axios"
 import { toast } from 'react-toastify';
-import { ComponentToPrint } from '../components/ComponentToPrint';
+//import { ComponentToPrint } from '../components/ComponentToPrint';
 import { useReactToPrint } from 'react-to-print';
 import { EmployeeInterface } from "../../models/IEmployee";
 import { MemberInterface } from "../../models/theerawat/IMember";
