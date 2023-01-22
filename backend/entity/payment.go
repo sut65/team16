@@ -14,7 +14,7 @@ type Payment_method struct {
 type Payment struct {
 	gorm.Model
 	Time				time.Time
-	Price       		int
+	Price       		float64
 	Order_ID			*uint
 	Order				Order
 	Payment_method_ID	*uint
