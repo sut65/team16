@@ -64,7 +64,7 @@ func GetDiscount(c *gin.Context) {
 // GET /discount
 func ListDiscount(c *gin.Context) {
 	var discount []entity.Discount
-	if err := entity.DB().Preload("Stock").Preload("Employee").Preload("Discount_Type").Raw("SELECT * FROM discounts").Find(&discount).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM discounts").Scan(&discount).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

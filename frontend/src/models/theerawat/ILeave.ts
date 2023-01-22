@@ -2,7 +2,7 @@ import { EmployeeInterface } from "../IEmployee";
 import { L_TypeInterface } from "./IL_Type";
 import { SectionInterface } from "./ISection";
 
-export interface MemberInterface {
+export interface LeaveInterface {
     ID?: number,
     Doc_Reason?: string,
     Doc_DateS?: Date | null,
