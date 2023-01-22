@@ -33,8 +33,18 @@ import Member from "./components/theerawat/Member";
 import MemberCreate from "./components/theerawat/MemberCreate";
 import Discount from "./components/thanadet/Discount";
 import DiscountCreate from "./components/thanadet/DiscountCreate";
+import { GetCurrentEmployee } from "./services/HttpClientService";
 
-var adminName = "";
+var employeeName = "";
+
+const getEmployee = async () => {
+  let res = await GetCurrentEmployee();
+  employeeName = res.Name;
+  if (res) {
+    console.log(res);
+    console.log(employeeName);
+  }
+};
 
 const drawerWidth = 240;
 
@@ -102,6 +112,8 @@ export default function App() {
   };
 
   useEffect(() => {
+    getEmployee();
+
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
@@ -113,9 +125,9 @@ export default function App() {
   }, []);
 
 
-  // if (!token) {
-  //   return <SignIn />;
-  // }
+  if (!token) {
+    return <SignIn />;
+  }
 
   const signout = () => {
     localStorage.clear();
@@ -172,7 +184,7 @@ export default function App() {
                   variant="inherit"
                   sx={{ flexGrow: 0.1}}
                 >
-                  <span className="good-font-white">{adminName}</span><span className="good-font-green"> : กำลังใช้งาน</span>
+                  <span className="good-font-white">{employeeName}</span><span className="good-font-green"> : กำลังใช้งาน</span>
                 </Typography>
                 <Button color="secondary" onClick={signout} variant="outlined">
                   <LogoutIcon />

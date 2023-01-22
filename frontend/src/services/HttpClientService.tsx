@@ -14,7 +14,7 @@ async function Login(data: SigninInterface) {
     .then((res) => {
       if (res.data) {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("aid", res.data.id);
+        localStorage.setItem("eid", res.data.id);
         return res.data;
       } else {
         return false;
@@ -25,7 +25,7 @@ async function Login(data: SigninInterface) {
 }
 
 async function GetCurrentEmployee() {
-  let ce = localStorage.getItem("aid");
+  let ce = localStorage.getItem("eid");
   const requestOptions = {
     method: "GET",
     headers: {
