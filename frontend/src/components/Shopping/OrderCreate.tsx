@@ -7,10 +7,16 @@ import { MemberInterface } from "../../models/theerawat/IMember";
 import { OrderInterface } from "../../models/Natthapon/IOrder";
 import { IShelving } from "../../models/methas/IShelving";
 
-function POSPage() {
 
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+function POSPage() {
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+
+  const [employee, setEmployee] = React.useState<EmployeeInterface>();
+  const [member, setMember] = React.useState<MemberInterface[]>([]);
+  const [shelv, setShelv] = React.useState<IShelving[]>([]);
+
   const [cart, setCart] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
 
