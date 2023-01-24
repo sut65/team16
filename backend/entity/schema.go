@@ -22,5 +22,5 @@ type Employee struct {
 	Payment  			  []Payment 			  `gorm:"foreignKey:Employee_ID"`
 	Separation			  []Separation 			  `gorm:"foreignKey:Employee_ID"`
 	Shelving			  []Shelving 			  `gorm:"foreignKey:Employee_ID"`
-	Order				  []Order				  `gorm:"foreignKey:Employee_ID"`
+	Shopping_Cart		  []Shopping_Cart		  `gorm:"foreignKey:Employee_ID"`
 }

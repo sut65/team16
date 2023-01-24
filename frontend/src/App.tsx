@@ -16,6 +16,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Button from "@mui/material/Button";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -105,12 +106,12 @@ const Drawer = styled(MuiDrawer, {
 
 const menu = [
   { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
+  { name: "ตะกร้าสินค้า", icon: <AddShoppingCartIcon />, path: "/Order" },
   { name: "สต๊อกสินค้า", icon: <InventoryIcon />, path: "/Stock" },
   { name: "สมาชิก", icon: <PeopleIcon />, path: "/Member" },
   { name: "ส่วนลด", icon: <MonetizationOnIcon />, path: "/Discount" },
   { name: "แจ้งลา", icon: <ArticleIcon />, path: "/Leave" },
   { name: "จำหน่ายสินค้า", icon: <InventoryIcon />, path: "/SeparationShow" },
-  { name: "ตะกร้าสินค้า", icon: <InventoryIcon />, path: "/Order" },
 ];
 
 

@@ -11,8 +11,6 @@ import (
 func CreateOrder(c *gin.Context) {
 
 	var order entity.Order
-	var member entity.Member
-	var employee entity.Employee
 	var shelv entity.Shelving
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Order
@@ -21,18 +19,6 @@ func CreateOrder(c *gin.Context) {
 		return
 	}
 	
-	// 9: ค้นหา Member ด้วย id
-	if tx := entity.DB().Where("id = ?", order.Member_ID).First(&member); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
-		return
-	}
-
-	// 10: ค้นหา Employee ด้วย id
-	if tx := entity.DB().Where("id = ?", order.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
-		return
-	}
-
 	// 11: ค้นหา shelv ด้วย id
 	if tx := entity.DB().Where("id = ?", order.Shelving_ID).First(&shelv); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
@@ -40,8 +26,6 @@ func CreateOrder(c *gin.Context) {
 	}
 	// 12: สร้าง Order
 	sc := entity.Order{
-		Employee: 	employee, // โยงความสัมพันธ์กับ Entity Employee
-		Member:   	member,   // โยงความสัมพันธ์กับ Entity shelving
 		Shelving:   shelv,   // โยงความสัมพันธ์กับ Entity shelving
 	}
 

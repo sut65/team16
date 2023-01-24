@@ -145,12 +145,26 @@ func main() {
 			r.PATCH("/payment/:id", controller.UpdatePayment)
 			r.DELETE("/payment/:id", controller.DeletePayment)
 
-			//Separartion Routes
+			//payment_methods Routes
 			r.GET("/payment_methods", controller.Listpayment_method)
 			r.GET("/payment_method/:id", controller.GetPayment_method)
 			r.POST("/payment_methods", controller.CreatePayment_method)
 			r.PATCH("/payment_method/:id", controller.UpdatePayment_method)
 			r.DELETE("/payment_method/:id", controller.DeletePayment_method)
+
+			//Status Routes
+			r.GET("/statuses", controller.ListStatus)
+			r.GET("/status/:id", controller.GetStatus)
+			r.POST("/statuses", controller.CreateStatus)
+			r.PATCH("/status/:id", controller.UpdateStatus)
+			r.DELETE("/status/:id", controller.DeleteStatus)
+
+			//Status Routes
+			r.GET("/carts", controller.ListCart)
+			r.GET("/cart/:id", controller.GetCart)
+			r.POST("/carts", controller.CreateCart)
+			r.PATCH("/cart/:id", controller.UpdateCart)
+			r.DELETE("/cart/:id", controller.DeleteCart)
 		}
 	}
 

@@ -7,13 +7,28 @@ import (
 type Order struct {
 	gorm.Model
 	Quantity    int
+
+	Shelving_ID			*uint
+	Shelving			Shelving
+	Shopping_Cart		[]Shopping_Cart 	`gorm:"foreignKey:Order_ID"`
+}
+
+type Status struct {
+	gorm.Model
+	Status    	string
+
+	Shopping_Cart     []Shopping_Cart 	`gorm:"foreignKey:Status_ID"`
+}
+
+type Shopping_Cart struct {
+	gorm.Model
 	Total       float64
 
 	Employee_ID *uint
 	Employee    Employee
 	Member_ID   *uint
 	Member      Member
-	Shelving_ID			*uint
-	Shelving			Shelving
-	Payment     []Payment 	`gorm:"foreignKey:Order_ID"`
+	Status_ID   *uint
+	Status      Status
+	Payment     []Payment 	`gorm:"foreignKey:Shopping_Cart_ID"`
 }

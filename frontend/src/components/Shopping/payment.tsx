@@ -1,4 +1,5 @@
-//import React from "react";
+
+import React from "react";
 
 // export const ComponentToPrint = React.forwardRef((props, ref) => {
 //     const {cart, totalAmount} = props;
