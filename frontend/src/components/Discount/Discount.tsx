@@ -4,13 +4,21 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridEventListener, useGridApiContext, useGridApiEventHandler } from "@mui/x-data-grid";
 import moment from 'moment'
 
 import { DiscountInterface } from "../../models/thanadet/IDiscount"
+import { Alert, Dialog, DialogTitle, Snackbar } from "@mui/material";
+
 
 function Discount() {
     const [discount, setDiscount] = React.useState<DiscountInterface[]>([]);
+    const [discountID, setDiscountID] = React.useState(0);
+    const [openDelete, setOpendelete] = React.useState(false);
+
+    const handleClose = () => {
+        setOpendelete(false)
+    };
 
     const getDiscount = async () => {
         const apiUrl = "http://localhost:8080/discounts";
@@ -33,35 +41,98 @@ function Discount() {
             });
     };
 
+    const deleteDiscount = async () => {
+        const apiUrl = `http://localhost:8080/discount/${discountID}`;
+        const requestOptions = {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
+        };
+        await fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log("delete ID: " + discountID)
+                }
+                else { console.log("NO DATA") }
+            });
+        handleClose();
+        getDiscount();
+    }
+
+    const handleRowClick: GridEventListener<'rowClick'> = (params) => {
+        setDiscountID(Number(params.row.ID));
+    };
 
     useEffect(() => {
         getDiscount();
     }, []);
-    
+
     const columns: GridColDef[] = [
-        { field: "ID", headerName: "ลำดับ", width: 50 },
-        { field: "Discount_Price", headerName: "ราคาที่ลด", width: 120 },
+        { field: "ID", headerName: "ID", width: 50 },
+        { field: "Discount_Price", headerName: "ราคาที่ลด", width: 80 },
         {
-            field: "Discount_s", headerName: "วันที่เริ่มลดราคา", width: 210,
+            field: "Discount_s", headerName: "วันที่เริ่มลดราคา", width: 150,
             renderCell: (params) => moment(params.row.Discount_s).format('YY-MM-DD')
         },
         {
-            field: "Discount_e", headerName: "วันที่สิ้นสุด", width: 210,
+            field: "Discount_e", headerName: "วันที่สิ้นสุด", width: 150,
             renderCell: (params) => moment(params.row.Discount_e).format('YY-MM-DD')
         },
         {
-            field: "Discount_Type", headerName: "ประเภท", width: 210,
-            valueFormatter : (params) => params.value.Type_Name,
+            field: "Discount_Type", headerName: "ประเภท", width: 180,
+            valueFormatter: (params) => params.value.Type_Name,
         },
         {
-            field: "Stock", headerName: "สินค้า", width: 210,
-            valueFormatter : (params) => params.value.Name,
+            field: "Stock", headerName: "สินค้า", width: 150,
+            valueFormatter: (params) => params.value.Name,
+        },
+        {
+            field: "edit", headerName: "แก้ไข", width: 100,
+            renderCell: () => {
+                return (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => { console.log('onClick'); }}
+                    >
+                        Edit
+                    </Button>
+                );
+            },
+        },
+        {
+            field: "delete", headerName: "ลบ", width: 100,
+            renderCell: () => {
+                return (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => setOpendelete(true)}
+                    >
+                        Delete
+                    </Button>
+                );
+            },
         },
     ];
 
-
     return (
         <div>
+            <Dialog open={openDelete} onClose={handleClose} >
+                <DialogTitle><div className="good-font">ยืนยันการลบส่วนลดนี้</div></DialogTitle>
+                <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={deleteDiscount}
+                    >
+                        <div className="good-font">
+                            ยืนยัน
+                        </div>
+                    </Button>
+            </Dialog>
             <Container maxWidth="lg">
                 <Box
                     display="flex"
@@ -101,6 +172,7 @@ function Discount() {
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
+                        onRowClick={handleRowClick}
                     />
                 </div>
             </Container>
