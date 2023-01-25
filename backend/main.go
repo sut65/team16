@@ -131,6 +131,13 @@ func main() {
 			r.PATCH("/separation/:id", controller.UpdateSeparation)
 			r.DELETE("/separation/:id", controller.DeleteSeparation)
 
+			//Reason Routes
+			r.GET("/reasons", controller.ListReasons)
+			r.GET("/reason/:id", controller.GetReason)
+			r.POST("/reasons", controller.CreateReason)
+			r.PATCH("/reason/:id", controller.UpdateVideo)
+			r.DELETE("/reason/:id", controller.DeleteReason)
+
 			//Order Routes
 			r.GET("/orders", controller.ListOrder)
 			r.GET("/order/:id", controller.GetOrder)

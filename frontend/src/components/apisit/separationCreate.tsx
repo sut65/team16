@@ -161,7 +161,7 @@ function SeparationCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/SeparationShow`, requestOptions)
+        fetch(`${apiUrl}/separations`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
