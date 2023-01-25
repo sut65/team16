@@ -9,6 +9,7 @@ import { OrderInterface } from "../../models/Natthapon/IOrder";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 function Order() {
  const [order, setOrder] = React.useState<OrderInterface[]>([]);
@@ -58,6 +59,18 @@ function Order() {
         >
             Order
         </Typography>
+        </Box>
+
+        <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+        <Button
+            component={RouterLink}
+            to="/Cart"
+            variant="contained"
+            color="primary"
+            startIcon={<ShoppingBasketIcon />}
+        >
+        Shopping Cart 
+        </Button>
         </Box>
 
         <Box sx={{ paddingX: 1, paddingY: 0 }}> 

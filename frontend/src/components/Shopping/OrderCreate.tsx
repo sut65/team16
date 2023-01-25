@@ -241,6 +241,15 @@ function OrderCreate() {
                             </div>
                         </Typography>
                     </Box>
+
+                    <Box sx={{ paddingX: 2, paddingY: 1 ,textAlign: "right"}}>
+                        <Button component={RouterLink} to="/Order" variant="contained" >
+                            <div className="good-font-white">
+                                กลับ
+                            </div>
+                        </Button>
+                    </Box>
+
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
@@ -257,6 +266,28 @@ function OrderCreate() {
                                     option.ID === value.ID}
                                 onChange={(e, value) => { cart.Member_ID = value?.ID }}
                                 renderInput={(params) => <TextField {...params} label="รหัสสมาชิก" />}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">เบอร์โทรศัพท์</p>
+                            <Autocomplete
+                                disablePortal
+                                id="Member_ID"
+                                getOptionLabel={(item: MemberInterface) => `${item.Mem_Tel}`}
+                                options={member}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.Mem_Tel === value.Mem_Tel}
+                                onChange={(e, value) => { 
+                                    // find the member that matches the selected phone number
+                                    let selectedMember = member.find(member => member.Mem_Tel === value?.Mem_Tel)
+                                    // set the cart.Member_ID with the ID of the selected member
+                                    cart.Member_ID = selectedMember?.ID 
+                                }}
+                                renderInput={(params) => <TextField {...params} label="เบอร์โทรศัพท์" />}
                             />
                         </FormControl>
                     </Grid>
@@ -299,7 +330,7 @@ function OrderCreate() {
 
                     
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-                    <Grid item xs={12}>
+                    <Grid item xs={9}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">รายการสินค้า</p>
                             <Autocomplete
@@ -317,7 +348,7 @@ function OrderCreate() {
                     </Grid>
 
 
-                    <Grid item xs={6}>
+                    <Grid item xs={3}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">จำนวน</p>
                             <TextField
@@ -335,8 +366,9 @@ function OrderCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={3}>
+                    <Grid item xs={12}>
                         <Button
+                            style={{ display: "flex", justifyContent: "center", margin: "0 auto" }}
                             onClick={submit}
                             variant="contained"
                             color="primary"
@@ -347,13 +379,6 @@ function OrderCreate() {
                         </Button>
                     </Grid>
     
-                    <Grid item xs={12}>
-                        <Button component={RouterLink} to="/Discount" variant="contained">
-                            <div className="good-font-white">
-                                กลับ
-                            </div>
-                        </Button>
-                    </Grid>
                 </Grid>
             </Paper>
         </Container>
