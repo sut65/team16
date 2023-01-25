@@ -35,6 +35,7 @@ import Member from "./components/theerawat/Member";
 import MemberCreate from "./components/theerawat/MemberCreate";
 import Discount from "./components/Discount/Discount";
 import DiscountCreate from "./components/Discount/DiscountCreate";
+import DiscountUpdate from "./components/Discount/DiscountUpdate";
 import { GetCurrentEmployee } from "./services/HttpClientService";
 import Leave from "./components/theerawat/Leave";
 import LeaveCreate from "./components/theerawat/LeaveCreate";
@@ -258,6 +259,7 @@ export default function App() {
                   <Route path="/StockCreate" element={<StockCreate />} />
                   <Route path="/Discount" element={<Discount />} />
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />
+                  <Route path="/DiscountUpdate" element={<DiscountUpdate />} />
                   <Route path="/Leave" element={<Leave />} />
                   <Route path="/LeaveCreate" element={<LeaveCreate />} />
                   <Route path="/separationShow" element={<SeparationShow />} />
