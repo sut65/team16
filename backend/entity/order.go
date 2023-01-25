@@ -10,7 +10,8 @@ type Order struct {
 
 	Shelving_ID			*uint
 	Shelving			Shelving
-	Shopping_Cart		[]Shopping_Cart 	`gorm:"foreignKey:Order_ID"`
+	Shopping_Cart_ID			*uint
+	Shopping_Cart			Shopping_Cart
 }
 
 type Status struct {
@@ -30,5 +31,6 @@ type Shopping_Cart struct {
 	Member      Member
 	Status_ID   *uint
 	Status      Status
+	Order		[]Order 	`gorm:"foreignKey:Shopping_Cart_ID"`
 	Payment     []Payment 	`gorm:"foreignKey:Shopping_Cart_ID"`
 }
