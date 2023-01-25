@@ -5,8 +5,8 @@ import { SectionInterface } from "./ISection";
 export interface LeaveInterface {
     ID?: number,
     Doc_Reason?: string,
-    Doc_DateS?: Date | null,
-    Doc_DateE?: Date | null,
+    Doc_DateS: Date | null,
+    Doc_DateE: Date | null,
     Doc_Cont?: string,
 
     Employee_ID?: number;

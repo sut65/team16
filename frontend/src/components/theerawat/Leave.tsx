@@ -14,37 +14,39 @@ import moment from "moment";
 function Leave() {
  const [leave, setLeave] = React.useState<LeaveInterface[]>([]);
  const getLeave = async () => {
-   const apiUrl = "http://localhost:8080/leave";
+   const apiUrl = "http://localhost:8080/leaves";
    const requestOptions = {
      method: "GET",
-     headers: { "Content-Type": "application/json" },
+     headers: { Authorization: `Bearer ${localStorage.getItem("token")}`,
+     "Content-Type": "application/json", },
    };
 
-   fetch(apiUrl, requestOptions)
-     .then((response) => response.json())
-     .then((res) => {
-       console.log(res.data);
-       if (res.data) {
-         setLeave (res.data);
-       }
-     });
+   await fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                    setLeave(res.data);
+                }
+                else { console.log("NO DATA") }
+            });
  };
 
  const columns: GridColDef[] = [
    { field: "ID", headerName: "ID", width: 50,  headerAlign:"center" },
-   { field: "Type", headerName: "Type", width: 150, headerAlign:"center" },
-   { field: "Section", headerName: "Section", width: 120, headerAlign:"center" },
-   { field: "Reason", headerName: "Reason", width: 200, headerAlign:"center" },
+   { field: "L_Type", headerName: "Type", width: 150, headerAlign:"center",valueFormatter: (params) => params.value.Type_Name,},
+   { field: "Section", headerName: "Section", width: 120, headerAlign:"center",valueFormatter: (params) => params.value.Sec_Name,},
+   { field: "Doc_Reason", headerName: "Reason", width: 200, headerAlign:"center" },
    {field: "Doc_DateS", headerName: "Start Date", width: 115,
             renderCell: (params) => moment(params.row.date_rec).format('YY-MM-DD')},
    {field: "Doc_DateE", headerName: "End Date", width: 115,
             renderCell: (params) => moment(params.row.date_rec).format('YY-MM-DD')},
-   { field: "Contact", headerName: "Contact", width: 100, headerAlign:"center" },
+   { field: "Doc_Cont", headerName: "Contact", width: 100, headerAlign:"center" },
  ];
 
  useEffect(() => {
-   getLeave();
- }, []);
+  getLeave();
+}, []);
 
  return (
 

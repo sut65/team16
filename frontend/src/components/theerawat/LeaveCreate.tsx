@@ -145,7 +145,7 @@ async function submit() {
        body: JSON.stringify(data),
    };
 
-   fetch(`${apiUrl}/Leaves`, requestOptions)
+   fetch(`${apiUrl}/leaves`, requestOptions)
        .then((response) => response.json())
        .then((res) => {
            if (res.data) {
@@ -201,7 +201,7 @@ async function submit() {
                 <Autocomplete
                 disablePortal
                 id="L_Type_ID"
-                getOptionLabel={(item: L_TypeInterface) => `${item.Tpye_Name}`}
+                getOptionLabel={(item: L_TypeInterface) => `${item.Type_Name}`}
                 options={l_type}
                 sx={{ width: 'auto' }}
                 isOptionEqualToValue={(option, value) =>

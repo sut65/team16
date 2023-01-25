@@ -305,41 +305,41 @@ func SetupDatabase() {
 
 	//L_Type
 	L_Type1 := L_Type{
-		Tpye_Name: "ลาป่วย",
+		Type_Name: "ลาป่วย",
 		Type_Condition: "ลาตั้งแต่ 3 วันขึ้นไป ต้องมีใบรับรองแพทย์",
 		Type_NTime: 15,
 	}
 	db.Model(&L_Type{}).Create(&L_Type1)
 
 	L_Type2 := L_Type{
-		Tpye_Name: "ลากิจส่วนตัว",
+		Type_Name: "ลากิจส่วนตัว",
 		Type_Condition: "ต้องยื่นเอกสารล่วงหน้าก่อน 3 วัน",
 		Type_NTime: 10,
 	}
 	db.Model(&L_Type{}).Create(&L_Type2)
 
 	L_Type3 := L_Type{
-		Tpye_Name: "ลาคลอดบุตร",
+		Type_Name: "ลาคลอดบุตร",
 		Type_Condition: "ต้องมีสูติบัตรของบุตร",
 		Type_NTime: 60,
 	}
 	db.Model(&L_Type{}).Create(&L_Type3)
 
 	L_Type4 := L_Type{
-		Tpye_Name: "ลาไปช่วยภริยาคลอดบุตร",
+		Type_Name: "ลาไปช่วยภริยาคลอดบุตร",
 		Type_Condition: "เป็นภริยาโดยชอบด้วยกฎหมาย และยื่นใบลาให้หัวหน้าแผนกอนุญาต",
 		Type_NTime: 15,
 	}
 	db.Model(&L_Type{}).Create(&L_Type4)
 
 	L_Type5 := L_Type{
-		Tpye_Name: "ลาเข้ารับการคัดเลือกทหาร",
+		Type_Name: "ลาเข้ารับการคัดเลือกทหาร",
 		Type_Condition: "ลมีหมายเรียก (สด.35) และยื่นใบลาให้หัวหน้าแผนกอนุญาต",
 		Type_NTime: 7,
 	}
 	db.Model(&L_Type{}).Create(&L_Type5)
 	L_Type6 := L_Type{
-		Tpye_Name: "ไปศึกษา ฝึกอบรม หรือดูงาน ",
+		Type_Name: "ไปศึกษา ฝึกอบรม หรือดูงาน ",
 		Type_Condition: "ยื่นใบลาให้หัวหน้าแผนกอนุญาต",
 		Type_NTime: 90,
 	}
