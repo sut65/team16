@@ -80,7 +80,7 @@ function OrderCreate() {
     };
 
     const getShelving = async () => {
-        fetch(`${apiUrl}/stock`, requestOptions)
+        fetch(`${apiUrl}/stocks`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
             if (res.data) {
@@ -92,7 +92,7 @@ function OrderCreate() {
     };
 
     const getMember = async () => {
-        fetch(`${apiUrl}/member`, requestOptions)
+        fetch(`${apiUrl}/members`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
             if (res.data) {
@@ -104,7 +104,7 @@ function OrderCreate() {
     };
 
     const getStatus = async () => {
-        fetch(`${apiUrl}/status`, requestOptions)
+        fetch(`${apiUrl}/statuses`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
             if (res.data) {

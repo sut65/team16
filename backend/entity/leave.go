@@ -15,7 +15,7 @@ type Section struct {
 
 type L_Type struct {
 	gorm.Model
-	Tpye_Name      string
+	Type_Name      string
 	Type_Condition string
 	Type_NTime     int
 	Leave         []Leave `gorm:"foreignkey:L_Type_ID"`
