@@ -86,17 +86,36 @@ func DeleteDiscount(c *gin.Context) {
 // PATCH /discount
 func UpdateDiscount(c *gin.Context) {
 	var discount entity.Discount
+	id := c.Param("id")
+	var inventory entity.Stock
+	var employee entity.Employee
+	var discount_type entity.Discount_Type
+
 	if err := c.ShouldBindJSON(&discount); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", discount.ID).First(&discount); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "this discount not found"})
+	if tx := entity.DB().Where("id = ?", discount.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
-
-	if err := entity.DB().Save(&discount).Error; err != nil {
+	if tx := entity.DB().Where("id = ?", discount.Stock_ID).First(&inventory); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "inventory not found"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", discount.Discount_Type_ID).First(&discount_type); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "discount_type not found"})
+		return
+	}
+	dc := entity.Discount{
+		Discount_Price: discount.Discount_Price,             
+		Discount_s: discount.Discount_s,
+		Discount_e:	discount.Discount_e,             
+		Employee:	employee,               
+		Discount_Type:	discount_type,  
+		Stock:		inventory,     
+	}
+	if err := entity.DB().Where("id = ?", id).Updates(&dc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
