@@ -41,12 +41,12 @@ function SeparationShow() {
         },
         // { field: "name", headerName: "พนักงาน", width: 120 },
         {
-            field: "Employee", headerName: "เหตุผล", width: 180,
+            field: "Employee", headerName: "พนักงาน", width: 180,
             valueFormatter: (params) => params.value.Name,
         },
         // { field: "shelving_id", headerName: "ชั้นวาง", width: 120 },
         {
-            field: "Shelving", headerName: "เหตุผล", width: 180,
+            field: "Shelving", headerName: "ชั้นวาง", width: 180,
             valueFormatter: (params) => params.value.ID,
         },
         // { field: "date_out", headerName: "เวลาจำหน่าย", width: 150 },
@@ -54,8 +54,8 @@ function SeparationShow() {
             field: "Date_Out", headerName: "เวลาจำหน่าย", width: 150,
             renderCell: (params) => moment(params.row.Date_Out).format('YY-MM-DD')
         },
-        { field: "amount", headerName: "จำนวน", width: 100 },
-        { field: "status", headerName: "สถานะ", width: 200 },
+        { field: "Amount", headerName: "จำนวน", width: 100 },
+        { field: "Status", headerName: "สถานะ", width: 200 },
         
     ];
 
