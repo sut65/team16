@@ -266,9 +266,9 @@ export default function App() {
                   <Route path="/Discount" element={<Discount />} />
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />
                   <Route path="/DiscountUpdate" element={<DiscountUpdate />} />
-                  <Route path="/Delivery" element={<Delivery />} />
+                  {/* <Route path="/Delivery" element={<Delivery />} />
                   <Route path="/DeliveryCreate" element={<DeliveryCreate />} />
-                  <Route path="/DeliveryUpdate" element={<DeliveryUpdate />} />
+                  <Route path="/DeliveryUpdate" element={<DeliveryUpdate />} /> */}
                   <Route path="/Leave" element={<Leave />} />
                   <Route path="/LeaveCreate" element={<LeaveCreate />} />
                   <Route path="/separationShow" element={<SeparationShow />} />
