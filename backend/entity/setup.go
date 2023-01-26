@@ -388,4 +388,21 @@ func SetupDatabase() {
 	// 	Status: "paid",
 	// }
 	// db.Model(&Status{}).Create(&Status2)
+
+	// // Car
+	// Car1 := Car{
+	// 	Car_Model: "Ranger Double Cab Raptor",
+	// 	Registation_Number: "รกช อุดรธานี 965",
+	// }
+	// db.Model(&Car{}).Create(&Car1)
+	// Car2 := Car{
+	// 	Car_Model: "Ranger Double Cab Wildtrak",
+	// 	Registation_Number: "ดชช อุดรธานี 564",
+	// }
+	// db.Model(&Car{}).Create(&Car2)
+	// Car3 := Car{
+	// 	Car_Model: "Ranger Double Cab Wildtrak",
+	// 	Registation_Number: "สวง สุโขทัย 122",
+	// }
+	// db.Model(&Car{}).Create(&Car3)
 }
