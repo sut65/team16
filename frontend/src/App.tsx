@@ -45,9 +45,9 @@ import SeparationCreate from "./components/apisit/separationCreate";
 import Shopping from "./components/Shopping/Shopping";
 import OrderCreate from "./components/Shopping/OrderCreate";
 import Cart from "./components/Shopping/Cart";
-import Delivery from "./components/Delivery/Delivery";
-import DeliveryCreate from "./components/Delivery/DeliveryCreate";
-import DeliveryUpdate from "./components/Delivery/DeliveryUpdate";
+// import Delivery from "./components/Delivery/Delivery";
+// import DeliveryCreate from "./components/Delivery/DeliveryCreate";
+// import DeliveryUpdate from "./components/Delivery/DeliveryUpdate";
 
 
 var employeeName = "";
