@@ -6,9 +6,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { OrderInterface } from "../../models/Natthapon/IOrder";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 function Order() {
@@ -33,9 +31,9 @@ function Order() {
 
  const columns: GridColDef[] = [
    { field: "ID", headerName: "ID", width: 50,  headerAlign:"center" },
-   { field: "Shelving?", headerName: "Shelving?", width: 100, headerAlign:"center",valueFormatter: (params)=>params.value.ID},
-   { field: "Quantity", headerName: "Quantity", width: 250, headerAlign:"center" },
-   { field: "Member", headerName: "Member", width: 200, headerAlign:"center" ,valueFormatter: (params)=>params.value.Mem_Name},
+   { field: "Shelving?", headerName: "สินค้า", width: 250, headerAlign:"center",valueFormatter: (params)=>params.value.ID},
+   { field: "Quantity", headerName: "จำนวน", width: 100, headerAlign:"center" },
+   { field: "Member", headerName: "พนักงาน", width: 200, headerAlign:"center" ,valueFormatter: (params)=>params.value.Mem_Name},
  ];
 
  useEffect(() => {
@@ -46,76 +44,53 @@ function Order() {
 
     <div>
         <Container maxWidth="md">
-        <Box
-        display="flex"
-        sx={{ marginTop: 2,}}
-        >
-        <Box flexGrow={1}>
-        <Typography
-            component="h2"
-            variant="h6"
-            color="primary"
-            gutterBottom
-        >
-            Order
-        </Typography>
-        </Box>
+          <Box display="flex" sx={{ marginTop: 2,}}>
+            <Box flexGrow={1}>
+              <Typography
+                  component="h2"
+                  variant="h6"
+                  color="primary"
+                  gutterBottom
+              >
+                  รายการสินค้า
+              </Typography>
+            </Box>
 
-        <Box sx={{ paddingX: 1, paddingY: 0 }}> 
-        <Button
-            component={RouterLink}
-            to="/Cart"
-            variant="contained"
-            color="primary"
-            startIcon={<ShoppingBasketIcon />}
-        >
-        Shopping Cart 
-        </Button>
-        </Box>
+            <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+              <Button
+                  component={RouterLink}
+                  to="/Cart"
+                  variant="contained"
+                  color="primary"
+                  startIcon={<ShoppingBasketIcon />}
+              >
+              รายการตะกร้าสินค้า
+              </Button>
+            </Box>
 
-        <Box sx={{ paddingX: 1, paddingY: 0 }}> 
-        <Button
-            variant="contained"
-            color="primary"
-            startIcon={<DeleteIcon />}
-        >
-        Delete 
-        </Button>
-        </Box>
+            <Box sx={{ paddingX: 1, paddingY: 0 }}>
+              <Button
+                  component={RouterLink}
+                  to="/OrderCreate"
+                  variant="contained"
+                  color="primary"
+                  startIcon={<ShoppingCartCheckoutIcon />}
+              >
+                  สร้างรายการสินค้า
+              </Button>
+            </Box>
 
-        <Box sx={{ paddingX: 1, paddingY: 0 }}> 
-        <Button
-            variant="contained"
-            color="primary"
-            startIcon={<EditIcon />}
-        >
-        Update 
-        </Button>
-        </Box>
-
-        <Box sx={{ paddingX: 1, paddingY: 0 }}>
-        <Button
-            component={RouterLink}
-            to="/OrderCreate"
-            variant="contained"
-            color="primary"
-            startIcon={<GroupAddIcon />}
-        >
-            Create
-        </Button>
-        </Box>
-
-        </Box>
-        
-        <div style={{ height: 400, width: "100%", marginTop: '20px'}}>
-            <DataGrid
-            rows={order}
-            getRowId={(row) => row.ID}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            />
-        </div>
+          </Box>
+          
+          <div style={{ height: 400, width: "100%", marginTop: '20px'}}>
+              <DataGrid
+              rows={order}
+              getRowId={(row) => row.ID}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              />
+          </div>
         </Container>
     </div>
  );

@@ -51,6 +51,9 @@ import DeliveryUpdate from "./components/Delivery/DeliveryUpdate";
 import SeparationUpdate from "./components/apisit/separationUpdate";
 import LeaveUpdate from "./components/Leave/LeaveUpdate";
 import MemberUpdate from "./components/Member/MemberUpdate";
+import Payment from "./components/Payment/payment";
+import PaymentCreate from "./components/Payment/PaymentCreate";
+
 
 
 
@@ -117,7 +120,7 @@ const Drawer = styled(MuiDrawer, {
 
 const menu = [
   { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
-  { name: "ตะกร้าสินค้า", icon: <AddShoppingCartIcon />, path: "/Order" },
+  { name: "ตะกร้าสินค้า", icon: <AddShoppingCartIcon />, path: "/Cart" },
   { name: "สต๊อกสินค้า", icon: <InventoryIcon />, path: "/Stock" },
   { name: "สมาชิก", icon: <PeopleIcon />, path: "/Member" },
   { name: "ส่วนลด", icon: <MonetizationOnIcon />, path: "/Discount" },
@@ -283,6 +286,8 @@ export default function App() {
                   <Route path="/Order" element={<Shopping />} />
                   <Route path="/OrderCreate" element={<OrderCreate />} />
                   <Route path="/Cart" element={<Cart />} />
+                  <Route path="/Payment" element={<Payment />} />
+                  <Route path="/PaymentCreate" element={<PaymentCreate />} />
                 </Routes>
               </Container>
             </Box>

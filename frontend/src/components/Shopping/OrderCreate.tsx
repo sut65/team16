@@ -414,7 +414,7 @@ function OrderCreate() {
                 <Grid item xs={6}>
                     <Button component={RouterLink} to="/Order" variant="contained" style={{ float: "right" }}>
                         <div className="good-font-white">
-                            รายการคำสั่งซื้อ
+                            รายการสินค้า
                         </div>
                     </Button>
                 </Grid>
