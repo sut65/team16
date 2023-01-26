@@ -6,9 +6,9 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CartInterface } from "../../models/Natthapon/ICart";
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 function Cart() {
  const [cart, setCart] = React.useState<CartInterface[]>([]);
@@ -32,10 +32,10 @@ function Cart() {
 
  const columns: GridColDef[] = [
    { field: "ID", headerName: "ID", width: 50,  headerAlign:"center" },
-   { field: "Total", headerName: "Total", width: 80,  headerAlign:"center" },
-   { field: "Status", headerName: "Status", width: 100, headerAlign:"center",valueFormatter: (params)=>params.value.Status},
-   { field: "Member", headerName: "Member", width: 200, headerAlign:"center" ,valueFormatter: (params)=>params.value.Mem_Name},
-   { field: "Employee", headerName: "Employee", width: 200, headerAlign:"center" ,valueFormatter: (params)=>params.value.Name},
+   { field: "Total", headerName: "รวมยอด", width: 80,  headerAlign:"center" },
+   { field: "Status", headerName: "สถานะการชำระ", width: 150, headerAlign:"center",valueFormatter: (params)=>params.value.Status},
+   { field: "Member", headerName: "สมากชิก", width: 200, headerAlign:"center" ,valueFormatter: (params)=>params.value.Mem_Name},
+   { field: "Employee", headerName: "พนักงาน", width: 200, headerAlign:"center" ,valueFormatter: (params)=>params.value.Name},
  ];
 
  useEffect(() => {
@@ -46,40 +46,42 @@ function Cart() {
 
     <div>
         <Container maxWidth="md">
-        <Box
-        display="flex"
-        sx={{ marginTop: 2,}}
-        >
-        <Box flexGrow={1}>
-        <Typography
-            component="h2"
-            variant="h6"
-            color="primary"
-            gutterBottom
-        >
-            Shopping Cart
-        </Typography>
-        </Box>
+        <Box display="flex" sx={{ marginTop: 2,}}>
+          <Box flexGrow={1}>
+            <Typography
+                component="h2"
+                variant="h6"
+                color="primary"
+                gutterBottom
+            >
+                รายการตะกร้าสินค้า
+            </Typography>
+          </Box>
 
         <Box sx={{ paddingX: 1, paddingY: 0 }}> 
-        <Button
-            variant="contained"
-            color="primary"
-            startIcon={<DeleteIcon />}
-        >
-        Delete 
+          <Button
+              component={RouterLink}
+              to="/Payment"
+              variant="contained"
+              color="primary"
+              startIcon={<PaymentIcon />}
+          >
+          ประวัติการชำระ
+          </Button>
+        </Box>
+        
+        <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+          <Button
+              component={RouterLink}
+              to="/Order"
+              variant="contained"
+              color="primary"
+              startIcon={<EditIcon />}
+          >
+          รายการสินค้า
         </Button>
         </Box>
 
-        <Box sx={{ paddingX: 1, paddingY: 0 }}> 
-        <Button
-            variant="contained"
-            color="primary"
-            startIcon={<EditIcon />}
-        >
-        Update 
-        </Button>
-        </Box>
 
         <Box sx={{ paddingX: 1, paddingY: 0 }}>
         <Button
@@ -87,9 +89,9 @@ function Cart() {
             to="/OrderCreate"
             variant="contained"
             color="primary"
-            startIcon={<GroupAddIcon />}
+            startIcon={<ShoppingCartCheckoutIcon />}
         >
-            Create
+            สร้างรายการสินค้า
         </Button>
         </Box>
 
