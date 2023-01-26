@@ -45,6 +45,7 @@ import SeparationCreate from "./components/apisit/separationCreate";
 import Shopping from "./components/Shopping/Shopping";
 import OrderCreate from "./components/Shopping/OrderCreate";
 import Cart from "./components/Shopping/Cart";
+import SeparationUpdate from "./components/apisit/separationUpdate";
 // import Delivery from "./components/Delivery/Delivery";
 // import DeliveryCreate from "./components/Delivery/DeliveryCreate";
 // import DeliveryUpdate from "./components/Delivery/DeliveryUpdate";
@@ -273,6 +274,7 @@ export default function App() {
                   <Route path="/LeaveCreate" element={<LeaveCreate />} />
                   <Route path="/separationShow" element={<SeparationShow />} />
                   <Route path="/separationCreate" element={<SeparationCreate />} />
+                  <Route path="/separationUpdate" element={<SeparationUpdate />} />
                   <Route path="/Order" element={<Shopping />} />
                   <Route path="/OrderCreate" element={<OrderCreate />} />
                   <Route path="/Cart" element={<Cart />} />

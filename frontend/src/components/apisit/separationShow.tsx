@@ -39,7 +39,7 @@ function SeparationShow() {
 
     // function ลบข้อมูล
     const deleteSeparation = async () => {
-        const apiUrl = `http://localhost:8080/separations/${separationID}`;
+        const apiUrl = `http://localhost:8080/separation/${separationID}`;
         const requestOptions = {
             method: "DELETE",
             headers: {
@@ -206,8 +206,10 @@ function SeparationShow() {
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
+                        onRowClick={handleRowClick}
                     />
                 </div>
+
                 
             </Container>
         </div>

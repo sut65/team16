@@ -33,7 +33,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function DiscountUpdate() {
+function SeparationUpdate() {
 
     const [date, setDate] = React.useState<Date | null>(null);
     const [success, setSuccess] = React.useState(false);
@@ -70,7 +70,7 @@ function DiscountUpdate() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof DiscountUpdate;
+        const id = event.target.id as keyof typeof SeparationUpdate;
         const { value } = event.target;
         setSeparation({ ...sep, [id]: value });
     };
@@ -83,17 +83,6 @@ function DiscountUpdate() {
         });
     };
 
-    // const getReason = async () => {
-    //     fetch(`${apiUrl}/discount_types`, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((res) => {
-    //             if (res.data) {
-    //                 console.log(res.data)
-    //                 setDt(res.data);
-    //             }
-    //             else { console.log("NO DATA") }
-    //         });
-    // };
     const getReason = async () => {
         fetch(`${apiUrl}/reasons`, requestOptions)
             .then((response) => response.json())
@@ -106,17 +95,6 @@ function DiscountUpdate() {
             });
     };
 
-    // const getStock = async () => {
-    //     fetch(`${apiUrl}/stocks`, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((res) => {
-    //             if (res.data) {
-    //                 console.log(res.data)
-    //                 setStock(res.data);
-    //             }
-    //             else { console.log("NO DATA") }
-    //         });
-    // };
     const getShelf = async () => {
         fetch(`${apiUrl}/Shelving`, requestOptions)
             .then((response) => response.json())
@@ -172,7 +150,7 @@ function DiscountUpdate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/separations/${separationID}`, requestOptions) // แนบIDไปด้วย
+        fetch(`${apiUrl}/separation/${separationID}`, requestOptions) // แนบIDไปด้วย
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -195,14 +173,14 @@ function DiscountUpdate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                        การเพิ่มข้อเสร็จสิ้น
+                        การแก้ไขเสร็จสิ้น
                     </div>
                 </Alert>
             </Snackbar>
             <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                        การเพิ่มข้อมูลไม่สำเร็จ
+                        การแก้ไขไม่สำเร็จ
                     </div>
                 </Alert>
             </Snackbar>
@@ -243,28 +221,6 @@ function DiscountUpdate() {
                         />
                     </FormControl>
                 </Grid>
-
-                {/* <Grid item xs={12}>
-                        <FormControl fullWidth variant="outlined">
-                            <p>พนักงาน</p>
-                            <Select
-                                native
-                                value={sep.Employee_ID + ""}
-                                onChange={handleChange}
-                                disabled
-                                inputProps={{
-                                    name: "Employee_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    --เลือกพนักงาน--
-                                </option>
-                                <option value={emp?.ID} key={emp?.ID}>
-                                    {emp?.Name}
-                                </option>
-                            </Select>
-                        </FormControl>
-                    </Grid> */}
 
                 <Grid item xs={6}>
                     <FormControl fullWidth variant="outlined">
@@ -383,4 +339,4 @@ function DiscountUpdate() {
     );
 }
 
-export default DiscountUpdate;
+export default SeparationUpdate;
