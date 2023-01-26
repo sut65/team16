@@ -17,11 +17,11 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
 
-import { DiscountInterface } from "../../models/thanadet/IDiscount"
-import { Discount_Type_Interface } from "../../models/thanadet/IDiscount_Type"
+import { DeliveryInterface } from "../../models/thanadet/IDelivery"
+import { CarInterface } from "../../models/thanadet/ICar"
+import { PaymentInterface } from "../../models/Natthapon/IPayment"
 import { EmployeeInterface } from "../../models/IEmployee"
-import { StocksInterface } from "../../models/methas/IStock"
-import { GetCurrentEmployee } from "../../services/HttpClientService";
+
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -30,17 +30,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function DiscountUpdate() {
+function DeliveryCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const [employee, setEmployee] = React.useState<EmployeeInterface>();
-    const [stock, setStock] = React.useState<StocksInterface[]>([]);
-    const [dt, setDt] = React.useState<Discount_Type_Interface[]>([]);
-    const [discount, setDiscount] = React.useState<DiscountInterface>({
-        Discount_s: new Date(),
-        Discount_e: new Date(),
+    const [employee, setEmployee] = React.useState<EmployeeInterface[]>([]);
+    const [car, setCar] = React.useState<CarInterface[]>([]);
+    const [payment, setPayment] = React.useState<PaymentInterface[]>([]);
+    const [delivery, setDelivery] = React.useState<DeliveryInterface>({
+        Delivery_date: new Date(),
     });
 
     const apiUrl = "http://localhost:8080";
@@ -66,58 +65,61 @@ function DiscountUpdate() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof DiscountUpdate;
+        const id = event.target.id as keyof typeof DeliveryCreate;
         const { value } = event.target;
-        setDiscount({ ...discount, [id]: value });
+        setDelivery({ ...delivery, [id]: value });
     };
 
     const handleChange = (event: SelectChangeEvent) => {
-        const name = event.target.name as keyof typeof discount;
-        setDiscount({
-            ...discount,
+        const name = event.target.name as keyof typeof delivery;
+        setDelivery({
+            ...delivery,
             [name]: event.target.value,
         });
     };
 
-    const getDiscount_Type = async () => {
-        fetch(`${apiUrl}/discount_types`, requestOptions)
+    const getCar = async () => {
+        fetch(`${apiUrl}/cars`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setDt(res.data);
+                    setCar(res.data);
                 }
                 else { console.log("NO DATA") }
             });
     };
 
-    const getStock = async () => {
-        fetch(`${apiUrl}/stocks`, requestOptions)
+    const getPayment = async () => {
+        fetch(`${apiUrl}/payments`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setStock(res.data);
+                    setPayment(res.data);
                 }
                 else { console.log("NO DATA") }
             });
     };
 
     const getEmployee = async () => {
-        let res = await GetCurrentEmployee();
-        discount.Employee_ID = res.ID;
-        if (res) {
-            setEmployee(res);
-            console.log(res)
-        }
+        fetch(`${apiUrl}/employees`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                    setEmployee(res.data);
+                }
+                else { console.log("NO DATA") }
+            });
     };
 
-    let discountID = localStorage.getItem("discountID");
+    let deliveryID = localStorage.getItem("deliveryID");
 
     useEffect(() => {
         getEmployee();
-        getDiscount_Type();
-        getStock();
+        getCar();
+        getPayment();
     }, []);
 
     const convertType = (data: string | number | undefined) => {
@@ -127,12 +129,12 @@ function DiscountUpdate() {
 
     async function submit() {
         let data = {
-            Discount_Price: typeof discount.Discount_Price === "string" ? parseInt(discount.Discount_Price) : 0,
-            Discount_s: discount.Discount_s,
-            Discount_e: discount.Discount_e,
-            Stock_ID: convertType(discount.Stock_ID),
-            Discount_Type_ID: convertType(discount.Discount_Type_ID),
-            Employee_ID: convertType(discount.Employee_ID),
+            Location: delivery.Location ?? "",
+            Customer_name: delivery.Customer_name ?? "",
+            Delivery_date: delivery.Delivery_date,
+            Employee_ID: convertType(delivery.Employee_ID),
+            Car_ID: convertType(delivery.Car_ID),
+            Payment_ID: convertType(delivery.Payment_ID),
         };
 
         console.log(data)
@@ -146,7 +148,7 @@ function DiscountUpdate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/discount/${discountID}`, requestOptions)
+        fetch(`${apiUrl}/delivery/${deliveryID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -196,7 +198,7 @@ function DiscountUpdate() {
 
                         >
                             <div className="good-font">
-                                แก้ไขส่วนลด ID : {discountID}
+                                แก้ไขส่วนลด ID : {deliveryID}
                             </div>
                         </Typography>
                     </Box>
@@ -204,140 +206,124 @@ function DiscountUpdate() {
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                
-                    
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">ประเภทของส่วนลด</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Discount_Type_ID"
-                                getOptionLabel={(item: Discount_Type_Interface) => `${item.Type_Name}`}
-                                options={dt}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
-                                onChange={(e, value) => { discount.Discount_Type_ID = value?.ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกประเภทของส่วนลด" />}
-                            />
-                        </FormControl>
-                    </Grid>
+                        <Grid item xs={8}>
+                            <p className="good-font">ชื่อ - นามสกุล ของลูกค้า</p>
+                            <FormControl fullWidth variant="outlined">
+                                <TextField
+                                    id="Customer_name"
+                                    variant="outlined"
+                                    type="string"
+                                    size="medium"
+                                    value={delivery.Customer_name || ""}
+                                    onChange={handleInputChange}
+                                />
+                            </FormControl>
+                        </Grid>
 
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">สินค้า</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Stock_ID"
-                                getOptionLabel={(item: StocksInterface) => `${item.Name} ราคา ${item.Price}`}
-                                options={stock}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
-                                onChange={(e, value) => { discount.Stock_ID = value?.ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
-                            />
-                        </FormControl>
-                    </Grid>
+                        <Grid item xs={8}>
+                            <p className="good-font">สถานที่จัดส่งสินค้า</p>
+                            <FormControl fullWidth variant="outlined">
+                                <TextField
+                                    id="Location"
+                                    variant="outlined"
+                                    type="string"
+                                    size="medium"
+                                    value={delivery.Location || ""}
+                                    onChange={handleInputChange}
+                                />
+                            </FormControl>
+                        </Grid>
 
+                        <Grid item xs={6}>
+                            <FormControl fullWidth variant="outlined">
+                                <p className="good-font">รถยนต์ที่ใช้</p>
+                                <Autocomplete
+                                    disablePortal
+                                    id="Car_ID"
+                                    getOptionLabel={(item: CarInterface) => `${item.Car_Model} ${item.Registation_Number}`}
+                                    options={car}
+                                    sx={{ width: 'auto' }}
+                                    isOptionEqualToValue={(option, value) =>
+                                        option.ID === value.ID}
+                                    onChange={(e, value) => { delivery.Car_ID = value?.ID }}
+                                    renderInput={(params) => <TextField {...params} label="เลือกรถยนต์ที่ใช้" />}
+                                />
+                            </FormControl>
+                        </Grid>
 
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">ราคาที่ลด หน่วยเป็นบาท</p>
-                            <TextField
-                                id="Discount_Price"
-                                variant="outlined"
-                                type="number"
-                                size="medium"
-                                InputProps={{ inputProps: { min: 1 , max: 50}}}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                value={discount.Discount_Price || ""}
-                                onChange={handleInputChange}
-                            />
-                        </FormControl>
-                    </Grid>
+                        <Grid item xs={6}>
+                            <FormControl fullWidth variant="outlined">
+                                <p className="good-font">รายการสินค้า</p>
+                                <Autocomplete
+                                    disablePortal
+                                    id="Payment_ID"
+                                    getOptionLabel={(item: PaymentInterface) => `${item.ID}`}
+                                    options={payment}
+                                    sx={{ width: 'auto' }}
+                                    isOptionEqualToValue={(option, value) =>
+                                        option.ID === value.ID}
+                                    onChange={(e, value) => { delivery.Payment_ID = value?.ID }}
+                                    renderInput={(params) => <TextField {...params} label="เลือกรายการสินค้า" />}
+                                />
+                            </FormControl>
+                        </Grid>
 
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">พนักงานที่บันทึก</p>
-                            <Select
-                                native
-                                value={discount.Employee_ID + ""}
-                                onChange={handleChange}
-                                disabled
-                                inputProps={{
-                                    name: "Employee_ID",
-                                }}
+                        <Grid item xs={6}>
+                            <FormControl fullWidth variant="outlined">
+                                <p className="good-font">พนักงานที่ส่งสินค้า</p>
+                                <Autocomplete
+                                    disablePortal
+                                    id="Employee_ID"
+                                    getOptionLabel={(item: EmployeeInterface) => `${item.Name}`}
+                                    options={employee}
+                                    sx={{ width: 'auto' }}
+                                    isOptionEqualToValue={(option, value) =>
+                                        option.ID === value.ID}
+                                    onChange={(e, value) => { delivery.Employee_ID = value?.ID }}
+                                    renderInput={(params) => <TextField {...params} label="เลือกพนักงานที่ส่งสินค้า" />}
+                                />
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item xs={6}>
+                            <FormControl fullWidth variant="outlined">
+                                <p className="good-font">วันที่ส่งสินค้า</p>
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                    <DatePicker
+                                        value={delivery.Delivery_date}
+                                        onChange={(newValue) => {
+                                            setDelivery({
+                                                ...delivery,
+                                                Delivery_date: newValue,
+                                            });
+                                        }}
+                                        renderInput={(params) => <TextField {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Button component={RouterLink} to="/Delivery" variant="contained">
+                                <div className="good-font-white">
+                                    กลับ
+                                </div>
+                            </Button>
+                            <Button
+                                style={{ float: "right" }}
+                                onClick={submit}
+                                variant="contained"
+                                color="primary"
                             >
-                                <option aria-label="None" value="">
-                                    เลือก
-                                </option>
-                                <option value={employee?.ID} key={employee?.ID}>
-                                    {employee?.Name}
-                                </option>
-                            </Select>
-                        </FormControl>
+                                <div className="good-font-white">
+                                    บันทึก
+                                </div>
+                            </Button>
+                        </Grid>
                     </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">วันที่เริ่มลดราคา</p>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DatePicker
-                                    value={discount.Discount_s}
-                                    onChange={(newValue) => {
-                                        setDiscount({
-                                            ...discount,
-                                            Discount_s: newValue,
-                                        });
-                                    }}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </LocalizationProvider>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">วันที่สิ้นสุดการลดราคา</p>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DatePicker
-                                    value={discount.Discount_e}
-                                    onChange={(newValue) => {
-                                        setDiscount({
-                                            ...discount,
-                                            Discount_e: newValue,
-                                        });
-                                    }}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </LocalizationProvider>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <Button component={RouterLink} to="/Discount" variant="contained">
-                            <div className="good-font-white">
-                                กลับ
-                            </div>
-                        </Button>
-                        <Button
-                            style={{ float: "right" }}
-                            onClick={submit}
-                            variant="contained"
-                            color="primary"
-                        >
-                            <div className="good-font-white">
-                                บันทึก
-                            </div>
-                        </Button>
-                    </Grid>
-                </Grid>
             </Paper>
         </Container>
     );
 }
 
-export default DiscountUpdate;
+export default DeliveryCreate;
