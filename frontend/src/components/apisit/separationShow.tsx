@@ -6,13 +6,14 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { SeparationInterface } from "../../models/apisit/ISeparation";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import moment from "moment";
 
 
 function SeparationShow() {
     const [separation, setSeparation] = React.useState<SeparationInterface[]>([]);
 
     const getSeparation = async () => {
-        const apiUrl = "http://localhost:8080/SeparationShow";
+        const apiUrl = "http://localhost:8080/separations";
         const requestOptions = {
             method: "GET",
             headers: { 
@@ -32,11 +33,27 @@ function SeparationShow() {
     };
 
     const columns: GridColDef[] = [
-        { field: "id", headerName: "ลับดับ", width: 100 },
-        { field: "cuase", headerName: "เหตุผล", width: 120 },
-        { field: "name", headerName: "พนักงาน", width: 120 },
-        { field: "shelving_id", headerName: "ชั้นวาง", width: 120 },
-        { field: "date_out", headerName: "เวลาจำหน่าย", width: 150 },
+        { field: "ID", headerName: "ลับดับ", width: 100 },
+        // { field: "Cuase", headerName: "เหตุผล", width: 120 },
+        {
+            field: "Reason", headerName: "เหตุผล", width: 180,
+            valueFormatter: (params) => params.value.Cuase,
+        },
+        // { field: "name", headerName: "พนักงาน", width: 120 },
+        {
+            field: "Employee", headerName: "เหตุผล", width: 180,
+            valueFormatter: (params) => params.value.Name,
+        },
+        // { field: "shelving_id", headerName: "ชั้นวาง", width: 120 },
+        {
+            field: "Shelving", headerName: "เหตุผล", width: 180,
+            valueFormatter: (params) => params.value.ID,
+        },
+        // { field: "date_out", headerName: "เวลาจำหน่าย", width: 150 },
+        {
+            field: "Date_Out", headerName: "เวลาจำหน่าย", width: 150,
+            renderCell: (params) => moment(params.row.Date_Out).format('YY-MM-DD')
+        },
         { field: "amount", headerName: "จำนวน", width: 100 },
         { field: "status", headerName: "สถานะ", width: 200 },
         
@@ -84,6 +101,7 @@ function SeparationShow() {
                     <DataGrid
                         rows={separation}
                         // getRowId={(row: any) =>  row.id}
+                        getRowId={(row) => row.ID}
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
