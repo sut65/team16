@@ -58,7 +58,7 @@ function Member() {
 
 const handleRowClick: GridEventListener<'rowClick'> = (params) => {
   setMemberID(Number(params.row.ID)); 
-  localStorage.setItem("Leave_ID", params.row.ID); 
+  localStorage.setItem("Member_ID", params.row.ID); 
 };
 
 const handleClose = () => {
