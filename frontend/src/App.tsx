@@ -27,23 +27,32 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import Homepage from "./components/Homepage";
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ArticleIcon from '@mui/icons-material/Article';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import "./styles.css"
 import Stocks from "./components/methas/Stock";
 import StockCreate from "./components/methas/StockCreate";
-import Member from "./components/theerawat/Member";
-import MemberCreate from "./components/theerawat/MemberCreate";
+import Member from "./components/Member/Member";
+import MemberCreate from "./components/Member/MemberCreate";
 import Discount from "./components/Discount/Discount";
 import DiscountCreate from "./components/Discount/DiscountCreate";
 import DiscountUpdate from "./components/Discount/DiscountUpdate";
 import { GetCurrentEmployee } from "./services/HttpClientService";
-import Leave from "./components/theerawat/Leave";
-import LeaveCreate from "./components/theerawat/LeaveCreate";
+import Leave from "./components/Leave/Leave";
+import LeaveCreate from "./components/Leave/LeaveCreate";
 import SeparationShow from "./components/apisit/separationShow";
 import SeparationCreate from "./components/apisit/separationCreate";
 import Shopping from "./components/Shopping/Shopping";
 import OrderCreate from "./components/Shopping/OrderCreate";
 import Cart from "./components/Shopping/Cart";
+import Delivery from "./components/Delivery/Delivery";
+import DeliveryCreate from "./components/Delivery/DeliveryCreate";
+import DeliveryUpdate from "./components/Delivery/DeliveryUpdate";
+import SeparationUpdate from "./components/apisit/separationUpdate";
+import LeaveUpdate from "./components/Leave/LeaveUpdate";
+import MemberUpdate from "./components/Member/MemberUpdate";
+
+
 
 var employeeName = "";
 
@@ -114,6 +123,7 @@ const menu = [
   { name: "ส่วนลด", icon: <MonetizationOnIcon />, path: "/Discount" },
   { name: "แจ้งลา", icon: <ArticleIcon />, path: "/Leave" },
   { name: "จำหน่ายสินค้า", icon: <InventoryIcon />, path: "/SeparationShow" },
+  { name: "รายการการส่งสินค้า", icon: <LocalShippingIcon />, path: "/Delivery" },
 ];
 
 
@@ -195,7 +205,7 @@ export default function App() {
                 </Typography>
                 <Typography
                   variant="inherit"
-                  sx={{ flexGrow: 0.1}}
+                  sx={{ flexGrow: 0.1 }}
                 >
                   <span className="good-font-white">{employeeName}</span><span className="good-font-green"> : กำลังใช้งาน</span>
                 </Typography>
@@ -255,15 +265,21 @@ export default function App() {
                   <Route path="/" element={<Homepage />} />
                   <Route path="/Member" element={<Member />} />
                   <Route path="/MemberCreate" element={<MemberCreate />} />
+                  <Route path="/MemberUpdate" element={<MemberUpdate />} />
                   <Route path="/Stock" element={<Stocks />} />
                   <Route path="/StockCreate" element={<StockCreate />} />
                   <Route path="/Discount" element={<Discount />} />
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />
                   <Route path="/DiscountUpdate" element={<DiscountUpdate />} />
+                  <Route path="/Delivery" element={<Delivery />} />
+                  <Route path="/DeliveryCreate" element={<DeliveryCreate />} />
+                  <Route path="/DeliveryUpdate" element={<DeliveryUpdate />} />
                   <Route path="/Leave" element={<Leave />} />
                   <Route path="/LeaveCreate" element={<LeaveCreate />} />
+                  <Route path="/LeaveUpdate" element={<LeaveUpdate />} />
                   <Route path="/separationShow" element={<SeparationShow />} />
                   <Route path="/separationCreate" element={<SeparationCreate />} />
+                  <Route path="/separationUpdate" element={<SeparationUpdate />} />
                   <Route path="/Order" element={<Shopping />} />
                   <Route path="/OrderCreate" element={<OrderCreate />} />
                   <Route path="/Cart" element={<Cart />} />

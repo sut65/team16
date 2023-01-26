@@ -7,10 +7,10 @@ import (
 type Order struct {
 	gorm.Model
 	Quantity    int
-
+	Price		float64
 	Shelving_ID			*uint
 	Shelving			Shelving
-	Shopping_Cart_ID			*uint
+	Shopping_Cart_ID		*uint
 	Shopping_Cart			Shopping_Cart
 }
 

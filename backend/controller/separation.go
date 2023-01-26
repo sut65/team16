@@ -41,6 +41,8 @@ func CreateSeparation(c *gin.Context) {
 	}
 	// 12: สร้าง WatchVideo
 	wv := entity.Separation{
+		Amount:      separation.Amount,
+		Status:      separation.Status,
 		Reason:      reason,                 // โยงความสัมพันธ์กับ Entity Resolution
 		Shelving:    shelving,               // โยงความสัมพันธ์กับ Entity Video
 		Employee:    employee,               // โยงความสัมพันธ์กับ Entity Playlist
@@ -96,21 +98,60 @@ func DeleteSeparation(c *gin.Context) {
 
 // PATCH /watch_videos
 func UpdateSeparation(c *gin.Context) {
+	// var separationS entity.Separation
+	// if err := c.ShouldBindJSON(&separationS); err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
+
+	// if tx := entity.DB().Where("id = ?", separationS.ID).First(&separationS); tx.RowsAffected == 0 {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "watchvideo not found"})
+	// 	return
+	// }
+
+	// if err := entity.DB().Save(&separationS).Error; err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
+
+	// c.JSON(http.StatusOK, gin.H{"data": separationS})
 	var separationS entity.Separation
+	id := c.Param("id")
+	var reason entity.Reason
+	var employee entity.Employee
+	var shelving entity.Shelving
+
 	if err := c.ShouldBindJSON(&separationS); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", separationS.ID).First(&separationS); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "watchvideo not found"})
+	if tx := entity.DB().Where("id = ?", separationS.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
-
-	if err := entity.DB().Save(&separationS).Error; err != nil {
+	if tx := entity.DB().Where("id = ?", separationS.Shelving_ID).First(&shelving); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", separationS.Reason_ID).First(&reason); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "reason not found"})
+		return
+	}
+	dc := entity.Separation{
+		// Amount: separationS.Discount_Price,             
+		Date_Out:       separationS.Date_Out,
+		Employee:	    separationS.Employee,               
+		Shelving:	    separationS.Shelving,               
+		Reason:	    	separationS.Reason,               
+		Amount:	        separationS.Amount,  
+		Status:		    separationS.Status,     
+	}
+	if err := entity.DB().Where("id = ?", id).Updates(&dc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": separationS})
+
+
 }
