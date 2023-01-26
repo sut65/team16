@@ -182,7 +182,7 @@ async function submit() {
              color="primary"
              gutterBottom
            >
-             Create Member
+             <div className="good-font">สมัครสมาชิกฟาร์มมาร์ท</div>
            </Typography>
          </Box>
        </Box>

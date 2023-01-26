@@ -25,7 +25,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function MemberCreate() {
+function MemberUpdate() {
  const [success, setSuccess] = React.useState(false);
  const [error, setError] = React.useState(false);
  const [errorMessage, setErrorMessage] = React.useState("");
@@ -49,7 +49,7 @@ function MemberCreate() {
  const handleInputChange = (
    event: React.ChangeEvent<{ id?: string; value: any }>
  ) => {
-   const id = event.target.id as keyof typeof MemberCreate;
+   const id = event.target.id as keyof typeof MemberUpdate;
    const { value } = event.target;
    setMember({ ...member, [id]: value });
  };
@@ -116,6 +116,8 @@ const convertType = (data: string | number | undefined) => {
     return val;
 };
 
+let Member_ID = localStorage.getItem("Member_ID");
+
 async function submit() {
    let data = {
      Mem_Name: member.Mem_Name ?? "",
@@ -130,7 +132,7 @@ async function submit() {
    console.log(data)
 
    const requestOptions = {
-       method: "POST",
+       method: "PATCH",
        headers: {
            Authorization: `Bearer ${localStorage.getItem("token")}`,
            "Content-Type": "application/json"
@@ -138,7 +140,7 @@ async function submit() {
        body: JSON.stringify(data),
    };
 
-   fetch(`${apiUrl}/members`, requestOptions)
+   fetch(`${apiUrl}/members/${Member_ID}`, requestOptions)
        .then((response) => response.json())
        .then((res) => {
            if (res.data) {
@@ -182,7 +184,7 @@ async function submit() {
              color="primary"
              gutterBottom
            >
-             Create Member
+             <div className="good-font">แก้ไขรายชื่อสมาชิก ID : {Member_ID} </div>
            </Typography>
          </Box>
        </Box>
@@ -308,4 +310,4 @@ async function submit() {
    </Container>
  );
 }
-export default MemberCreate;
+export default MemberUpdate;

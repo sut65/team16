@@ -191,9 +191,7 @@ async function submit() {
              color="primary"
              gutterBottom
            >
-             <div className="good-font">
-                                แก้ไขการแจ้งลา ID : {Leave_ID}
-                            </div>
+             <div className="good-font">แก้ไขการแจ้งลา ID : {Leave_ID} </div>
            </Typography>
          </Box>
        </Box>

@@ -111,9 +111,9 @@ func UpdateLeave(c *gin.Context) {
 	lf := entity.Leave{
 		Doc_Reason: leave.Doc_Reason,             
 		Doc_DateS: leave.Doc_DateS,
-		Doc_DateE:	leave.Doc_DateE,             
-		Employee:	employee,      
-		Doc_Cont: leave.Doc_Cont,            
+		Doc_DateE: leave.Doc_DateE,  
+		Doc_Cont: leave.Doc_Cont,             
+		Employee:	employee,                 
 		L_Type:	l_type,  
 		Section: section,     
 	}

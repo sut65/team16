@@ -114,7 +114,7 @@ function Leave() {
 
     <div>
        <Dialog open={openDelete} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการลบส่วนลดนี้</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการลบการแจ้งลานี้</div></DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
@@ -127,7 +127,7 @@ function Leave() {
             </Dialog>
            
             <Dialog open={openUpdate} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการแก้ไขส่วนลดนี้</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการแก้ไขการแจ้งลานี้</div></DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
