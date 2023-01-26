@@ -5,20 +5,25 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { SeparationInterface } from "../../models/apisit/ISeparation";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import moment from "moment";
+import { Dialog, DialogTitle } from "@mui/material";
 
 
 function SeparationShow() {
     const [separation, setSeparation] = React.useState<SeparationInterface[]>([]);
+    const [separationID, setSeparationID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
+    const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
+    const [openUpdate, setOpenupdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การแก้ไข
 
     const getSeparation = async () => {
         const apiUrl = "http://localhost:8080/separations";
         const requestOptions = {
             method: "GET",
-            headers: { 
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
         };
 
         await fetch(apiUrl, requestOptions)
@@ -28,9 +33,31 @@ function SeparationShow() {
                     console.log(res.data)
                     setSeparation(res.data);
                 }
-                else {console.log("NO DATA")}
+                else { console.log("NO DATA") }
             });
     };
+
+    // function ลบข้อมูล
+    const deleteSeparation = async () => {
+        const apiUrl = `http://localhost:8080/separations/${separationID}`;
+        const requestOptions = {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
+        };
+        await fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log("delete ID: " + separationID)
+                }
+                else { console.log("NO DATA") }
+            });
+        handleClose();
+        getSeparation();
+    }
 
     const columns: GridColDef[] = [
         { field: "ID", headerName: "ลับดับ", width: 100 },
@@ -56,15 +83,89 @@ function SeparationShow() {
         },
         { field: "Amount", headerName: "จำนวน", width: 100 },
         { field: "Status", headerName: "สถานะ", width: 200 },
-        
+
+        //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
+        {
+            field: "edit", headerName: "แก้ไข", width: 100,
+            renderCell: () => {
+                return (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => setOpenupdate(true)}
+                    >
+                        Edit
+                    </Button>
+                );
+            },
+        },
+        {
+            field: "delete", headerName: "ลบ", width: 100,
+            renderCell: () => {
+                return (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => setOpendelete(true)}
+                    >
+                        Delete
+                    </Button>
+                );
+            },
+        },
+
     ];
+
+
+    const handleRowClick: GridEventListener<'rowClick'> = (params) => {
+        setSeparationID(Number(params.row.ID)); //setเพื่อรอการลบ
+        localStorage.setItem("separationID", params.row.ID); //setเพื่อการแก้ไข
+    };
+
+    // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
+    const handleClose = () => {
+        setOpendelete(false)
+        setOpenupdate(false)
+    };
+
 
     useEffect(() => {
         getSeparation();
     }, []);
 
+
     return (
         <div>
+            {/* ยืนยันการลบ */}
+            <Dialog open={openDelete} onClose={handleClose} >
+                <DialogTitle><div className="good-font">ยืนยันการลบรายการจำหน่าย</div></DialogTitle>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
+                    onClick={deleteSeparation}
+                >
+                    <div className="good-font">
+                        ยืนยัน
+                    </div>
+                </Button>
+            </Dialog>
+            {/* ยืนยันการแก้ไข */}
+            <Dialog open={openUpdate} onClose={handleClose} >
+                <DialogTitle><div className="good-font">ยืนยันการแก้ไขรายการจำหน่าย</div></DialogTitle>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    //กด "ยืนยัน" ไปที่หน้าแก้ไข
+                    component={RouterLink}
+                    to="/SeparationUpdate"
+                >
+                    <div className="good-font">
+                        ยืนยัน
+                    </div>
+                </Button>
+            </Dialog>
+
             <Container maxWidth="lg">
                 <Box
                     display="flex"
@@ -107,18 +208,7 @@ function SeparationShow() {
                         rowsPerPageOptions={[5]}
                     />
                 </div>
-                {/* <Box>
-                        <Button
-                            component={RouterLink}
-                            to="/Ac_his_sum"
-                            variant="contained"
-                            color="primary"
-                        >
-                            <div className="good-font-white">
-                                ดูชั่วโมงรวม
-                            </div>
-                        </Button>
-                    </Box> */}
+                
             </Container>
         </div>
     );
