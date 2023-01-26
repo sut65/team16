@@ -175,10 +175,17 @@ func main() {
 
 			//Car Routes
 			r.GET("/cars", controller.ListCar)
-			r.GET("/cart/:id", controller.GetCar)
+			r.GET("/car/:id", controller.GetCar)
 			r.POST("/cars", controller.CreateCar)
 			r.PATCH("/car/:id", controller.UpdateCar)
 			r.DELETE("/car/:id", controller.DeleteCar)
+
+			//Delivery Routes
+			r.GET("/deliveries", controller.ListCar)
+			r.GET("/delivery/:id", controller.GetCar)
+			r.POST("/deliveries", controller.CreateCar)
+			r.PATCH("/delivery/:id", controller.UpdateCar)
+			r.DELETE("/delivery/:id", controller.DeleteCar)
 		}
 	}
 

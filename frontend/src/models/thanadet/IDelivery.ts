@@ -6,7 +6,7 @@ export interface DeliveryInterface {
     ID?: number,
     Location?: string
     Customer_name?: string,
-    Delivery_date?: Date,
+    Delivery_date?: Date | null,
 
     Employee_ID?: number;
     Employee?: EmployeeInterface;
