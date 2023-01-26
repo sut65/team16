@@ -87,17 +87,37 @@ func DeleteLeave(c *gin.Context) {
 // PATCH /leave
 func UpdateLeave(c *gin.Context) {
 	var leave entity.Leave
+	id := c.Param("id")
+	var l_type entity.L_Type
+	var employee entity.Employee
+	var section entity.Section
+
 	if err := c.ShouldBindJSON(&leave); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", leave.ID).First(&leave); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "leave not found"})
+	if tx := entity.DB().Where("id = ?", leave.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
-
-	if err := entity.DB().Save(&leave).Error; err != nil {
+	if tx := entity.DB().Where("id = ?", leave.L_Type_ID).First(&l_type); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "l_Type not found"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", leave.Section_ID).First(&section); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "section not found"})
+		return
+	}
+	lf := entity.Leave{
+		Doc_Reason: leave.Doc_Reason,             
+		Doc_DateS: leave.Doc_DateS,
+		Doc_DateE:	leave.Doc_DateE,             
+		Employee:	employee,      
+		Doc_Cont: leave.Doc_Cont,            
+		L_Type:	l_type,  
+		Section: section,     
+	}
+	if err := entity.DB().Where("id = ?", id).Updates(&lf).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

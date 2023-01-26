@@ -28,7 +28,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function LeaveCreate() {
+function LeaveUpdate() {
  const [success, setSuccess] = React.useState(false);
  const [error, setError] = React.useState(false);
  const [errorMessage, setErrorMessage] = React.useState("");
@@ -55,7 +55,7 @@ function LeaveCreate() {
  const handleInputChange = (
    event: React.ChangeEvent<{ id?: string; value: any }>
  ) => {
-   const id = event.target.id as keyof typeof LeaveCreate;
+   const id = event.target.id as keyof typeof LeaveUpdate;
    const { value } = event.target;
    setLeave ({ ...leave, [id]: value });
  };
@@ -122,6 +122,8 @@ const convertType = (data: string | number | undefined) => {
     return val;
 };
 
+let Leave_ID = localStorage.getItem("Leave_ID");
+
 async function submit() {
    let data = {
     Doc_Reason: leave.Doc_Reason ?? "",
@@ -137,7 +139,7 @@ async function submit() {
    console.log(data)
 
    const requestOptions = {
-       method: "POST",
+       method: "PATCH",
        headers: {
            Authorization: `Bearer ${localStorage.getItem("token")}`,
            "Content-Type": "application/json"
@@ -145,7 +147,7 @@ async function submit() {
        body: JSON.stringify(data),
    };
 
-   fetch(`${apiUrl}/leaves`, requestOptions)
+   fetch(`${apiUrl}/leaves/${Leave_ID}`, requestOptions)
        .then((response) => response.json())
        .then((res) => {
            if (res.data) {
@@ -189,7 +191,9 @@ async function submit() {
              color="primary"
              gutterBottom
            >
-             สร้างเอกสารแจ้งลา
+             <div className="good-font">
+                                แก้ไขการแจ้งลา ID : {Leave_ID}
+                            </div>
            </Typography>
          </Box>
        </Box>
@@ -333,4 +337,4 @@ async function submit() {
    </Container>
  );
 }
-export default LeaveCreate;
+export default LeaveUpdate;
