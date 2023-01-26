@@ -172,6 +172,13 @@ func main() {
 			r.POST("/carts", controller.CreateCart)
 			r.PATCH("/cart/:id", controller.UpdateCart)
 			r.DELETE("/cart/:id", controller.DeleteCart)
+
+			//Car Routes
+			r.GET("/cars", controller.ListCar)
+			r.GET("/cart/:id", controller.GetCar)
+			r.POST("/cars", controller.CreateCar)
+			r.PATCH("/car/:id", controller.UpdateCar)
+			r.DELETE("/car/:id", controller.DeleteCar)
 		}
 	}
 

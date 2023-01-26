@@ -40,7 +40,9 @@ function SeparationCreate() {
     const [emp, setEmployee] = React.useState<EmployeeInterface>();  
     const [reas, setReason] = React.useState<ReasonInterface[]>([]);
     const [shelf, setShelf] = React.useState<IShelving[]>([]);
-    const [sep, setSeparation] = React.useState<SeparationInterface>({ });
+    const [sep, setSeparation] = React.useState<SeparationInterface>({
+        Date_Out: new Date(),
+     });
     
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -144,11 +146,12 @@ function SeparationCreate() {
 
     async function submit() {
         let data = {
-            AMOUNT: typeof sep.Amount === "string" ? parseInt(sep.Amount) : 0,
-            EMPLOYEEID: convertType(sep.Employee_ID),
-            REASONID: convertType(sep.Reason_ID),
-            SHELVINGID: convertType(sep.Shelving_ID),
-            
+            Amount: typeof sep.Amount === "string" ? parseInt(sep.Amount) : 0,
+            Date_Out: sep.Date_Out,
+            Status: sep.Status ?? "",
+            Employee_ID: convertType(sep.Employee_ID),
+            Reason_ID: convertType(sep.Reason_ID),
+            Shelving_ID: convertType(sep.Shelving_ID),
         };
 
         console.log(data)
@@ -289,6 +292,24 @@ function SeparationCreate() {
                                 onChange={(e, value) => { sep.Shelving_ID = value?.ID }}
                                 renderInput={(params) => <TextField {...params} label="เลือกชั้นวาง" />}
                             />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">วันจำหน่าย</p>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DatePicker
+                                    value={sep.Date_Out}
+                                    onChange={(newValue) => {
+                                        setSeparation({
+                                            ...sep,
+                                            Date_Out: newValue,
+                                        });
+                                    }}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </LocalizationProvider>
                         </FormControl>
                     </Grid>
 

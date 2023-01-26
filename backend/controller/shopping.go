@@ -33,9 +33,9 @@ func CreateCart(c *gin.Context) {
 		return
 	}
 
-	// 11: ค้นหา shelv ด้วย id
+	// 11: ค้นหา status ด้วย id
 	if tx := entity.DB().Where("id = ?", cart.Status_ID).First(&status); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "status not found"})
 		return
 	}
 	// 12: สร้าง cart

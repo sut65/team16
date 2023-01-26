@@ -41,6 +41,8 @@ func CreateSeparation(c *gin.Context) {
 	}
 	// 12: สร้าง WatchVideo
 	wv := entity.Separation{
+		Amount:      separation.Amount,
+		Status:      separation.Status,
 		Reason:      reason,                 // โยงความสัมพันธ์กับ Entity Resolution
 		Shelving:    shelving,               // โยงความสัมพันธ์กับ Entity Video
 		Employee:    employee,               // โยงความสัมพันธ์กับ Entity Playlist
