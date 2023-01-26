@@ -95,15 +95,15 @@ function Cart() {
 
         </Box>
         
-        <div style={{ height: 400, width: "100%", marginTop: '20px'}}>
-            <DataGrid
-            rows={cart}
-            getRowId={(row) => row.ID}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-            />
-        </div>
+          <div style={{ height: 400, width: "100%", marginTop: '20px'}}>
+              <DataGrid
+              rows={cart}
+              getRowId={(row) => row.ID}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              />
+          </div>
         </Container>
     </div>
  );
