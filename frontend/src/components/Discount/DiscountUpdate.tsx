@@ -112,7 +112,7 @@ function DiscountUpdate() {
         }
     };
 
-    let discountID = localStorage.getItem("discountID");
+    let discountID = localStorage.getItem("discountID"); // เรีกใช้ค่าจากlocal storage 
 
     useEffect(() => {
         getEmployee();
@@ -138,7 +138,7 @@ function DiscountUpdate() {
         console.log(data)
 
         const requestOptions = {
-            method: "PATCH",
+            method: "PATCH", // ใช้ PATCH
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
@@ -146,7 +146,7 @@ function DiscountUpdate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/discount/${discountID}`, requestOptions)
+        fetch(`${apiUrl}/discount/${discountID}`, requestOptions) // แนบIDไปด้วย
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
