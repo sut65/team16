@@ -144,11 +144,13 @@ function SeparationCreate() {
 
     async function submit() {
         let data = {
-            AMOUNT: typeof sep.Amount === "string" ? parseInt(sep.Amount) : 0,
-            EMPLOYEEID: convertType(sep.Employee_ID),
-            REASONID: convertType(sep.Reason_ID),
-            SHELVINGID: convertType(sep.Shelving_ID),
-            
+            Amount: typeof sep.Amount === "string" ? parseInt(sep.Amount) : 0,
+            Date_Out: sep.Date_Out,
+            Status: sep.Status ?? "",
+            Employee_ID: convertType(sep.Employee_ID),
+            Reason_ID: convertType(sep.Reason_ID),
+            Shelving_ID: convertType(sep.Shelving_ID),
+
         };
 
         console.log(data)
