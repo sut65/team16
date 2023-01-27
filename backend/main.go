@@ -109,6 +109,11 @@ func main() {
 			r.POST("/record_employee_leaves", controller.CreateRecord_employee_leave)
 			r.PATCH("/record_employee_leaves/:id", controller.UpdateRecord_employee_leave)
 			r.DELETE("/record_employee_leaves/:id", controller.DeleteRecord_employee_leave)
+
+			//list components employee attendances
+			r.GET("/listduty", controller.Listduty)
+			r.GET("/listworking_time", controller.Listworking_time)
+			r.GET("/listovertime", controller.Listovertime)
 			
 			//Discount Routes
 			r.GET("/discounts", controller.ListDiscount)

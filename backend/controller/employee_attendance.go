@@ -2,15 +2,16 @@ package controller
 
 import (
 	"net/http"
-	"time"
+
 
 	"github.com/Team16/farm_mart/entity"
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
 // POST /Shopping_Cart
 func CreateEmployee_attendance(c *gin.Context) {
-
+	println("create 0")
 	var employee_attendance entity.Employee_attendance
 	var employee entity.Employee
 	var duty entity.Duty
@@ -22,54 +23,62 @@ func CreateEmployee_attendance(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	println("create 8")
 
 	// 9: ค้นหา Employee ด้วย id
 	if tx := entity.DB().Where("id = ?", employee_attendance.Employee_ID).First(&employee); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
-
+	println("create 9")
 	// 10: ค้นหา Duty ด้วย id
 	if tx := entity.DB().Where("id = ?", employee_attendance.Duty_ID).First(&duty); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Duty not found"})
 		return
 	}
-
+	println("create 10")
 	// 11: ค้นหา working_time ด้วย id
 	if tx := entity.DB().Where("id = ?", employee_attendance.Working_time_ID).First(&working_time); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "working_time not found"})
 		return
 	}
-
+	println("create 11")
 	// 12 ค้นหา overtime ด้วย id
 	if tx := entity.DB().Where("id = ?", employee_attendance.Overtime_ID).First(&overtime); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "overtime not found"})
 		return
 	}
-
+	println("create 12")
 	// 13: สร้าง Employee_attendance
 	sc := entity.Employee_attendance{
 		Employee:     employee,                      // โยงความสัมพันธ์กับ Entity Employee
 		Duty:         duty,                          // โยงความสัมพันธ์กับ Entity Duty
 		Working_time: working_time,                  // โยงความสัมพันธ์กับ Entity Working_time
 		Overtime:     overtime,                      // โยงความสัมพันธ์กับ Entity Overtime
-		Time_IN:      time.Time{},                   // ตั้งค่าฟิลด์ Time_IN
+		Time_IN:      employee_attendance.Time_IN,   // ตั้งค่าฟิลด์ Time_IN
 		Status_ID:    true,                          // ตั้งค่าฟิลด์ Status_ID
 		Number_Em:    employee_attendance.Number_Em, // ตั้งค่าฟิลด์ Number_Em
 	}
+	println("create 13")
 
 	// 14: บันทึก
+	if _, err := govalidator.ValidateStruct(sc); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	println("create 14")
 	if err := entity.DB().Create(&sc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusCreated, gin.H{"data": employee_attendance})
+	c.JSON(http.StatusCreated, gin.H{"data": sc})
+	println("create 15")
 }
 
 // GET /Employee_attendance
 func ListEmployee_attendance(c *gin.Context) {
 	var employee_attendance []entity.Employee_attendance
-	if err := entity.DB().Raw("SELECT * FROM Employee_attendances").Scan(&employee_attendance).Error; err != nil {
+	if err := entity.DB().Preload("Employee").Preload("Duty").Preload("Working_time").Preload("Overtime").Raw("SELECT * FROM employee_attendances").Find(&employee_attendance).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
