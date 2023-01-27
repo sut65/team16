@@ -14,14 +14,11 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import PaymentIcon from '@mui/icons-material/Payment';
-import { EmployeeInterface } from "../../models/IEmployee";
-import { MemberInterface } from "../../models/theerawat/IMember";
 import { OrderInterface } from "../../models/Natthapon/IOrder";
 import { IShelving } from "../../models/methas/IShelving";
 import { CartInterface } from "../../models/Natthapon/ICart";
-import { StatusInterface } from "../../models/Natthapon/IStatus";
-import { GetCurrentEmployee } from "../../services/HttpClientService";
+import PaymentIcon from '@mui/icons-material/Payment';
+
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -32,19 +29,15 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 function OrderCreate() {
-    const [success1, setSuccess1] = React.useState(false);
-    const [error1, setError1] = React.useState(false);
+
     const [success2, setSuccess2] = React.useState(false);
     const [error2, setError2] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const [employee, setEmployee] = React.useState<EmployeeInterface>();
-    const [member, setMember] = React.useState<MemberInterface[]>([]);
     const [shelving, setShelving] = React.useState<IShelving[]>([]);
-    const [status, setStatus] = React.useState<StatusInterface[]>([]);
     const [order, setOder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
-    const [carts, setCarts] = React.useState<CartInterface[]>([]);
+
 
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -62,8 +55,6 @@ function OrderCreate() {
         if (reason === "clickaway") {
             return;
         }
-        setSuccess1(false);
-        setError1(false);
         setSuccess2(false);
         setError2(false);
     };
@@ -96,62 +87,10 @@ function OrderCreate() {
             });
     };
 
-    const getMember = async () => {
-        fetch(`${apiUrl}/members`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-            if (res.data) {
-                console.log(res.data)
-                setMember(res.data);
-            }
-            else { console.log("NO DATA") }
-            });
-    };
-
-    const [latestCartId, setLatestCartId] = React.useState(0);
-
-    const getLatestCartId = async () => {
-        fetch(`${apiUrl}/unpaids`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    // Find the cart with the highest ID
-                    let latestCart = res.data.reduce((prev: any, current: any) => {
-                        return (prev.ID > current.ID) ? prev : current
-                    });
-                    setLatestCartId(latestCart.ID);
-                }
-            });
-    }
-
-
-    const getStatus = async () => {
-        fetch(`${apiUrl}/statuses`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-            if (res.data) {
-                console.log(res.data)
-                setStatus(res.data);
-            }
-            else { console.log("NO DATA") }
-            });
-      };
-
-    const getEmployee = async () => {
-        let res = await GetCurrentEmployee();
-        cart.Employee_ID = res.ID;
-        if (res) {
-            setEmployee(res);
-            console.log(res)
-        }
-    };
+    let cartID = localStorage.getItem("cartID");
 
     useEffect(() => {
-        getEmployee();
-        getMember();
         getShelving();
-        getStatus();
-        getLatestCartId();
     }, []);
 
     const convertType = (data: string | number | undefined) => {
@@ -159,53 +98,17 @@ function OrderCreate() {
         return val;
     };
 
-    async function addcart() {
-        let data = {
-            Total: typeof cart.Total === "string" ? parseInt(cart.Total) : 0,
-            Status_ID: 1,
-            Member_ID: convertType(cart.Member_ID),
-            Employee_ID: convertType(cart.Employee_ID),
-        };
-
-        console.log(data)
-
-        const requestOptions = {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data),
-        };
-
-        fetch(`${apiUrl}/carts`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    setSuccess1(true);
-                    setErrorMessage("")
-                    getLatestCartId();
-                    
-                } else {
-                    setError1(true);
-                    setErrorMessage(res.error)
-                }
-            });
-
-    }
-
-
     async function addproduct() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
             Shelving_ID: convertType(order.Shelving_ID),
-            Shopping_Cart_ID: latestCartId,
+            Shopping_Cart_ID: Number(cartID),
         };
 
         console.log(data)
 
         const requestOptions = {
-            method: "POST",
+            method: "Post",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
@@ -228,28 +131,6 @@ function OrderCreate() {
 
     return (
         <Container maxWidth="md">
-            <Snackbar
-                open={success1}
-                autoHideDuration={6000}
-                onClose={handleClose}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            >
-                <Alert onClose={handleClose} severity="success">
-                    <div className="good-font">
-                        เพิ่มตะกร้าสำเร็จ
-                    </div>
-                </Alert>
-            </Snackbar>
-            <Snackbar open={error1} 
-                autoHideDuration={6000} 
-                onClose={handleClose} 
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
-                <Alert onClose={handleClose} severity="error">
-                    <div className="good-font">
-                        เพิ่มตะกร้าไม่สำเร็จ
-                    </div>
-                </Alert>
-            </Snackbar>
             <Snackbar
                 open={success2}
                 autoHideDuration={6000}
@@ -312,83 +193,10 @@ function OrderCreate() {
 
                 </Box>
                 <Divider />
+                 
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">เบอร์โทรศัพท์</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Member_ID"
-                                getOptionLabel={(item: MemberInterface) => `${item.Mem_Tel}`}
-                                options={member}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.Mem_Tel === value.Mem_Tel}
-                                onChange={(e, value) => { 
-                                    // find the member that matches the selected phone number
-                                    let selectedMember = member.find(member => member.Mem_Tel === value?.Mem_Tel)
-                                    // set the cart.Member_ID with the ID of the selected member
-                                    cart.Member_ID = selectedMember?.ID 
-                                }}
-                                renderInput={(params) => <TextField {...params} label="เบอร์โทรศัพท์" />}
-                            />
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">พนักงานที่บันทึก</p>
-                            <Select
-                                native
-                                value={cart.Employee_ID + ""}
-                                onChange={handleChange}
-                                disabled
-                                inputProps={{
-                                    name: "Employee_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือก
-                                </option>
-                                <option value={employee?.ID} key={employee?.ID}>
-                                    {employee?.Name}
-                                </option>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={12}>
-                        <Button
-                            style={{ display: "flex", justifyContent: "center", margin: "0 auto" }}
-                            onClick={addcart}
-                            variant="contained"
-                            color="primary"
-                        >
-                            <div className="good-font-white">
-                                สร้างตะกร้า
-                            </div>
-                        </Button>
-                    </Grid>
-                </Grid>
-
-                    
-                <Grid container spacing={3} sx={{ padding: 2 }}>
-                    {/* <Grid item xs={9}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">รายการสินค้า</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Product"
-                                getOptionLabel={(item: IShelving) => `${item.Stock.Name} ราคา ${item.Stock.Price}`}
-                                options={shelving}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) => option.Stock_ID === value.Stock_ID}
-                                onChange={(e, value) => { order.Shelving_ID = value?.Stock_ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
-                            />
-                        </FormControl>
-                    </Grid> */}
-                    <Grid item xs={6}>
+                    <Grid item xs={2}></Grid>
+                    <Grid item xs={5}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">สินค้า</p>
                             <Autocomplete
@@ -404,7 +212,6 @@ function OrderCreate() {
                             />
                         </FormControl>
                     </Grid>
-
 
                     <Grid item xs={3}>
                         <FormControl fullWidth variant="outlined">

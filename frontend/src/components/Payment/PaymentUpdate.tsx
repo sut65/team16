@@ -65,14 +65,6 @@ function PaymentCreate() {
         setError(false);
     };
 
-    const handleInputChange = (
-        event: React.ChangeEvent<{ id?: string; value: any }>
-    ) => {
-        const id = event.target.id as keyof typeof PaymentCreate;
-        const { value } = event.target;
-        setPayment({ ...payment, [id]: value });
-    };
-
     const handleChange = (event: SelectChangeEvent) => {
         const name = event.target.name as keyof typeof payment;
         setPayment({
