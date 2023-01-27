@@ -37,7 +37,7 @@ func GetStatus(c *gin.Context) {
 // GET /Status
 func ListStatus(c *gin.Context) {
 	var status []entity.Status
-	if err := entity.DB().Raw("SELECT * FROM statuss").Scan(&status).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM statuses").Scan(&status).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -48,7 +48,7 @@ func ListStatus(c *gin.Context) {
 // DELETE /Status/:id
 func DeleteStatus(c *gin.Context) {
 	id := c.Param("id")
-	if tx := entity.DB().Exec("DELETE FROM statuss WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM statuses WHERE id = ?", id); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "status not found"})
 		return
 	}

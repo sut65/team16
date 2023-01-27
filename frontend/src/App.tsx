@@ -28,6 +28,8 @@ import Homepage from "./components/Homepage";
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ArticleIcon from '@mui/icons-material/Article';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
 
 import "./styles.css"
 import Stocks from "./components/methas/Stock";
@@ -53,9 +55,12 @@ import LeaveUpdate from "./components/Leave/LeaveUpdate";
 import MemberUpdate from "./components/Member/MemberUpdate";
 import Payment from "./components/Payment/payment";
 import PaymentCreate from "./components/Payment/PaymentCreate";
-
-
-
+import PaymentUpdate from "./components/Payment/PaymentUpdate";
+import Pay from "./components/Payment/pay";
+import EmployeeattemdanceIN from "./components/Panupol/Em_IN_list";
+import EmployeeattemdanceINcreate from "./components/Panupol/Em_in";
+import EmployeeattemdanceOUT from "./components/Panupol/Em_OUT_list";
+import EmployeeattemdanceOUTcreate from "./components/Panupol/Em_out";
 
 var employeeName = "";
 
@@ -127,6 +132,8 @@ const menu = [
   { name: "แจ้งลา", icon: <ArticleIcon />, path: "/Leave" },
   { name: "จำหน่ายสินค้า", icon: <InventoryIcon />, path: "/SeparationShow" },
   { name: "รายการการส่งสินค้า", icon: <LocalShippingIcon />, path: "/Delivery" },
+  { name: "รายการเข้างาน", icon: <GroupAddIcon />, path: "/EmployeeattemdanceIN" },
+  { name: "รายการออกงาน", icon: <GroupRemoveIcon />, path: "/EmployeeattemdanceOUT" },
 ];
 
 
@@ -288,6 +295,12 @@ export default function App() {
                   <Route path="/Cart" element={<Cart />} />
                   <Route path="/Payment" element={<Payment />} />
                   <Route path="/PaymentCreate" element={<PaymentCreate />} />
+                  <Route path="/EmployeeattemdanceIN" element={<EmployeeattemdanceIN />} />
+                  <Route path="/EmployeeattemdanceINcreate" element={<EmployeeattemdanceINcreate />} />
+                  <Route path="/EmployeeattemdanceOUT" element={<EmployeeattemdanceOUT />} />
+                  <Route path="/EmployeeattemdanceOUTcreate" element={<EmployeeattemdanceOUTcreate />} />
+                  <Route path="/PaymentUpdate" element={<PaymentUpdate />} />
+                  <Route path="/Pay" element={<Pay />} />
                 </Routes>
               </Container>
             </Box>

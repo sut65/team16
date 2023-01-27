@@ -28,7 +28,7 @@ func CreatePayment(c *gin.Context) {
 	}
 
 	// 11: ค้นหา Payment_method ด้วย id
-	if tx := entity.DB().Where("Mem_Tel = ?", payment.Payment_method_ID).First(&method); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", payment.Payment_method_ID).First(&method); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Payment_method not found"})
 		return
 	}
@@ -41,10 +41,13 @@ func CreatePayment(c *gin.Context) {
 
 	// 12: สร้าง Payment
 	sc := entity.Payment{
+		Price: payment.Price,
+		Time: payment.Time,
 		Shopping_Cart:	cart, 				// โยงความสัมพันธ์กับ Entity Shopping_Cart
 		Payment_method:	method,   // โยงความสัมพันธ์กับ Entity Payment_method
 		Employee:		employee, 		// โยงความสัมพันธ์กับ Entity Employee
 	}
+	payment.Time = payment.Time.Local()
 
 	// 13: บันทึก
 	if err := entity.DB().Create(&sc).Error; err != nil {
@@ -58,7 +61,7 @@ func CreatePayment(c *gin.Context) {
 func GetPayment(c *gin.Context) {
 	var payment entity.Payment
 	id := c.Param("id")
-	if err := entity.DB().Preload("Shelving").Preload("Shopping_Cart").Raw("SELECT * FROM payments WHERE id = ?", id).Find(&payment).Error; err != nil {
+	if err := entity.DB().Preload("Payment_method").Preload("Shopping_Cart").Preload("Employee").Raw("SELECT * FROM payments WHERE id = ?", id).Find(&payment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -68,7 +71,7 @@ func GetPayment(c *gin.Context) {
 // GET /payment
 func ListPayment(c *gin.Context) {
 	var payment []entity.Payment
-	if err := entity.DB().Preload("Shelving").Preload("Shopping_Cart").Raw("SELECT * FROM payments").Find(&payment).Error; err != nil {
+	if err := entity.DB().Preload("Payment_method").Preload("Shopping_Cart").Preload("Employee").Raw("SELECT * FROM payments").Find(&payment).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

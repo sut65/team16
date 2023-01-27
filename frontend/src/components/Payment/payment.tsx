@@ -81,15 +81,19 @@ function Payment() {
         { field: "ID", headerName: "ID", width: 50 },
         { field: "Price", headerName: "ยอดรวม", width: 80 },
         {
-            field: "Time", headerName: "วันที่ชำระ", width: 150,
-            renderCell: (params) => moment(params.row.Payment_s).format('YY-MM-DD HH:mm:ss')
+            field: "Time", headerName: "วันที่ชำระ", width: 200,
+            renderCell: (params) => moment(params.row.Time).format('YY-MM-DD HH:mm:ss')
+        },
+        {
+            field: "Shopping_Cart", headerName: "ตะกร้า", width: 100,
+            valueFormatter: (params) => params.value.ID,
         },
         {
             field: "Payment_method", headerName: "ช่องทางการขำระ", width: 180,
-            valueFormatter: (params) => params.value.Type_Name,
+            valueFormatter: (params) => params.value.Method,
         },
         {
-            field: "Employee", headerName: "พนักงาน", width: 150,
+            field: "Employee", headerName: "พนักงาน", width: 250,
             valueFormatter: (params) => params.value.Name,
         },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
@@ -127,7 +131,7 @@ function Payment() {
         <div>
             {/* ยืนยันการลบ */}
             <Dialog open={openDelete} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการลบส่วนลดนี้</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการลบการชำระ</div></DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
@@ -141,7 +145,7 @@ function Payment() {
             </Dialog>
             {/* ยืนยันการแก้ไข */}
             <Dialog open={openUpdate} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการแก้ไขส่วนลดนี้</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการแก้ไขการชำระ</div></DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"

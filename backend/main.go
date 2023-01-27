@@ -109,6 +109,11 @@ func main() {
 			r.POST("/record_employee_leaves", controller.CreateRecord_employee_leave)
 			r.PATCH("/record_employee_leaves/:id", controller.UpdateRecord_employee_leave)
 			r.DELETE("/record_employee_leaves/:id", controller.DeleteRecord_employee_leave)
+
+			//list components employee attendances
+			r.GET("/listduty", controller.Listduty)
+			r.GET("/listworking_time", controller.Listworking_time)
+			r.GET("/listovertime", controller.Listovertime)
 			
 			//Discount Routes
 			r.GET("/discounts", controller.ListDiscount)
@@ -130,6 +135,27 @@ func main() {
 			r.POST("/separations", controller.CreateSeparation)
 			r.PATCH("/separation/:id", controller.UpdateSeparation)
 			r.DELETE("/separation/:id", controller.DeleteSeparation)
+
+			//Comment Routes
+			r.GET("/comments", controller.ListComments)
+			r.GET("/comment/:id", controller.GetComment)
+			r.POST("/comments", controller.CreateComment)
+			r.PATCH("/comment/:id", controller.UpdateComment)
+			r.DELETE("/comment/:id", controller.DeleteComment)
+
+			//Type comment Routes
+			r.GET("/type_comments", controller.ListType_comments)
+			r.GET("/type_comment/:id", controller.GetType_comment)
+			r.POST("/type_comments", controller.CreateType_comment)
+			r.PATCH("/type_comment/:id", controller.UpdateType_comment)
+			r.DELETE("/type_comment/:id", controller.DeleteType_comment)
+
+			//Review point Routes
+			r.GET("/review_points", controller.ListReview_points)
+			r.GET("/review_point/:id", controller.GetReview_point)
+			r.POST("/review_points", controller.CreateReview_point)
+			r.PATCH("/review_point/:id", controller.UpdateReview_point)
+			r.DELETE("/review_point/:id", controller.DeleteReview_point)
 
 			//Reason Routes
 			r.GET("/reasons", controller.ListReasons)
@@ -168,6 +194,7 @@ func main() {
 
 			//Status Routes
 			r.GET("/carts", controller.ListCart)
+			r.GET("/unpaids", controller.ListUnpaid)
 			r.GET("/cart/:id", controller.GetCart)
 			r.POST("/carts", controller.CreateCart)
 			r.PATCH("/cart/:id", controller.UpdateCart)
@@ -181,11 +208,11 @@ func main() {
 			r.DELETE("/car/:id", controller.DeleteCar)
 
 			//Delivery Routes
-			r.GET("/deliveries", controller.ListCar)
-			r.GET("/delivery/:id", controller.GetCar)
-			r.POST("/deliveries", controller.CreateCar)
-			r.PATCH("/delivery/:id", controller.UpdateCar)
-			r.DELETE("/delivery/:id", controller.DeleteCar)
+			r.GET("/deliveries", controller.ListDelivery)
+			r.GET("/delivery/:id", controller.GetDelivery)
+			r.POST("/deliveries", controller.CreateDelivery)
+			r.PATCH("/delivery/:id", controller.UpdateDelivery)
+			r.DELETE("/delivery/:id", controller.DeleteDelivery)
 		}
 	}
 

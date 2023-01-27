@@ -186,7 +186,7 @@ function Delivery() {
                             color="primary"
                         >
                             <div className="good-font-white">
-                                เพิ่มส่วนลด
+                                เพิ่มรายการการส่งสินค้า
                             </div>
                         </Button>
                     </Box>

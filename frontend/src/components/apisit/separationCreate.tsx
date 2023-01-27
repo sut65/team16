@@ -279,7 +279,7 @@ function SeparationCreate() {
 
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>ชั้นวาง</p>
+                            <p>สินค้า</p>
                             
                             <Autocomplete
                                 disablePortal
