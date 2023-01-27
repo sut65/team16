@@ -63,7 +63,7 @@ function SeparationShow() {
         { field: "ID", headerName: "ลับดับ", width: 100 },
         // { field: "Cuase", headerName: "เหตุผล", width: 120 },
         {
-            field: "Reason", headerName: "เหตุผล", width: 180,
+            field: "Reason", headerName: "เหตุผล", width: 150,
             valueFormatter: (params) => params.value.Cuase,
         },
         // { field: "name", headerName: "พนักงาน", width: 120 },
@@ -73,7 +73,7 @@ function SeparationShow() {
         },
         // { field: "shelving_id", headerName: "ชั้นวาง", width: 120 },
         {
-            field: "Shelving", headerName: "ชั้นวาง", width: 180,
+            field: "Shelving", headerName: "สินค้า", width: 100,
             valueFormatter: (params) => params.value.ID,
         },
         // { field: "date_out", headerName: "เวลาจำหน่าย", width: 150 },
@@ -82,7 +82,7 @@ function SeparationShow() {
             renderCell: (params) => moment(params.row.Date_Out).format('YY-MM-DD')
         },
         { field: "Amount", headerName: "จำนวน", width: 100 },
-        { field: "Status", headerName: "สถานะ", width: 200 },
+        { field: "Status", headerName: "สถานะ", width: 100 },
 
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
         {

@@ -137,12 +137,11 @@ func UpdateSeparation(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "reason not found"})
 		return
 	}
-	dc := entity.Separation{
-		// Amount: separationS.Discount_Price,             
+	dc := entity.Separation{           
 		Date_Out:       separationS.Date_Out,
 		Employee:	    separationS.Employee,               
-		Shelving:	    separationS.Shelving,               
-		Reason:	    	separationS.Reason,               
+		Shelving:	    shelving,               
+		Reason:	    	reason,               
 		Amount:	        separationS.Amount,  
 		Status:		    separationS.Status,     
 	}
