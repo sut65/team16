@@ -19,9 +19,11 @@ import { EmployeeInterface } from "../../models/IEmployee";
 import { MemberInterface } from "../../models/theerawat/IMember";
 import { OrderInterface } from "../../models/Natthapon/IOrder";
 import { IShelving } from "../../models/methas/IShelving";
+import { StocksInterface } from "../../models/methas/IStock";
 import { CartInterface } from "../../models/Natthapon/ICart";
 import { StatusInterface } from "../../models/Natthapon/IStatus";
 import { GetCurrentEmployee } from "../../services/HttpClientService";
+
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -42,9 +44,9 @@ function OrderCreate() {
     const [member, setMember] = React.useState<MemberInterface[]>([]);
     const [shelving, setShelving] = React.useState<IShelving[]>([]);
     const [status, setStatus] = React.useState<StatusInterface[]>([]);
-    const [order, setOder] = React.useState<OrderInterface>({});
+    const [order, setOrder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
-    const [carts, setCarts] = React.useState<CartInterface[]>([]);
+    const [stock, setStock] = React.useState<StocksInterface[]>([]);
 
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -73,12 +75,12 @@ function OrderCreate() {
     ) => {
         const id = event.target.id as keyof typeof OrderCreate;
         const { value } = event.target;
-        setOder({ ...order, [id]: value });
+        setOrder({ ...order, [id]: value });
     };
 
     const handleChange = (event: SelectChangeEvent) => {
         const name = event.target.name as keyof typeof order;
-        setOder({
+        setOrder({
             ...order,
             [name]: event.target.value,
         });
@@ -91,6 +93,18 @@ function OrderCreate() {
             if (res.data) {
                 console.log(res.data)
                 setShelving(res.data);
+            }
+            else { console.log("NO DATA") }
+            });
+    };
+    
+    const getStock = async () => {
+        fetch(`${apiUrl}/stocks`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+            if (res.data) {
+                console.log(res.data)
+                setStock(res.data);
             }
             else { console.log("NO DATA") }
             });
@@ -150,6 +164,7 @@ function OrderCreate() {
         getEmployee();
         getMember();
         getShelving();
+        getStock();
         getStatus();
         getLatestCartId();
     }, []);
@@ -194,10 +209,10 @@ function OrderCreate() {
 
     }
 
-
     async function addproduct() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
+            Prices: typeof order.Prices === "string" ? parseInt(order.Prices) : 0,
             Shelving_ID: convertType(order.Shelving_ID),
             Shopping_Cart_ID: latestCartId,
         };
@@ -373,32 +388,16 @@ function OrderCreate() {
 
                     
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-                    {/* <Grid item xs={9}>
+                    <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">รายการสินค้า</p>
                             <Autocomplete
                                 disablePortal
-                                id="Product"
-                                getOptionLabel={(item: IShelving) => `${item.Stock.Name} ราคา ${item.Stock.Price}`}
-                                options={shelving}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) => option.Stock_ID === value.Stock_ID}
-                                onChange={(e, value) => { order.Shelving_ID = value?.Stock_ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
-                            />
-                        </FormControl>
-                    </Grid> */}
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">สินค้า</p>
-                            <Autocomplete
-                                disablePortal
                                 id="Stock_ID"
-                                getOptionLabel={(item: IShelving) => `${item.ID}`}
-                                options={shelving}
+                                getOptionLabel={(item: StocksInterface) => `${item.Name} ราคา ${item.Price}`}
+                                options={stock}
                                 sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
+                                isOptionEqualToValue={(option, value) => option.ID === value.ID}
                                 onChange={(e, value) => { order.Shelving_ID = value?.ID }}
                                 renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
@@ -419,6 +418,24 @@ function OrderCreate() {
                                     shrink: true,
                                 }}
                                 value={order.Quantity || ""}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={3}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">รวมราคา</p>
+                            <TextField
+                                id="Prices"
+                                variant="outlined"
+                                type="number"
+                                size="medium"
+                                InputProps={{ inputProps: { min: 1}}}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={order.Prices || ""}
                                 onChange={handleInputChange}
                             />
                         </FormControl>

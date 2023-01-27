@@ -159,6 +159,33 @@ function PaymentCreate() {
             });
     }
 
+    async function pay() {
+        let data = {
+            Status_ID: 2,
+        };
+        console.log(data)
+
+        const requestOptions = {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`${apiUrl}/cart/${cartID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setErrorMessage("")            
+                } else {
+                    setErrorMessage(res.error)
+                }
+            });
+
+    }
+
     return (
         <Container maxWidth="md">
             <Snackbar
@@ -288,7 +315,10 @@ function PaymentCreate() {
                         </Button>
                         <Button
                             style={{ float: "right" }}
-                            onClick={submit}
+                            onClick={async () => {
+                                await submit();
+                                await pay();
+                            }}
                             variant="contained"
                             color="primary"
                         >

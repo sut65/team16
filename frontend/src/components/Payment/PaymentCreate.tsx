@@ -23,8 +23,6 @@ import { CartInterface } from "../../models/Natthapon/ICart"
 import { Payment_methodInterface } from "../../models/Natthapon/IPayment_method"
 import { PaymentInterface } from "../../models/Natthapon/IPayment"
 import { GetCurrentEmployee } from "../../services/HttpClientService";
-import Payment from "./payment";
-
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -64,14 +62,6 @@ function PaymentCreate() {
         }
         setSuccess(false);
         setError(false);
-    };
-
-    const handleInputChange = (
-        event: React.ChangeEvent<{ id?: string; value: any }>
-    ) => {
-        const id = event.target.id as keyof typeof PaymentCreate;
-        const { value } = event.target;
-        setPayment({ ...payment, [id]: value });
     };
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -159,6 +149,34 @@ function PaymentCreate() {
                 }
             });
     }
+    async function pay() {
+        let cartID = payment.Shopping_Cart_ID;
+        let data = {
+            Status_ID: 2,
+        };
+        console.log(data)
+
+        const requestOptions = {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`${apiUrl}/cart/${cartID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setErrorMessage("")            
+                } else {
+                    setErrorMessage(res.error)
+                }
+            });
+
+    }
+
 
     return (
         <Container maxWidth="md">
@@ -283,7 +301,10 @@ function PaymentCreate() {
                         </Button>
                         <Button
                             style={{ float: "right" }}
-                            onClick={submit}
+                            onClick={async () => {
+                                await submit();
+                                await pay();
+                            }}
                             variant="contained"
                             color="primary"
                         >

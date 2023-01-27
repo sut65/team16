@@ -33,7 +33,7 @@ func CreateOrder(c *gin.Context) {
 	// 12: สร้าง Order
 	sc := entity.Order{
 		Quantity:   order.Quantity,
-		Price:   	order.Price,
+		Prices:   	order.Prices,
 		Shopping_Cart:   	cart,
 		Shelving:   shelv,   // โยงความสัมพันธ์กับ Entity shelving
 	}

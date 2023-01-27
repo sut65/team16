@@ -76,10 +76,10 @@ function Order() {
     }, []);
 
     const columns: GridColDef[] = [
-      { field: "ID", headerName: "ID", width: 50,  headerAlign:"center", align:"center" },
+      { field: "ID", headerName: "ID", width: 100,  headerAlign:"center", align:"center" },
       { field: "Shelving", headerName: "สินค้า", width: 100, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
       { field: "Quantity", headerName: "จำนวน", width: 100, headerAlign:"center", align:"center" },
-      { field: "Price", headerName: "รวมราคา", width: 100, headerAlign:"center", align:"center" },
+      { field: "Prices", headerName: "รวมราคา", width: 100, headerAlign:"center", align:"center" },
       { field: "Shopping_Cart", headerName: "ตะกร้า", width: 250, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
       {
