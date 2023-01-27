@@ -22,7 +22,7 @@ type Member struct {
 	gorm.Model
 	Mem_Name string
 	Mem_Age  int
-	Mem_Tel  string	
+	Mem_Tel  string	`gorm:"uniqueIndex"`
 
 	Gender_ID   *uint
 	Gender      Gender

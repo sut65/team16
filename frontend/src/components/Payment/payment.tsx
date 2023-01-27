@@ -4,25 +4,27 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import { SeparationInterface } from "../../models/apisit/ISeparation";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
-import moment from "moment";
+import moment from 'moment'
+
+import { PaymentInterface } from "../../models/Natthapon/IPayment"
 import { Dialog, DialogTitle } from "@mui/material";
 
 
-function SeparationShow() {
-    const [separation, setSeparation] = React.useState<SeparationInterface[]>([]);
-    const [separationID, setSeparationID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
+function Payment() {
+    const [payment, setPayment] = React.useState<PaymentInterface[]>([]);
+    const [paymentID, setPaymentID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
     const [openUpdate, setOpenupdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การแก้ไข
 
-    const getSeparation = async () => {
-        const apiUrl = "http://localhost:8080/separations";
+    // โหลดข้อมูลทั้งหมดใส่ datagrid
+    const getPayment = async () => {
+        const apiUrl = "http://localhost:8080/payments";
         const requestOptions = {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
         };
 
@@ -31,15 +33,15 @@ function SeparationShow() {
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setSeparation(res.data);
+                    setPayment(res.data);
                 }
                 else { console.log("NO DATA") }
             });
     };
 
     // function ลบข้อมูล
-    const deleteSeparation = async () => {
-        const apiUrl = `http://localhost:8080/separation/${separationID}`;
+    const deletePayment = async () => {
+        const apiUrl = `http://localhost:8080/payment/${paymentID}`;
         const requestOptions = {
             method: "DELETE",
             headers: {
@@ -51,39 +53,45 @@ function SeparationShow() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log("delete ID: " + separationID)
+                    console.log("delete ID: " + paymentID)
                 }
                 else { console.log("NO DATA") }
             });
         handleClose();
-        getSeparation();
+        getPayment();
     }
 
+    // เมื่อมีการคลิ๊กที่แถวใดแถวหนึ่งในDataGrid functionนี้จะsetค่าIDของข้อมูลที่ต้องการ(ในกรณีนี้คือPaymentID)เพื่อรอสำหรับการแก้ไข/ลบ
+    const handleRowClick: GridEventListener<'rowClick'> = (params) => {
+        setPaymentID(Number(params.row.ID)); //setเพื่อรอการลบ
+        localStorage.setItem("paymentID", params.row.ID); //setเพื่อการแก้ไข
+    };
+
+     // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
+    const handleClose = () => {
+        setOpendelete(false)
+        setOpenupdate(false)
+    };
+
+    useEffect(() => {
+        getPayment();
+    }, []);
+
     const columns: GridColDef[] = [
-        { field: "ID", headerName: "ลับดับ", width: 100 },
-        // { field: "Cuase", headerName: "เหตุผล", width: 120 },
+        { field: "ID", headerName: "ID", width: 50 },
+        { field: "Price", headerName: "ยอดรวม", width: 80 },
         {
-            field: "Reason", headerName: "เหตุผล", width: 150,
-            valueFormatter: (params) => params.value.Cuase,
+            field: "Time", headerName: "วันที่ชำระ", width: 150,
+            renderCell: (params) => moment(params.row.Payment_s).format('YY-MM-DD HH:mm:ss')
         },
-        // { field: "name", headerName: "พนักงาน", width: 120 },
         {
-            field: "Employee", headerName: "พนักงาน", width: 180,
+            field: "Payment_method", headerName: "ช่องทางการขำระ", width: 180,
+            valueFormatter: (params) => params.value.Type_Name,
+        },
+        {
+            field: "Employee", headerName: "พนักงาน", width: 150,
             valueFormatter: (params) => params.value.Name,
         },
-        // { field: "shelving_id", headerName: "ชั้นวาง", width: 120 },
-        {
-            field: "Shelving", headerName: "สินค้า", width: 100,
-            valueFormatter: (params) => params.value.ID,
-        },
-        // { field: "date_out", headerName: "เวลาจำหน่าย", width: 150 },
-        {
-            field: "Date_Out", headerName: "เวลาจำหน่าย", width: 150,
-            renderCell: (params) => moment(params.row.Date_Out).format('YY-MM-DD')
-        },
-        { field: "Amount", headerName: "จำนวน", width: 100 },
-        { field: "Status", headerName: "สถานะ", width: 100 },
-
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
         {
             field: "edit", headerName: "แก้ไข", width: 100,
@@ -113,59 +121,39 @@ function SeparationShow() {
                 );
             },
         },
-
     ];
-
-
-    const handleRowClick: GridEventListener<'rowClick'> = (params) => {
-        setSeparationID(Number(params.row.ID)); //setเพื่อรอการลบ
-        localStorage.setItem("separationID", params.row.ID); //setเพื่อการแก้ไข
-    };
-
-    // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
-    const handleClose = () => {
-        setOpendelete(false)
-        setOpenupdate(false)
-    };
-
-
-    useEffect(() => {
-        getSeparation();
-    }, []);
-
 
     return (
         <div>
             {/* ยืนยันการลบ */}
             <Dialog open={openDelete} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการลบรายการจำหน่าย</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการลบส่วนลดนี้</div></DialogTitle>
                 <Button
-                    variant="contained"
-                    color="primary"
-                    //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
-                    onClick={deleteSeparation}
-                >
-                    <div className="good-font">
-                        ยืนยัน
-                    </div>
-                </Button>
+                        variant="contained"
+                        color="primary"
+                        //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
+                        onClick={deletePayment}
+                    >
+                        <div className="good-font">
+                            ยืนยัน
+                        </div>
+                    </Button>
             </Dialog>
             {/* ยืนยันการแก้ไข */}
             <Dialog open={openUpdate} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการแก้ไขรายการจำหน่าย</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการแก้ไขส่วนลดนี้</div></DialogTitle>
                 <Button
-                    variant="contained"
-                    color="primary"
-                    //กด "ยืนยัน" ไปที่หน้าแก้ไข
-                    component={RouterLink}
-                    to="/SeparationUpdate"
-                >
-                    <div className="good-font">
-                        ยืนยัน
-                    </div>
-                </Button>
+                        variant="contained"
+                        color="primary"
+                        //กด "ยืนยัน" ไปที่หน้าแก้ไข
+                        component={RouterLink}
+                        to="/PaymentUpdate"
+                    >
+                        <div className="good-font">
+                            ยืนยัน
+                        </div>
+                    </Button>
             </Dialog>
-
             <Container maxWidth="lg">
                 <Box
                     display="flex"
@@ -181,27 +169,26 @@ function SeparationShow() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                การจำหน่ายสินค้า
+                                รายการการชำระสินค้า
                             </div>
                         </Typography>
                     </Box>
                     <Box>
                         <Button
                             component={RouterLink}
-                            to="/SeparationCreate"
+                            to="/PaymentCreate"
                             variant="contained"
                             color="primary"
                         >
                             <div className="good-font-white">
-                                บันทึกรายการจำหน่ายสินค้า
+                                ชำระสินค้า
                             </div>
                         </Button>
                     </Box>
                 </Box>
                 <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
                     <DataGrid
-                        rows={separation}
-                        // getRowId={(row: any) =>  row.id}
+                        rows={payment}
                         getRowId={(row) => row.ID}
                         columns={columns}
                         pageSize={5}
@@ -209,11 +196,9 @@ function SeparationShow() {
                         onRowClick={handleRowClick}
                     />
                 </div>
-
-                
             </Container>
         </div>
     );
 }
 
-export default SeparationShow;
+export default Payment;

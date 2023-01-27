@@ -86,17 +86,36 @@ func DeleteMember(c *gin.Context) {
 // PATCH /member
 func UpdateMember(c *gin.Context) {
 	var member entity.Member
+	id := c.Param("id")
+	var gender entity.Gender
+	var employee entity.Employee
+	var level entity.Level
+
 	if err := c.ShouldBindJSON(&member); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", member.ID).First(&member); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "member not found"})
+	if tx := entity.DB().Where("id = ?", member.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
-
-	if err := entity.DB().Save(&member).Error; err != nil {
+	if tx := entity.DB().Where("id = ?", member.Gender_ID).First(&gender); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "gender not found"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", member.Level_ID).First(&level); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "level not found"})
+		return
+	}
+	lf := entity.Member{
+		Mem_Name: member.Mem_Name,             
+		Mem_Age: member.Mem_Age,
+		Mem_Tel: member.Mem_Tel,             
+		Employee: employee,                
+		Gender:	gender,  
+		Level: level,     
+	}
+	if err := entity.DB().Where("id = ?", id).Updates(&lf).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

@@ -15,14 +15,16 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Autocomplete from "@mui/material/Autocomplete";
 
+// import { DiscountInterface } from "../../models/thanadet/IDiscount"
+// import { Discount_Type_Interface } from "../../models/thanadet/IDiscount_Type"
+import { EmployeeInterface } from "../../models/IEmployee"
+// import { StocksInterface } from "../../models/methas/IStock"
+import { GetCurrentEmployee } from "../../services/HttpClientService";
 import { ReasonInterface } from "../../models/apisit/IReason";
-import { EmployeeInterface } from "../../models/IEmployee";
 import { IShelving } from "../../models/methas/IShelving";
 import { SeparationInterface } from "../../models/apisit/ISeparation";
-// import { GetCurrentAdmin } from "../services/HttpClientService";
-import Autocomplete from "@mui/material/Autocomplete";
-import { GetCurrentEmployee } from "../../services/HttpClientService";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -31,25 +33,27 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function SeparationCreate() {
+function SeparationUpdate() {
+
     const [date, setDate] = React.useState<Date | null>(null);
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
-    const [emp, setEmployee] = React.useState<EmployeeInterface>();  
+    const [emp, setEmployee] = React.useState<EmployeeInterface>();
     const [reas, setReason] = React.useState<ReasonInterface[]>([]);
     const [shelf, setShelf] = React.useState<IShelving[]>([]);
     const [sep, setSeparation] = React.useState<SeparationInterface>({
         Date_Out: new Date(),
-     });
-    
+    });
+
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
         method: "GET",
-        headers: { 
+        headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json" },
+            "Content-Type": "application/json"
+        },
     };
 
     const handleClose = (
@@ -66,7 +70,7 @@ function SeparationCreate() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof SeparationCreate;
+        const id = event.target.id as keyof typeof SeparationUpdate;
         const { value } = event.target;
         setSeparation({ ...sep, [id]: value });
     };
@@ -102,18 +106,6 @@ function SeparationCreate() {
                 else { console.log("NO DATA") }
             });
     };
-    
-    // const getEmployee = async () => {
-    //     fetch(`${apiUrl}/emloyees`, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((res) => {
-    //             if (res.data) {
-    //                 console.log(res.data)
-    //                 setEmployee(res.data);
-    //             }
-    //             else { console.log("NO DATA") }
-    //         });
-    // };
 
     const getEmployee = async () => {
         let res = await GetCurrentEmployee();
@@ -124,14 +116,7 @@ function SeparationCreate() {
         }
     };
 
-    // const getAdmin = async () => {
-    //     let res = await GetCurrentAdmin();
-    //     activityHis.ADMIN_ID = res.ID;
-    //     if (res) {
-    //         setAdmin(res);
-    //         console.log(res)
-    //     }
-    // };
+    let separationID = localStorage.getItem("separationID"); // เรีกใช้ค่าจากlocal storage 
 
     useEffect(() => {
         getReason();
@@ -157,14 +142,15 @@ function SeparationCreate() {
         console.log(data)
 
         const requestOptions = {
-            method: "POST",
-            headers: { 
+            method: "PATCH", // ใช้ PATCH
+            headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json" },
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/separations`, requestOptions)
+        fetch(`${apiUrl}/separation/${separationID}`, requestOptions) // แนบIDไปด้วย
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -186,12 +172,16 @@ function SeparationCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
                 <Alert onClose={handleClose} severity="success">
-                    การเพิ่มข้อเสร็จสิ้น
+                    <div className="good-font">
+                        การแก้ไขเสร็จสิ้น
+                    </div>
                 </Alert>
             </Snackbar>
             <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
-                    การเพิ่มข้อมูลไม่สำเร็จ
+                    <div className="good-font">
+                        การแก้ไขไม่สำเร็จ
+                    </div>
                 </Alert>
             </Snackbar>
             <Paper>
@@ -202,23 +192,27 @@ function SeparationCreate() {
                     }}
                 >
                     <Box sx={{ paddingX: 2, paddingY: 1 }}>
+
                         <Typography
                             component="h2"
                             variant="h6"
                             color="primary"
                             gutterBottom
+
                         >
-                            บันทึกรายการจำหน่ายสินค้า
+                            <div className="good-font">
+                                แก้ไขรายการจำหน่าย ID : {separationID}
+                            </div>
                         </Typography>
                     </Box>
                 </Box>
                 <Divider />
-                <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                <Grid item xs={12}>
+                <Grid container spacing={3} sx={{ padding: 2 }}>
+                    <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
                             <p>เหตุผล</p>
-                            
+
                             <Autocomplete
                                 disablePortal
                                 id="Reason_ID"
@@ -230,30 +224,10 @@ function SeparationCreate() {
                                 onChange={(e, value) => { sep.Reason_ID = value?.ID }}
                                 renderInput={(params) => <TextField {...params} label="เลือกเหตุผลที่จำหน่าย" />}
                             />
+
+
                         </FormControl>
                     </Grid>
-
-                    {/* <Grid item xs={12}>
-                        <FormControl fullWidth variant="outlined">
-                            <p>พนักงาน</p>
-                            <Select
-                                native
-                                value={sep.Employee_ID + ""}
-                                onChange={handleChange}
-                                disabled
-                                inputProps={{
-                                    name: "Employee_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    --เลือกพนักงาน--
-                                </option>
-                                <option value={emp?.ID} key={emp?.ID}>
-                                    {emp?.Name}
-                                </option>
-                            </Select>
-                        </FormControl>
-                    </Grid> */}
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
@@ -277,10 +251,28 @@ function SeparationCreate() {
                         </FormControl>
                     </Grid>
 
+                    {/* <Grid item xs={12}>
+                    <FormControl fullWidth variant="outlined">
+                        <p>สินค้า</p>
+
+                        <Autocomplete
+                            disablePortal
+                            id="Shelving_ID"
+                            getOptionLabel={(item: IShelving) => `${item.ID}`}
+                            options={shelf}
+                            sx={{ width: 'auto' }}
+                            isOptionEqualToValue={(option, value) =>
+                                option.ID === value.ID}
+                            onChange={(e, value) => { sep.Shelving_ID = value?.ID }}
+                            renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
+                        />
+
+                    </FormControl>
+                </Grid> */}
+
                     <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
-                            <p>สินค้า</p>
-                            
+                            <p className="good-font">สินค้า</p>
                             <Autocomplete
                                 disablePortal
                                 id="Shelving_ID"
@@ -290,7 +282,7 @@ function SeparationCreate() {
                                 isOptionEqualToValue={(option, value) =>
                                     option.ID === value.ID}
                                 onChange={(e, value) => { sep.Shelving_ID = value?.ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกชั้นวาง" />}
+                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
                         </FormControl>
                     </Grid>
@@ -349,16 +341,12 @@ function SeparationCreate() {
                         </FormControl>
                     </Grid>
 
-                    
-                    
-
                     <Grid item xs={12}>
-                        <Button color="primary" component={RouterLink} to="/SeparationShow" variant="contained">
+                        <Button component={RouterLink} to="/SeparationShow" variant="contained">
                             <div className="good-font-white">
                                 กลับ
                             </div>
                         </Button>
-
                         <Button
                             style={{ float: "right" }}
                             onClick={submit}
@@ -369,12 +357,11 @@ function SeparationCreate() {
                                 บันทึก
                             </div>
                         </Button>
-
                     </Grid>
                 </Grid>
             </Paper>
-        </Container>
+        </Container >
     );
 }
 
-export default SeparationCreate;
+export default SeparationUpdate;

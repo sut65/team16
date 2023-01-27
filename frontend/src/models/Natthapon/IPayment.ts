@@ -1,14 +1,14 @@
 import { EmployeeInterface } from "../IEmployee";
-import { OrderInterface } from "./IOrder";
+import { CartInterface } from "./ICart";
 import { Payment_methodInterface } from "./IPayment_method";
 
 export interface PaymentInterface {
     ID?: number,
-    Time?: Date,
+    Time?: Date| null,
     Price?: number,
 
-    Order_ID?: number,
-    Order?: OrderInterface
+    Shopping_Cart_ID?: number,
+    Shopping_Cart?: CartInterface
     Payment_method_ID?: number
     Payment_method?: Payment_methodInterface
     Employee_ID?: number;

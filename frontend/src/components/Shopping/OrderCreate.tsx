@@ -17,7 +17,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { EmployeeInterface } from "../../models/IEmployee";
 import { MemberInterface } from "../../models/theerawat/IMember";
 import { OrderInterface } from "../../models/Natthapon/IOrder";
-import { StocksInterface } from "../../models/methas/IStock";
+import { IShelving } from "../../models/methas/IShelving";
 import { CartInterface } from "../../models/Natthapon/ICart";
 import { StatusInterface } from "../../models/Natthapon/IStatus";
 import { GetCurrentEmployee } from "../../services/HttpClientService";
@@ -31,17 +31,18 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 function OrderCreate() {
-    const [success, setSuccess] = React.useState(false);
-    const [error, setError] = React.useState(false);
+    const [success1, setSuccess1] = React.useState(false);
+    const [error1, setError1] = React.useState(false);
+    const [success2, setSuccess2] = React.useState(false);
+    const [error2, setError2] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [member, setMember] = React.useState<MemberInterface[]>([]);
-    const [shelving, setShelving] = React.useState<StocksInterface[]>([]);
+    const [shelving, setShelving] = React.useState<IShelving[]>([]);
     const [status, setStatus] = React.useState<StatusInterface[]>([]);
     const [order, setOder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
-    const [stock, setStock] = React.useState<StocksInterface[]>([]);
 
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -59,8 +60,10 @@ function OrderCreate() {
         if (reason === "clickaway") {
             return;
         }
-        setSuccess(false);
-        setError(false);
+        setSuccess1(false);
+        setError1(false);
+        setSuccess2(false);
+        setError2(false);
     };
 
     const handleInputChange = (
@@ -80,7 +83,7 @@ function OrderCreate() {
     };
 
     const getShelving = async () => {
-        fetch(`${apiUrl}/stocks`, requestOptions)
+        fetch(`${apiUrl}/Shelving`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
             if (res.data) {
@@ -159,21 +162,21 @@ function OrderCreate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    setSuccess(true);
+                    setSuccess1(true);
                     setErrorMessage("")
                 } else {
-                    setError(true);
+                    setError1(true);
                     setErrorMessage(res.error)
                 }
             });
     }
 
 
-    async function submit() {
+    async function addproduct() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
             Shelving_ID: convertType(order.Shelving_ID),
-            Shopping_Cart_ID: convertType(order.Shopping_Cart_ID),
+            //Shopping_Cart_ID: convertType(order.Shopping_Cart_ID),
         };
 
         console.log(data)
@@ -191,10 +194,12 @@ function OrderCreate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    setSuccess(true);
+                    const cartId = res.data.ID;
+                    console.log("Last inserted Shopping Cart ID: " + cartId);
+                    setSuccess2(true);
                     setErrorMessage("")
                 } else {
-                    setError(true);
+                    setError2(true);
                     setErrorMessage(res.error)
                 }
             });
@@ -203,7 +208,29 @@ function OrderCreate() {
     return (
         <Container maxWidth="md">
             <Snackbar
-                open={success}
+                open={success1}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            >
+                <Alert onClose={handleClose} severity="success">
+                    <div className="good-font">
+                        เพิ่มตะกร้าสำเร็จ
+                    </div>
+                </Alert>
+            </Snackbar>
+            <Snackbar open={error1} 
+                autoHideDuration={6000} 
+                onClose={handleClose} 
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+                <Alert onClose={handleClose} severity="error">
+                    <div className="good-font">
+                        เพิ่มตะกร้าไม่สำเร็จ
+                    </div>
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                open={success2}
                 autoHideDuration={6000}
                 onClose={handleClose}
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
@@ -214,13 +241,17 @@ function OrderCreate() {
                     </div>
                 </Alert>
             </Snackbar>
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+            <Snackbar open={error2} 
+                autoHideDuration={6000} 
+                onClose={handleClose} 
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
                         เพิ่มสินค้าไม่สำเร็จ
                     </div>
                 </Alert>
             </Snackbar>
+            
             <Paper>
                 <Box
                     display="flex"
@@ -241,35 +272,9 @@ function OrderCreate() {
                             </div>
                         </Typography>
                     </Box>
-
-                    <Box sx={{ paddingX: 2, paddingY: 1 ,textAlign: "right"}}>
-                        <Button component={RouterLink} to="/Order" variant="contained" >
-                            <div className="good-font-white">
-                                กลับ
-                            </div>
-                        </Button>
-                    </Box>
-
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">รหัสสมาชิก</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Member_ID"
-                                getOptionLabel={(item: MemberInterface) => `${item.ID}`}
-                                options={member}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
-                                onChange={(e, value) => { cart.Member_ID = value?.ID }}
-                                renderInput={(params) => <TextField {...params} label="รหัสสมาชิก" />}
-                            />
-                        </FormControl>
-                    </Grid>
-
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">เบอร์โทรศัพท์</p>
@@ -330,14 +335,29 @@ function OrderCreate() {
 
                     
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-                    <Grid item xs={9}>
+                    {/* <Grid item xs={9}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">รายการสินค้า</p>
                             <Autocomplete
                                 disablePortal
+                                id="Product"
+                                getOptionLabel={(item: IShelving) => `${item.Stock.Name} ราคา ${item.Stock.Price}`}
+                                options={shelving}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) => option.Stock_ID === value.Stock_ID}
+                                onChange={(e, value) => { order.Shelving_ID = value?.Stock_ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
+                            />
+                        </FormControl>
+                    </Grid> */}
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">สินค้า</p>
+                            <Autocomplete
+                                disablePortal
                                 id="Stock_ID"
-                                getOptionLabel={(item: StocksInterface) => `${item.Name} ราคา ${item.Price}`}
-                                options={stock}
+                                getOptionLabel={(item: IShelving) => `${item.ID}`}
+                                options={shelving}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
                                     option.ID === value.ID}
@@ -369,7 +389,7 @@ function OrderCreate() {
                     <Grid item xs={12}>
                         <Button
                             style={{ display: "flex", justifyContent: "center", margin: "0 auto" }}
-                            onClick={submit}
+                            onClick={addproduct}
                             variant="contained"
                             color="primary"
                         >
@@ -380,6 +400,25 @@ function OrderCreate() {
                     </Grid>
     
                 </Grid>
+
+            </Paper>
+            <Paper>
+            <Grid container spacing={20} sx={{ padding: 2 }}>
+                <Grid item xs={6}>
+                    <Button component={RouterLink} to="/Cart" variant="contained">
+                        <div className="good-font-white">
+                            ตะกร้าสินค้า
+                        </div>
+                    </Button>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button component={RouterLink} to="/Order" variant="contained" style={{ float: "right" }}>
+                        <div className="good-font-white">
+                            รายการสินค้า
+                        </div>
+                    </Button>
+                </Grid>
+            </Grid>
             </Paper>
         </Container>
     );

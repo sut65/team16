@@ -22,10 +22,19 @@ func CreateCart(c *gin.Context) {
 	}
 	
 	// 9: ค้นหา Member ด้วย id
-	if tx := entity.DB().Where("id = ?", cart.Member_ID).First(&member); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
-		return
+	if cart.Member_ID != nil {
+		if tx := entity.DB().Where("id = ?", cart.Member_ID).First(&member); tx.RowsAffected == 0 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
+			return
+		}
+	} else { 
+		// ทำงานเมื่อ Member_ID เป็น nil
 	}
+	  
+	// if tx := entity.DB().Where("id = ?", cart.Member_ID).First(&member); tx.RowsAffected == 0 {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
+	// 	return
+	// }
 
 	// 10: ค้นหา Employee ด้วย id
 	if tx := entity.DB().Where("id = ?", cart.Employee_ID).First(&employee); tx.RowsAffected == 0 {

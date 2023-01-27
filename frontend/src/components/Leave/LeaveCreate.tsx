@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import TextField from "@mui/material/TextField";
+import TextField, { TextFieldProps } from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
 import Container from "@mui/material/Container";
@@ -11,12 +11,15 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { MemberInterface } from "../../models/theerawat/IMember";
 import { EmployeeInterface } from "../../models/IEmployee";
-import { GenderInterface } from "../../models/theerawat/IGender";
-import { LevelInterface } from "../../models/theerawat/ILevel";
 import { Autocomplete, Select, SelectChangeEvent } from "@mui/material";
 import { GetCurrentEmployee } from "../../services/HttpClientService";
+import { SectionInterface } from "../../models/theerawat/ISection";
+import { L_TypeInterface } from "../../models/theerawat/IL_Type";
+import { LeaveInterface } from "../../models/theerawat/ILeave";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DatePicker } from "@mui/x-date-pickers";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
  props,
@@ -25,15 +28,18 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function MemberCreate() {
+function LeaveCreate() {
  const [success, setSuccess] = React.useState(false);
  const [error, setError] = React.useState(false);
  const [errorMessage, setErrorMessage] = React.useState("");
 
- const [member, setMember] = React.useState<Partial<MemberInterface>>({});
+ const [leave, setLeave] = React.useState<Partial<LeaveInterface>>({
+    Doc_DateS: new Date(),
+    Doc_DateE: new Date(),
+ });
  const [employee, setEmployee] = React.useState<EmployeeInterface>();
- const [gender, setGender] = React.useState<GenderInterface[]>([]);
- const [level, setLevel] = React.useState<LevelInterface[]>([]);
+ const [l_type, setL_Type] = React.useState<L_TypeInterface[]>([]);
+ const [section, setSection] = React.useState<SectionInterface[]>([]);
 
  const handleClose = (
    event?: React.SyntheticEvent | Event,
@@ -49,40 +55,40 @@ function MemberCreate() {
  const handleInputChange = (
    event: React.ChangeEvent<{ id?: string; value: any }>
  ) => {
-   const id = event.target.id as keyof typeof MemberCreate;
+   const id = event.target.id as keyof typeof LeaveCreate;
    const { value } = event.target;
-   setMember({ ...member, [id]: value });
+   setLeave ({ ...leave, [id]: value });
  };
 
  const handleChange = (event: SelectChangeEvent) => {
-    const name = event.target.name as keyof typeof member;
-    setMember({
-        ...member,
+    const name = event.target.name as keyof typeof leave;
+    setLeave({
+        ...leave,
         [name]: event.target.value,
     });
 };
 
  const apiUrl = "http://localhost:8080";
 
- const getGender = async () => {
-    fetch(`${apiUrl}/genders`, requestOptions)
+ const getL_Type = async () => {
+    fetch(`${apiUrl}/l_types`, requestOptions)
         .then((response) => response.json())
         .then((res) => {
             if (res.data) {
                 console.log(res.data)
-                setGender(res.data);
+                setL_Type (res.data);
             }
             else { console.log("NO DATA") }
         });
 };
 
-const getLevel = async () => {
-    fetch(`${apiUrl}/levels`, requestOptions)
+const getSection = async () => {
+    fetch(`${apiUrl}/sections`, requestOptions)
         .then((response) => response.json())
         .then((res) => {
             if (res.data) {
                 console.log(res.data)
-                setLevel(res.data);
+                setSection(res.data);
             }
             else { console.log("NO DATA") }
         });
@@ -90,7 +96,7 @@ const getLevel = async () => {
 
 const getEmployee = async () => {
     let res = await GetCurrentEmployee();
-    member.Employee_ID = res.ID;
+    leave.Employee_ID = res.ID;
     if (res) {
         setEmployee(res);
         console.log(res)
@@ -98,8 +104,8 @@ const getEmployee = async () => {
 };
 
 useEffect(() => {
-    getGender();
-    getLevel();
+    getL_Type();
+    getSection();
     getEmployee();
 }, []);
 
@@ -118,13 +124,14 @@ const convertType = (data: string | number | undefined) => {
 
 async function submit() {
    let data = {
-     Mem_Name: member.Mem_Name ?? "",
-     Mem_Age: typeof member.Mem_Age === "string" ? parseInt(member.Mem_Age) : 0,
-     Mem_Tel: member.Mem_Tel ?? "",
+    Doc_Reason: leave.Doc_Reason ?? "",
+    Doc_DateS:  leave.Doc_DateS,
+    Doc_DateE:  leave.Doc_DateE,
+    Doc_Cont: leave.Doc_Cont ?? "",
 
-     Gender_ID: convertType(member.Gender_ID),
-     Level_ID: convertType(member.Level_ID),
-     Employee_ID: convertType(member.Employee_ID),
+     L_Type_ID: convertType(leave.L_Type_ID),
+     Section_ID: convertType(leave.Section_ID),
+     Employee_ID: convertType(leave.Employee_ID),
    };
 
    console.log(data)
@@ -138,7 +145,7 @@ async function submit() {
        body: JSON.stringify(data),
    };
 
-   fetch(`${apiUrl}/members`, requestOptions)
+   fetch(`${apiUrl}/leaves`, requestOptions)
        .then((response) => response.json())
        .then((res) => {
            if (res.data) {
@@ -182,91 +189,110 @@ async function submit() {
              color="primary"
              gutterBottom
            >
-             Create Member
+             สร้างเอกสารแจ้งลา
            </Typography>
          </Box>
        </Box>
-
+       
        <Divider />
        <Grid container spacing={3} sx={{ padding: 2 }}>
-         <Grid item xs={8}>
-           <p className="good-font">ชื่อ - นามสกุล</p>
-           <FormControl fullWidth variant="outlined">
-             <TextField
-               id="Mem_Name"
-               variant="outlined"
-               type="string"
-               size="medium"
-               value={member.Mem_Name || ""}
-               onChange={handleInputChange}
-             />
-           </FormControl>
-         </Grid>
 
-         <Grid item xs={4}>
-           <FormControl fullWidth variant="outlined">
-             <p className="good-font">อายุ</p>
-             <TextField
-               id="Mem_Age"
-               variant="outlined"
-               type="number"
-               size="medium"
-               InputProps={{ inputProps: { min: 1 } }}
-               InputLabelProps={{
-                 shrink: true,
-               }}
-               value={member.Mem_Age || ""}
-               onChange={handleInputChange}
-             />
-           </FormControl>
-         </Grid>
-
-         <Grid item xs={7}>
-           <FormControl fullWidth variant="outlined">
-             <p className="good-font">เบอร์มือถือ</p>
-             <TextField
-               id="Mem_Tel"
-               variant="outlined"
-               type="string"
-               size="medium"
-               value={member.Mem_Tel || ""}
-               onChange={handleInputChange}
-             />
-           </FormControl>
-         </Grid>
-
-         <Grid item xs={5}>
+       <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-                <p className="good-font">เพศ</p>
+                <p className="good-font">ประเภทการลา</p>
                 <Autocomplete
                 disablePortal
-                id="Gender_ID"
-                getOptionLabel={(item: GenderInterface) => `${item.Gender_Name}`}
-                options={gender}
+                id="L_Type_ID"
+                getOptionLabel={(item: L_TypeInterface) => `${item.Type_Name}`}
+                options={l_type}
                 sx={{ width: 'auto' }}
                 isOptionEqualToValue={(option, value) =>
                     option.ID === value.ID}
-                onChange={(e, value) => { member.Gender_ID = value?.ID }}
-                renderInput={(params) => <TextField {...params} label="- Select Gender -" />}
+                onChange={(e, value) => { leave.L_Type_ID = value?.ID }}
+                renderInput={(params) => <TextField {...params} label="- Select Type -" />}
                 />
             </FormControl>
         </Grid>
 
         <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-                <p className="good-font">ระดับสมาชิก</p>
+                <p className="good-font">แผนก</p>
                 <Autocomplete
                 disablePortal
-                id="Level_ID"
-                getOptionLabel={(item: LevelInterface) => `${item.Level_Name}`}
-                options={level}
+                id="Section_ID"
+                getOptionLabel={(item: SectionInterface) => `${item.Sec_Name}`}
+                options={section}
                 sx={{ width: 'auto' }}
                 isOptionEqualToValue={(option, value) =>
                     option.ID === value.ID}
-                onChange={(e, value) => { member.Level_ID = value?.ID }}
-                renderInput={(params) => <TextField {...params} label="- Select Level -" />}
+                onChange={(e, value) => { leave.Section_ID = value?.ID }}
+                renderInput={(params) => <TextField {...params} label="- Select Section -" />}
                 />
             </FormControl>
+        </Grid>
+
+        <Grid item xs={12}>
+           <FormControl fullWidth variant="outlined">
+             <p className="good-font">เหตุผลการลา / รายละเอียด</p>
+             <TextField
+               id="Doc_Reason"
+               variant="outlined"
+               type="string"
+               size="medium"
+               value={leave.Doc_Reason || ""}
+               onChange={handleInputChange}
+             />
+           </FormControl>
+         </Grid>
+
+         <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+                <p className="good-font">วันเริ่มลา</p>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                         value={leave.Doc_DateS}
+                        onChange={(newValue) => {
+                            setLeave({
+                                ...leave,
+                                Doc_DateS: newValue,
+                            });
+                        }}
+                        renderInput={(params: JSX.IntrinsicAttributes & TextFieldProps) => <TextField {...params} />}
+                    />
+                </LocalizationProvider>
+            </FormControl>
+        </Grid>
+
+        <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+                <p className="good-font">วันสิ้นสุดลา</p>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DatePicker
+                         value={leave.Doc_DateE}
+                        onChange={(newValue) => {
+                            setLeave({
+                                ...leave,
+                                Doc_DateE: newValue,
+                            });
+                        }}
+                        renderInput={(params: JSX.IntrinsicAttributes & TextFieldProps) => <TextField {...params} />}
+                    />
+                </LocalizationProvider>
+            </FormControl>
+        </Grid>
+
+        <Grid item xs={6}>
+           <FormControl fullWidth variant="outlined">
+             <p className="good-font">ช่องทางการติดต่อ</p>
+             <TextField
+               id="Doc_Cont"
+               variant="outlined"
+               type="string"
+               size="medium"
+               value={leave.Doc_Cont || ""}
+               onChange={handleInputChange}
+             />
+           </FormControl>
         </Grid>
 
         <Grid item xs={6}>
@@ -274,7 +300,7 @@ async function submit() {
                 <p className="good-font">พนักงานที่บันทึก</p>
                 <Select
                     native
-                    value={member.Employee_ID + ""}
+                    value={leave.Employee_ID + ""}
                     onChange={handleChange}
                     disabled
                     inputProps={{name: "Employee_ID",}}
@@ -290,7 +316,7 @@ async function submit() {
         </Grid>
 
          <Grid item xs={12}>
-           <Button component={RouterLink} to="/Member" variant="contained">
+           <Button component={RouterLink} to="/Leave" variant="contained">
              Back
            </Button>
            <Button
@@ -302,10 +328,9 @@ async function submit() {
              Submit
            </Button>
          </Grid>
-       </Grid>
-
+         </Grid>
      </Paper>
    </Container>
  );
 }
-export default MemberCreate;
+export default LeaveCreate;

@@ -11,17 +11,21 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
 
-import { DiscountInterface } from "../../models/thanadet/IDiscount"
-import { Discount_Type_Interface } from "../../models/thanadet/IDiscount_Type"
 import { EmployeeInterface } from "../../models/IEmployee"
-import { StocksInterface } from "../../models/methas/IStock"
+import { CartInterface } from "../../models/Natthapon/ICart"
+import { Payment_methodInterface } from "../../models/Natthapon/IPayment_method"
+import { PaymentInterface } from "../../models/Natthapon/IPayment"
 import { GetCurrentEmployee } from "../../services/HttpClientService";
+import Payment from "./payment";
+
+
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -30,17 +34,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function DiscountUpdate() {
+function PaymentCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
-    const [stock, setStock] = React.useState<StocksInterface[]>([]);
-    const [dt, setDt] = React.useState<Discount_Type_Interface[]>([]);
-    const [discount, setDiscount] = React.useState<DiscountInterface>({
-        Discount_s: new Date(),
-        Discount_e: new Date(),
+    const [cart, setCart] = React.useState<CartInterface[]>([]);
+    const [methods, setMethod] = React.useState<Payment_methodInterface[]>([]);
+    const [payment, setPayment] = React.useState<PaymentInterface>({
+        Time: new Date(),
     });
 
     const apiUrl = "http://localhost:8080";
@@ -66,38 +69,38 @@ function DiscountUpdate() {
     const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
     ) => {
-        const id = event.target.id as keyof typeof DiscountUpdate;
+        const id = event.target.id as keyof typeof PaymentCreate;
         const { value } = event.target;
-        setDiscount({ ...discount, [id]: value });
+        setPayment({ ...payment, [id]: value });
     };
 
     const handleChange = (event: SelectChangeEvent) => {
-        const name = event.target.name as keyof typeof discount;
-        setDiscount({
-            ...discount,
+        const name = event.target.name as keyof typeof payment;
+        setPayment({
+            ...payment,
             [name]: event.target.value,
         });
     };
 
-    const getDiscount_Type = async () => {
-        fetch(`${apiUrl}/discount_types`, requestOptions)
+    const getPayment_method = async () => {
+        fetch(`${apiUrl}/payment_methods`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setDt(res.data);
+                    setMethod(res.data);
                 }
                 else { console.log("NO DATA") }
             });
     };
 
-    const getStock = async () => {
-        fetch(`${apiUrl}/stocks`, requestOptions)
+    const getCart = async () => {
+        fetch(`${apiUrl}/carts`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setStock(res.data);
+                    setCart(res.data);
                 }
                 else { console.log("NO DATA") }
             });
@@ -105,19 +108,17 @@ function DiscountUpdate() {
 
     const getEmployee = async () => {
         let res = await GetCurrentEmployee();
-        discount.Employee_ID = res.ID;
+        payment.Employee_ID = res.ID;
         if (res) {
             setEmployee(res);
             console.log(res)
         }
     };
 
-    let discountID = localStorage.getItem("discountID"); // เรีกใช้ค่าจากlocal storage 
-
     useEffect(() => {
         getEmployee();
-        getDiscount_Type();
-        getStock();
+        getPayment_method();
+        getCart();
     }, []);
 
     const convertType = (data: string | number | undefined) => {
@@ -127,18 +128,17 @@ function DiscountUpdate() {
 
     async function submit() {
         let data = {
-            Discount_Price: typeof discount.Discount_Price === "string" ? parseInt(discount.Discount_Price) : 0,
-            Discount_s: discount.Discount_s,
-            Discount_e: discount.Discount_e,
-            Stock_ID: convertType(discount.Stock_ID),
-            Discount_Type_ID: convertType(discount.Discount_Type_ID),
-            Employee_ID: convertType(discount.Employee_ID),
+            Price: typeof payment.Price === "string" ? parseInt(payment.Price) : 0,
+            Time: payment.Time,
+            Shopping_Cart_ID: convertType(payment.Shopping_Cart_ID),
+            Payment_method_ID: convertType(payment.Payment_method_ID),
+            Employee_ID: convertType(payment.Employee_ID),
         };
 
         console.log(data)
 
         const requestOptions = {
-            method: "PATCH", // ใช้ PATCH
+            method: "POST",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
@@ -146,7 +146,7 @@ function DiscountUpdate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/discount/${discountID}`, requestOptions) // แนบIDไปด้วย
+        fetch(`${apiUrl}/payments`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -181,12 +181,7 @@ function DiscountUpdate() {
                 </Alert>
             </Snackbar>
             <Paper>
-                <Box
-                    display="flex"
-                    sx={{
-                        marginTop: 2,
-                    }}
-                >
+                <Box display="flex" sx={{marginTop: 2}}>
                     <Box sx={{ paddingX: 2, paddingY: 1 }}>
                         <Typography
                             component="h2"
@@ -196,66 +191,62 @@ function DiscountUpdate() {
 
                         >
                             <div className="good-font">
-                                แก้ไขส่วนลด ID : {discountID}
+                                เพิ่มส่วนลด
                             </div>
                         </Typography>
                     </Box>
                 </Box>
                 <Divider />
-                <Grid container spacing={3} sx={{ padding: 2 }}>
-
-                
-                    
+                <Grid container spacing={3} sx={{ padding: 2 }}> 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">ประเภทของส่วนลด</p>
+                            <p className="good-font">ตะกร้าสินค้า</p>
                             <Autocomplete
                                 disablePortal
-                                id="Discount_Type_ID"
-                                getOptionLabel={(item: Discount_Type_Interface) => `${item.Type_Name}`}
-                                options={dt}
+                                id="Cart_ID"
+                                getOptionLabel={(item: CartInterface) => `${item.ID}`}
+                                options={cart}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
                                     option.ID === value.ID}
-                                onChange={(e, value) => { discount.Discount_Type_ID = value?.ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกประเภทของส่วนลด" />}
-                            />
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">สินค้า</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Stock_ID"
-                                getOptionLabel={(item: StocksInterface) => `${item.Name} ราคา ${item.Price}`}
-                                options={stock}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
-                                onChange={(e, value) => { discount.Stock_ID = value?.ID }}
+                                onChange={(e, value) => {  payment.Shopping_Cart_ID = value?.ID }}
                                 renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
                         </FormControl>
                     </Grid>
 
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">ช่องทางการขำระ</p>
+                            <Autocomplete
+                                disablePortal
+                                id="Payment_method_ID"
+                                getOptionLabel={(item: Payment_methodInterface) => `${item.Method}`}
+                                options={methods}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { payment.Payment_method_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกช่องทางการชำระ" />}
+                            />
+                        </FormControl>
+                    </Grid>
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">ราคาที่ลด หน่วยเป็นบาท</p>
-                            <TextField
-                                id="Discount_Price"
-                                variant="outlined"
-                                type="number"
-                                size="medium"
-                                InputProps={{ inputProps: { min: 1 , max: 50}}}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                value={discount.Discount_Price || ""}
-                                onChange={handleInputChange}
-                            />
+                            <p className="good-font">เวลาที่ชำระสินค้า</p>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <DateTimePicker
+                                    renderInput={(props) => <TextField {...props} />}
+                                    value={payment.Time}
+                                    onChange={(newValue) => {
+                                        setPayment({
+                                            ...payment,
+                                            Time: newValue,
+                                        });
+                                    }}
+                                />
+                            </LocalizationProvider>
                         </FormControl>
                     </Grid>
 
@@ -264,7 +255,7 @@ function DiscountUpdate() {
                             <p className="good-font">พนักงานที่บันทึก</p>
                             <Select
                                 native
-                                value={discount.Employee_ID + ""}
+                                value={payment.Employee_ID + ""}
                                 onChange={handleChange}
                                 disabled
                                 inputProps={{
@@ -281,41 +272,6 @@ function DiscountUpdate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">วันที่เริ่มลดราคา</p>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DatePicker
-                                    value={discount.Discount_s}
-                                    onChange={(newValue) => {
-                                        setDiscount({
-                                            ...discount,
-                                            Discount_s: newValue,
-                                        });
-                                    }}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </LocalizationProvider>
-                        </FormControl>
-                    </Grid>
-
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">วันที่สิ้นสุดการลดราคา</p>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DatePicker
-                                    value={discount.Discount_e}
-                                    onChange={(newValue) => {
-                                        setDiscount({
-                                            ...discount,
-                                            Discount_e: newValue,
-                                        });
-                                    }}
-                                    renderInput={(params) => <TextField {...params} />}
-                                />
-                            </LocalizationProvider>
-                        </FormControl>
-                    </Grid>
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/Discount" variant="contained">
@@ -330,7 +286,7 @@ function DiscountUpdate() {
                             color="primary"
                         >
                             <div className="good-font-white">
-                                บันทึก
+                                ยืนยันการชำระ
                             </div>
                         </Button>
                     </Grid>
@@ -340,4 +296,4 @@ function DiscountUpdate() {
     );
 }
 
-export default DiscountUpdate;
+export default PaymentCreate;

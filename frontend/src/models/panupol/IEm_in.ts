@@ -5,15 +5,15 @@ import { EmployeeInterface } from "../IEmployee"
 
 export interface Employee_attendanceInterface {
     ID?: number;
-    Credit?: number;
-    Section?: number;
     Employee?: EmployeeInterface;
     Employee_ID?: number;     // foreignkey.ID?
-    Day?: string;
     Duty?: DutyInterface; 
     Duty_ID?: number;     // foreignkey.ID?
     Working_time?: Working_timeInterface;
     Working_time_ID?: number; // foreignkey.ID?
     Overtime?: OvertimeInterface;
     Overtime_ID?: number;  // foreignkey.ID?
+    Time_IN?: Date | null;
+	Status_ID?: boolean;
+	Number_Em?: string; 
 }
