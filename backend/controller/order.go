@@ -12,10 +12,16 @@ func CreateOrder(c *gin.Context) {
 
 	var order entity.Order
 	var shelv entity.Shelving
+	var cart entity.Shopping_Cart
 
 	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร Order
 	if err := c.ShouldBindJSON(&order); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// 10: ค้นหา cart ด้วย id
+	if tx := entity.DB().Where("id = ?", order.Shopping_Cart_ID).First(&cart); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Shopping_Cart not found"})
 		return
 	}
 	
@@ -26,6 +32,9 @@ func CreateOrder(c *gin.Context) {
 	}
 	// 12: สร้าง Order
 	sc := entity.Order{
+		Quantity:   order.Quantity,
+		Price:   	order.Price,
+		Shopping_Cart:   	cart,
 		Shelving:   shelv,   // โยงความสัมพันธ์กับ Entity shelving
 	}
 

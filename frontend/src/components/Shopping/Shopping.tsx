@@ -5,7 +5,8 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import EditIcon from '@mui/icons-material/Edit';
 import { OrderInterface } from "../../models/Natthapon/IOrder"
 import { Dialog, DialogTitle } from "@mui/material";
 
@@ -77,9 +78,10 @@ function Order() {
     }, []);
 
     const columns: GridColDef[] = [
-      { field: "ID", headerName: "ID", width: 50,  headerAlign:"center" },
-      { field: "Shelving", headerName: "สินค้า", width: 250, headerAlign:"center",valueFormatter: (params)=>params.value.ID},
-      { field: "Quantity", headerName: "จำนวน", width: 100, headerAlign:"center" },
+      { field: "ID", headerName: "ID", width: 50,  headerAlign:"center", align:"center" },
+      { field: "Shelving", headerName: "สินค้า", width: 250, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
+      { field: "Quantity", headerName: "จำนวน", width: 100, headerAlign:"center", align:"center" },
+      { field: "Shopping_Cart", headerName: "ตะกร้า", width: 250, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
       {
           field: "edit", headerName: "แก้ไข", width: 100,
@@ -115,7 +117,7 @@ function Order() {
         <div>
             {/* ยืนยันการลบ */}
             <Dialog open={openDelete} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการลบส่วนลดนี้</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการลบรายการนี้</div></DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
@@ -129,7 +131,7 @@ function Order() {
             </Dialog>
             {/* ยืนยันการแก้ไข */}
             <Dialog open={openUpdate} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการแก้ไขส่วนลดนี้</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการแก้ไขรายการนี้</div></DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
@@ -143,12 +145,7 @@ function Order() {
                     </Button>
             </Dialog>
             <Container maxWidth="md">
-                <Box
-                    display="flex"
-                    sx={{
-                        marginTop: 2,
-                    }}
-                >
+                <Box display="flex" sx={{ marginTop: 2,}}>
                     <Box flexGrow={1}>
                         <Typography
                             component="h2"
@@ -156,24 +153,36 @@ function Order() {
                             color="primary"
                             gutterBottom
                         >
-                            <div className="good-font">
-                                ส่วนลด
-                            </div>
+                            รายการสินค้า
                         </Typography>
                     </Box>
-                    <Box>
+
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+                        <Button
+                            component={RouterLink}
+                            to="/Cart"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<ArrowBackIcon />}
+                        >
+                        กลับ
+                        </Button>
+                    </Box>
+            
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}>
                         <Button
                             component={RouterLink}
                             to="/OrderCreate"
                             variant="contained"
                             color="primary"
+                            startIcon={<EditIcon />}
                         >
-                            <div className="good-font-white">
-                                เพิ่มส่วนลด
-                            </div>
+                            เพิ่มรายการสินค้า
                         </Button>
                     </Box>
+
                 </Box>
+                
                 <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
                     <DataGrid
                         rows={order}

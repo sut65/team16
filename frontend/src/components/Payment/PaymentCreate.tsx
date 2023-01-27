@@ -193,7 +193,7 @@ function PaymentCreate() {
 
                         >
                             <div className="good-font">
-                                เพิ่มส่วนลด
+                                ชำระสินค้า
                             </div>
                         </Typography>
                     </Box>
@@ -219,7 +219,7 @@ function PaymentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">ช่องทางการขำระ</p>
+                            <p className="good-font">ช่องทางการชำระสินค้า</p>
                             <Autocomplete
                                 disablePortal
                                 id="Payment_method_ID"
