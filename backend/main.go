@@ -202,11 +202,11 @@ func main() {
 			r.DELETE("/car/:id", controller.DeleteCar)
 
 			//Delivery Routes
-			r.GET("/deliveries", controller.ListCar)
-			r.GET("/delivery/:id", controller.GetCar)
-			r.POST("/deliveries", controller.CreateCar)
-			r.PATCH("/delivery/:id", controller.UpdateCar)
-			r.DELETE("/delivery/:id", controller.DeleteCar)
+			r.GET("/deliveries", controller.ListDelivery)
+			r.GET("/delivery/:id", controller.GetDelivery)
+			r.POST("/deliveries", controller.CreateDelivery)
+			r.PATCH("/delivery/:id", controller.UpdateDelivery)
+			r.DELETE("/delivery/:id", controller.DeleteDelivery)
 		}
 	}
 
