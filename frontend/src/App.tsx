@@ -55,9 +55,8 @@ import LeaveUpdate from "./components/Leave/LeaveUpdate";
 import MemberUpdate from "./components/Member/MemberUpdate";
 import Payment from "./components/Payment/payment";
 import PaymentCreate from "./components/Payment/PaymentCreate";
-
-
-
+import PaymentUpdate from "./components/Payment/PaymentUpdate";
+import Pay from "./components/Payment/pay";
 import EmployeeattemdanceIN from "./components/Panupol/Em_IN_list";
 import EmployeeattemdanceINcreate from "./components/Panupol/Em_in";
 import EmployeeattemdanceOUT from "./components/Panupol/Em_OUT_list";
@@ -300,6 +299,8 @@ export default function App() {
                   <Route path="/EmployeeattemdanceINcreate" element={<EmployeeattemdanceINcreate />} />
                   <Route path="/EmployeeattemdanceOUT" element={<EmployeeattemdanceOUT />} />
                   <Route path="/EmployeeattemdanceOUTcreate" element={<EmployeeattemdanceOUTcreate />} />
+                  <Route path="/PaymentUpdate" element={<PaymentUpdate />} />
+                  <Route path="/Pay" element={<Pay />} />
                 </Routes>
               </Container>
             </Box>

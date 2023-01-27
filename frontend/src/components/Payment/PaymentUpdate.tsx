@@ -12,7 +12,6 @@ import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs, { Dayjs } from 'dayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -23,7 +22,7 @@ import { CartInterface } from "../../models/Natthapon/ICart"
 import { Payment_methodInterface } from "../../models/Natthapon/IPayment_method"
 import { PaymentInterface } from "../../models/Natthapon/IPayment"
 import { GetCurrentEmployee } from "../../services/HttpClientService";
-import Payment from "./payment";
+
 
 
 
@@ -115,6 +114,8 @@ function PaymentCreate() {
         }
     };
 
+    let paymentID = localStorage.getItem("paymentID"); // เรีกใช้ค่าจากlocal storage 
+
     useEffect(() => {
         getEmployee();
         getPayment_method();
@@ -139,7 +140,7 @@ function PaymentCreate() {
         console.log(data)
 
         const requestOptions = {
-            method: "POST",
+            method: "PATCH",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
@@ -147,7 +148,7 @@ function PaymentCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/payments`, requestOptions)
+        fetch(`${apiUrl}/payment/${paymentID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {

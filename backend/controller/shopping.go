@@ -27,7 +27,7 @@ func CreateCart(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
 			return
 		}
-	} else { 
+	} else {print("") 
 		// ทำงานเมื่อ Member_ID เป็น nil
 	}
 	  
@@ -78,6 +78,16 @@ func GetCart(c *gin.Context) {
 func ListCart(c *gin.Context) {
 	var cart []entity.Shopping_Cart
 	if err := entity.DB().Preload("Member").Preload("Employee").Preload("Status").Raw("SELECT * FROM shopping_carts").Find(&cart).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": cart})
+}
+
+func ListUnpaid(c *gin.Context) {
+	var cart []entity.Shopping_Cart
+	if err := entity.DB().Preload("Member").Preload("Employee").Preload("Status").Raw("SELECT * FROM shopping_carts WHERE status_id = 1").Find(&cart).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
