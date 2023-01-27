@@ -83,19 +83,19 @@ function Payment() {
         { field: "ID", headerName: "ID", width: 50 },
         { field: "Price", headerName: "ยอดรวม", width: 80 },
         {
-            field: "Time", headerName: "วันที่ชำระสินค้า", width: 200,
+            field: "Time", headerName: "วันที่ชำระสินค้า", width: 160,
             renderCell: (params) => moment(params.row.Time).format('YY-MM-DD HH:mm:ss')
         },
         {
-            field: "Shopping_Cart", headerName: "ตะกร้า", width: 100,
+            field: "Shopping_Cart", headerName: "ตะกร้า", width: 60,
             valueFormatter: (params) => params.value.ID,
         },
         {
-            field: "Payment_method", headerName: "ช่องทางการขำระ", width: 180,
+            field: "Payment_method", headerName: "ช่องทางการขำระ", width: 130,
             valueFormatter: (params) => params.value.Method,
         },
         {
-            field: "Employee", headerName: "พนักงาน", width: 250,
+            field: "Employee", headerName: "พนักงาน", width: 180,
             valueFormatter: (params) => params.value.Name,
         },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ

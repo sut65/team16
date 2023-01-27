@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/Team16/farm_mart/entity"
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,11 +32,6 @@ func CreateCart(c *gin.Context) {
 		// ทำงานเมื่อ Member_ID เป็น nil
 	}
 	  
-	// if tx := entity.DB().Where("id = ?", cart.Member_ID).First(&member); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
-	// 	return
-	// }
-
 	// 10: ค้นหา Employee ด้วย id
 	if tx := entity.DB().Where("id = ?", cart.Employee_ID).First(&employee); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
@@ -53,6 +49,10 @@ func CreateCart(c *gin.Context) {
 		Member:   	member,   // โยงความสัมพันธ์กับ Entity member
 		Employee: 	employee, // โยงความสัมพันธ์กับ Entity Employee
 		Status: 	status, // โยงความสัมพันธ์กับ Entity Status
+	}
+	if _, err := govalidator.ValidateStruct(sc); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	// 13: บันทึก
@@ -109,20 +109,25 @@ func DeleteCart(c *gin.Context) {
 // PATCH /Cart
 func UpdateCart(c *gin.Context) {
 	var cart entity.Shopping_Cart
+	id := c.Param("id")
+	var status entity.Status
 	if err := c.ShouldBindJSON(&cart); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", cart.ID).First(&cart); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", cart.Status_ID).First(&status); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "cart not found"})
 		return
 	}
+	sc := entity.Shopping_Cart{
+		Status: 	status, 
+	}
 
-	if err := entity.DB().Save(&cart).Error; err != nil {
+	if err := entity.DB().Where("id = ?", id).Updates(&sc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": cart})
 }
+
