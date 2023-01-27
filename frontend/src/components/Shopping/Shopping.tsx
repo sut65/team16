@@ -15,7 +15,6 @@ function Order() {
     const [order, setOrder] = React.useState<OrderInterface[]>([]);
     const [orderID, setOrderID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
-    const [openUpdate, setOpenupdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การแก้ไข
 
     // โหลดข้อมูลทั้งหมดใส่ datagrid
     const getOrder = async () => {
@@ -70,7 +69,6 @@ function Order() {
      // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
     const handleClose = () => {
         setOpendelete(false)
-        setOpenupdate(false)
     };
 
     useEffect(() => {
@@ -79,24 +77,11 @@ function Order() {
 
     const columns: GridColDef[] = [
       { field: "ID", headerName: "ID", width: 50,  headerAlign:"center", align:"center" },
-      { field: "Shelving", headerName: "สินค้า", width: 250, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
+      { field: "Shelving", headerName: "สินค้า", width: 100, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
       { field: "Quantity", headerName: "จำนวน", width: 100, headerAlign:"center", align:"center" },
+      { field: "Price", headerName: "รวมราคา", width: 100, headerAlign:"center", align:"center" },
       { field: "Shopping_Cart", headerName: "ตะกร้า", width: 250, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
-      {
-          field: "edit", headerName: "แก้ไข", width: 100,
-          renderCell: () => {
-              return (
-                  <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => setOpenupdate(true)}
-                  >
-                      Edit
-                  </Button>
-              );
-          },
-      },
       {
           field: "delete", headerName: "ลบ", width: 100,
           renderCell: () => {
@@ -123,21 +108,6 @@ function Order() {
                         color="primary"
                         //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
                         onClick={deleteOrder}
-                    >
-                        <div className="good-font">
-                            ยืนยัน
-                        </div>
-                    </Button>
-            </Dialog>
-            {/* ยืนยันการแก้ไข */}
-            <Dialog open={openUpdate} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการแก้ไขรายการนี้</div></DialogTitle>
-                <Button
-                        variant="contained"
-                        color="primary"
-                        //กด "ยืนยัน" ไปที่หน้าแก้ไข
-                        component={RouterLink}
-                        to="/OrderUpdate"
                     >
                         <div className="good-font">
                             ยืนยัน
