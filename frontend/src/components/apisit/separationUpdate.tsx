@@ -192,61 +192,68 @@ function SeparationUpdate() {
                     }}
                 >
                     <Box sx={{ paddingX: 2, paddingY: 1 }}>
+
                         <Typography
                             component="h2"
                             variant="h6"
                             color="primary"
                             gutterBottom
+
                         >
-                            บันทึกรายการจำหน่ายสินค้า
+                            <div className="good-font">
+                                แก้ไขรายการจำหน่าย ID : {separationID}
+                            </div>
                         </Typography>
                     </Box>
                 </Box>
                 <Divider />
 
-                <Grid item xs={12}>
-                    <FormControl fullWidth variant="outlined">
-                        <p>เหตุผล</p>
+                <Grid container spacing={3} sx={{ padding: 2 }}>
+                    <Grid item xs={12}>
+                        <FormControl fullWidth variant="outlined">
+                            <p>เหตุผล</p>
 
-                        <Autocomplete
-                            disablePortal
-                            id="Reason_ID"
-                            getOptionLabel={(item: ReasonInterface) => `${item.Cuase}`}
-                            options={reas}
-                            sx={{ width: 'auto' }}
-                            isOptionEqualToValue={(option, value) =>
-                                option.ID === value.ID}
-                            onChange={(e, value) => { sep.Reason_ID = value?.ID }}
-                            renderInput={(params) => <TextField {...params} label="เลือกเหตุผลที่จำหน่าย" />}
-                        />
-                    </FormControl>
-                </Grid>
+                            <Autocomplete
+                                disablePortal
+                                id="Reason_ID"
+                                getOptionLabel={(item: ReasonInterface) => `${item.Cuase}`}
+                                options={reas}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { sep.Reason_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกเหตุผลที่จำหน่าย" />}
+                            />
 
-                <Grid item xs={6}>
-                    <FormControl fullWidth variant="outlined">
-                        <p className="good-font">พนักงาน</p>
-                        <Select
-                            native
-                            value={sep.Employee_ID + ""}
-                            onChange={handleChange}
-                            disabled
-                            inputProps={{
-                                name: "Employee_ID",
-                            }}
-                        >
-                            <option aria-label="None" value="">
-                                เลือกพนักงาน
-                            </option>
-                            <option value={emp?.ID} key={emp?.ID}>
-                                {emp?.Name}
-                            </option>
-                        </Select>
-                    </FormControl>
-                </Grid>
 
-                <Grid item xs={12}>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">พนักงาน</p>
+                            <Select
+                                native
+                                value={sep.Employee_ID + ""}
+                                onChange={handleChange}
+                                disabled
+                                inputProps={{
+                                    name: "Employee_ID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    เลือกพนักงาน
+                                </option>
+                                <option value={emp?.ID} key={emp?.ID}>
+                                    {emp?.Name}
+                                </option>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    {/* <Grid item xs={12}>
                     <FormControl fullWidth variant="outlined">
-                        <p>ชั้นวาง</p>
+                        <p>สินค้า</p>
 
                         <Autocomplete
                             disablePortal
@@ -257,83 +264,101 @@ function SeparationUpdate() {
                             isOptionEqualToValue={(option, value) =>
                                 option.ID === value.ID}
                             onChange={(e, value) => { sep.Shelving_ID = value?.ID }}
-                            renderInput={(params) => <TextField {...params} label="เลือกชั้นวาง" />}
+                            renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                         />
-                    </FormControl>
-                </Grid>
 
-                <Grid item xs={6}>
-                    <FormControl fullWidth variant="outlined">
-                        <p className="good-font">วันจำหน่าย</p>
-                        <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
-                                value={sep.Date_Out}
-                                onChange={(newValue) => {
-                                    setSeparation({
-                                        ...sep,
-                                        Date_Out: newValue,
-                                    });
-                                }}
-                                renderInput={(params) => <TextField {...params} />}
+                    </FormControl>
+                </Grid> */}
+
+                    <Grid item xs={12}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">สินค้า</p>
+                            <Autocomplete
+                                disablePortal
+                                id="Shelving_ID"
+                                getOptionLabel={(item: IShelving) => `${item.ID}`}
+                                options={shelf}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { sep.Shelving_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
-                        </LocalizationProvider>
-                    </FormControl>
-                </Grid>
+                        </FormControl>
+                    </Grid>
 
-                <Grid item xs={12}>
-                    <FormControl fullWidth variant="outlined">
-                        <p>จำนวน</p>
-                        <TextField
-                            id="Amount"
-                            variant="outlined"
-                            type="number"
-                            size="medium"
-                            InputProps={{ inputProps: { min: 1 } }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            value={sep.Amount || ""}
-                            onChange={handleInputChange}
-                        />
-                    </FormControl>
-                </Grid>
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">วันจำหน่าย</p>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DatePicker
+                                    value={sep.Date_Out}
+                                    onChange={(newValue) => {
+                                        setSeparation({
+                                            ...sep,
+                                            Date_Out: newValue,
+                                        });
+                                    }}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
 
-                <Grid item xs={6}>
-                    <FormControl fullWidth variant="outlined">
-                        <p className="good-font">สถานะ</p>
-                        <TextField
-                            id="Status"
-                            variant="outlined"
-                            type="string"
-                            size="medium"
-                            InputProps={{ inputProps: { min: 1 } }}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            value={sep.Status || ""}
-                            onChange={handleInputChange}
-                        />
-                    </FormControl>
-                </Grid>
+                    <Grid item xs={12}>
+                        <FormControl fullWidth variant="outlined">
+                            <p>จำนวน</p>
+                            <TextField
+                                id="Amount"
+                                variant="outlined"
+                                type="number"
+                                size="medium"
+                                InputProps={{ inputProps: { min: 1 } }}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={sep.Amount || ""}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
 
-                <Grid item xs={12}>
-                    <Button component={RouterLink} to="/SeparationShow" variant="contained">
-                        <div className="good-font-white">
-                            กลับ
-                        </div>
-                    </Button>
-                    <Button
-                        style={{ float: "right" }}
-                        onClick={submit}
-                        variant="contained"
-                        color="primary"
-                    >
-                        <div className="good-font-white">
-                            บันทึก
-                        </div>
-                    </Button>
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">สถานะ</p>
+                            <TextField
+                                id="Status"
+                                variant="outlined"
+                                type="string"
+                                size="medium"
+                                InputProps={{ inputProps: { min: 1 } }}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={sep.Status || ""}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <Button component={RouterLink} to="/SeparationShow" variant="contained">
+                            <div className="good-font-white">
+                                กลับ
+                            </div>
+                        </Button>
+                        <Button
+                            style={{ float: "right" }}
+                            onClick={submit}
+                            variant="contained"
+                            color="primary"
+                        >
+                            <div className="good-font-white">
+                                บันทึก
+                            </div>
+                        </Button>
+                    </Grid>
                 </Grid>
-            {/* </Grid>6 */}
             </Paper>
         </Container >
     );
