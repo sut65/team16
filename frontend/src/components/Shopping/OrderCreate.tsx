@@ -13,7 +13,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { EmployeeInterface } from "../../models/IEmployee";
 import { MemberInterface } from "../../models/theerawat/IMember";
 import { OrderInterface } from "../../models/Natthapon/IOrder";
@@ -43,6 +43,7 @@ function OrderCreate() {
     const [status, setStatus] = React.useState<StatusInterface[]>([]);
     const [order, setOder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
+    const [carts, setCarts] = React.useState<CartInterface[]>([]);
 
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -106,6 +107,23 @@ function OrderCreate() {
             });
     };
 
+    const [latestCartId, setLatestCartId] = React.useState(0);
+
+    const getLatestCartId = async () => {
+        fetch(`${apiUrl}/unpaids`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    // Find the cart with the highest ID
+                    let latestCart = res.data.reduce((prev: any, current: any) => {
+                        return (prev.ID > current.ID) ? prev : current
+                    });
+                    setLatestCartId(latestCart.ID);
+                }
+            });
+    }
+
+
     const getStatus = async () => {
         fetch(`${apiUrl}/statuses`, requestOptions)
             .then((response) => response.json())
@@ -132,6 +150,7 @@ function OrderCreate() {
         getMember();
         getShelving();
         getStatus();
+        getLatestCartId();
     }, []);
 
     const convertType = (data: string | number | undefined) => {
@@ -176,7 +195,7 @@ function OrderCreate() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
             Shelving_ID: convertType(order.Shelving_ID),
-            //Shopping_Cart_ID: convertType(order.Shopping_Cart_ID),
+            Shopping_Cart_ID: latestCartId,
         };
 
         console.log(data)
@@ -194,8 +213,6 @@ function OrderCreate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    const cartId = res.data.ID;
-                    console.log("Last inserted Shopping Cart ID: " + cartId);
                     setSuccess2(true);
                     setErrorMessage("")
                 } else {
@@ -253,25 +270,42 @@ function OrderCreate() {
             </Snackbar>
             
             <Paper>
-                <Box
-                    display="flex"
-                    sx={{
-                        marginTop: 2,
-                    }}
-                >
-                    <Box sx={{ paddingX: 2, paddingY: 1 }}>
+                <Box display="flex" sx={{ marginTop: 2, paddingX: 2, paddingY: 1}}>
+                    <Box flexGrow={1}>
                         <Typography
                             component="h2"
                             variant="h6"
                             color="primary"
                             gutterBottom
-
                         >
-                            <div className="good-font">
-                                ตะกร้าสินค้า
-                            </div>
+                            เพิ่มรายการสินค้าและตะกร้า
                         </Typography>
                     </Box>
+
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+                        <Button
+                            component={RouterLink}
+                            to="/Cart"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<ArrowBackIcon />}
+                        >
+                        กลับ
+                        </Button>
+                    </Box>
+
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+                        <Button
+                            component={RouterLink}
+                            to="/PaymentCreate"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<ArrowBackIcon />}
+                        >
+                        ชำระสินค้า
+                        </Button>
+                    </Box>
+
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
@@ -402,24 +436,7 @@ function OrderCreate() {
                 </Grid>
 
             </Paper>
-            <Paper>
-            <Grid container spacing={20} sx={{ padding: 2 }}>
-                <Grid item xs={6}>
-                    <Button component={RouterLink} to="/Cart" variant="contained">
-                        <div className="good-font-white">
-                            ตะกร้าสินค้า
-                        </div>
-                    </Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <Button component={RouterLink} to="/Order" variant="contained" style={{ float: "right" }}>
-                        <div className="good-font-white">
-                            รายการสินค้า
-                        </div>
-                    </Button>
-                </Grid>
-            </Grid>
-            </Paper>
+            
         </Container>
     );
 }

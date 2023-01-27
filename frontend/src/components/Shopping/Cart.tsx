@@ -18,7 +18,7 @@
   const [openPament, setOpenPament] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การจ่าย
 
   const getCart = async () => {
-  const apiUrl = "http://localhost:8080/carts";
+  const apiUrl = "http://localhost:8080/unpaids";
     const requestOptions = {
       method: "GET",
       headers: {Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -76,11 +76,11 @@
 
 
   const columns: GridColDef[] = [
-    { field: "ID", headerName: "ID", width: 30,  headerAlign:"center" },
-    { field: "Total", headerName: "รวมยอด", width: 80,  headerAlign:"center" },
-    { field: "Status", headerName: "สถานะการชำระ", width: 120, headerAlign:"center",valueFormatter: (params)=>params.value.Status},
-    { field: "Member", headerName: "สมากชิก", width: 200, headerAlign:"center" ,valueFormatter: (params)=>params.value.Mem_Name},
-    { field: "Employee", headerName: "พนักงาน", width: 200, headerAlign:"center" ,valueFormatter: (params)=>params.value.Name},
+    { field: "ID", headerName: "ID", width: 30,  headerAlign:"center", align:"center" },
+    { field: "Total", headerName: "รวมยอด", width: 80,  headerAlign:"center", align:"center" },
+    { field: "Status", headerName: "สถานะการชำระ", width: 120, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.Status},
+    { field: "Member", headerName: "สมากชิก", width: 200, headerAlign:"center" , align:"center",valueFormatter: (params)=>params.value.Mem_Name},
+    { field: "Employee", headerName: "พนักงาน", width: 200, headerAlign:"center" , align:"center",valueFormatter: (params)=>params.value.Name},
     //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการจ่าย/ลบ
     {
       field: "pay", headerName: "ชำระ", width: 100,
@@ -200,12 +200,12 @@
 
         </Box>
         
-          <div style={{ height: 400, width: "100%", marginTop: '20px'}}>
+          <div style={{ height: 550, width: "100%", marginTop: '20px'}}>
               <DataGrid
               rows={cart}
               getRowId={(row) => row.ID}
               columns={columns}
-              pageSize={5}
+              pageSize={10}
               rowsPerPageOptions={[5]}
               onRowClick={handleRowClick}
               />
