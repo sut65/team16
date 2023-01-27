@@ -158,7 +158,7 @@ function Payment() {
                         </div>
                     </Button>
             </Dialog>
-            <Container maxWidth="lg">
+            <Container maxWidth="md">
                 <Box
                     display="flex"
                     sx={{
