@@ -98,23 +98,7 @@ func DeleteSeparation(c *gin.Context) {
 
 // PATCH /watch_videos
 func UpdateSeparation(c *gin.Context) {
-	// var separationS entity.Separation
-	// if err := c.ShouldBindJSON(&separationS); err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
 
-	// if tx := entity.DB().Where("id = ?", separationS.ID).First(&separationS); tx.RowsAffected == 0 {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": "watchvideo not found"})
-	// 	return
-	// }
-
-	// if err := entity.DB().Save(&separationS).Error; err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	// 	return
-	// }
-
-	// c.JSON(http.StatusOK, gin.H{"data": separationS})
 	var separationS entity.Separation
 	id := c.Param("id")
 	var reason entity.Reason

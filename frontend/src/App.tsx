@@ -53,9 +53,9 @@ import LeaveUpdate from "./components/Leave/LeaveUpdate";
 import MemberUpdate from "./components/Member/MemberUpdate";
 import Payment from "./components/Payment/payment";
 import PaymentCreate from "./components/Payment/PaymentCreate";
-
-
-
+import CommentShow from "./components/comments/commentShow";
+import CommentCreate from "./components/comments/commentCreate";
+import CommentUpdate from "./components/comments/commentUpdate";
 
 var employeeName = "";
 
@@ -127,6 +127,7 @@ const menu = [
   { name: "แจ้งลา", icon: <ArticleIcon />, path: "/Leave" },
   { name: "จำหน่ายสินค้า", icon: <InventoryIcon />, path: "/SeparationShow" },
   { name: "รายการการส่งสินค้า", icon: <LocalShippingIcon />, path: "/Delivery" },
+  { name: "ความคิดเห็น", icon: <LocalShippingIcon />, path: "/CommentShow" },
 ];
 
 
@@ -283,6 +284,9 @@ export default function App() {
                   <Route path="/separationShow" element={<SeparationShow />} />
                   <Route path="/separationCreate" element={<SeparationCreate />} />
                   <Route path="/separationUpdate" element={<SeparationUpdate />} />
+                  <Route path="/commentShow" element={<CommentShow />} />
+                  <Route path="/commentCreate" element={<CommentCreate />} />
+                  <Route path="/commentUpdate" element={<CommentUpdate />} />
                   <Route path="/Order" element={<Shopping />} />
                   <Route path="/OrderCreate" element={<OrderCreate />} />
                   <Route path="/Cart" element={<Cart />} />

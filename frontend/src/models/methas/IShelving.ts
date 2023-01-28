@@ -11,5 +11,4 @@ export interface IShelving{
     Stock_ID: number;
     Stock: StocksInterface;
 
-
 }

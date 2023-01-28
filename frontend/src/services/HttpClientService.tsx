@@ -24,6 +24,28 @@ async function Login(data: SigninInterface) {
   return res;
 }
 
+// async function ToComment(data: SigninInterface) {
+//   const requestOptions = {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify(data),
+//   };
+
+//   let res = await fetch(`${apiUrl}/login`, requestOptions)
+//     .then((response) => response.json())
+//     .then((res) => {
+//       if (res.data) {
+//         localStorage.setItem("token", res.data.token);
+//         localStorage.setItem("eid", res.data.id);
+//         return res.data;
+//       } else {
+//         return false;
+//       }
+//     });
+
+//   return res;
+// }
+
 async function GetCurrentEmployee() {
   let ce = localStorage.getItem("eid");
   const requestOptions = {
