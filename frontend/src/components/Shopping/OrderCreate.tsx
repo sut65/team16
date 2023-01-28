@@ -13,14 +13,17 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import PaymentIcon from '@mui/icons-material/Payment';
 import { EmployeeInterface } from "../../models/IEmployee";
 import { MemberInterface } from "../../models/theerawat/IMember";
 import { OrderInterface } from "../../models/Natthapon/IOrder";
 import { IShelving } from "../../models/methas/IShelving";
+import { StocksInterface } from "../../models/methas/IStock";
 import { CartInterface } from "../../models/Natthapon/ICart";
 import { StatusInterface } from "../../models/Natthapon/IStatus";
 import { GetCurrentEmployee } from "../../services/HttpClientService";
+
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -41,8 +44,9 @@ function OrderCreate() {
     const [member, setMember] = React.useState<MemberInterface[]>([]);
     const [shelving, setShelving] = React.useState<IShelving[]>([]);
     const [status, setStatus] = React.useState<StatusInterface[]>([]);
-    const [order, setOder] = React.useState<OrderInterface>({});
+    const [order, setOrder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
+    const [stock, setStock] = React.useState<StocksInterface[]>([]);
 
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -71,12 +75,12 @@ function OrderCreate() {
     ) => {
         const id = event.target.id as keyof typeof OrderCreate;
         const { value } = event.target;
-        setOder({ ...order, [id]: value });
+        setOrder({ ...order, [id]: value });
     };
 
     const handleChange = (event: SelectChangeEvent) => {
         const name = event.target.name as keyof typeof order;
-        setOder({
+        setOrder({
             ...order,
             [name]: event.target.value,
         });
@@ -93,6 +97,18 @@ function OrderCreate() {
             else { console.log("NO DATA") }
             });
     };
+    
+    const getStock = async () => {
+        fetch(`${apiUrl}/stocks`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+            if (res.data) {
+                console.log(res.data)
+                setStock(res.data);
+            }
+            else { console.log("NO DATA") }
+            });
+    };
 
     const getMember = async () => {
         fetch(`${apiUrl}/members`, requestOptions)
@@ -105,6 +121,23 @@ function OrderCreate() {
             else { console.log("NO DATA") }
             });
     };
+
+    const [latestCartId, setLatestCartId] = React.useState(0);
+
+    const getLatestCartId = async () => {
+        fetch(`${apiUrl}/unpaids`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    // Find the cart with the highest ID
+                    let latestCart = res.data.reduce((prev: any, current: any) => {
+                        return (prev.ID > current.ID) ? prev : current
+                    });
+                    setLatestCartId(latestCart.ID);
+                }
+            });
+    }
+
 
     const getStatus = async () => {
         fetch(`${apiUrl}/statuses`, requestOptions)
@@ -131,7 +164,9 @@ function OrderCreate() {
         getEmployee();
         getMember();
         getShelving();
+        getStock();
         getStatus();
+        getLatestCartId();
     }, []);
 
     const convertType = (data: string | number | undefined) => {
@@ -164,19 +199,22 @@ function OrderCreate() {
                 if (res.data) {
                     setSuccess1(true);
                     setErrorMessage("")
+                    getLatestCartId();
+                    
                 } else {
                     setError1(true);
                     setErrorMessage(res.error)
                 }
             });
-    }
 
+    }
 
     async function addproduct() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
+            Prices: typeof order.Prices === "string" ? parseInt(order.Prices) : 0,
             Shelving_ID: convertType(order.Shelving_ID),
-            //Shopping_Cart_ID: convertType(order.Shopping_Cart_ID),
+            Shopping_Cart_ID: latestCartId,
         };
 
         console.log(data)
@@ -194,8 +232,6 @@ function OrderCreate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    const cartId = res.data.ID;
-                    console.log("Last inserted Shopping Cart ID: " + cartId);
                     setSuccess2(true);
                     setErrorMessage("")
                 } else {
@@ -253,25 +289,42 @@ function OrderCreate() {
             </Snackbar>
             
             <Paper>
-                <Box
-                    display="flex"
-                    sx={{
-                        marginTop: 2,
-                    }}
-                >
-                    <Box sx={{ paddingX: 2, paddingY: 1 }}>
+                <Box display="flex" sx={{ marginTop: 2, paddingX: 2, paddingY: 1}}>
+                    <Box flexGrow={1}>
                         <Typography
                             component="h2"
                             variant="h6"
                             color="primary"
                             gutterBottom
-
                         >
-                            <div className="good-font">
-                                ตะกร้าสินค้า
-                            </div>
+                            เพิ่มรายการสินค้าและตะกร้า
                         </Typography>
                     </Box>
+
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+                        <Button
+                            component={RouterLink}
+                            to="/Cart"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<ArrowBackIcon />}
+                        >
+                        กลับ
+                        </Button>
+                    </Box>
+
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+                        <Button
+                            component={RouterLink}
+                            to="/PaymentCreate"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<PaymentIcon />}
+                        >
+                        ชำระสินค้า
+                        </Button>
+                    </Box>
+
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
@@ -335,32 +388,16 @@ function OrderCreate() {
 
                     
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-                    {/* <Grid item xs={9}>
+                    <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">รายการสินค้า</p>
                             <Autocomplete
                                 disablePortal
-                                id="Product"
-                                getOptionLabel={(item: IShelving) => `${item.Stock.Name} ราคา ${item.Stock.Price}`}
-                                options={shelving}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) => option.Stock_ID === value.Stock_ID}
-                                onChange={(e, value) => { order.Shelving_ID = value?.Stock_ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
-                            />
-                        </FormControl>
-                    </Grid> */}
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">สินค้า</p>
-                            <Autocomplete
-                                disablePortal
                                 id="Stock_ID"
-                                getOptionLabel={(item: IShelving) => `${item.ID}`}
-                                options={shelving}
+                                getOptionLabel={(item: StocksInterface) => `${item.Name} ราคา ${item.Price}`}
+                                options={stock}
                                 sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
+                                isOptionEqualToValue={(option, value) => option.ID === value.ID}
                                 onChange={(e, value) => { order.Shelving_ID = value?.ID }}
                                 renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
@@ -386,6 +423,24 @@ function OrderCreate() {
                         </FormControl>
                     </Grid>
 
+                    <Grid item xs={3}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">รวมราคา</p>
+                            <TextField
+                                id="Prices"
+                                variant="outlined"
+                                type="number"
+                                size="medium"
+                                InputProps={{ inputProps: { min: 1}}}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={order.Prices || ""}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
+
                     <Grid item xs={12}>
                         <Button
                             style={{ display: "flex", justifyContent: "center", margin: "0 auto" }}
@@ -402,24 +457,7 @@ function OrderCreate() {
                 </Grid>
 
             </Paper>
-            <Paper>
-            <Grid container spacing={20} sx={{ padding: 2 }}>
-                <Grid item xs={6}>
-                    <Button component={RouterLink} to="/Cart" variant="contained">
-                        <div className="good-font-white">
-                            ตะกร้าสินค้า
-                        </div>
-                    </Button>
-                </Grid>
-                <Grid item xs={6}>
-                    <Button component={RouterLink} to="/Order" variant="contained" style={{ float: "right" }}>
-                        <div className="good-font-white">
-                            รายการสินค้า
-                        </div>
-                    </Button>
-                </Grid>
-            </Grid>
-            </Paper>
+            
         </Container>
     );
 }

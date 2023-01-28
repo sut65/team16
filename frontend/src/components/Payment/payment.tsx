@@ -6,6 +6,8 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import moment from 'moment'
+import PaymentIcon from '@mui/icons-material/Payment';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { PaymentInterface } from "../../models/Natthapon/IPayment"
 import { Dialog, DialogTitle } from "@mui/material";
@@ -81,15 +83,19 @@ function Payment() {
         { field: "ID", headerName: "ID", width: 50 },
         { field: "Price", headerName: "ยอดรวม", width: 80 },
         {
-            field: "Time", headerName: "วันที่ชำระ", width: 150,
-            renderCell: (params) => moment(params.row.Payment_s).format('YY-MM-DD HH:mm:ss')
+            field: "Time", headerName: "วันที่ชำระสินค้า", width: 160,
+            renderCell: (params) => moment(params.row.Time).format('YY-MM-DD HH:mm:ss')
         },
         {
-            field: "Payment_method", headerName: "ช่องทางการขำระ", width: 180,
-            valueFormatter: (params) => params.value.Type_Name,
+            field: "Shopping_Cart", headerName: "ตะกร้า", width: 60,
+            valueFormatter: (params) => params.value.ID,
         },
         {
-            field: "Employee", headerName: "พนักงาน", width: 150,
+            field: "Payment_method", headerName: "ช่องทางการขำระ", width: 130,
+            valueFormatter: (params) => params.value.Method,
+        },
+        {
+            field: "Employee", headerName: "พนักงาน", width: 180,
             valueFormatter: (params) => params.value.Name,
         },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
@@ -127,7 +133,7 @@ function Payment() {
         <div>
             {/* ยืนยันการลบ */}
             <Dialog open={openDelete} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการลบส่วนลดนี้</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการลบรายการ</div></DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
@@ -141,7 +147,7 @@ function Payment() {
             </Dialog>
             {/* ยืนยันการแก้ไข */}
             <Dialog open={openUpdate} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการแก้ไขส่วนลดนี้</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการแก้ไขรายการ</div></DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
@@ -154,13 +160,8 @@ function Payment() {
                         </div>
                     </Button>
             </Dialog>
-            <Container maxWidth="lg">
-                <Box
-                    display="flex"
-                    sx={{
-                        marginTop: 2,
-                    }}
-                >
+            <Container maxWidth="md">
+                <Box display="flex" sx={{ marginTop: 2,}}>
                     <Box flexGrow={1}>
                         <Typography
                             component="h2"
@@ -168,23 +169,34 @@ function Payment() {
                             color="primary"
                             gutterBottom
                         >
-                            <div className="good-font">
-                                รายการการชำระสินค้า
-                            </div>
+                            ประวัติการชำระสินค้า
                         </Typography>
                     </Box>
-                    <Box>
+
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+                        <Button
+                            component={RouterLink}
+                            to="/Cart"
+                            variant="contained"
+                            color="primary"
+                            startIcon={<ArrowBackIcon />}
+                        >
+                        กลับ
+                        </Button>
+                    </Box>
+            
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}>
                         <Button
                             component={RouterLink}
                             to="/PaymentCreate"
                             variant="contained"
                             color="primary"
+                            startIcon={<PaymentIcon />}
                         >
-                            <div className="good-font-white">
-                                ชำระสินค้า
-                            </div>
+                            ชำระสินค้า
                         </Button>
                     </Box>
+
                 </Box>
                 <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
                     <DataGrid

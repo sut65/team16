@@ -14,6 +14,8 @@ import { Employee_attendanceInterface } from "../../models/panupol/IEm_in"
 function Employeeattemdance() {
     const [Employeeattemdance, setEmployeeattemdance] = React.useState<Employee_attendanceInterface[]>([]);
     const [EmployeeattemdanceID, setEmployeeattemdanceID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
+    const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
+    const [openUpdate, setOpenupdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การแก้ไข
 
 
     // โหลดข้อมูลทั้งหมดใส่ datagrid
@@ -44,6 +46,33 @@ function Employeeattemdance() {
         localStorage.setItem("Employee_attendanceID", params.row.ID); //setเพื่อการแก้ไข
     };
 
+     // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
+     const handleClose = () => {
+        setOpendelete(false)
+        setOpenupdate(false)
+    };
+
+    // function ลบข้อมูล
+    const deleteDiscount = async () => {
+        const apiUrl = `http://localhost:8080/employee_attendances/${EmployeeattemdanceID}`;
+        const requestOptions = {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
+        };
+        await fetch(apiUrl, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log("delete ID: " + EmployeeattemdanceID)
+                }
+                else { console.log("NO DATA") }
+            });
+        handleClose();
+        getEmployeeattemdance();
+    }
 
     useEffect(() => {
         getEmployeeattemdance();
@@ -72,11 +101,68 @@ function Employeeattemdance() {
             
         },
         { field: "Number_Em", headerName: "เบอร์โทร", width: 150 ,headerAlign:"center" ,},
-        
+        //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
+        {
+            field: "edit", headerName: "แก้ไข", width: 100,
+            renderCell: () => {
+                return (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => setOpenupdate(true)}
+                    >
+                        Edit
+                    </Button>
+                );
+            },
+        },
+        {
+            field: "delete", headerName: "ลบ", width: 100,
+            renderCell: () => {
+                return (
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => setOpendelete(true)}
+                    >
+                        Delete
+                    </Button>
+                );
+            },
+        },
     ];
 
     return (
         <div>
+            {/* ยืนยันการลบ */}
+            <Dialog open={openDelete} onClose={handleClose} >
+                <DialogTitle><div className="good-font">ยืนยันการลบรายการ</div></DialogTitle>
+                <Button
+                        variant="contained"
+                        color="primary"
+                        //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
+                        onClick={deleteDiscount}
+                    >
+                        <div className="good-font">
+                            ยืนยัน
+                        </div>
+                    </Button>
+            </Dialog>
+            {/* ยืนยันการแก้ไข */}
+            <Dialog open={openUpdate} onClose={handleClose} >
+                <DialogTitle><div className="good-font">ยืนยันการแก้ไขรายการ</div></DialogTitle>
+                <Button
+                        variant="contained"
+                        color="primary"
+                        //กด "ยืนยัน" ไปที่หน้าแก้ไข
+                        component={RouterLink}
+                        to="/EmployeeattemdanceINUpdate"
+                    >
+                        <div className="good-font">
+                            ยืนยัน
+                        </div>
+                    </Button>
+            </Dialog>
             <Container maxWidth="lg">
                 <Box
                     display="flex"

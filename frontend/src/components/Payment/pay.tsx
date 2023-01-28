@@ -12,7 +12,6 @@ import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs, { Dayjs } from 'dayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -39,7 +38,7 @@ function PaymentCreate() {
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [methods, setMethod] = React.useState<Payment_methodInterface[]>([]);
-    const [cart, setCart] = React.useState<CartInterface[]>([]);
+    const [cart, setCart] = React.useState<CartInterface>();
     const [payment, setPayment] = React.useState<PaymentInterface>({
         Time: new Date(),
     });
@@ -62,6 +61,14 @@ function PaymentCreate() {
         }
         setSuccess(false);
         setError(false);
+    };
+
+    const handleInputChange = (
+        event: React.ChangeEvent<{ id?: string; value: any }>
+    ) => {
+        const id = event.target.id as keyof typeof PaymentCreate;
+        const { value } = event.target;
+        setPayment({ ...payment, [id]: value });
     };
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -105,6 +112,8 @@ function PaymentCreate() {
         }
     };
 
+    let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
+
     useEffect(() => {
         getEmployee();
         getPayment_method();
@@ -121,7 +130,7 @@ function PaymentCreate() {
             //Price: cart.length > 0 ? cart[0].Total : 0,
             Price: typeof payment.Price === "string" ? parseInt(payment.Price) : 0,
             Time: payment.Time,
-            Shopping_Cart_ID: convertType(payment.Shopping_Cart_ID),
+            Shopping_Cart_ID: Number(cartID),
             Payment_method_ID: convertType(payment.Payment_method_ID),
             Employee_ID: convertType(payment.Employee_ID),
         };
@@ -149,8 +158,8 @@ function PaymentCreate() {
                 }
             });
     }
+
     async function pay() {
-        let cartID = payment.Shopping_Cart_ID;
         let data = {
             Status_ID: 2,
         };
@@ -176,7 +185,6 @@ function PaymentCreate() {
             });
 
     }
-
 
     return (
         <Container maxWidth="md">
@@ -211,7 +219,7 @@ function PaymentCreate() {
 
                         >
                             <div className="good-font">
-                                ชำระสินค้า
+                                เพิ่มส่วนลด
                             </div>
                         </Typography>
                     </Box>
@@ -221,23 +229,50 @@ function PaymentCreate() {
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">ตะกร้าสินค้า</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Cart_ID"
-                                getOptionLabel={(item: CartInterface) => `${item.ID}`}
-                                options={cart}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
-                                onChange={(e, value) => {  payment.Shopping_Cart_ID = value?.ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
-                            />
+                            <Select
+                                native
+                                value={cartID + ""}
+                                onChange={handleChange}
+                                disabled
+                                inputProps={{
+                                    name: "Shopping_Cart_ID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    {cartID} 
+                                </option>
+                                <option value={cart?.ID} key={cart?.ID}>
+                                    {cart?.ID}
+                                </option>
+                            </Select>
                         </FormControl>
                     </Grid>
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">ช่องทางการชำระสินค้า</p>
+                            <p className="good-font">พนักงานที่บันทึก</p>
+                            <Select
+                                native
+                                value={payment.Employee_ID + ""}
+                                onChange={handleChange}
+                                disabled
+                                inputProps={{
+                                    name: "Employee_ID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    เลือก
+                                </option>
+                                <option value={employee?.ID} key={employee?.ID}>
+                                    {employee?.Name}
+                                </option>
+                            </Select>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">ช่องทางการขำระ</p>
                             <Autocomplete
                                 disablePortal
                                 id="Payment_method_ID"
@@ -270,31 +305,10 @@ function PaymentCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">พนักงานที่บันทึก</p>
-                            <Select
-                                native
-                                value={payment.Employee_ID + ""}
-                                onChange={handleChange}
-                                disabled
-                                inputProps={{
-                                    name: "Employee_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือก
-                                </option>
-                                <option value={employee?.ID} key={employee?.ID}>
-                                    {employee?.Name}
-                                </option>
-                            </Select>
-                        </FormControl>
-                    </Grid>
 
 
                     <Grid item xs={12}>
-                        <Button component={RouterLink} to="/Payment" variant="contained">
+                        <Button component={RouterLink} to="/Cart" variant="contained">
                             <div className="good-font-white">
                                 กลับ
                             </div>

@@ -29,7 +29,7 @@ import { Component } from 'react';
 import { render } from 'react-dom';
 
 
-import { Employee_attendanceInterface } from "../../models/panupol/IEm_in"
+import { Record_employee_leave } from "../../models/panupol/IEm_out"
 import { DutyInterface } from "../../models/panupol/IDuty"
 import { Working_timeInterface } from "../../models/panupol/IWorking_time"
 import { OvertimeInterface } from "../../models/panupol/IOvertime"
@@ -41,7 +41,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
    });
 
-function Employeeattemdance_IN() {
+function Record_employee_leaves_update() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("")
@@ -50,8 +50,8 @@ function Employeeattemdance_IN() {
     const [duty, setduty] = React.useState<DutyInterface[]>([]);
     const [Working_time, setWorking_time] = React.useState<Working_timeInterface[]>([]);
     const [Overtime, setOvertime] = React.useState<OvertimeInterface[]>([]);
-    const [Em_IN, setEm_IN] = React.useState<Partial<Employee_attendanceInterface>>({
-      Time_IN: new Date(), Status_ID: true, 
+    const [Em_Out, setEm_Out] = React.useState<Partial<Record_employee_leave>>({
+      Time_Out: new Date(), Status_ID: false, 
     });
 
   
@@ -70,15 +70,15 @@ function Employeeattemdance_IN() {
       const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
       ) => {
-        const id = event.target.id as keyof typeof Employeeattemdance_IN;
+        const id = event.target.id as keyof typeof Record_employee_leaves_update;
         const { value } = event.target;
-        setEm_IN({ ...Em_IN, [id]: value });
+        setEm_Out({ ...Em_Out, [id]: value });
       };
      
       const handleChange = (event: SelectChangeEvent) => {
-         const name = event.target.name as keyof typeof Em_IN;
-         setEm_IN({
-             ...Em_IN,
+         const name = event.target.name as keyof typeof Em_Out;
+         setEm_Out({
+             ...Em_Out,
              [name]: event.target.value,
          });
      };
@@ -133,7 +133,7 @@ function Employeeattemdance_IN() {
 
     const getEmployee = async () => {
       let res = await GetCurrentEmployee();
-      Em_IN.Employee_ID = res.ID;
+      Em_Out.Employee_ID = res.ID;
       if (res) {
           setEmployee(res);
           console.log(res)
@@ -146,7 +146,7 @@ function Employeeattemdance_IN() {
 };
 
 
-
+    let employee_leavesID = localStorage.getItem("Employee_leaveID"); // เรีกใช้ค่าจากlocal storage 
 
     useEffect(() => {
       let date = new Date();
@@ -160,19 +160,18 @@ function Employeeattemdance_IN() {
   async function submit() {
     let date = new Date();
     let data = {
-      Employee_ID: convertType(Em_IN.Employee_ID),
-      Duty_ID: convertType(Em_IN.Duty_ID),
-      Working_time_ID: convertType(Em_IN.Working_time_ID),
-      Overtime_ID: convertType(Em_IN.Overtime_ID),
-      Time_IN: new Date() ,
-      Status_ID: Em_IN.Status_ID,
-      Number_Em: Em_IN.Number_Em ?? "",
+      Employee_ID: convertType(Em_Out.Employee_ID),
+      Duty_ID: convertType(Em_Out.Duty_ID),
+      Working_time_ID: convertType(Em_Out.Working_time_ID),
+      Overtime_ID: convertType(Em_Out.Overtime_ID),
+      Time_Out: new Date() ,
+      Number_Em: Em_Out.Number_Em ?? "",
     };
     
     console.log(data)
  
     const requestOptions = {
-      method: "POST",
+      method: "PATCH", // ใช้ PATCH
       headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json"
@@ -180,7 +179,7 @@ function Employeeattemdance_IN() {
       body: JSON.stringify(data),
   };
 
-  fetch(`${apiUrl}/employee_attendances`, requestOptions)
+  fetch(`${apiUrl}/record_employee_leaves/${employee_leavesID}`, requestOptions)  // แนบIDไปด้วย
       .then((response) => response.json())
       .then((res) => {
           if (res.data) {
@@ -224,7 +223,7 @@ function Employeeattemdance_IN() {
                   color="primary"
                   gutterBottom
                 >
-                  ลงชื่อเข้างาน
+                  แก้ไขรายการออกงานออกงาน
                 </Typography>
               </Box>
             </Box>
@@ -236,7 +235,7 @@ function Employeeattemdance_IN() {
                      <p className="good-font">พนักงานที่บันทึก</p>
                      <Select
                          native
-                         value={Em_IN.Employee_ID + ""}
+                         value={Em_Out.Employee_ID + ""}
                          onChange={handleChange}
                          disabled
                          inputProps={{name: "Employee_ID",}}
@@ -262,7 +261,7 @@ function Employeeattemdance_IN() {
                      sx={{ width: 'auto' }}
                      isOptionEqualToValue={(option, value) =>
                          option.ID === value.ID}
-                     onChange={(e, value) => { Em_IN.Duty_ID = value?.ID }}
+                     onChange={(e, value) => { Em_Out.Duty_ID = value?.ID }}
                      renderInput={(params) => <TextField {...params} label="- Select duty -" />}
                      />
                  </FormControl>
@@ -278,7 +277,7 @@ function Employeeattemdance_IN() {
                      sx={{ width: 'auto' }}
                      isOptionEqualToValue={(option, value) =>
                          option.ID === value.ID}
-                     onChange={(e, value) => { Em_IN.Working_time_ID = value?.ID }}
+                     onChange={(e, value) => { Em_Out.Working_time_ID = value?.ID }}
                      renderInput={(params) => <TextField {...params} label="- Select working time -" />}
                      />
                  </FormControl>
@@ -295,7 +294,7 @@ function Employeeattemdance_IN() {
                 sx={{ width: 'auto' }}
                 isOptionEqualToValue={(option, value) =>
                     option.ID === value.ID}
-                onChange={(e, value) => { Em_IN.Overtime_ID = value?.ID }}
+                onChange={(e, value) => { Em_Out.Overtime_ID = value?.ID }}
                 renderInput={(params) => <TextField {...params} label="- Select overtime -" />}
                 />
             </FormControl>
@@ -309,20 +308,14 @@ function Employeeattemdance_IN() {
                     variant="outlined"
                     type="string"
                     size="medium"
-                    value={Em_IN.Number_Em || ""}
+                    value={Em_Out.Number_Em || ""}
                     onChange={handleInputChange}
                   />
                 </FormControl>
               </Grid>
      
-
-
-          
-    
-            
-     
               <Grid item xs={12}>
-                <Button component={RouterLink} to="/EmployeeattemdanceIN" variant="contained">
+                <Button component={RouterLink} to="/EmployeeattemdanceOUT" variant="contained">
                   Back
                 </Button>
                 <Button
@@ -342,6 +335,6 @@ function Employeeattemdance_IN() {
       );
     
 }
-export default Employeeattemdance_IN;
+export default Record_employee_leaves_update;
 
 

@@ -194,6 +194,7 @@ func main() {
 
 			//Status Routes
 			r.GET("/carts", controller.ListCart)
+			r.GET("/unpaids", controller.ListUnpaid)
 			r.GET("/cart/:id", controller.GetCart)
 			r.POST("/carts", controller.CreateCart)
 			r.PATCH("/cart/:id", controller.UpdateCart)
