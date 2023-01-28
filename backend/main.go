@@ -26,6 +26,13 @@ func main() {
 	r.PATCH("/kinds", controller.UpdateKind)
 	r.DELETE("/kinds/:id", controller.DeleteKind)
 
+	//Storage Routes
+	r.GET("/storages", controller.ListStorages)
+	r.GET("/storage/:id", controller.GetStorage)
+	r.POST("/storages", controller.CreateStorage)
+	r.PATCH("/storages", controller.UpdateStorage)
+	r.DELETE("/Storages/:id", controller.DeleteStorage)
+
 	//Stock Routes
 	r.GET("/stocks", controller.ListStocks)
 	r.GET("/stock/:id", controller.GetStock)

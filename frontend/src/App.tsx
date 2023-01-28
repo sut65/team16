@@ -20,12 +20,6 @@ import Button from "@mui/material/Button";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import HomeIcon from "@mui/icons-material/Home";
-import PeopleIcon from "@mui/icons-material/People";
-import Diversity3Icon from '@mui/icons-material/Diversity3';
-import SchoolIcon from '@mui/icons-material/School';
-import BadgeRoundedIcon from '@mui/icons-material/BadgeRounded';
-import Diversity2Icon from '@mui/icons-material/Diversity2';
-import ContactPageIcon from '@mui/icons-material/ContactPage';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import Homepage from "./components/Homepage";
@@ -88,7 +82,7 @@ const Drawer = styled(MuiDrawer, {
 
 const menu = [
   { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
-  { name: "สต๊อกสินค้า", icon: <InventoryIcon />, path: "/Stock" },
+  { name: "สต๊อกสินค้า", icon: <InventoryIcon />, path: "/stocks" },
 ];
 
 
@@ -226,7 +220,7 @@ export default function App() {
               <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Routes>
                   <Route path="/" element={<Homepage />} />
-                  <Route path="/Stock" element={<Stocks />} />
+                  <Route path="/stocks" element={<Stocks />} />
                   <Route path="/StockCreate" element={<StockCreate />} />
                 </Routes>
               </Container>

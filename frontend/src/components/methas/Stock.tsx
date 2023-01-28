@@ -62,7 +62,9 @@ function Stocks() {
 
    { field: "Price", headerName: "Price", width: 150, headerAlign:"center" },
 
-   { field: "Storage", headerName: "Storage", width: 150, headerAlign:"center" },
+   { field: "Kind", headerName: "Kind", valueFormatter:(params) => params.value.Name, width: 150, headerAlign:"center" },
+
+   { field: "Storage", headerName: "Storage", valueFormatter:(params) => params.value.Name, width: 150, headerAlign:"center" },
 
    { field: "DateTime", headerName: "DateTime", width: 200, headerAlign:"center" },
 
@@ -139,7 +141,6 @@ function Stocks() {
        <div style={{ height: 400, width: "100%", marginTop: '20px'}}>
 
          <DataGrid
-
            rows={stocks}
 
            getRowId={(row) => row.ID}

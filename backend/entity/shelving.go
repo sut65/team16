@@ -7,8 +7,7 @@ import (
 type Label struct {
 	gorm.Model
 	Name     string
-	Stock    []Stock    `gorm:"foreignKey:label_ID"`
-	Shelving []Shelving `gorm:"foreignKey:label_ID"`
+	Shelving []Shelving `gorm:"foreignKey:Label_ID"`
 }
 
 type Shelving struct {
@@ -24,4 +23,7 @@ type Shelving struct {
 	Stock    Stock
 
 	Quantity int
+
+	Separation   []Separation `gorm:"foreignKey:Shelving_ID"`
+	Order   []Order `gorm:"foreignKey:Shelving_ID"`
 }

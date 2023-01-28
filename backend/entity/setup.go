@@ -1,6 +1,9 @@
 package entity
 
 import (
+	// "time"
+
+	// "golang.org/x/crypto/bcrypt"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -30,17 +33,18 @@ func SetupDatabase() {
 	// Migrate the schema
 
 	database.AutoMigrate(
-		&Employee{}, &Kind{}, &Storage{}, &Stock{}, 
-		&Label{}, &Shelving{}, 
-		&Discount_Type{}, &Discount{}, 
+		&Employee{}, &Kind{}, &Storage{}, &Stock{},
+		&Label{}, &Shelving{},
+		&Discount_Type{}, &Discount{},
 		&Delivery{}, &Car{},
-		&Shopping_Cart{}, &Order{}, 
+		&Shopping_Cart{}, &Order{},
 		&Payment_method{}, &Payment{},
-		&Review_Point{}, &Type_Comment{}, &Comment{}, 
+		&Review_Point{}, &Type_Comment{}, &Comment{},
 		&Reason{}, &Separation{},
-		&Section{}, &L_Type{}, &Leave{}, 
-		&Gender{}, &Level{},&Member{},
-		&Duty{}, &Overtime{}, &Working_time{}, &Employee_attendance{}, &Record_employee_leave{})
+		&Section{}, &L_Type{}, &Leave{},
+		&Gender{}, &Level{}, &Member{},
+		&Duty{}, &Overtime{}, &Working_time{}, &Employee_attendance{}, &Record_employee_leave{},
+	)
 
 	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
@@ -107,7 +111,7 @@ func SetupDatabase() {
 	//Stock
 	Stock1 := Stock{
 		Name:     "Banana",
-		Amount: 20,
+		Amount:   100,
 		Price:    20.00,
 		Employee: Em1,
 		Kind:     Kind2,
@@ -118,7 +122,7 @@ func SetupDatabase() {
 
 	Stock2 := Stock{
 		Name:     "Pork",
-		Amount: 20,
+		Amount:   100,
 		Price:    80.00,
 		Employee: Em1,
 		Kind:     Kind1,
@@ -129,7 +133,7 @@ func SetupDatabase() {
 
 	Stock3 := Stock{
 		Name:     "Milk",
-		Amount: 20,
+		Amount:   100,
 		Price:    20.00,
 		Employee: Em1,
 		Kind:     Kind3,
@@ -138,120 +142,120 @@ func SetupDatabase() {
 	}
 	db.Model(&Stock{}).Create(&Stock3)
 
-	//Label
-	Label1 := Label{
-		Name: "Meat",
-	}
-	db.Model(&Label{}).Create(&Label1)
+	// //Label
+	// Label1 := Label{
+	// 	Name: "Meat",
+	// }
+	// db.Model(&Label{}).Create(&Label1)
 
-	Label2 := Label{
-		Name: "Fresh",
-	}
-	db.Model(&Label{}).Create(&Label2)
+	// Label2 := Label{
+	// 	Name: "Fresh",
+	// }
+	// db.Model(&Label{}).Create(&Label2)
 
-	Label3 := Label{
-		Name: "Dairy",
-	}
-	db.Model(&Label{}).Create(&Label3)
+	// Label3 := Label{
+	// 	Name: "Dairy",
+	// }
+	// db.Model(&Label{}).Create(&Label3)
 
-	//Shelving
-	Shelving1 := Shelving{
-		Employee: Em1,
-		Label:    Label1,
-		Stock:    Stock2,
-		Quantity: 20,
-	}
-	db.Model(&Shelving{}).Create(&Shelving1)
+	// //Shelving
+	// Shelving1 := Shelving{
+	// 	Employee: Em1,
+	// 	Label:    Label1,
+	// 	Stock:    Stock2,
+	// 	Quantity: 20,
+	// }
+	// db.Model(&Shelving{}).Create(&Shelving1)
 
-	Shelving2 := Shelving{
-		Employee: Em1,
-		Label:    Label2,
-		Stock:    Stock1,
-		Quantity: 20,
-	}
-	db.Model(&Shelving{}).Create(&Shelving2)
+	// Shelving2 := Shelving{
+	// 	Employee: Em1,
+	// 	Label:    Label2,
+	// 	Stock:    Stock1,
+	// 	Quantity: 20,
+	// }
+	// db.Model(&Shelving{}).Create(&Shelving2)
 
-	Shelving3 := &Shelving{
-		Employee: Em1,
-		Label:    Label3,
-		Stock:    Stock3,
-		Quantity: 20,
-	}
-	db.Model(&Shelving{}).Create(&Shelving3)
+	// Shelving3 := &Shelving{
+	// 	Employee: Em1,
+	// 	Label:    Label3,
+	// 	Stock:    Stock3,
+	// 	Quantity: 20,
+	// }
+	// db.Model(&Shelving{}).Create(&Shelving3)
 
-	Reason1 := &Reason{
-		cuase: "สินค้าหมดอายุ",
-	}
-	db.Model(&Reason{}).Create(&Reason1)
+	// Reason1 := &Reason{
+	// 	Cuase: "สินค้าหมดอายุ",
+	// }
+	// db.Model(&Reason{}).Create(&Reason1)
 
-	Reason2 := &Reason{
-		cuase: "สินค้าเสียหาย",
-	}
-	db.Model(&Reason{}).Create(&Reason2)
+	// Reason2 := &Reason{
+	// 	Cuase: "สินค้าเสียหาย",
+	// }
+	// db.Model(&Reason{}).Create(&Reason2)
 
-	ReviewP1 := &Review_Point{
-		Point: 1,
-	}
-	db.Model(&Review_Point{}).Create(&ReviewP1)
+	// ReviewP1 := &Review_Point{
+	// 	Point: 1,
+	// }
+	// db.Model(&Review_Point{}).Create(&ReviewP1)
 
-	ReviewP2 := &Review_Point{
-		Point: 2,
-	}
-	db.Model(&Review_Point{}).Create(&ReviewP2)
+	// ReviewP2 := &Review_Point{
+	// 	Point: 2,
+	// }
+	// db.Model(&Review_Point{}).Create(&ReviewP2)
 
-	ReviewP3 := &Review_Point{
-		Point: 3,
-	}
-	db.Model(&Review_Point{}).Create(&ReviewP3)
+	// ReviewP3 := &Review_Point{
+	// 	Point: 3,
+	// }
+	// db.Model(&Review_Point{}).Create(&ReviewP3)
 
-	ReviewP4 := &Review_Point{
-		Point: 4,
-	}
-	db.Model(&Review_Point{}).Create(&ReviewP4)
+	// ReviewP4 := &Review_Point{
+	// 	Point: 4,
+	// }
+	// db.Model(&Review_Point{}).Create(&ReviewP4)
 
-	ReviewP5 := &Review_Point{
-		Point: 5,
-	}
-	db.Model(&Review_Point{}).Create(&ReviewP5)
+	// ReviewP5 := &Review_Point{
+	// 	Point: 5,
+	// }
+	// db.Model(&Review_Point{}).Create(&ReviewP5)
 
-	TypeCom1 := &Type_Comment{
-		Type_Com_Name: "เสนอความคิดเห็น",
-	}
-	db.Model(&Type_Comment{}).Create(&TypeCom1)
+	// TypeCom1 := &Type_Comment{
+	// 	Type_Com_Name: "เสนอความคิดเห็น",
+	// }
+	// db.Model(&Type_Comment{}).Create(&TypeCom1)
 
-	TypeCom2 := &Type_Comment{
-		Type_Com_Name: "ความรู้สึกหลังใช้สินค้า",
-	}
-	db.Model(&Type_Comment{}).Create(&TypeCom2)
+	// TypeCom2 := &Type_Comment{
+	// 	Type_Com_Name: "ความรู้สึกหลังใช้สินค้า",
+	// }
+	// db.Model(&Type_Comment{}).Create(&TypeCom2)
 
-	TypeCom3 := &Type_Comment{
-		Type_Com_Name: "ความรู้สึกเกี่ยวกับการบริการในร้าน",
-	}
-	db.Model(&Type_Comment{}).Create(&TypeCom3)
+	// TypeCom3 := &Type_Comment{
+	// 	Type_Com_Name: "ความรู้สึกเกี่ยวกับการบริการในร้าน",
+	// }
+	// db.Model(&Type_Comment{}).Create(&TypeCom3)
 
-	TypeCom4 := &Type_Comment{
-		Type_Com_Name: "แจ้งปัญหาหรือข้อบกพร่อง",
-	}
-	db.Model(&Type_Comment{}).Create(&TypeCom4)
+	// TypeCom4 := &Type_Comment{
+	// 	Type_Com_Name: "แจ้งปัญหาหรือข้อบกพร่อง",
+	// }
+	// db.Model(&Type_Comment{}).Create(&TypeCom4)
 
 	//Payment_method
-	Pay1 := Kind{
-		Name: "Cash",
-	}
-	db.Model(&Payment_method{}).Create(&Pay1)
+	// Pay1 := Kind{
+	// 	Name: "Cash",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay1)
 
-	Pay2 := Kind{
-		Name: "Banking",
-	}
-	db.Model(&Payment_method{}).Create(&Pay2)
+	// Pay2 := Kind{
+	// 	Name: "Banking",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay2)
 
-	Pay3 := Kind{
-		Name: "Prompt Pay",
-	}
-	db.Model(&Payment_method{}).Create(&Pay3)
+	// Pay3 := Kind{
+	// 	Name: "Prompt Pay",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay3)
 
-	Pay4 := Kind{
-		Name: "Debit/Credit Card",
-	}
-	db.Model(&Payment_method{}).Create(&Pay4)
+	// Pay4 := Kind{
+	// 	Name: "Debit/Credit Card",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay4)
 }
