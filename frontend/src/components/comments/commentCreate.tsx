@@ -88,7 +88,7 @@ function CommentCreate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data)
+                    // console.log(res.data)
                     setReview_Point(res.data);
                 }
                 else { console.log("NO DATA") }
@@ -112,7 +112,7 @@ function CommentCreate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data)
+                    // console.log(res.data)
                     setPayment(res.data);
                 }
                 else { console.log("NO DATA") }
@@ -205,11 +205,10 @@ function CommentCreate() {
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p>ประเภทความคิดเห็น</p>
-
                             <Autocomplete
                                 disablePortal
                                 id="Type_Com_ID"
-                                getOptionLabel={(item: Type_CommentInterface) => `${item.Type_Comment_Name}`}
+                                getOptionLabel={(item: Type_CommentInterface) => `${item.Type_Com_Name}`}
                                 options={type_com}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
@@ -251,7 +250,7 @@ function CommentCreate() {
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
                                     option.ID === value.ID}
-                                onChange={(e, value) => { com.Type_Com_ID = value?.ID }}
+                                onChange={(e, value) => { com.Review_point_ID = value?.ID }}
                                 renderInput={(params) => <TextField {...params} label="ให้คะแนน" />}
                             />
                         </FormControl>

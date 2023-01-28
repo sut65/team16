@@ -37,8 +37,8 @@ func GetType_comment(c *gin.Context) {
 
 // GET /videos
 func ListType_comments(c *gin.Context) {
-	var type_commentS []entity.Reason
-	if err := entity.DB().Raw("SELECT * FROM review_points").Find(&type_commentS).Error; err != nil {
+	var type_commentS []entity.Type_Comment
+	if err := entity.DB().Raw("SELECT * FROM type_comments").Scan(&type_commentS).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
