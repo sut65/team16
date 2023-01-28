@@ -62,6 +62,8 @@ import EmployeeattemdanceIN from "./components/Panupol/Em_IN_list";
 import EmployeeattemdanceINcreate from "./components/Panupol/Em_in";
 import EmployeeattemdanceOUT from "./components/Panupol/Em_OUT_list";
 import EmployeeattemdanceOUTcreate from "./components/Panupol/Em_out";
+import EmployeeattemdanceINUpdate from "./components/Panupol/Em_IN_update";
+import EmployeeattemdanceOutUpdate from "./components/Panupol/Em_Out_update";
 
 var employeeName = "";
 
@@ -303,6 +305,8 @@ export default function App() {
                   <Route path="/EmployeeattemdanceOUTcreate" element={<EmployeeattemdanceOUTcreate />} />
                   <Route path="/PaymentUpdate" element={<PaymentUpdate />} />
                   <Route path="/Pay" element={<Pay />} />
+                  <Route path="/EmployeeattemdanceINUpdate" element={<EmployeeattemdanceINUpdate />} />
+                  <Route path="/EmployeeattemdanceOutUpdate" element={<EmployeeattemdanceOutUpdate />} />
                 </Routes>
               </Container>
             </Box>

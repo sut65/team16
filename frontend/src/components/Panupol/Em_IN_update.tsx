@@ -146,8 +146,8 @@ function Employeeattemdance_IN() {
 };
 
 
-
-
+    let Employee_attendanceID = localStorage.getItem("Employee_attendanceID"); // เรีกใช้ค่าจากlocal storage 
+    console.log(Employee_attendanceID)
     useEffect(() => {
       let date = new Date();
       console.log(date.toLocaleString());
@@ -172,7 +172,7 @@ function Employeeattemdance_IN() {
     console.log(data)
  
     const requestOptions = {
-      method: "POST",
+      method: "PATCH", // ใช้ PATCH
       headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json"
@@ -180,7 +180,7 @@ function Employeeattemdance_IN() {
       body: JSON.stringify(data),
   };
 
-  fetch(`${apiUrl}/employee_attendances`, requestOptions)
+  fetch(`${apiUrl}/employee_attendances/${Employee_attendanceID}`, requestOptions) // แนบIDไปด้วย
       .then((response) => response.json())
       .then((res) => {
           if (res.data) {
@@ -224,7 +224,7 @@ function Employeeattemdance_IN() {
                   color="primary"
                   gutterBottom
                 >
-                  ลงชื่อเข้างาน
+                  แก้ไขลงชื่อเข้างาน
                 </Typography>
               </Box>
             </Box>
@@ -314,12 +314,6 @@ function Employeeattemdance_IN() {
                   />
                 </FormControl>
               </Grid>
-     
-
-
-          
-    
-            
      
               <Grid item xs={12}>
                 <Button component={RouterLink} to="/EmployeeattemdanceIN" variant="contained">
