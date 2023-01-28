@@ -11,7 +11,11 @@ export interface DiscountInterface {
     Employee_ID?: number;
     Employee?: EmployeeInterface;
     Discount_Type_ID?: number;
+<<<<<<< HEAD
     Discount_Type?: Discount_Type_Interface;
+=======
+    Discount_Type?: Discount_TypeInterface;
+>>>>>>> issue-126
     Stock_ID?: number;
     Stock?: StocksInterface;
 }

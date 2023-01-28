@@ -129,12 +129,28 @@ func main() {
 			r.PATCH("/discount_type/:id", controller.UpdateDiscount_Type)
 			r.DELETE("/discount_type/:id", controller.DeleteDiscount_Type)
 
+<<<<<<< HEAD
 			//Separartion Routes
 			r.GET("/separations", controller.ListSeparations)
 			r.GET("/separation/:id", controller.GetSeparation)
 			r.POST("/separations", controller.CreateSeparation)
 			r.PATCH("/separation/:id", controller.UpdateSeparation)
 			r.DELETE("/separation/:id", controller.DeleteSeparation)
+=======
+	//Storage Routes
+	r.GET("/storages", controller.ListStorages)
+	r.GET("/storage/:id", controller.GetStorage)
+	r.POST("/storages", controller.CreateStorage)
+	r.PATCH("/storages", controller.UpdateStorage)
+	r.DELETE("/Storages/:id", controller.DeleteStorage)
+
+	//Stock Routes
+	r.GET("/stocks", controller.ListStocks)
+	r.GET("/stock/:id", controller.GetStock)
+	r.POST("/stocks", controller.CreateStock)
+	r.PATCH("/stocks/:id", controller.UpdateStock)
+	r.DELETE("/stocks/:id", controller.DeleteStock)
+>>>>>>> issue-126
 
 			//Comment Routes
 			r.GET("/comments", controller.ListComments)

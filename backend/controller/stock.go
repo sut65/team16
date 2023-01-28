@@ -24,23 +24,23 @@ func CreateStock(c *gin.Context) {
 
 	}
 
-	if tx := entity.DB().Where("id = ?", stock.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", stock.Employee_ID).First(&employee.Stock); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", stock.Kind_ID).First(&kind); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", stock.Kind_ID).First(&kind.Stock); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "kind not found"})
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", stock.Storage_ID).First(&storage); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", stock.Storage_ID).First(&storage.Stock); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "storage not found"})
 		return
 	}
 	st := entity.Stock{
 		Name:     stock.Name,
-		Amount: stock.Amount,
+		Amount:   stock.Amount,
 		Price:    stock.Price,
 		Employee: employee,
 		Kind:     kind,
@@ -55,28 +55,20 @@ func CreateStock(c *gin.Context) {
 
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": stock})
+	c.JSON(http.StatusOK, gin.H{"data": st})
 
 }
 
 // GET /stock/:id
 
 func GetStock(c *gin.Context) {
-
 	var stock entity.Stock
-
 	id := c.Param("id")
-
-	if err := entity.DB().Raw("SELECT * FROM stocks WHERE id = ?", id).Scan(&stock).Error; err != nil {
-
+	if err := entity.DB().Preload("Employee").Preload("Kind").Preload("Storage").Raw("SELECT * FROM stocks WHERE id = ?", id).Find(&stock).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
 		return
-
 	}
-
 	c.JSON(http.StatusOK, gin.H{"data": stock})
-
 }
 
 // GET /stocks
@@ -85,16 +77,12 @@ func ListStocks(c *gin.Context) {
 
 	var stocks []entity.Stock
 
-	if err := entity.DB().Raw("SELECT * FROM stocks").Scan(&stocks).Error; err != nil {
-
+	if err := entity.DB().Preload("Employee").Preload("Kind").Preload("Storage").Raw("SELECT * FROM stocks").Find(&stocks).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
 		return
-
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": stocks})
-
 }
 
 // DELETE /stocks/:id

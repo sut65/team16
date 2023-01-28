@@ -21,7 +21,10 @@ import Button from "@mui/material/Button";
 
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import HomeIcon from "@mui/icons-material/Home";
+<<<<<<< HEAD
 import PeopleIcon from "@mui/icons-material/People";
+=======
+>>>>>>> issue-126
 import LogoutIcon from '@mui/icons-material/Logout';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import Homepage from "./components/Homepage";
@@ -131,6 +134,7 @@ const Drawer = styled(MuiDrawer, {
 
 const menu = [
   { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
+<<<<<<< HEAD
   { name: "ตะกร้าสินค้า", icon: <AddShoppingCartIcon />, path: "/Cart" },
   { name: "สต๊อกสินค้า", icon: <InventoryIcon />, path: "/Stock" },
   { name: "สมาชิก", icon: <PeopleIcon />, path: "/Member" },
@@ -141,6 +145,9 @@ const menu = [
   { name: "รายการเข้างาน", icon: <GroupAddIcon />, path: "/EmployeeattemdanceIN" },
   { name: "รายการออกงาน", icon: <GroupRemoveIcon />, path: "/EmployeeattemdanceOUT" },
   { name: "ความคิดเห็น", icon: <LocalShippingIcon />, path: "/CommentShow" },
+=======
+  { name: "สต๊อกสินค้า", icon: <InventoryIcon />, path: "/stocks" },
+>>>>>>> issue-126
 ];
 
 
@@ -280,10 +287,14 @@ export default function App() {
               <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Routes>
                   <Route path="/" element={<Homepage />} />
+<<<<<<< HEAD
                   <Route path="/Member" element={<Member />} />
                   <Route path="/MemberCreate" element={<MemberCreate />} />
                   <Route path="/MemberUpdate" element={<MemberUpdate />} />
                   <Route path="/Stock" element={<Stocks />} />
+=======
+                  <Route path="/stocks" element={<Stocks />} />
+>>>>>>> issue-126
                   <Route path="/StockCreate" element={<StockCreate />} />
                   <Route path="/Discount" element={<Discount />} />
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />

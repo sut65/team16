@@ -31,6 +31,10 @@ type Member struct {
 	Employee_ID *uint
 	Employee    Employee
 
+<<<<<<< HEAD
 	Shopping_Cart	[]Shopping_Cart `gorm:"foreignkey:Member_ID"`
+=======
+	Shopping_Cart         []Shopping_Cart `gorm:"foreignkey:Member_ID"`
+>>>>>>> issue-126
 
 }

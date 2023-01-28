@@ -2,6 +2,12 @@ package entity
 
 import (
 	// "time"
+<<<<<<< HEAD
+=======
+
+	// "golang.org/x/crypto/bcrypt"
+	"time"
+>>>>>>> issue-126
 
 	// "golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -29,19 +35,30 @@ func SetupDatabase() {
 
 	// Migrate the schema
 	database.AutoMigrate(
-		&Employee{}, &Kind{}, &Storage{}, &Stock{}, 
-		&Label{}, &Shelving{}, 
-		&Discount_Type{}, &Discount{}, 
+		&Employee{}, &Kind{}, &Storage{}, &Stock{},
+		&Label{}, &Shelving{},
+		&Discount_Type{}, &Discount{},
 		&Delivery{}, &Car{},
+<<<<<<< HEAD
 		&Order{}, Shopping_Cart{}, Status{}, 
+=======
+		&Shopping_Cart{}, &Order{},
+>>>>>>> issue-126
 		&Payment_method{}, &Payment{},
-		&Review_Point{}, &Type_Comment{}, &Comment{}, 
+		&Review_Point{}, &Type_Comment{}, &Comment{},
 		&Reason{}, &Separation{},
+<<<<<<< HEAD
 		&Section{}, &L_Type{}, &Leave{}, 
 		&Gender{}, &Level{}, &Member{},
 		&Duty{}, &Overtime{}, &Working_time{}, &Employee_attendance{}, &Record_employee_leave{},
 	)
 	db = database // ห้าม comment บรรทัดนี้
+=======
+		&Section{}, &L_Type{}, &Leave{},
+		&Gender{}, &Level{}, &Member{},
+		&Duty{}, &Overtime{}, &Working_time{}, &Employee_attendance{}, &Record_employee_leave{},
+	)
+>>>>>>> issue-126
 
 	// password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	// password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
@@ -104,6 +121,7 @@ func SetupDatabase() {
 	// }
 	// db.Model(&Storage{}).Create(&Storage3)
 
+<<<<<<< HEAD
 	// //Stock
 	// Stock1 := Stock{
 	// 	Name:     "Banana",
@@ -137,6 +155,41 @@ func SetupDatabase() {
 	// 	DateTime: time.Now(),
 	// }
 	// db.Model(&Stock{}).Create(&Stock3)
+=======
+	//Stock
+	Stock1 := Stock{
+		Name:     "Banana",
+		Amount:   100,
+		Price:    20.00,
+		Employee: Em1,
+		Kind:     Kind2,
+		Storage:  Storage2,
+		DateTime: time.Now(),
+	}
+	db.Model(&Stock{}).Create(&Stock1)
+
+	Stock2 := Stock{
+		Name:     "Pork",
+		Amount:   100,
+		Price:    80.00,
+		Employee: Em1,
+		Kind:     Kind1,
+		Storage:  Storage1,
+		DateTime: time.Now(),
+	}
+	db.Model(&Stock{}).Create(&Stock2)
+
+	Stock3 := Stock{
+		Name:     "Milk",
+		Amount:   100,
+		Price:    20.00,
+		Employee: Em1,
+		Kind:     Kind3,
+		Storage:  Storage3,
+		DateTime: time.Now(),
+	}
+	db.Model(&Stock{}).Create(&Stock3)
+>>>>>>> issue-126
 
 	// //Label
 	// Label1 := Label{
@@ -234,6 +287,7 @@ func SetupDatabase() {
 	// }
 	// db.Model(&Type_Comment{}).Create(&TypeCom4)
 
+<<<<<<< HEAD
 	// //Payment_method
 	// Pay1 := Payment_method{
 	// 	Method: "Cash",
@@ -406,3 +460,26 @@ func SetupDatabase() {
 	// }
 	// db.Model(&Car{}).Create(&Car3)
 }
+=======
+	//Payment_method
+	// Pay1 := Kind{
+	// 	Name: "Cash",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay1)
+
+	// Pay2 := Kind{
+	// 	Name: "Banking",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay2)
+
+	// Pay3 := Kind{
+	// 	Name: "Prompt Pay",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay3)
+
+	// Pay4 := Kind{
+	// 	Name: "Debit/Credit Card",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay4)
+}
+>>>>>>> issue-126
