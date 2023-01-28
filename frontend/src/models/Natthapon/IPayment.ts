@@ -5,7 +5,7 @@ import { Payment_methodInterface } from "./IPayment_method";
 export interface PaymentInterface {
     ID?: number,
     Time?: Date| null,
-    Price?: number,
+    Paytotal?: number,
 
     Shopping_Cart_ID?: number,
     Shopping_Cart?: CartInterface

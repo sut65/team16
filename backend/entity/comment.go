@@ -16,8 +16,8 @@ type Review_Point struct {
 
 type Type_Comment struct {
 	gorm.Model
-	Type_Com_Name        string
-	Comment      []Comment `gorm:"foreignKey:Type_Com_ID"`
+	Type_Com_Name       string
+	Comment             []Comment `gorm:"foreignKey:Type_Com_ID"`
 }
 
 type Comment struct {

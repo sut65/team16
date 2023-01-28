@@ -49,6 +49,7 @@ func CreateCart(c *gin.Context) {
 		Member:   	member,   // โยงความสัมพันธ์กับ Entity member
 		Employee: 	employee, // โยงความสัมพันธ์กับ Entity Employee
 		Status: 	status, // โยงความสัมพันธ์กับ Entity Status
+		Total:		cart.Total,
 	}
 	if _, err := govalidator.ValidateStruct(sc); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -95,6 +96,16 @@ func ListUnpaid(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": cart})
 }
 
+func Listpaid(c *gin.Context) {
+	var cart []entity.Shopping_Cart
+	if err := entity.DB().Preload("Member").Preload("Employee").Preload("Status").Raw("SELECT * FROM shopping_carts WHERE status_id = 2").Find(&cart).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": cart})
+}
+
 // DELETE /cart/:id
 func DeleteCart(c *gin.Context) {
 	id := c.Param("id")
@@ -120,7 +131,8 @@ func UpdateCart(c *gin.Context) {
 		return
 	}
 	sc := entity.Shopping_Cart{
-		Status: 	status, 
+		Status: 	status,
+		Total:		cart.Total, 
 	}
 
 	if err := entity.DB().Where("id = ?", id).Updates(&sc).Error; err != nil {

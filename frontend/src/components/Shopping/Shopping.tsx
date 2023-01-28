@@ -16,9 +16,10 @@ function Order() {
     const [orderID, setOrderID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
 
+    let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
     // โหลดข้อมูลทั้งหมดใส่ datagrid
     const getOrder = async () => {
-        const apiUrl = "http://localhost:8080/orders";
+        const apiUrl = `http://localhost:8080/ordercart/${cartID}`;
         const requestOptions = {
             method: "GET",
             headers: {
@@ -78,9 +79,9 @@ function Order() {
     const columns: GridColDef[] = [
       { field: "ID", headerName: "ID", width: 100,  headerAlign:"center", align:"center" },
       { field: "Shelving", headerName: "สินค้า", width: 100, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
-      { field: "Quantity", headerName: "จำนวน", width: 100, headerAlign:"center", align:"center" },
-      { field: "Prices", headerName: "รวมราคา", width: 100, headerAlign:"center", align:"center" },
-      { field: "Shopping_Cart", headerName: "ตะกร้า", width: 250, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
+      { field: "Quantity", headerName: "จำนวน", width: 150, headerAlign:"center", align:"center" },
+      { field: "Prices", headerName: "รวมราคา", width: 150, headerAlign:"center", align:"center" },
+      { field: "Shopping_Cart", headerName: "ตะกร้า", width: 150, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
       {
           field: "delete", headerName: "ลบ", width: 100,
@@ -139,18 +140,6 @@ function Order() {
                         </Button>
                     </Box>
             
-                    <Box sx={{ paddingX: 1, paddingY: 0 }}>
-                        <Button
-                            component={RouterLink}
-                            to="/OrderCreate"
-                            variant="contained"
-                            color="primary"
-                            startIcon={<EditIcon />}
-                        >
-                            เพิ่มรายการสินค้า
-                        </Button>
-                    </Box>
-
                 </Box>
                 
                 <div style={{ height: 400, width: '100%', marginTop: '20px' }}>

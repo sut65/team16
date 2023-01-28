@@ -41,10 +41,12 @@ func CreateComment(c *gin.Context) {
 	}
 	// 12: สร้าง WatchVideo
 	wv := entity.Comment{
+		Comments:		   comment.Comments,
 		Review_point:      review_point,                 // โยงความสัมพันธ์กับ Entity Resolution
 		Payment:           payment,               // โยงความสัมพันธ์กับ Entity Video
 		Type_Com:          type_comment,               // โยงความสัมพันธ์กับ Entity Playlist
 		Date_Now:          comment.Date_Now,    // ตั้งค่าฟิลด์ watchedTime
+		Bought_now:        comment.Bought_now, 
 	}
 
 	// ขั้นตอนการ validate ที่นำมาจาก unit test
@@ -95,22 +97,45 @@ func DeleteComment(c *gin.Context) {
 }
 
 // PATCH /watch_videos
+
 func UpdateComment(c *gin.Context) {
+
 	var commentS entity.Comment
+	id := c.Param("id")
+	var type_com entity.Type_Comment
+	var review_point entity.Review_Point
+	var pay entity.Payment
+
 	if err := c.ShouldBindJSON(&commentS); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", commentS.ID).First(&commentS); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "comment not found"})
+	if tx := entity.DB().Where("id = ?", commentS.Type_Com_ID).First(&type_com); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
-
-	if err := entity.DB().Save(&commentS).Error; err != nil {
+	if tx := entity.DB().Where("id = ?", commentS.Review_point_ID).First(&review_point); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", commentS.Payment_ID).First(&pay); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "reason not found"})
+		return
+	}
+	dc := entity.Comment{           
+		Comments:		    commentS.Comments,     
+		Review_point:	    review_point,               
+		Payment:	    	pay,               
+		Type_Com:	    	type_com,               
+		Date_Now:      		commentS.Date_Now,
+		Bought_now:	        commentS.Bought_now,  
+	}
+	if err := entity.DB().Where("id = ?", id).Updates(&dc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": commentS})
+
+
 }

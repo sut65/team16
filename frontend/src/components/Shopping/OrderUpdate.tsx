@@ -18,6 +18,7 @@ import { OrderInterface } from "../../models/Natthapon/IOrder";
 import { IShelving } from "../../models/methas/IShelving";
 import { CartInterface } from "../../models/Natthapon/ICart";
 import PaymentIcon from '@mui/icons-material/Payment';
+import { StocksInterface } from "../../models/methas/IStock";
 
 
 
@@ -37,6 +38,7 @@ function OrderCreate() {
     const [shelving, setShelving] = React.useState<IShelving[]>([]);
     const [order, setOder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
+    const [stock, setStock] = React.useState<StocksInterface[]>([]);
 
 
     const apiUrl = "http://localhost:8080";
@@ -75,6 +77,18 @@ function OrderCreate() {
         });
     };
 
+    const getStock = async () => {
+        fetch(`${apiUrl}/stocks`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+            if (res.data) {
+                console.log(res.data)
+                setStock(res.data);
+            }
+            else { console.log("NO DATA") }
+            });
+    };
+
     const getShelving = async () => {
         fetch(`${apiUrl}/Shelving`, requestOptions)
             .then((response) => response.json())
@@ -91,6 +105,7 @@ function OrderCreate() {
 
     useEffect(() => {
         getShelving();
+        getStock();
     }, []);
 
     const convertType = (data: string | number | undefined) => {
@@ -101,6 +116,7 @@ function OrderCreate() {
     async function addproduct() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
+            Prices: typeof order.Prices === "string" ? parseInt(order.Prices) : 0,
             Shelving_ID: convertType(order.Shelving_ID),
             Shopping_Cart_ID: Number(cartID),
         };
@@ -163,7 +179,7 @@ function OrderCreate() {
                             color="primary"
                             gutterBottom
                         >
-                            เพิ่มรายการสินค้าและตะกร้า
+                            เพิ่มรายการสินค้า
                         </Typography>
                     </Box>
 
@@ -182,7 +198,7 @@ function OrderCreate() {
                     <Box sx={{ paddingX: 1, paddingY: 0 }}> 
                         <Button
                             component={RouterLink}
-                            to="/PaymentCreate"
+                            to="/Pay"
                             variant="contained"
                             color="primary"
                             startIcon={<PaymentIcon />}
@@ -195,18 +211,16 @@ function OrderCreate() {
                 <Divider />
                  
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-                    <Grid item xs={2}></Grid>
-                    <Grid item xs={5}>
+                <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">สินค้า</p>
+                            <p className="good-font">รายการสินค้า</p>
                             <Autocomplete
                                 disablePortal
                                 id="Stock_ID"
-                                getOptionLabel={(item: IShelving) => `${item.ID}`}
-                                options={shelving}
+                                getOptionLabel={(item: StocksInterface) => `${item.Name} ราคา ${item.Price}`}
+                                options={stock}
                                 sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
+                                isOptionEqualToValue={(option, value) => option.ID === value.ID}
                                 onChange={(e, value) => { order.Shelving_ID = value?.ID }}
                                 renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
@@ -226,6 +240,24 @@ function OrderCreate() {
                                     shrink: true,
                                 }}
                                 value={order.Quantity || ""}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={3}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">รวมราคา</p>
+                            <TextField
+                                id="Prices"
+                                variant="outlined"
+                                type="number"
+                                size="medium"
+                                InputProps={{ inputProps: { min: 1}}}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                value={order.Prices || ""}
                                 onChange={handleInputChange}
                             />
                         </FormControl>

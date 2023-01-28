@@ -167,6 +167,7 @@ func main() {
 			//Order Routes
 			r.GET("/orders", controller.ListOrder)
 			r.GET("/order/:id", controller.GetOrder)
+			r.GET("/ordercart/:id", controller.ListOrderCart)
 			r.POST("/orders", controller.CreateOrder)
 			r.PATCH("/order/:id", controller.UpdateOrder)
 			r.DELETE("/order/:id", controller.DeleteOrder)
@@ -195,6 +196,7 @@ func main() {
 			//Status Routes
 			r.GET("/carts", controller.ListCart)
 			r.GET("/unpaids", controller.ListUnpaid)
+			r.GET("/paids", controller.Listpaid)
 			r.GET("/cart/:id", controller.GetCart)
 			r.POST("/carts", controller.CreateCart)
 			r.PATCH("/cart/:id", controller.UpdateCart)
@@ -215,6 +217,26 @@ func main() {
 			r.DELETE("/delivery/:id", controller.DeleteDelivery)
 		}
 	}
+	// //Comment Routes
+	// router.GET("/comments", controller.ListComments)
+	// router.GET("/comment/:id", controller.GetComment)
+	// router.POST("/comments", controller.CreateComment)
+	// router.PATCH("/comment/:id", controller.UpdateComment)
+	// router.DELETE("/comment/:id", controller.DeleteComment)
+
+	// //Type comment Routes
+	// router.GET("/type_comments", controller.ListType_comments)
+	// router.GET("/type_comment/:id", controller.GetType_comment)
+	// router.POST("/type_comments", controller.CreateType_comment)
+	// router.PATCH("/type_comment/:id", controller.UpdateType_comment)
+	// router.DELETE("/type_comment/:id", controller.DeleteType_comment)
+
+	// //Review point Routes
+	// router.GET("/review_points", controller.ListReview_points)
+	// router.GET("/review_point/:id", controller.GetReview_point)
+	// router.POST("/review_points", controller.CreateReview_point)
+	// router.PATCH("/review_point/:id", controller.UpdateReview_point)
+	// router.DELETE("/review_point/:id", controller.DeleteReview_point)
 
 	router.POST("/login", controller.Login)
 	// Run the server

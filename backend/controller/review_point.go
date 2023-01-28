@@ -37,8 +37,8 @@ func GetReview_point(c *gin.Context) {
 
 // GET /videos
 func ListReview_points(c *gin.Context) {
-	var review_pointS []entity.Reason
-	if err := entity.DB().Raw("SELECT * FROM review_points").Find(&review_pointS).Error; err != nil {
+	var review_pointS []entity.Review_Point
+	if err := entity.DB().Raw("SELECT * FROM review_points").Scan(&review_pointS).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

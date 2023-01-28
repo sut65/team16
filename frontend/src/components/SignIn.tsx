@@ -15,11 +15,22 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { SigninInterface } from "../models/ISignin";
 import { Login } from "../services/HttpClientService";
-import { InputAdornment } from "@mui/material";
+import { Container, InputAdornment } from "@mui/material";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import EmailIcon from '@mui/icons-material/Email';
 import PasswordIcon from '@mui/icons-material/Password';
 import LoginIcon from '@mui/icons-material/Login';
+import CommentShow from "./comments/commentShow";
+
+// import React from 'react';
+import { useNavigate } from "react-router-dom";
+
+{/* <Routes>
+    <Route path="/commentshow" element={<CommentShow />} />
+</Routes> */}
+
+
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -29,6 +40,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 const theme = createTheme();
+
+// export default function MyComponent() {
+//     return (
+//       <div>
+//         <Button component={Link} to="/posts">
+//           Posts
+//         </Button>
+//       </div>
+//     );
+//   }
 
 function SignIn() {
     const [signin, setSignin] = useState<Partial<SigninInterface>>({});
@@ -63,8 +84,39 @@ function SignIn() {
             }, 1000);
         } else {
             setError(true);
+
         }
     };
+    // const toComment = async () => {
+    //     // let res = await Login(signin);
+    //     // if (res) {
+    //     //     setSuccess(true);
+    //     //     setTimeout(() => {
+    //     //         window.location.reload();
+    //     //     }, 1000);
+    //     // } else {
+    //     //     setError(true);
+
+    //     // }
+    //     // navigate(path);
+    //     setTimeout(() => {
+    //         window.location.href = "/comments";
+    //     }, 1000);
+
+
+    // };
+
+    const toComment = () => {
+        // localStorage.clear();
+        window.location.href = "/comments";
+        window.location.reload();
+    };
+
+    // let navigate = useNavigate();
+    // const routeChange = () => {
+    //     let path = `comments`;
+    //     navigate(path);
+    // }
 
     return (
         <ThemeProvider theme={theme}>
@@ -74,6 +126,7 @@ function SignIn() {
                     backgroundImage: "url(https://sv1.picz.in.th/images/2022/10/23/vfPECa.jpg)",
                     backgroundPosition: "center", height: "100vh", width: '100%',
                 }} >
+
                 <Snackbar
                     open={success}
                     autoHideDuration={3000}
@@ -106,8 +159,13 @@ function SignIn() {
                         <Avatar sx={{ mx: 'auto', my: '5%', bgcolor: "#03a9f4", width: 56, height: 56 }}> <LockOutlinedIcon /> </Avatar>
                         <div className="good-font"> Sign in to website </div>
                     </Typography>
+
                     <Box sx={{ mx: 5, display: "flex", flexDirection: "column", alignItems: "center", alignSelf: "center", }}>
+
                         <Box sx={{ mt: 0 }}>
+                            <Box>
+
+                            </Box>
                             <TextField
                                 margin="normal"
                                 required
@@ -160,9 +218,49 @@ function SignIn() {
                             >
                                 <div className="good-font" > Sign In </div>
                             </Button>
+                            
+                            <div>
+                                <br></br>
+                            </div>
+
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 2, mb: 6 }}
+                                onClick={toComment}
+                            >
+                                <div className="good-font" > แสดงความคิดเห็น </div>
+                            </Button>
+                            {/* <div className="app flex-row align-items-center">
+                                <Container>
+                                    <Button color="primary" className="px-4"
+                                        onClick={toComment}
+                                    >
+                                        Login
+                                    </Button>
+
+                                </Container>
+                            </div> */}
+
+                            {/* <Button color="primary" component={RouterLink} to="/CommentShow" variant="contained">
+                                <div className="good-font-white">
+                                    กลับ
+                                </div>
+                            </Button> */}
+                            {/* <Link styles="button" onClick={(e) => displayNewClaim(e)}>New claim</Link> */}
+                            {/* <Link to="/CommentShow" styles="button" onClick={displayNewClaim}>
+
+                                New claim
+                            </Link> */}
                         </Box>
                     </Box>
                 </Grid>
+                {/* <div>
+                    <Button component={Link} to="/comments">
+                        Posts
+                    </Button>
+                </div> */}
             </Grid>
         </ThemeProvider>
     );
