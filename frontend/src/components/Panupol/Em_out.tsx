@@ -54,8 +54,6 @@ function Record_employee_leaves_create() {
       Time_Out: new Date(), Status_ID: false, 
     });
 
-  
-
     const handleClose = (
         event?: React.SyntheticEvent | Event,
         reason?: string
