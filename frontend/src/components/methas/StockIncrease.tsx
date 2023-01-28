@@ -14,7 +14,7 @@ import { StocksInterface } from "../../models/methas/IStock";
 
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-
+//StockIncrease
 function StockIncrease() {
 
  const [stocks, setStocks] = React.useState<StocksInterface[]>([]);
