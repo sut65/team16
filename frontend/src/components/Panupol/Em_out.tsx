@@ -41,7 +41,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
    });
 
-function record_employee_leaves_create() {
+function Record_employee_leaves_create() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("")
@@ -70,7 +70,7 @@ function record_employee_leaves_create() {
       const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
       ) => {
-        const id = event.target.id as keyof typeof record_employee_leaves_create;
+        const id = event.target.id as keyof typeof Record_employee_leaves_create;
         const { value } = event.target;
         setEm_Out({ ...Em_Out, [id]: value });
       };
@@ -342,6 +342,6 @@ function record_employee_leaves_create() {
       );
     
 }
-export default record_employee_leaves_create;
+export default Record_employee_leaves_create;
 
 

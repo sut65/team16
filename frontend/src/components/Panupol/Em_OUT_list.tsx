@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { Record_employee_leave } from "../../models/panupol/IEm_out"
 
 
-function record_employee_leaves_list() {
+function Record_employee_leaves_list() {
     const [Employee_leave, setEmployee_leave] = React.useState<Record_employee_leave[]>([]);
     const [Employee_leaveID, setEmployee_leaveID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
@@ -212,6 +212,6 @@ function record_employee_leaves_list() {
     );
     
 }
-export default record_employee_leaves_list;
+export default Record_employee_leaves_list;
 
 
