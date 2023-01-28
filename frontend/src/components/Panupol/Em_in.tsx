@@ -50,9 +50,9 @@ function Employeeattemdance_IN() {
     const [duty, setduty] = React.useState<DutyInterface[]>([]);
     const [Working_time, setWorking_time] = React.useState<Working_timeInterface[]>([]);
     const [Overtime, setOvertime] = React.useState<OvertimeInterface[]>([]);
-    const [Em_IN, setEm_IN] = React.useState<Partial<Employee_attendanceInterface>>({});
-    const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-07'));
-
+    const [Em_IN, setEm_IN] = React.useState<Partial<Employee_attendanceInterface>>({
+      Time_IN: new Date(), Status_ID: true, 
+    });
 
   
 
@@ -145,7 +145,7 @@ function Employeeattemdance_IN() {
     return val;
 };
 
-    
+
 
 
     useEffect(() => {
@@ -160,43 +160,41 @@ function Employeeattemdance_IN() {
   async function submit() {
     let date = new Date();
     let data = {
-      Time_IN: date.toLocaleString(),
-      Number_Em: Em_IN.Number_Em ?? "",
       Employee_ID: convertType(Em_IN.Employee_ID),
       Duty_ID: convertType(Em_IN.Duty_ID),
       Working_time_ID: convertType(Em_IN.Working_time_ID),
       Overtime_ID: convertType(Em_IN.Overtime_ID),
+      Time_IN: new Date() ,
+      Status_ID: Em_IN.Status_ID,
+      Number_Em: Em_IN.Number_Em ?? "",
     };
- 
+    
     console.log(data)
  
     const requestOptions = {
-        method: "POST",
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data),
-    };
-    
-    fetch(`${apiUrl}/employee_attendances`, requestOptions)
-        .then((response) => response.json())
-        .then((res) => {
-            if (res.data) {
-              console.log("fetch sucsecs")
-                setSuccess(true);
-                setErrorMessage("")
-            } else {
-                console.log("fetch error")
-                setError(true);
-                setErrorMessage(res.error)
-            }
-        });
- }
+      method: "POST",
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+  };
+
+  fetch(`${apiUrl}/employee_attendances`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+          if (res.data) {
+              setSuccess(true);
+              setErrorMessage("")
+          } else {
+              setError(true);
+              setErrorMessage(res.error)
+          }
+      });
+}
  
     return (
-      
-
+      <div>
         <Container maxWidth="md">
           <Snackbar
             open={success}
@@ -232,21 +230,27 @@ function Employeeattemdance_IN() {
             </Box>
      
             <Divider />
-            <Grid container spacing={3} sx={{ padding: 2 }}>  
-              <Grid item xs={7}>
-                <FormControl fullWidth variant="outlined">
-                  <p className="good-font">เบอร์มือถือ</p>
-                  <TextField
-                    id="Number_Em"
-                    variant="outlined"
-                    type="string"
-                    size="medium"
-                    value={Em_IN.Number_Em || ""}
-                    onChange={handleInputChange}
-                  />
-                </FormControl>
-              </Grid>
-     
+            <Grid container spacing={5} sx={{ padding: 2 }}>  
+            <Grid item xs={12}>
+                 <FormControl fullWidth variant="outlined">
+                     <p className="good-font">พนักงานที่บันทึก</p>
+                     <Select
+                         native
+                         value={Em_IN.Employee_ID + ""}
+                         onChange={handleChange}
+                         disabled
+                         inputProps={{name: "Employee_ID",}}
+                      >
+                     <option aria-label="None" value="">
+                          Disable
+                     </option>
+                     <option value={employee?.ID} key={employee?.ID}>
+                         {employee?.Name}
+                     </option>
+                     </Select>
+                 </FormControl>
+             </Grid>
+
               <Grid item xs={5}>
                  <FormControl fullWidth variant="outlined">
                      <p className="good-font">หน้าที่ในการทำงาน</p>
@@ -263,8 +267,7 @@ function Employeeattemdance_IN() {
                      />
                  </FormControl>
              </Grid>
-     
-             <Grid item xs={6}>
+             <Grid item xs={7}>
                  <FormControl fullWidth variant="outlined">
                      <p className="good-font">เวลาในการทำงาน</p>
                      <Autocomplete
@@ -297,26 +300,22 @@ function Employeeattemdance_IN() {
                 />
             </FormControl>
         </Grid>
+        
+              <Grid item xs={7}>
+                <FormControl fullWidth variant="outlined">
+                  <p className="good-font">เบอร์มือถือ</p>
+                  <TextField
+                    id="Number_Em"
+                    variant="outlined"
+                    type="string"
+                    size="medium"
+                    value={Em_IN.Number_Em || ""}
+                    onChange={handleInputChange}
+                  />
+                </FormControl>
+              </Grid>
      
-             <Grid item xs={6}>
-                 <FormControl fullWidth variant="outlined">
-                     <p className="good-font">พนักงานที่บันทึก</p>
-                     <Select
-                         native
-                         value={Em_IN.Employee_ID + ""}
-                         onChange={handleChange}
-                         disabled
-                         inputProps={{name: "Employee_ID",}}
-                      >
-                     <option aria-label="None" value="">
-                          Disable
-                     </option>
-                     <option value={employee?.ID} key={employee?.ID}>
-                         {employee?.Name}
-                     </option>
-                     </Select>
-                 </FormControl>
-             </Grid>
+
 
           
     
@@ -339,6 +338,7 @@ function Employeeattemdance_IN() {
      
           </Paper>
         </Container>
+        </div>
       );
     
 }

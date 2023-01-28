@@ -16,6 +16,7 @@ import { Dialog, DialogTitle } from "@mui/material";
 function Payment() {
     const [payment, setPayment] = React.useState<PaymentInterface[]>([]);
     const [paymentID, setPaymentID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
+    const [cartID, setCartID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
     const [openUpdate, setOpenupdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การแก้ไข
 
@@ -67,6 +68,7 @@ function Payment() {
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
         setPaymentID(Number(params.row.ID)); //setเพื่อรอการลบ
         localStorage.setItem("paymentID", params.row.ID); //setเพื่อการแก้ไข
+        localStorage.setItem("cartID", params.row.Shopping_Cart_ID); //setเพื่อการแก้ไข
     };
 
      // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
@@ -81,7 +83,7 @@ function Payment() {
 
     const columns: GridColDef[] = [
         { field: "ID", headerName: "ID", width: 50 },
-        { field: "Price", headerName: "ยอดรวม", width: 80 },
+        { field: "Paytotal", headerName: "ยอดรวม", width: 80 },
         {
             field: "Time", headerName: "วันที่ชำระสินค้า", width: 160,
             renderCell: (params) => moment(params.row.Time).format('YY-MM-DD HH:mm:ss')

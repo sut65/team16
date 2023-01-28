@@ -118,8 +118,7 @@ function PaymentCreate() {
 
     async function submit() {
         let data = {
-            //Price: cart.length > 0 ? cart[0].Total : 0,
-            Price: typeof payment.Price === "string" ? parseInt(payment.Price) : 0,
+            Paytotal: payment.Shopping_Cart && payment.Shopping_Cart.Total ? payment.Shopping_Cart.Total : 0,
             Time: payment.Time,
             Shopping_Cart_ID: convertType(payment.Shopping_Cart_ID),
             Payment_method_ID: convertType(payment.Payment_method_ID),

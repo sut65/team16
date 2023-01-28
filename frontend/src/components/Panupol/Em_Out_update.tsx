@@ -41,7 +41,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
    });
 
-function Record_employee_leaves_create() {
+function Record_employee_leaves_update() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("")
@@ -70,7 +70,7 @@ function Record_employee_leaves_create() {
       const handleInputChange = (
         event: React.ChangeEvent<{ id?: string; value: any }>
       ) => {
-        const id = event.target.id as keyof typeof Record_employee_leaves_create;
+        const id = event.target.id as keyof typeof Record_employee_leaves_update;
         const { value } = event.target;
         setEm_Out({ ...Em_Out, [id]: value });
       };
@@ -146,7 +146,7 @@ function Record_employee_leaves_create() {
 };
 
 
-
+    let employee_leavesID = localStorage.getItem("Employee_leaveID"); // เรีกใช้ค่าจากlocal storage 
 
     useEffect(() => {
       let date = new Date();
@@ -165,14 +165,13 @@ function Record_employee_leaves_create() {
       Working_time_ID: convertType(Em_Out.Working_time_ID),
       Overtime_ID: convertType(Em_Out.Overtime_ID),
       Time_Out: new Date() ,
-      Status_ID: Em_Out.Status_ID,
       Number_Em: Em_Out.Number_Em ?? "",
     };
     
     console.log(data)
  
     const requestOptions = {
-      method: "POST",
+      method: "PATCH", // ใช้ PATCH
       headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json"
@@ -180,7 +179,7 @@ function Record_employee_leaves_create() {
       body: JSON.stringify(data),
   };
 
-  fetch(`${apiUrl}/record_employee_leaves`, requestOptions)
+  fetch(`${apiUrl}/record_employee_leaves/${employee_leavesID}`, requestOptions)  // แนบIDไปด้วย
       .then((response) => response.json())
       .then((res) => {
           if (res.data) {
@@ -224,7 +223,7 @@ function Record_employee_leaves_create() {
                   color="primary"
                   gutterBottom
                 >
-                  ลงชื่อออกงาน
+                  แก้ไขรายการออกงานออกงาน
                 </Typography>
               </Box>
             </Box>
@@ -315,12 +314,6 @@ function Record_employee_leaves_create() {
                 </FormControl>
               </Grid>
      
-
-
-          
-    
-            
-     
               <Grid item xs={12}>
                 <Button component={RouterLink} to="/EmployeeattemdanceOUT" variant="contained">
                   Back
@@ -342,6 +335,6 @@ function Record_employee_leaves_create() {
       );
     
 }
-export default Record_employee_leaves_create;
+export default Record_employee_leaves_update;
 
 
