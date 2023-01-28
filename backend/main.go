@@ -167,6 +167,7 @@ func main() {
 			//Order Routes
 			r.GET("/orders", controller.ListOrder)
 			r.GET("/order/:id", controller.GetOrder)
+			r.GET("/ordercart/:id", controller.ListOrderCart)
 			r.POST("/orders", controller.CreateOrder)
 			r.PATCH("/order/:id", controller.UpdateOrder)
 			r.DELETE("/order/:id", controller.DeleteOrder)
@@ -195,6 +196,7 @@ func main() {
 			//Status Routes
 			r.GET("/carts", controller.ListCart)
 			r.GET("/unpaids", controller.ListUnpaid)
+			r.GET("/paids", controller.Listpaid)
 			r.GET("/cart/:id", controller.GetCart)
 			r.POST("/carts", controller.CreateCart)
 			r.PATCH("/cart/:id", controller.UpdateCart)
