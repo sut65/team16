@@ -215,7 +215,7 @@ function CommentUpdate() {
                             <Autocomplete
                                 disablePortal
                                 id="Type_Com_ID"
-                                getOptionLabel={(item: Type_CommentInterface) => `${item.Type_Comment_Name}`}
+                                getOptionLabel={(item: Type_CommentInterface) => `${item.Type_Com_Name}`}
                                 options={type_com}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
