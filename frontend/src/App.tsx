@@ -67,6 +67,7 @@ import EmployeeattemdanceOutUpdate from "./components/Panupol/Em_Out_update";
 import CommentShow from "./components/comments/commentShow";
 import CommentCreate from "./components/comments/commentCreate";
 import CommentUpdate from "./components/comments/commentUpdate";
+import StockUpdate from "./components/Stock/StockUpdate";
 
 var employeeName = "";
 
@@ -285,8 +286,8 @@ export default function App() {
                   <Route path="/MemberCreate" element={<MemberCreate />} />
                   <Route path="/MemberUpdate" element={<MemberUpdate />} />
                   <Route path="/Stock" element={<Stocks />} />
-                  <Route path="/stocks" element={<Stocks />} />
                   <Route path="/StockCreate" element={<StockCreate />} />
+                  <Route path="/StockUpdate" element={<StockUpdate />} />
                   <Route path="/Discount" element={<Discount />} />
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />
                   <Route path="/DiscountUpdate" element={<DiscountUpdate />} />
