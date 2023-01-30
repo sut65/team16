@@ -22,11 +22,11 @@ func CreateDelivery(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", delivery.Car).First(&car); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", delivery.Car_ID).First(&car); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "car not found"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", delivery.Payment).First(&payment); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", delivery.Payment_ID).First(&payment); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "payment not found"})
 		return
 	}

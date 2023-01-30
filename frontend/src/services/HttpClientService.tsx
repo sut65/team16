@@ -24,7 +24,6 @@ async function Login(data: SigninInterface) {
   return res;
 }
 
-<<<<<<< HEAD
 // async function ToComment(data: SigninInterface) {
 //   const requestOptions = {
 //     method: "POST",
@@ -47,8 +46,6 @@ async function Login(data: SigninInterface) {
 //   return res;
 // }
 
-=======
->>>>>>> issue-126
 async function GetCurrentEmployee() {
   let ce = localStorage.getItem("eid");
   const requestOptions = {
@@ -77,8 +74,4 @@ async function GetCurrentEmployee() {
 export {
   Login,
   GetCurrentEmployee,
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> issue-126
