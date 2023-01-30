@@ -31,12 +31,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 
 
-function StockCreate() {
+function StockUpdate() {
   const [date, setDate] = React.useState<Date | null>(null);
   const [stock, setStock] = React.useState<Partial<StocksInterface>>({});
   const [kind, setKind] = React.useState<KindsInterface[]>([]);
   const [errorMessage, setErrorMessage] = React.useState("");
-  const [employee, setEmployee] = React.useState<EmployeeInterface[]>([]);
+  const [employee, setEmployee] = React.useState<EmployeeInterface>();
   const [storage, setStorage] = React.useState<StoragesInterface[]>([]);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
@@ -64,7 +64,7 @@ function StockCreate() {
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    const id = event.target.id as keyof typeof StockCreate;
+    const id = event.target.id as keyof typeof StockUpdate;
     const { value } = event.target;
     setStock({ ...stock, [id]: value });
   };
@@ -112,12 +112,13 @@ function StockCreate() {
     }
 };
 
+
   useEffect(() => {
     getStorage();
     getKind();
     getEmployee();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
@@ -139,27 +140,24 @@ function StockCreate() {
     const requestOptions = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
       },
       body: JSON.stringify(data),
-    };
-
-    fetch(`${apiUrl}/stocks`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        if (res.data) {
-          console.log("บันทึกได้")
-          setSuccess(true)
+  };
+//
+  fetch(`${apiUrl}/stocks`, requestOptions)
+  .then((response) => response.json())
+  .then((res) => {
+      if (res.data) {
+          setSuccess(true);
           setErrorMessage("")
-        } else {
-          console.log("บันทึกไม่ได้")
-          setError(true)
+      } else {
+          setError(true);
           setErrorMessage(res.error)
-        }
-      });
-
-  }
+      }
+  });
+}
 
   return (
 
@@ -193,7 +191,9 @@ function StockCreate() {
              color="primary"
              gutterBottom
            >
-             Create Stock
+            <div className="good-font">
+             เพิ่มสินค้า
+            </div>
            </Typography>
          </Box>
        </Box>
@@ -296,30 +296,30 @@ function StockCreate() {
            </FormControl>
          </Grid>
          <Grid item xs={12}>
-            <FormControl fullWidth variant="outlined">
-              <p>Employee</p>
-              <Select
-                native
-                value={stock.Employee_ID+""}
-                onChange={handleChange}
-                inputProps={{
-                  name: "Employee_ID",
-                }}
-              >
-                <option aria-label="None" value="">
-                </option>
-                {employee.map((item: EmployeeInterface) => (
-                  <option value={item.ID} key={item.ID}>
-                    {item.Name}
-                  </option>
-                ))}
-                </Select>
-            </FormControl>
-          </Grid>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">Employee</p>
+                            <Select
+                                native
+                                value={stock.Employee_ID + ""}
+                                onChange={handleChange}
+                                disabled
+                                inputProps={{
+                                    name: "Employee_ID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    เลือก
+                                </option>
+                                <option value={employee?.ID} key={employee?.ID}>
+                                    {employee?.Name}
+                                </option>
+                            </Select>
+                        </FormControl>
+                    </Grid>
           <Grid item xs={12}>
             <Button
               component={RouterLink}
-              to="/stocks"
+              to="/Stock"
               variant="contained"
             >
               Back
@@ -341,4 +341,4 @@ function StockCreate() {
 }
 
 
-export default StockCreate;
+export default StockUpdate;
