@@ -24,17 +24,17 @@ func CreateStock(c *gin.Context) {
 
 	}
 
-	if tx := entity.DB().Where("id = ?", stock.Employee_ID).First(&employee.Stock); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", stock.Employee_ID).First(&employee); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", stock.Kind_ID).First(&kind.Stock); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", stock.Kind_ID).First(&kind); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "kind not found"})
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", stock.Storage_ID).First(&storage.Stock); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", stock.Storage_ID).First(&storage); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "storage not found"})
 		return
 	}
