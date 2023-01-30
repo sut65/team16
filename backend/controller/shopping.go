@@ -31,7 +31,7 @@ func CreateCart(c *gin.Context) {
 	} else {print("") 
 		// ทำงานเมื่อ Member_ID เป็น nil
 	}
-	  
+	
 	// 10: ค้นหา Employee ด้วย id
 	if tx := entity.DB().Where("id = ?", cart.Employee_ID).First(&employee); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})

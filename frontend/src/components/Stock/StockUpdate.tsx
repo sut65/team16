@@ -119,6 +119,7 @@ function StockUpdate() {
     getEmployee();
   }, []);
 
+  let stockID = localStorage.getItem("stockID"); // เรีกใช้ค่าจากlocal storage 
 
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
@@ -136,28 +137,29 @@ function StockUpdate() {
       DateTime: date,
     };
 
-    console.log(data);
-    const requestOptions = {
-      method: "POST",
-      headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data),
-  };
-//
-  fetch(`${apiUrl}/stocks`, requestOptions)
-  .then((response) => response.json())
-  .then((res) => {
-      if (res.data) {
-          setSuccess(true);
-          setErrorMessage("")
-      } else {
-          setError(true);
-          setErrorMessage(res.error)
-      }
-  });
-}
+    console.log(data)
+
+        const requestOptions = {
+            method: "PATCH", // ใช้ PATCH
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`${apiUrl}/stocks/${stockID}`, requestOptions) // แนบIDไปด้วย
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setSuccess(true);
+                    setErrorMessage("")
+                } else {
+                    setError(true);
+                    setErrorMessage(res.error)
+                }
+            });
+    }
 
   return (
 
@@ -192,7 +194,7 @@ function StockUpdate() {
              gutterBottom
            >
             <div className="good-font">
-             เพิ่มสินค้า
+             อัปเดตสินค้า ID : {stockID}
             </div>
            </Typography>
          </Box>

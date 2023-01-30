@@ -133,9 +133,9 @@ function CommentUpdate() {
             Bought_now: typeof com.Bought_now === "string" ? parseInt(com.Bought_now) : 0,
             Date_Now: com.Date_Now,
             Comments: com.Comments ?? "",
-            Employee_ID: convertType(com.Review_point_ID),
-            Reason_ID: convertType(com.Type_Com_ID),
-            Shelving_ID: convertType(com.Payment_ID),
+            Review_point_ID: convertType(com.Review_point_ID),
+            Type_Com_ID: convertType(com.Type_Com_ID),
+            Payment_ID: convertType(com.Payment_ID),
         };
 
         console.log(data)
@@ -256,7 +256,7 @@ function CommentUpdate() {
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
                                     option.ID === value.ID}
-                                onChange={(e, value) => { com.Type_Com_ID = value?.ID }}
+                                onChange={(e, value) => { com.Review_point_ID = value?.ID }}
                                 renderInput={(params) => <TextField {...params} label="ให้คะแนน" />}
                             />
                         </FormControl>
