@@ -1,15 +1,9 @@
 package entity
 
 import (
-	// "time"
-<<<<<<< HEAD
-=======
 
-	// "golang.org/x/crypto/bcrypt"
 	"time"
->>>>>>> issue-126
-
-	// "golang.org/x/crypto/bcrypt"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
 	"gorm.io/driver/sqlite"
@@ -39,123 +33,78 @@ func SetupDatabase() {
 		&Label{}, &Shelving{},
 		&Discount_Type{}, &Discount{},
 		&Delivery{}, &Car{},
-<<<<<<< HEAD
-		&Order{}, Shopping_Cart{}, Status{}, 
-=======
-		&Shopping_Cart{}, &Order{},
->>>>>>> issue-126
+		&Order{}, Shopping_Cart{}, Status{},
 		&Payment_method{}, &Payment{},
 		&Review_Point{}, &Type_Comment{}, &Comment{},
 		&Reason{}, &Separation{},
-<<<<<<< HEAD
-		&Section{}, &L_Type{}, &Leave{}, 
-		&Gender{}, &Level{}, &Member{},
-		&Duty{}, &Overtime{}, &Working_time{}, &Employee_attendance{}, &Record_employee_leave{},
-	)
-	db = database // ห้าม comment บรรทัดนี้
-=======
 		&Section{}, &L_Type{}, &Leave{},
 		&Gender{}, &Level{}, &Member{},
 		&Duty{}, &Overtime{}, &Working_time{}, &Employee_attendance{}, &Record_employee_leave{},
 	)
->>>>>>> issue-126
-
-	// password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
-	// password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
-	// password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	db = database // ห้าม comment บรรทัดนี้
 
 
-	// Em1 := Employee{
-	// 	Name:     "นายคณาการ เชิดในเมือง",
-	// 	Email:    "k@gmail.com",
-	// 	Password: string(password1),
-	// 	Position: "Full-Time",
-	// }
-	// db.Model(&Employee{}).Create(&Em1)
+	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
+	password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 
-	// Em2 := Employee{
-	// 	Name:     "นางญาตา ประสานวงศ์",
-	// 	Email:    "y@gmail.com",
-	// 	Password: string(password2),
-	// 	Position: "Part-Time",
-	// }
-	// db.Model(&Employee{}).Create(&Em2)
 
-	// Em3 := Employee{
-	// 	Name:     "นางรสนันท์ กลับเพชร",
-	// 	Email:    "r@gmail.com",
-	// 	Password: string(password3),
-	// 	Position: "Trainee",
-	// }
-	// db.Model(&Employee{}).Create(&Em3)
+	Em1 := Employee{
+		Name:     "นายคณาการ เชิดในเมือง",
+		Email:    "k@gmail.com",
+		Password: string(password1),
+		Position: "Full-Time",
+	}
+	db.Model(&Employee{}).Create(&Em1)
 
-	// //Kind
-	// Kind1 := Kind{
-	// 	Name: "Meat",
-	// }
-	// db.Model(&Kind{}).Create(&Kind1)
+	Em2 := Employee{
+		Name:     "นางญาตา ประสานวงศ์",
+		Email:    "y@gmail.com",
+		Password: string(password2),
+		Position: "Part-Time",
+	}
+	db.Model(&Employee{}).Create(&Em2)
 
-	// Kind2 := Kind{
-	// 	Name: "Fresh",
-	// }
-	// db.Model(&Kind{}).Create(&Kind2)
+	Em3 := Employee{
+		Name:     "นางรสนันท์ กลับเพชร",
+		Email:    "r@gmail.com",
+		Password: string(password3),
+		Position: "Trainee",
+	}
+	db.Model(&Employee{}).Create(&Em3)
 
-	// Kind3 := Kind{
-	// 	Name: "Dairy",
-	// }
-	// db.Model(&Kind{}).Create(&Kind3)
+	//Kind
+	Kind1 := Kind{
+		Name: "Meat",
+	}
+	db.Model(&Kind{}).Create(&Kind1)
 
-	// //Storage
-	// Storage1 := Storage{
-	// 	Name: "Storage1",
-	// }
-	// db.Model(&Storage{}).Create(&Storage1)
+	Kind2 := Kind{
+		Name: "Fresh",
+	}
+	db.Model(&Kind{}).Create(&Kind2)
 
-	// Storage2 := Storage{
-	// 	Name: "Storage2",
-	// }
-	// db.Model(&Storage{}).Create(&Storage2)
+	Kind3 := Kind{
+		Name: "Dairy",
+	}
+	db.Model(&Kind{}).Create(&Kind3)
 
-	// Storage3 := Storage{
-	// 	Name: "Storage3",
-	// }
-	// db.Model(&Storage{}).Create(&Storage3)
+	//Storage
+	Storage1 := Storage{
+		Name: "Storage1",
+	}
+	db.Model(&Storage{}).Create(&Storage1)
 
-<<<<<<< HEAD
-	// //Stock
-	// Stock1 := Stock{
-	// 	Name:     "Banana",
-	// 	Amount: 20,
-	// 	Price:    20.00,
-	// 	Employee: Em1,
-	// 	Kind:     Kind2,
-	// 	Storage:  Storage2,
-	// 	DateTime: time.Now(),
-	// }
-	// db.Model(&Stock{}).Create(&Stock1)
+	Storage2 := Storage{
+		Name: "Storage2",
+	}
+	db.Model(&Storage{}).Create(&Storage2)
 
-	// Stock2 := Stock{
-	// 	Name:     "Pork",
-	// 	Amount: 20,
-	// 	Price:    80.00,
-	// 	Employee: Em1,
-	// 	Kind:     Kind1,
-	// 	Storage:  Storage1,
-	// 	DateTime: time.Now(),
-	// }
-	// db.Model(&Stock{}).Create(&Stock2)
+	Storage3 := Storage{
+		Name: "Storage3",
+	}
+	db.Model(&Storage{}).Create(&Storage3)
 
-	// Stock3 := Stock{
-	// 	Name:     "Milk",
-	// 	Amount: 20,
-	// 	Price:    20.00,
-	// 	Employee: Em1,
-	// 	Kind:     Kind3,
-	// 	Storage:  Storage3,
-	// 	DateTime: time.Now(),
-	// }
-	// db.Model(&Stock{}).Create(&Stock3)
-=======
 	//Stock
 	Stock1 := Stock{
 		Name:     "Banana",
@@ -189,7 +138,8 @@ func SetupDatabase() {
 		DateTime: time.Now(),
 	}
 	db.Model(&Stock{}).Create(&Stock3)
->>>>>>> issue-126
+}
+
 
 	// //Label
 	// Label1 := Label{
@@ -287,7 +237,7 @@ func SetupDatabase() {
 	// }
 	// db.Model(&Type_Comment{}).Create(&TypeCom4)
 
-<<<<<<< HEAD
+
 	// //Payment_method
 	// Pay1 := Payment_method{
 	// 	Method: "Cash",
@@ -459,8 +409,8 @@ func SetupDatabase() {
 	// 	Registation_Number: "สวง สุโขทัย 122",
 	// }
 	// db.Model(&Car{}).Create(&Car3)
-}
-=======
+
+
 	//Payment_method
 	// Pay1 := Kind{
 	// 	Name: "Cash",
@@ -481,5 +431,4 @@ func SetupDatabase() {
 	// 	Name: "Debit/Credit Card",
 	// }
 	// db.Model(&Payment_method{}).Create(&Pay4)
-}
->>>>>>> issue-126
+

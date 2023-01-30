@@ -15,26 +15,20 @@ type Level struct {
 	Level_Name    string
 	Level_Pay     int
 	Level_Benefit string
-	Member         []Member `gorm:"foreignkey:Level_ID"`
+	Member        []Member `gorm:"foreignkey:Level_ID"`
 }
 
 type Member struct {
 	gorm.Model
 	Mem_Name string
 	Mem_Age  int
-	Mem_Tel  string	`gorm:"uniqueIndex"`
+	Mem_Tel  string `gorm:"uniqueIndex"`
 
-	Gender_ID   *uint
-	Gender      Gender
-	Level_ID    *uint
-	Level       Level
-	Employee_ID *uint
-	Employee    Employee
-
-<<<<<<< HEAD
-	Shopping_Cart	[]Shopping_Cart `gorm:"foreignkey:Member_ID"`
-=======
-	Shopping_Cart         []Shopping_Cart `gorm:"foreignkey:Member_ID"`
->>>>>>> issue-126
-
+	Gender_ID     *uint
+	Gender        Gender
+	Level_ID      *uint
+	Level         Level
+	Employee_ID   *uint
+	Employee      Employee
+	Shopping_Cart []Shopping_Cart `gorm:"foreignkey:Member_ID"`
 }
