@@ -316,7 +316,7 @@ function DiscountCreate() {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Button component={RouterLink} to="/Discount" variant="contained">
+                        <Button component={RouterLink} to="/Discount" variant="contained" >
                             <div className="good-font-white">
                                 กลับ
                             </div>
