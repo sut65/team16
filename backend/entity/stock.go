@@ -21,9 +21,9 @@ type Storage struct {
 
 type Stock struct {
 	gorm.Model
-	Name        string
-	Amount      int
-	Price       float64
+	Name        string  `valid:"required~Name cannot be blank"`
+	Amount      int     `valid:"required~Amount must be in the range 1-1000,range(1|1000)~Amount must be in the range 1-1000"`
+	Price       float64 `valid:"required~Price must be in the range 1-1000,range(1|1000)~Price must be in the range 1-1000"`
 	Employee_ID *uint
 	Employee    Employee
 	Kind_ID     *uint
@@ -32,18 +32,22 @@ type Stock struct {
 	Storage     Storage
 	Shelving    []Shelving `gorm:"foreignKey:Stock_ID"`
 	Discount    []Discount `gorm:"foreignKey:Stock_ID"`
-	DateTime    time.Time
+	DateTime    time.Time  `valid:"Past~DateTime must not be in the past,Future~DateTime must not be in the future"`
 }
 
+// ฟังก์ชันที่จะใช่ในการ validation EntryTime
 func init() {
-	govalidator.CustomTypeTagMap.Set("past", func(i interface{}, context interface{}) bool {
+	govalidator.CustomTypeTagMap.Set("Past", func(i interface{}, context interface{}) bool {
 		t := i.(time.Time)
-		now := time.Now()
-		return now.After(t)
+		return t.After(time.Now().Add(time.Minute*-2)) || t.Equal(time.Now())
+		//return t.Before(time.Now())
 	})
-	govalidator.CustomTypeTagMap.Set("future", func(i interface{}, context interface{}) bool {
+
+	govalidator.CustomTypeTagMap.Set("Future", func(i interface{}, context interface{}) bool {
 		t := i.(time.Time)
-		now := time.Now()
-		return now.Before(time.Time(t))
+		return t.Before(time.Now().Add(time.Minute*24)) || t.Equal(time.Now())
+
+		// now := time.Now()
+		// return now.Before(time.Time(t))
 	})
 }
