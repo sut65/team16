@@ -2,7 +2,6 @@ package entity
 
 import (
 	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -21,7 +20,7 @@ type Separation struct {
 	Employee    Employee
 	Shelving_ID *uint
 	Shelving    Shelving
-	Date_Out    time.Time
-	Amount      int
-	Status      string
+	Date_Out    time.Time   //`valid:"required~Date out cannot be blank"`
+	Amount      int         `valid:"required~จำนวนต้องไม่เป็นค่าว่าง"`
+	Status      string		`valid:"required~สถานะต้องไม่เป็นค่าว่าง"`
 }
