@@ -330,7 +330,7 @@ function DeliveryCreate() {
         
                         >
                             <div className="good-font-white">
-                                บันทึกfdafadfa
+                                บันทึก
                             </div>
                         </Button>
                     </Grid>
