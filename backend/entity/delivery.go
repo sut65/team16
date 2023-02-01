@@ -22,12 +22,12 @@ type Delivery struct {
 	Customer_name string	`json:"customer_name" valid:"required~กรุณากรอกชื่อลูกค้า"`
 	Delivery_date time.Time
 
-	Car_ID	*uint
-	Car	Car
-	Employee_ID *uint
-	Employee    Employee
-	Payment_ID		*uint
-	Payment	Payment
+	Car_ID	*uint`valid:"-"`
+	Car	Car`valid:"-"`
+	Employee_ID *uint`valid:"-"`
+	Employee    Employee`valid:"-"`
+	Payment_ID		*uint`valid:"-"`
+	Payment	Payment`valid:"-"`
 }
 
 func TestNotBlank(t *testing.T) {

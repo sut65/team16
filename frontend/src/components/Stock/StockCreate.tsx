@@ -31,7 +31,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 
 
-function StockUpdate() {
+function StockCreate() {
   const [date, setDate] = React.useState<Date | null>(null);
   const [stock, setStock] = React.useState<Partial<StocksInterface>>({});
   const [kind, setKind] = React.useState<KindsInterface[]>([]);
@@ -64,7 +64,7 @@ function StockUpdate() {
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
   ) => {
-    const id = event.target.id as keyof typeof StockUpdate;
+    const id = event.target.id as keyof typeof StockCreate;
     const { value } = event.target;
     setStock({ ...stock, [id]: value });
   };
@@ -341,4 +341,4 @@ function StockUpdate() {
 }
 
 
-export default StockUpdate;
+export default StockCreate;

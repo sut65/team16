@@ -28,12 +28,12 @@ type Member struct {
 	Mem_Age  int `json:"Mem_Age" valid:"range(15|100)~โปรดระบุอายุที่มากกว่า 15 ปีขึ้นไป"`
 	Mem_Tel  string `gorm:"uniqueIndex" json:"Mem_Tel" valid:"required~กรุณากรอกเบอร์มือถือ"`
 
-	Gender_ID   *uint
-	Gender      Gender
-	Level_ID    *uint
-	Level       Level
-	Employee_ID *uint
-	Employee    Employee
+	Gender_ID   *uint`valid:"-"`
+	Gender      Gender`valid:"-"`
+	Level_ID    *uint`valid:"-"`
+	Level       Level`valid:"-"`
+	Employee_ID *uint`valid:"-"`
+	Employee    Employee`valid:"-"`
 
 	Shopping_Cart []Shopping_Cart `gorm:"foreignkey:Member_ID"`
 }
