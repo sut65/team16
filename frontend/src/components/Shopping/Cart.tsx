@@ -17,6 +17,7 @@
   const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
   const [openPament, setOpenPament] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การจ่าย
   const [openUpdate, setOpenUpdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การจ่าย
+  const [openList, setOpenList] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การจ่าย
 
   const getCart = async () => {
   const apiUrl = "http://localhost:8080/unpaids";
@@ -70,6 +71,7 @@
       setOpendelete(false)
       setOpenPament(false)
       setOpenUpdate(false)
+      setOpenList(false)
   };
 
   useEffect(() => {
@@ -79,13 +81,13 @@
 
   const columns: GridColDef[] = [
     { field: "ID", headerName: "ID", width: 30,  headerAlign:"center", align:"center" },
-    { field: "Total", headerName: "รวมยอด", width: 65,  headerAlign:"center", align:"center" },
-    { field: "Status", headerName: "สถานะการชำระ", width: 120, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.Status},
-    { field: "Member", headerName: "สมากชิก", width: 150, headerAlign:"center" , align:"center",valueFormatter: (params)=>params.value.Mem_Name},
-    { field: "Employee", headerName: "พนักงาน", width: 170, headerAlign:"center" , align:"center",valueFormatter: (params)=>params.value.Name},
+    { field: "Total", headerName: "รวมยอด", width: 100,  headerAlign:"center", align:"center" },
+    { field: "Status", headerName: "สถานะการชำระ", width: 150, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.Status},
+    { field: "Member", headerName: "สมากชิก", width: 200, headerAlign:"center" , align:"center",valueFormatter: (params)=>params.value.Mem_Name},
+    { field: "Employee", headerName: "พนักงาน", width: 200, headerAlign:"center" , align:"center",valueFormatter: (params)=>params.value.Name},
     //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการจ่าย/ลบ
     {
-      field: "pay", headerName: "ชำระ", width: 100,
+      field: "pay", headerName: "ชำระ", width: 100, headerAlign:"center",
       renderCell: () => {
           return (
               <Button
@@ -99,7 +101,21 @@
       },
     },
     {
-        field: "add", headerName: "เพิ่มสินค้า", width: 100,
+        field: "List", headerName: "รายการสินค้า", width: 100, headerAlign:"center",
+        renderCell: () => {
+            return (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOpenList(true)}
+                >
+                    list
+                </Button>
+            );
+        },
+      },
+    {
+        field: "add", headerName: "เพิ่มสินค้า", width: 100, headerAlign:"center",
         renderCell: () => {
             return (
                 <Button
@@ -113,7 +129,7 @@
         },
       },
     {
-      field: "delete", headerName: "ลบ", width: 100,
+      field: "delete", headerName: "ลบ", width: 100, headerAlign:"center",
       renderCell: () => {
           return (
               <Button
@@ -143,6 +159,21 @@
                         color="primary"
                         //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
                         onClick={deleteCart}
+                    >
+                        <div className="good-font">
+                            ยืนยัน
+                        </div>
+                    </Button>
+            </Dialog>
+            {/* list */}
+            <Dialog open={openList} onClose={handleClose} >
+                <DialogTitle><div className="good-font">ยืนยันการเพิ่มสินค้า</div></DialogTitle>
+                <Button
+                        variant="contained"
+                        color="primary"
+                        //กด "ยืนยัน" ไปที่หน้าจ่าย
+                        component={RouterLink}
+                        to="/Order"
                     >
                         <div className="good-font">
                             ยืนยัน
@@ -179,7 +210,7 @@
                         </div>
                     </Button>
             </Dialog>
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
         <Box display="flex" sx={{ marginTop: 2,}}>
           <Box flexGrow={1}>
             <Typography
@@ -203,19 +234,6 @@
           ประวัติการชำระ
           </Button>
         </Box>
-        
-        <Box sx={{ paddingX: 1, paddingY: 0 }}> 
-          <Button
-              component={RouterLink}
-              to="/Order"
-              variant="contained"
-              color="primary"
-              startIcon={<EditIcon />}
-          >
-          รายการสินค้า
-        </Button>
-        </Box>
-
 
         <Box sx={{ paddingX: 1, paddingY: 0 }}>
         <Button

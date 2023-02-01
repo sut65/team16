@@ -25,6 +25,8 @@
     "react-scripts": "5.0.1",
     "react-to-print": "^2.14.11",
     "react-toastify": "^9.1.1",
+    "styled-components": "^5.3.6",
+    "tss-react": "^4.5.2",
     "typescript": "^4.8.4",
     "web-vitals": "^2.1.4"
   },

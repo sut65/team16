@@ -19,15 +19,15 @@ func CreateDelivery(c *gin.Context) {
 		return
 	}
 	if tx := entity.DB().Where("id = ?", delivery.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกพนักงานที่ส่งสินค้า"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", delivery.Car).First(&car); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "car not found"})
+	if tx := entity.DB().Where("id = ?", delivery.Car_ID).First(&car); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกรถที่ใช้ส่งสินค้า"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", delivery.Payment).First(&payment); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "payment not found"})
+	if tx := entity.DB().Where("id = ?", delivery.Payment_ID).First(&payment); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกรายการสินค้าที่ส่ง"})
 		return
 	}
 	dl := entity.Delivery{

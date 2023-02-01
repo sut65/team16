@@ -41,11 +41,11 @@ func CreatePayment(c *gin.Context) {
 
 	// 12: สร้าง Payment
 	sc := entity.Payment{
-		Price: payment.Price,
-		Time: payment.Time,
-		Shopping_Cart:	cart, 				// โยงความสัมพันธ์กับ Entity Shopping_Cart
-		Payment_method:	method,   // โยงความสัมพันธ์กับ Entity Payment_method
-		Employee:		employee, 		// โยงความสัมพันธ์กับ Entity Employee
+		Paytotal:       payment.Paytotal,
+		Time:           payment.Time,
+		Shopping_Cart:  cart,     // โยงความสัมพันธ์กับ Entity Shopping_Cart
+		Payment_method: method,   // โยงความสัมพันธ์กับ Entity Payment_method
+		Employee:       employee, // โยงความสัมพันธ์กับ Entity Employee
 	}
 	payment.Time = payment.Time.Local()
 
@@ -93,17 +93,39 @@ func DeletePayment(c *gin.Context) {
 // PATCH /Payment
 func UpdatePayment(c *gin.Context) {
 	var payment entity.Payment
+	var cart entity.Shopping_Cart
+	var method entity.Payment_method
+	var employee entity.Employee
+	id := c.Param("id")
+
 	if err := c.ShouldBindJSON(&payment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", payment.ID).First(&payment); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "payment not found"})
+	if tx := entity.DB().Where("id = ?", payment.Shopping_Cart_ID).First(&cart); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Shopping_Cart_ID not found"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", payment.Payment_method_ID).First(&method); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Shopping_Cart_ID not found"})
+		return
+	}
+	if tx := entity.DB().Where("id = ?", payment.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Shopping_Cart_ID not found"})
 		return
 	}
 
-	if err := entity.DB().Save(&payment).Error; err != nil {
+	sc := entity.Payment{
+		Paytotal:       payment.Paytotal,
+		Time:           payment.Time,
+		Shopping_Cart:  cart,     
+		Payment_method: method,   
+		Employee:       employee, 
+	}
+	payment.Time = payment.Time.Local()
+	
+	if err := entity.DB().Where("id = ?", id).Updates(&sc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

@@ -40,7 +40,7 @@ function PaymentCreate() {
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [methods, setMethod] = React.useState<Payment_methodInterface[]>([]);
-    const [cart, setCart] = React.useState<CartInterface[]>([]);
+    const [cart, setCart] = React.useState<CartInterface>();
     const [payment, setPayment] = React.useState<PaymentInterface>({
         Time: new Date(),
     });
@@ -86,7 +86,7 @@ function PaymentCreate() {
     };
 
     const getCart = async () => {
-        fetch(`${apiUrl}/unpaids`, requestOptions)
+        fetch(`${apiUrl}/paids`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -107,6 +107,7 @@ function PaymentCreate() {
     };
 
     let paymentID = localStorage.getItem("paymentID"); // เรีกใช้ค่าจากlocal storage 
+    let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
 
     useEffect(() => {
         getEmployee();
@@ -121,10 +122,10 @@ function PaymentCreate() {
 
     async function submit() {
         let data = {
-            //Price: cart.length > 0 ? cart[0].Total : 0,
-            Price: typeof payment.Price === "string" ? parseInt(payment.Price) : 0,
+            //Paytotal: cart.length > 0 ? cart[0].Total : 0,
+            Paytotal: typeof payment.Paytotal === "string" ? parseInt(payment.Paytotal) : 0,
             Time: payment.Time,
-            Shopping_Cart_ID: convertType(payment.Shopping_Cart_ID),
+            Shopping_Cart_ID: Number(cartID),
             Payment_method_ID: convertType(payment.Payment_method_ID),
             Employee_ID: convertType(payment.Employee_ID),
         };
@@ -186,7 +187,7 @@ function PaymentCreate() {
 
                         >
                             <div className="good-font">
-                                เพิ่มส่วนลด
+                                แก้ไขการชำระ
                             </div>
                         </Typography>
                     </Box>
@@ -196,17 +197,22 @@ function PaymentCreate() {
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">ตะกร้าสินค้า</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Cart_ID"
-                                getOptionLabel={(item: CartInterface) => `${item.ID}`}
-                                options={cart}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
-                                onChange={(e, value) => {  payment.Shopping_Cart_ID = value?.ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
-                            />
+                            <Select
+                                native
+                                value={cartID + ""}
+                                onChange={handleChange}
+                                disabled
+                                inputProps={{
+                                    name: "cartID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                {cartID}
+                                </option>
+                                <option value={cart?.ID} key={cart?.ID}>
+                                    {cart?.ID}
+                                </option>
+                            </Select>
                         </FormControl>
                     </Grid>
 

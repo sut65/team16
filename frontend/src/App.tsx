@@ -32,8 +32,8 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
 
 import "./styles.css"
-import Stocks from "./components/methas/Stock";
-import StockCreate from "./components/methas/StockCreate";
+import Stocks from "./components/Stock/Stock";
+import StockCreate from "./components/Stock/StockCreate";
 import Member from "./components/Member/Member";
 import MemberCreate from "./components/Member/MemberCreate";
 import Discount from "./components/Discount/Discount";
@@ -67,6 +67,7 @@ import EmployeeattemdanceOutUpdate from "./components/Panupol/Em_Out_update";
 import CommentShow from "./components/comments/commentShow";
 import CommentCreate from "./components/comments/commentCreate";
 import CommentUpdate from "./components/comments/commentUpdate";
+import StockUpdate from "./components/Stock/StockUpdate";
 
 var employeeName = "";
 
@@ -280,11 +281,13 @@ export default function App() {
               <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Routes>
                   <Route path="/" element={<Homepage />} />
+
                   <Route path="/Member" element={<Member />} />
                   <Route path="/MemberCreate" element={<MemberCreate />} />
                   <Route path="/MemberUpdate" element={<MemberUpdate />} />
                   <Route path="/Stock" element={<Stocks />} />
                   <Route path="/StockCreate" element={<StockCreate />} />
+                  <Route path="/StockUpdate" element={<StockUpdate />} />
                   <Route path="/Discount" element={<Discount />} />
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />
                   <Route path="/DiscountUpdate" element={<DiscountUpdate />} />

@@ -34,11 +34,13 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function PaymentCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
+    const [total, setTotal] = React.useState(0)
     const [errorMessage, setErrorMessage] = React.useState("");
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [methods, setMethod] = React.useState<Payment_methodInterface[]>([]);
     const [cart, setCart] = React.useState<CartInterface>();
+    const [carts, setCarts] = React.useState<CartInterface[]>([]);
     const [payment, setPayment] = React.useState<PaymentInterface>({
         Time: new Date(),
     });
@@ -96,12 +98,17 @@ function PaymentCreate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data)
+                    let total = 0;
+                    for (let item of res.data) {
+                        total += item.Total;
+                    }
                     setCart(res.data);
+                    setTotal(total);
                 }
                 else { console.log("NO DATA") }
             });
     };
+
 
     const getEmployee = async () => {
         let res = await GetCurrentEmployee();
@@ -127,8 +134,8 @@ function PaymentCreate() {
 
     async function submit() {
         let data = {
-            //Price: cart.length > 0 ? cart[0].Total : 0,
-            Price: typeof payment.Price === "string" ? parseInt(payment.Price) : 0,
+            Paytotal: total,
+            //Paytotal: typeof payment.Paytotal === "string" ? parseInt(payment.Paytotal) : 0,
             Time: payment.Time,
             Shopping_Cart_ID: Number(cartID),
             Payment_method_ID: convertType(payment.Payment_method_ID),
@@ -334,3 +341,4 @@ function PaymentCreate() {
 }
 
 export default PaymentCreate;
+//////

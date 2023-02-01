@@ -3,6 +3,7 @@ package entity
 import (
 	"time"
 
+	"github.com/asaskevich/govalidator"
 	"gorm.io/gorm"
 )
 
@@ -21,7 +22,7 @@ type Storage struct {
 type Stock struct {
 	gorm.Model
 	Name        string
-	Amount    int
+	Amount      int
 	Price       float64
 	Employee_ID *uint
 	Employee    Employee
@@ -32,4 +33,17 @@ type Stock struct {
 	Shelving    []Shelving `gorm:"foreignKey:Stock_ID"`
 	Discount    []Discount `gorm:"foreignKey:Stock_ID"`
 	DateTime    time.Time
+}
+
+func init() {
+	govalidator.CustomTypeTagMap.Set("past", func(i interface{}, context interface{}) bool {
+		t := i.(time.Time)
+		now := time.Now()
+		return now.After(t)
+	})
+	govalidator.CustomTypeTagMap.Set("future", func(i interface{}, context interface{}) bool {
+		t := i.(time.Time)
+		now := time.Now()
+		return now.Before(time.Time(t))
+	})
 }

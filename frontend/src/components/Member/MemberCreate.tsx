@@ -35,6 +35,8 @@ function MemberCreate() {
  const [gender, setGender] = React.useState<GenderInterface[]>([]);
  const [level, setLevel] = React.useState<LevelInterface[]>([]);
 
+ const [message, setAlertMessage] = React.useState("");
+
  const handleClose = (
    event?: React.SyntheticEvent | Event,
    reason?: string
@@ -138,51 +140,63 @@ async function submit() {
        body: JSON.stringify(data),
    };
 
-   fetch(`${apiUrl}/members`, requestOptions)
+    let res = await fetch(`${apiUrl}/members`, requestOptions)
        .then((response) => response.json())
        .then((res) => {
            if (res.data) {
                setSuccess(true);
                setErrorMessage("")
+               return { status: true, message: res.data };
            } else {
                setError(true);
                setErrorMessage(res.error)
+               return { status: false, message: res.error };
            }
        });
+
+      if (res.status) {
+        setAlertMessage("บันทึกข้อมูลสำเร็จ");
+        setSuccess(true);
+      } else {
+        setAlertMessage(res.message);
+        setError(true);
+      }
 }
 
  return (
 
    <Container maxWidth="md">
      <Snackbar
-       open={success}
-       autoHideDuration={6000}
-       onClose={handleClose}
-       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-     >
+       id="success" open={success} autoHideDuration={6000} onClose={handleClose}
+       anchorOrigin={{ vertical: "bottom", horizontal: "center" }} >
        <Alert onClose={handleClose} severity="success">
-         บันทึกข้อมูลสำเร็จ
+       <div className="good-font">
+          {message}
+       </div>
        </Alert>
      </Snackbar>
-     <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+     <Snackbar 
+        id="error" open={error} autoHideDuration={6000} onClose={handleClose}>
        <Alert onClose={handleClose} severity="error">
-         บันทึกข้อมูลไม่สำเร็จ
+       <div className="good-font">
+          {message}
+       </div>
        </Alert>
      </Snackbar>
      <Paper>
 
        <Box
          display="flex"
-         sx={{ marginTop: 2, }}
+         sx={{ marginTop: 2,backgroundColor: 'lavender', }}
        >
-         <Box sx={{ paddingX: 2, paddingY: 1 }}>
+         <Box sx={{ paddingX: 2, paddingY: 2,height: 70}}>
            <Typography
              component="h2"
              variant="h6"
              color="primary"
              gutterBottom
            >
-             <div className="good-font">สมัครสมาชิกฟาร์มมาร์ท</div>
+             <div className="good-font-big">สมัครสมาชิกฟาร์มมาร์ท</div>
            </Typography>
          </Box>
        </Box>
@@ -291,7 +305,7 @@ async function submit() {
 
          <Grid item xs={12}>
            <Button component={RouterLink} to="/Member" variant="contained">
-             Back
+           <p className="good-font-white"> ย้อนกลับ </p>
            </Button>
            <Button
              style={{ float: "right" }}
@@ -299,7 +313,7 @@ async function submit() {
              variant="contained"
              color="primary"
            >
-             Submit
+            <p className="good-font-white"> ยืนยันการบันทึกข้อมูล </p>
            </Button>
          </Grid>
        </Grid>

@@ -64,12 +64,12 @@ function CommentShow() {
         // { field: "Cuase", headerName: "เหตุผล", width: 120 },
         {
             field: "Type_Com", headerName: "ประเภทความคิดเห็น", width: 150,
-            valueFormatter: (params) => params.value.Cuase,
+            valueFormatter: (params) => params.value.Type_Com_Name,
         },
         // { field: "name", headerName: "พนักงาน", width: 120 },
         {
             field: "Payment", headerName: "ใบเสร็จ", width: 180,
-            valueFormatter: (params) => params.value.Name,
+            valueFormatter: (params) => params.value.ID,
         },
         // { field: "shelving_id", headerName: "ชั้นวาง", width: 120 },
         {

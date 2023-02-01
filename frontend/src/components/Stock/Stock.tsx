@@ -5,24 +5,22 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
-import moment from 'moment'
-import PaymentIcon from '@mui/icons-material/Payment';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-import { PaymentInterface } from "../../models/Natthapon/IPayment"
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { Dialog, DialogTitle } from "@mui/material";
+import { StocksInterface } from "../../models/methas/IStock";
 
 
-function Payment() {
-    const [payment, setPayment] = React.useState<PaymentInterface[]>([]);
-    const [paymentID, setPaymentID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
-    const [cartID, setCartID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
-    const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
-    const [openUpdate, setOpenupdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การแก้ไข
+
+function Stock() {
+    const [stock, setStock] = React.useState<StocksInterface[]>([]);
+    const [stockID, setStockID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
+    const [openDelete, setOpenDelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
+    const [openUpdate, setOpenUpdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การแก้ไข
 
     // โหลดข้อมูลทั้งหมดใส่ datagrid
-    const getPayment = async () => {
-        const apiUrl = "http://localhost:8080/payments";
+    const getStocks = async () => {
+        const apiUrl = "http://localhost:8080/stocks";
         const requestOptions = {
             method: "GET",
             headers: {
@@ -36,15 +34,15 @@ function Payment() {
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setPayment(res.data);
+                    setStock(res.data);
                 }
                 else { console.log("NO DATA") }
             });
     };
 
     // function ลบข้อมูล
-    const deletePayment = async () => {
-        const apiUrl = `http://localhost:8080/payment/${paymentID}`;
+    const deleteDiscount = async () => {
+        const apiUrl = `http://localhost:8080/stock/${stockID}`;
         const requestOptions = {
             method: "DELETE",
             headers: {
@@ -56,59 +54,49 @@ function Payment() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log("delete ID: " + paymentID)
+                    console.log("delete ID: " +stockID)
                 }
                 else { console.log("NO DATA") }
             });
         handleClose();
-        getPayment();
+        getStocks();
     }
 
-    // เมื่อมีการคลิ๊กที่แถวใดแถวหนึ่งในDataGrid functionนี้จะsetค่าIDของข้อมูลที่ต้องการ(ในกรณีนี้คือPaymentID)เพื่อรอสำหรับการแก้ไข/ลบ
+    // เมื่อมีการคลิ๊กที่แถวใดแถวหนึ่งในDataGrid functionนี้จะsetค่าIDของข้อมูลที่ต้องการ(ในกรณีนี้คือstockID)เพื่อรอสำหรับการแก้ไข/ลบ
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
-        setPaymentID(Number(params.row.ID)); //setเพื่อรอการลบ
-        localStorage.setItem("paymentID", params.row.ID); //setเพื่อการแก้ไข
-        localStorage.setItem("cartID", params.row.Shopping_Cart_ID); //setเพื่อการแก้ไข
+        setStockID(Number(params.row.ID)); //setเพื่อรอการลบ
+        localStorage.setItem("stockID", params.row.ID); //setเพื่อการแก้ไข
     };
 
      // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
     const handleClose = () => {
-        setOpendelete(false)
-        setOpenupdate(false)
+        setOpenDelete(false)
+        setOpenUpdate(false)
     };
 
     useEffect(() => {
-        getPayment();
+        getStocks();
     }, []);
 
     const columns: GridColDef[] = [
-        { field: "ID", headerName: "ID", width: 50 },
-        { field: "Paytotal", headerName: "ยอดรวม", width: 80 },
-        {
-            field: "Time", headerName: "วันที่ชำระสินค้า", width: 160,
-            renderCell: (params) => moment(params.row.Time).format('YY-MM-DD HH:mm:ss')
-        },
-        {
-            field: "Shopping_Cart", headerName: "ตะกร้า", width: 60,
-            valueFormatter: (params) => params.value.ID,
-        },
-        {
-            field: "Payment_method", headerName: "ช่องทางการขำระ", width: 130,
-            valueFormatter: (params) => params.value.Method,
-        },
-        {
-            field: "Employee", headerName: "พนักงาน", width: 180,
-            valueFormatter: (params) => params.value.Name,
-        },
+
+      { field: "ID", headerName: "ID", width: 50,  headerAlign:"center" },
+      { field: "Name", headerName: "Name", width: 150, headerAlign:"center" },
+      { field: "Amount", headerName: "Amount", width: 150, headerAlign:"center" },
+      { field: "Price", headerName: "Price", width: 150, headerAlign:"center" },
+      { field: "Kind", headerName: "Kind", valueFormatter:(params) => params.value.Name, width: 150, headerAlign:"center" },
+      { field: "Storage", headerName: "Storage", valueFormatter:(params) => params.value.Name, width: 150, headerAlign:"center" },
+      { field: "DateTime", headerName: "DateTime", width: 200, headerAlign:"center" },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
         {
-            field: "edit", headerName: "แก้ไข", width: 100,
+            field: "Edit", headerName: "Edit", width: 120,
             renderCell: () => {
                 return (
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => setOpenupdate(true)}
+                        onClick={() => setOpenUpdate(true)}
+                        startIcon={<EditIcon />}
                     >
                         Edit
                     </Button>
@@ -116,13 +104,14 @@ function Payment() {
             },
         },
         {
-            field: "delete", headerName: "ลบ", width: 100,
+            field: "Delete", headerName: "Delete", width: 120,
             renderCell: () => {
                 return (
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => setOpendelete(true)}
+                        onClick={() => setOpenDelete(true)}
+                        startIcon={<DeleteIcon />}
                     >
                         Delete
                     </Button>
@@ -135,12 +124,12 @@ function Payment() {
         <div>
             {/* ยืนยันการลบ */}
             <Dialog open={openDelete} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการลบรายการ</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการลบสต๊อก</div></DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
                         //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
-                        onClick={deletePayment}
+                        onClick={deleteDiscount}
                     >
                         <div className="good-font">
                             ยืนยัน
@@ -149,21 +138,26 @@ function Payment() {
             </Dialog>
             {/* ยืนยันการแก้ไข */}
             <Dialog open={openUpdate} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการแก้ไขรายการ</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการอัปเดตสต๊อก</div></DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
                         //กด "ยืนยัน" ไปที่หน้าแก้ไข
                         component={RouterLink}
-                        to="/PaymentUpdate"
+                        to="/StockUpdate"
                     >
                         <div className="good-font">
                             ยืนยัน
                         </div>
                     </Button>
             </Dialog>
-            <Container maxWidth="md">
-                <Box display="flex" sx={{ marginTop: 2,}}>
+            <Container maxWidth="lg">
+                <Box
+                    display="flex"
+                    sx={{
+                        marginTop: 2,
+                    }}
+                >
                     <Box flexGrow={1}>
                         <Typography
                             component="h2"
@@ -171,38 +165,27 @@ function Payment() {
                             color="primary"
                             gutterBottom
                         >
-                            ประวัติการชำระสินค้า
+                            <div className="good-font">
+                                สต๊อกสินค้า
+                            </div>
                         </Typography>
                     </Box>
-
-                    <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+                    <Box>
                         <Button
                             component={RouterLink}
-                            to="/Cart"
+                            to="/StockCreate"
                             variant="contained"
                             color="primary"
-                            startIcon={<ArrowBackIcon />}
                         >
-                        กลับ
+                            <div className="good-font-white">
+                                เพิ่มสต๊อก
+                            </div>
                         </Button>
                     </Box>
-            
-                    <Box sx={{ paddingX: 1, paddingY: 0 }}>
-                        <Button
-                            component={RouterLink}
-                            to="/PaymentCreate"
-                            variant="contained"
-                            color="primary"
-                            startIcon={<PaymentIcon />}
-                        >
-                            ชำระสินค้า
-                        </Button>
-                    </Box>
-
                 </Box>
                 <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
                     <DataGrid
-                        rows={payment}
+                        rows={stock}
                         getRowId={(row) => row.ID}
                         columns={columns}
                         pageSize={5}
@@ -215,4 +198,4 @@ function Payment() {
     );
 }
 
-export default Payment;
+export default Stock;

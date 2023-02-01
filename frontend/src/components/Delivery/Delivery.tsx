@@ -174,7 +174,7 @@ function Delivery() {
                             gutterBottom
                         >
                             <div className="good-font">
-                                ส่วนลด
+                                รายการการส่งสินค้า
                             </div>
                         </Typography>
                     </Box>

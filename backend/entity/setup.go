@@ -1,9 +1,9 @@
 package entity
 
 import (
-	// "time"
 
-	// "golang.org/x/crypto/bcrypt"
+	"time"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 
 	"gorm.io/driver/sqlite"
@@ -29,114 +29,117 @@ func SetupDatabase() {
 
 	// Migrate the schema
 	database.AutoMigrate(
-		&Employee{}, &Kind{}, &Storage{}, &Stock{}, 
-		&Label{}, &Shelving{}, 
-		&Discount_Type{}, &Discount{}, 
+		&Employee{}, &Kind{}, &Storage{}, &Stock{},
+		&Label{}, &Shelving{},
+		&Discount_Type{}, &Discount{},
 		&Delivery{}, &Car{},
-		&Order{}, Shopping_Cart{}, Status{}, 
+		&Order{}, Shopping_Cart{}, Status{},
 		&Payment_method{}, &Payment{},
-		&Review_Point{}, &Type_Comment{}, &Comment{}, 
+		&Review_Point{}, &Type_Comment{}, &Comment{},
 		&Reason{}, &Separation{},
-		&Section{}, &L_Type{}, &Leave{}, 
+		&Section{}, &L_Type{}, &Leave{},
 		&Gender{}, &Level{}, &Member{},
 		&Duty{}, &Overtime{}, &Working_time{}, &Employee_attendance{}, &Record_employee_leave{},
 	)
 	db = database // ห้าม comment บรรทัดนี้
 
-	// password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
-	// password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
-	// password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+
+	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
+	password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 
 
-	// Em1 := Employee{
-	// 	Name:     "นายคณาการ เชิดในเมือง",
-	// 	Email:    "k@gmail.com",
-	// 	Password: string(password1),
-	// 	Position: "Full-Time",
-	// }
-	// db.Model(&Employee{}).Create(&Em1)
+	Em1 := Employee{
+		Name:     "นายคณาการ เชิดในเมือง",
+		Email:    "k@gmail.com",
+		Password: string(password1),
+		Position: "Full-Time",
+	}
+	db.Model(&Employee{}).Create(&Em1)
 
-	// Em2 := Employee{
-	// 	Name:     "นางญาตา ประสานวงศ์",
-	// 	Email:    "y@gmail.com",
-	// 	Password: string(password2),
-	// 	Position: "Part-Time",
-	// }
-	// db.Model(&Employee{}).Create(&Em2)
+	Em2 := Employee{
+		Name:     "นางญาตา ประสานวงศ์",
+		Email:    "y@gmail.com",
+		Password: string(password2),
+		Position: "Part-Time",
+	}
+	db.Model(&Employee{}).Create(&Em2)
 
-	// Em3 := Employee{
-	// 	Name:     "นางรสนันท์ กลับเพชร",
-	// 	Email:    "r@gmail.com",
-	// 	Password: string(password3),
-	// 	Position: "Trainee",
-	// }
-	// db.Model(&Employee{}).Create(&Em3)
+	Em3 := Employee{
+		Name:     "นางรสนันท์ กลับเพชร",
+		Email:    "r@gmail.com",
+		Password: string(password3),
+		Position: "Trainee",
+	}
+	db.Model(&Employee{}).Create(&Em3)
 
-	// //Kind
-	// Kind1 := Kind{
-	// 	Name: "Meat",
-	// }
-	// db.Model(&Kind{}).Create(&Kind1)
+	//Kind
+	Kind1 := Kind{
+		Name: "Meat",
+	}
+	db.Model(&Kind{}).Create(&Kind1)
 
-	// Kind2 := Kind{
-	// 	Name: "Fresh",
-	// }
-	// db.Model(&Kind{}).Create(&Kind2)
+	Kind2 := Kind{
+		Name: "Fresh",
+	}
+	db.Model(&Kind{}).Create(&Kind2)
 
-	// Kind3 := Kind{
-	// 	Name: "Dairy",
-	// }
-	// db.Model(&Kind{}).Create(&Kind3)
+	Kind3 := Kind{
+		Name: "Dairy",
+	}
+	db.Model(&Kind{}).Create(&Kind3)
 
-	// //Storage
-	// Storage1 := Storage{
-	// 	Name: "Storage1",
-	// }
-	// db.Model(&Storage{}).Create(&Storage1)
+	//Storage
+	Storage1 := Storage{
+		Name: "Storage1",
+	}
+	db.Model(&Storage{}).Create(&Storage1)
 
-	// Storage2 := Storage{
-	// 	Name: "Storage2",
-	// }
-	// db.Model(&Storage{}).Create(&Storage2)
+	Storage2 := Storage{
+		Name: "Storage2",
+	}
+	db.Model(&Storage{}).Create(&Storage2)
 
-	// Storage3 := Storage{
-	// 	Name: "Storage3",
-	// }
-	// db.Model(&Storage{}).Create(&Storage3)
+	Storage3 := Storage{
+		Name: "Storage3",
+	}
+	db.Model(&Storage{}).Create(&Storage3)
 
-	// //Stock
-	// Stock1 := Stock{
-	// 	Name:     "Banana",
-	// 	Amount: 20,
-	// 	Price:    20.00,
-	// 	Employee: Em1,
-	// 	Kind:     Kind2,
-	// 	Storage:  Storage2,
-	// 	DateTime: time.Now(),
-	// }
-	// db.Model(&Stock{}).Create(&Stock1)
+	//Stock
+	Stock1 := Stock{
+		Name:     "Banana",
+		Amount:   100,
+		Price:    20.00,
+		Employee: Em1,
+		Kind:     Kind2,
+		Storage:  Storage2,
+		DateTime: time.Now(),
+	}
+	db.Model(&Stock{}).Create(&Stock1)
 
-	// Stock2 := Stock{
-	// 	Name:     "Pork",
-	// 	Amount: 20,
-	// 	Price:    80.00,
-	// 	Employee: Em1,
-	// 	Kind:     Kind1,
-	// 	Storage:  Storage1,
-	// 	DateTime: time.Now(),
-	// }
-	// db.Model(&Stock{}).Create(&Stock2)
+	Stock2 := Stock{
+		Name:     "Pork",
+		Amount:   100,
+		Price:    80.00,
+		Employee: Em1,
+		Kind:     Kind1,
+		Storage:  Storage1,
+		DateTime: time.Now(),
+	}
+	db.Model(&Stock{}).Create(&Stock2)
 
-	// Stock3 := Stock{
-	// 	Name:     "Milk",
-	// 	Amount: 20,
-	// 	Price:    20.00,
-	// 	Employee: Em1,
-	// 	Kind:     Kind3,
-	// 	Storage:  Storage3,
-	// 	DateTime: time.Now(),
-	// }
-	// db.Model(&Stock{}).Create(&Stock3)
+	Stock3 := Stock{
+		Name:     "Milk",
+		Amount:   100,
+		Price:    20.00,
+		Employee: Em1,
+		Kind:     Kind3,
+		Storage:  Storage3,
+		DateTime: time.Now(),
+	}
+	db.Model(&Stock{}).Create(&Stock3)
+}
+
 
 	// //Label
 	// Label1 := Label{
@@ -233,6 +236,7 @@ func SetupDatabase() {
 	// 	Type_Com_Name: "แจ้งปัญหาหรือข้อบกพร่อง",
 	// }
 	// db.Model(&Type_Comment{}).Create(&TypeCom4)
+
 
 	// //Payment_method
 	// Pay1 := Payment_method{
@@ -405,4 +409,26 @@ func SetupDatabase() {
 	// 	Registation_Number: "สวง สุโขทัย 122",
 	// }
 	// db.Model(&Car{}).Create(&Car3)
-}
+
+
+	//Payment_method
+	// Pay1 := Kind{
+	// 	Name: "Cash",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay1)
+
+	// Pay2 := Kind{
+	// 	Name: "Banking",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay2)
+
+	// Pay3 := Kind{
+	// 	Name: "Prompt Pay",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay3)
+
+	// Pay4 := Kind{
+	// 	Name: "Debit/Credit Card",
+	// }
+	// db.Model(&Payment_method{}).Create(&Pay4)
+
