@@ -44,7 +44,7 @@ func TestNameNotBlank(t *testing.T) {
 	t.Run("check Member Name can  not blank", func(t *testing.T) {
 		member := Member{
 			Mem_Name: "",
-			Mem_Age:  16,
+			Mem_Age:  15,
 			Mem_Tel:  "0930963238",
 		}
 
