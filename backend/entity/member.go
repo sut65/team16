@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/asaskevich/govalidator"
-	."github.com/onsi/gomega"
+	"github.com/onsi/gomega"
 	"gorm.io/gorm"
 )
 
@@ -38,8 +38,8 @@ type Member struct {
 	Shopping_Cart []Shopping_Cart `gorm:"foreignkey:Member_ID"`
 }
 
-func TestNameNotBlank(t *testing.T) {
-	g := NewGomegaWithT(t)
+func TestMNameNotBlank(t *testing.T) {
+	g := gomega.NewGomegaWithT(t)
 
 	t.Run("check Member Name can  not blank", func(t *testing.T) {
 		member := Member{
@@ -49,13 +49,13 @@ func TestNameNotBlank(t *testing.T) {
 		}
 
 		ok, err := govalidator.ValidateStruct(member)
-		g.Expect(ok).NotTo(BeTrue())
-		g.Expect(err).ToNot(BeNil())
-		g.Expect(err.Error()).To(Equal("กรุณากรอกชื่อ - นามสกุล"))
+		g.Expect(ok).NotTo(gomega.BeTrue())
+		g.Expect(err).ToNot(gomega.BeNil())
+		g.Expect(err.Error()).To(gomega.Equal("กรุณากรอกชื่อ - นามสกุล"))
 	})
 }
 func TestAgeMT15(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := gomega.NewGomegaWithT(t)
 	t.Run("check Member Age must be more than 15 years old", func(t *testing.T) {
 		member := Member{
 			Mem_Name: "keng",
@@ -64,13 +64,13 @@ func TestAgeMT15(t *testing.T) {
 		}
 
 		ok, err := govalidator.ValidateStruct(member)
-		g.Expect(ok).NotTo(BeTrue())
-		g.Expect(err).ToNot(BeNil())
-		g.Expect(err.Error()).To(Equal("โปรดระบุอายุที่มากกว่า 15 ปีขึ้นไป"))
+		g.Expect(ok).NotTo(gomega.BeTrue())
+		g.Expect(err).ToNot(gomega.BeNil())
+		g.Expect(err.Error()).To(gomega.Equal("โปรดระบุอายุที่มากกว่า 15 ปีขึ้นไป"))
 	})
 }
 func TestTelNotBlank(t *testing.T) {
-	g := NewGomegaWithT(t)
+	g := gomega.NewGomegaWithT(t)
 	t.Run("check Member Telephone number cannot be blank", func(t *testing.T) {
 		member := Member{
 			Mem_Name: "Keng",
@@ -78,8 +78,8 @@ func TestTelNotBlank(t *testing.T) {
 			Mem_Tel:  "",
 		}
 		ok, err := govalidator.ValidateStruct(member)
-		g.Expect(ok).NotTo(BeTrue())
-		g.Expect(err).ToNot(BeNil())
-		g.Expect(err.Error()).To(Equal("กรุณากรอกเบอร์มือถือ"))
+		g.Expect(ok).NotTo(gomega.BeTrue())
+		g.Expect(err).ToNot(gomega.BeNil())
+		g.Expect(err.Error()).To(gomega.Equal("กรุณากรอกเบอร์มือถือ"))
 	})
 }

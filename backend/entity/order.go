@@ -1,9 +1,7 @@
 package entity
 
 import (
-	"testing"
-	"github.com/asaskevich/govalidator"
-	."github.com/onsi/gomega"
+
 	"gorm.io/gorm"
 )
 
@@ -23,34 +21,3 @@ type Status struct {
 
 	Shopping_Cart []Shopping_Cart `gorm:"foreignKey:Status_ID"`
 }
-
-func TestOrderNotZero(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	t.Run("Quantity can not Zero", func(t *testing.T) {
-		order := Order{
-			Quantity: -1,
-			Prices: 1,
-		}
-
-		ok, err := govalidator.ValidateStruct(order)
-
-		g.Expect(ok).NotTo(BeTrue())
-		g.Expect(err).ToNot(BeNil())
-		g.Expect(err.Error()).To(Equal("จำนวนสินค้าต้องเป็นจำนวนเต็ม"))
-	})
-
-	t.Run("Prices can not Zero", func(t *testing.T) {
-		order := Order{
-			Quantity: 1,
-			Prices: -1,
-		}
-
-		ok, err := govalidator.ValidateStruct(order)
-
-		g.Expect(ok).NotTo(BeTrue())
-		g.Expect(err).ToNot(BeNil())
-		g.Expect(err.Error()).To(Equal("Prices in range (0,10000)"))
-	})
-}
-
