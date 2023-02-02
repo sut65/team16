@@ -20,15 +20,15 @@ func CreateMember(c *gin.Context) {
 		return
 	}
 	if tx := entity.DB().Where("id = ?", member.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเข้าสู่ระบบเพื่อเลือกพนักงาน"})
 		return
 	}
 	if tx := entity.DB().Where("id = ?", member.Gender_ID).First(&gender); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "gender not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาระบุเพศ"})
 		return
 	}
 	if tx := entity.DB().Where("id = ?", member.Level_ID).First(&level); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "level not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกระดับสมาชิก"})
 		return
 	}
 	mb := entity.Member{

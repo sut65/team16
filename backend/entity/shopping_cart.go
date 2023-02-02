@@ -16,3 +16,5 @@ type Shopping_Cart struct {
 	Oder        []Order   `gorm:"foreignKey:Shopping_Cart_ID"`
 	Payment     []Payment `gorm:"foreignKey:Shopping_Cart_ID"`
 }
+
+

@@ -34,6 +34,7 @@ function OrderCreate() {
     const [success2, setSuccess2] = React.useState(false);
     const [error2, setError2] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [message, setAlertMessage] = React.useState("");
 
     const [shelving, setShelving] = React.useState<IShelving[]>([]);
     const [order, setOder] = React.useState<OrderInterface>({});
@@ -116,7 +117,7 @@ function OrderCreate() {
     async function addproduct() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
-            Prices: typeof order.Prices === "string" ? parseInt(order.Prices) : 0,
+            Prices: typeof order.Prices === "string" ? parseFloat(order.Prices) : 0,
             Shelving_ID: convertType(order.Shelving_ID),
             Shopping_Cart_ID: Number(cartID),
         };
@@ -132,17 +133,26 @@ function OrderCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/orders`, requestOptions)
+        let res = await fetch(`${apiUrl}/orders`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setSuccess2(true);
                     setErrorMessage("")
+                    return { status: true, message: res.data };
                 } else {
                     setError2(true);
                     setErrorMessage(res.error)
+                    return { status: false, message: res.error };
                 }
             });
+            if (res.status) {
+                setAlertMessage("เพิ่มสินค้าลงตะกร้าแล้ว");
+                setSuccess2(true);
+              } else {
+                setAlertMessage(res.message);
+                setError2(true);
+              }
     }
 
     return (
@@ -155,7 +165,7 @@ function OrderCreate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                        เพิ่มสินค้าลงตะกร้าแล้ว
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -165,7 +175,7 @@ function OrderCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                        เพิ่มสินค้าไม่สำเร็จ
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>

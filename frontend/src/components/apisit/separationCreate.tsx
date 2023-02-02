@@ -35,7 +35,9 @@ function SeparationCreate() {
     const [date, setDate] = React.useState<Date | null>(null);
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
+    const [message, setAlertMessage] = React.useState("");
     const [errorMessage, setErrorMessage] = React.useState("");
+
 
     const [emp, setEmployee] = React.useState<EmployeeInterface>();  
     const [reas, setReason] = React.useState<ReasonInterface[]>([]);
@@ -164,34 +166,49 @@ function SeparationCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/separations`, requestOptions)
+        let res = await fetch(`${apiUrl}/separations`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
+                    // setAlertMessage("เพิ่มข้อมูลเสร็จสิ้น")
                     setSuccess(true);
                     setErrorMessage("")
+                    return { status: true, message: res.data };
                 } else {
+                    // setAlertMessage(res.message)
                     setError(true);
                     setErrorMessage(res.error)
+                    return { status: false, message: res.error };
                 }
             });
+
+            if (res.status) {
+                setAlertMessage("เพิ่มข้อมูลเสร็จสิ้น");
+                setSuccess(true);
+              } else {
+                setAlertMessage(res.message);
+                setError(true);
+              }
     }
 
     return (
         <Container maxWidth="md">
             <Snackbar
+                id="success"
                 open={success}
                 autoHideDuration={6000}
                 onClose={handleClose}
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
                 <Alert onClose={handleClose} severity="success">
-                    การเพิ่มข้อเสร็จสิ้น
+                    {/* การเพิ่มข้อมูลสำเร็จ */}
+                    {message}
                 </Alert>
             </Snackbar>
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+            <Snackbar id="error" open={error} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
-                    การเพิ่มข้อมูลไม่สำเร็จ
+                    {/* การเพิ่มข้อมูลไม่สำเร็จ */}
+                    {message}
                 </Alert>
             </Snackbar>
             <Paper>

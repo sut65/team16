@@ -108,6 +108,9 @@ func DeleteStock(c *gin.Context) {
 func UpdateStock(c *gin.Context) {
 
 	var stock entity.Stock
+	var employee entity.Employee
+	var kind entity.Kind
+	var storage entity.Storage
 
 	if err := c.ShouldBindJSON(&stock); err != nil {
 
@@ -117,15 +120,30 @@ func UpdateStock(c *gin.Context) {
 
 	}
 
-	if tx := entity.DB().Where("id = ?", stock.ID).First(&stock); tx.RowsAffected == 0 {
-
-		c.JSON(http.StatusBadRequest, gin.H{"error": "stock not found"})
-
+	if tx := entity.DB().Where("id = ?", stock.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
-
 	}
 
-	if err := entity.DB().Save(&stock).Error; err != nil {
+	if tx := entity.DB().Where("id = ?", stock.Kind_ID).First(&kind); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "kind not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", stock.Storage_ID).First(&storage); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "storage not found"})
+		return
+	}
+	st := entity.Stock{
+		Name:     stock.Name,
+		Amount:   stock.Amount,
+		Price:    stock.Price,
+		Employee: employee,
+		Kind:     kind,
+		Storage:  storage,
+		DateTime: stock.DateTime,
+	}
+	if err := entity.DB().Create(&st).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 

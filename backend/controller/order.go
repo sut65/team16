@@ -2,7 +2,7 @@ package controller
 
 import (
 	"net/http"
-
+	"github.com/asaskevich/govalidator"
 	"github.com/Team16/farm_mart/entity"
 	"github.com/gin-gonic/gin"
 )
@@ -27,7 +27,7 @@ func CreateOrder(c *gin.Context) {
 	
 	// 11: ค้นหา shelv ด้วย id
 	if tx := entity.DB().Where("id = ?", order.Shelving_ID).First(&shelv); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบสินค้า"})
 		return
 	}
 	// 12: สร้าง Order
@@ -36,6 +36,11 @@ func CreateOrder(c *gin.Context) {
 		Prices:   	order.Prices,
 		Shopping_Cart:   	cart,
 		Shelving:   shelv,   // โยงความสัมพันธ์กับ Entity shelving
+	}
+
+	if _, err := govalidator.ValidateStruct(sc); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	// 13: บันทึก

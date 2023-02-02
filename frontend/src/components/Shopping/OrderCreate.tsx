@@ -39,6 +39,7 @@ function OrderCreate() {
     const [success2, setSuccess2] = React.useState(false);
     const [error2, setError2] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [message, setAlertMessage] = React.useState("");
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [member, setMember] = React.useState<MemberInterface[]>([]);
@@ -211,8 +212,8 @@ function OrderCreate() {
 
     async function addproduct() {
         let data = {
-            Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
-            Prices: typeof order.Prices === "string" ? parseInt(order.Prices) : 0,
+            Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity): null,
+            Prices: typeof order.Prices === "string" ? parseFloat(order.Prices) : null,
             Shelving_ID: convertType(order.Shelving_ID),
             Shopping_Cart_ID: latestCartId,
         };
@@ -228,17 +229,26 @@ function OrderCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/orders`, requestOptions)
+        let res = await fetch(`${apiUrl}/orders`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setSuccess2(true);
                     setErrorMessage("")
+                    return { status: true, message: res.data };
                 } else {
                     setError2(true);
                     setErrorMessage(res.error)
+                    return { status: false, message: res.error };
                 }
             });
+            if (res.status) {
+                setAlertMessage("เพิ่มสินค้าลงตะกร้าแล้ว");
+                setSuccess2(true);
+              } else {
+                setAlertMessage(res.message);
+                setError2(true);
+              }
     }
 
     return (
@@ -273,7 +283,7 @@ function OrderCreate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                        เพิ่มสินค้าลงตะกร้าแล้ว
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -283,7 +293,7 @@ function OrderCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                        เพิ่มสินค้าไม่สำเร็จ
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -330,7 +340,7 @@ function OrderCreate() {
                 <Grid container spacing={3} sx={{ padding: 2 }}>
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">เบอร์โทรศัพท์</p>
+                            <p className="good-font">รหัสสมาชิก</p>
                             <Autocomplete
                                 disablePortal
                                 id="Member_ID"
@@ -345,7 +355,7 @@ function OrderCreate() {
                                     // set the cart.Member_ID with the ID of the selected member
                                     cart.Member_ID = selectedMember?.ID 
                                 }}
-                                renderInput={(params) => <TextField {...params} label="เบอร์โทรศัพท์" />}
+                                renderInput={(params) => <TextField {...params} label="-" />}
                             />
                         </FormControl>
                     </Grid>

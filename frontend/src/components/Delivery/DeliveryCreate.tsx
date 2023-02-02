@@ -34,6 +34,7 @@ function DeliveryCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [message, setAlertMessage] = React.useState("");
 
     const [employee, setEmployee] = React.useState<EmployeeInterface[]>([]);
     const [car, setCar] = React.useState<CarInterface[]>([]);
@@ -146,22 +147,33 @@ function DeliveryCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/deliveries`, requestOptions)
+        let res =  await fetch(`${apiUrl}/deliveries`, requestOptions) 
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setSuccess(true);
                     setErrorMessage("")
+                    return { status: true, message: res.data };
                 } else {
                     setError(true);
                     setErrorMessage(res.error)
+                    return { status: false, message: res.error };
                 }
             });
+
+        if (res.status) {
+            setAlertMessage("บันทึกข้อมูลสำเร็จ");
+            setSuccess(true);
+        } else {
+            setAlertMessage(res.message);
+            setError(true);
+        }
     }
 
     return (
         <Container maxWidth="md">
             <Snackbar
+                id="success" 
                 open={success}
                 autoHideDuration={6000}
                 onClose={handleClose}
@@ -169,14 +181,17 @@ function DeliveryCreate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                        บันทึกข้อมูลสำเร็จ
+                        {message}
                     </div>
                 </Alert>
             </Snackbar>
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+            <Snackbar
+                id="error"
+                open={error}
+                autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                        บันทึกข้อมูลไม่สำเร็จ
+                        {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -204,121 +219,122 @@ function DeliveryCreate() {
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                        <Grid item xs={8}>
-                            <p className="good-font">ชื่อ - นามสกุล ของลูกค้า</p>
-                            <FormControl fullWidth variant="outlined">
-                                <TextField
-                                    id="Customer_name"
-                                    variant="outlined"
-                                    type="string"
-                                    size="medium"
-                                    value={delivery.Customer_name || ""}
-                                    onChange={handleInputChange}
-                                />
-                            </FormControl>
-                        </Grid>
-
-                        <Grid item xs={8}>
-                            <p className="good-font">สถานที่จัดส่งสินค้า</p>
-                            <FormControl fullWidth variant="outlined">
-                                <TextField
-                                    id="Location"
-                                    variant="outlined"
-                                    type="string"
-                                    size="medium"
-                                    value={delivery.Location || ""}
-                                    onChange={handleInputChange}
-                                />
-                            </FormControl>
-                        </Grid>
-
-                        <Grid item xs={6}>
-                            <FormControl fullWidth variant="outlined">
-                                <p className="good-font">รถยนต์ที่ใช้</p>
-                                <Autocomplete
-                                    disablePortal
-                                    id="Car_ID"
-                                    getOptionLabel={(item: CarInterface) => `${item.Car_Model} ${item.Registation_Number}`}
-                                    options={car}
-                                    sx={{ width: 'auto' }}
-                                    isOptionEqualToValue={(option, value) =>
-                                        option.ID === value.ID}
-                                    onChange={(e, value) => { delivery.Car_ID = value?.ID }}
-                                    renderInput={(params) => <TextField {...params} label="เลือกรถยนต์ที่ใช้" />}
-                                />
-                            </FormControl>
-                        </Grid>
-
-                        <Grid item xs={6}>
-                            <FormControl fullWidth variant="outlined">
-                                <p className="good-font">รายการสินค้า</p>
-                                <Autocomplete
-                                    disablePortal
-                                    id="Payment_ID"
-                                    getOptionLabel={(item: PaymentInterface) => `${item.ID}`}
-                                    options={payment}
-                                    sx={{ width: 'auto' }}
-                                    isOptionEqualToValue={(option, value) =>
-                                        option.ID === value.ID}
-                                    onChange={(e, value) => { delivery.Payment_ID = value?.ID }}
-                                    renderInput={(params) => <TextField {...params} label="เลือกรายการสินค้า" />}
-                                />
-                            </FormControl>
-                        </Grid>
-
-                        <Grid item xs={6}>
-                            <FormControl fullWidth variant="outlined">
-                                <p className="good-font">พนักงานที่ส่งสินค้า</p>
-                                <Autocomplete
-                                    disablePortal
-                                    id="Employee_ID"
-                                    getOptionLabel={(item: EmployeeInterface) => `${item.Name}`}
-                                    options={employee}
-                                    sx={{ width: 'auto' }}
-                                    isOptionEqualToValue={(option, value) =>
-                                        option.ID === value.ID}
-                                    onChange={(e, value) => { delivery.Employee_ID = value?.ID }}
-                                    renderInput={(params) => <TextField {...params} label="เลือกพนักงานที่ส่งสินค้า" />}
-                                />
-                            </FormControl>
-                        </Grid>
-
-                        <Grid item xs={6}>
-                            <FormControl fullWidth variant="outlined">
-                                <p className="good-font">วันที่ส่งสินค้า</p>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
-                                        value={delivery.Delivery_date}
-                                        onChange={(newValue) => {
-                                            setDelivery({
-                                                ...delivery,
-                                                Delivery_date: newValue,
-                                            });
-                                        }}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </LocalizationProvider>
-                            </FormControl>
-                        </Grid>
-
-                        <Grid item xs={12}>
-                            <Button component={RouterLink} to="/Delivery" variant="contained">
-                                <div className="good-font-white">
-                                    กลับ
-                                </div>
-                            </Button>
-                            <Button
-                                style={{ float: "right" }}
-                                onClick={submit}
-                                variant="contained"
-                                color="primary"
-                            >
-                                <div className="good-font-white">
-                                    บันทึก
-                                </div>
-                            </Button>
-                        </Grid>
+                    <Grid item xs={8}>
+                        <p className="good-font">ชื่อ - นามสกุล ของลูกค้า</p>
+                        <FormControl fullWidth variant="outlined">
+                            <TextField
+                                id="Customer_name"
+                                variant="outlined"
+                                type="string"
+                                size="medium"
+                                value={delivery.Customer_name || ""}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
                     </Grid>
+
+                    <Grid item xs={8}>
+                        <p className="good-font">สถานที่จัดส่งสินค้า</p>
+                        <FormControl fullWidth variant="outlined">
+                            <TextField
+                                id="Location"
+                                variant="outlined"
+                                type="string"
+                                size="medium"
+                                value={delivery.Location || ""}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">รถยนต์ที่ใช้</p>
+                            <Autocomplete
+                                disablePortal
+                                id="Car_ID"
+                                getOptionLabel={(item: CarInterface) => `${item.Car_Model} ${item.Registation_Number}`}
+                                options={car}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { delivery.Car_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกรถยนต์ที่ใช้" />}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">รายการสินค้า</p>
+                            <Autocomplete
+                                disablePortal
+                                id="Payment_ID"
+                                getOptionLabel={(item: PaymentInterface) => `${item.ID}`}
+                                options={payment}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { delivery.Payment_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกรายการสินค้า" />}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">พนักงานที่ส่งสินค้า</p>
+                            <Autocomplete
+                                disablePortal
+                                id="Employee_ID"
+                                getOptionLabel={(item: EmployeeInterface) => `${item.Name}`}
+                                options={employee}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { delivery.Employee_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกพนักงานที่ส่งสินค้า" />}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">วันที่ส่งสินค้า</p>
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DatePicker
+                                    value={delivery.Delivery_date}
+                                    onChange={(newValue) => {
+                                        setDelivery({
+                                            ...delivery,
+                                            Delivery_date: newValue,
+                                        });
+                                    }}
+                                    renderInput={(params) => <TextField {...params} />}
+                                />
+                            </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={12}>
+                        <Button component={RouterLink} to="/Delivery" variant="contained">
+                            <div className="good-font-white">
+                                กลับ
+                            </div>
+                        </Button>
+                        <Button
+                            style={{ float: "right" }}
+                            onClick={submit}
+                            variant="contained"
+                            color="primary"
+        
+                        >
+                            <div className="good-font-white">
+                                บันทึก
+                            </div>
+                        </Button>
+                    </Grid>
+                </Grid>
             </Paper>
         </Container>
     );
