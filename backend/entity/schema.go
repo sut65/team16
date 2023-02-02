@@ -24,3 +24,5 @@ type Employee struct {
 	Shelving              []Shelving              `gorm:"foreignKey:Employee_ID"`
 	Shopping_Cart         []Shopping_Cart         `gorm:"foreignKey:Employee_ID"`
 }
+
+
