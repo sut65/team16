@@ -15,7 +15,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { OrderInterface } from "../../models/Natthapon/IOrder";
-import { IShelving } from "../../models/methas/IShelving";
+import { ShelvingsInterface } from "../../models/methas/IShelving";
 import { CartInterface } from "../../models/Natthapon/ICart";
 import PaymentIcon from '@mui/icons-material/Payment';
 import { StocksInterface } from "../../models/methas/IStock";
@@ -36,7 +36,7 @@ function OrderCreate() {
     const [errorMessage, setErrorMessage] = React.useState("");
     const [message, setAlertMessage] = React.useState("");
 
-    const [shelving, setShelving] = React.useState<IShelving[]>([]);
+    const [shelving, setShelving] = React.useState<ShelvingsInterface[]>([]);
     const [order, setOder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
     const [stock, setStock] = React.useState<StocksInterface[]>([]);
