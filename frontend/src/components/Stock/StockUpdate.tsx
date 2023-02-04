@@ -134,7 +134,7 @@ function StockUpdate() {
       Kind_ID: convertType(stock.Kind_ID),
       Storage_ID: convertType(stock.Storage_ID),
       Employee_ID: convertType(stock.Employee_ID),
-      DateTime: date,
+      DateTime: stock.DateTime,
     };
 
     console.log(data)
