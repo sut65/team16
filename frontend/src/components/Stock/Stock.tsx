@@ -41,8 +41,8 @@ function Stock() {
     };
 
     // function ลบข้อมูล
-    const deleteDiscount = async () => {
-        const apiUrl = `http://localhost:8080/stock/${stockID}`;
+    const deleteStock = async () => {
+        const apiUrl = `http://localhost:8080/stocks/${stockID}`;
         const requestOptions = {
             method: "DELETE",
             headers: {
@@ -54,7 +54,7 @@ function Stock() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log("delete ID: " +stockID)
+                    console.log("delete ID: " + stockID)
                 }
                 else { console.log("NO DATA") }
             });
@@ -129,7 +129,7 @@ function Stock() {
                         variant="contained"
                         color="primary"
                         //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
-                        onClick={deleteDiscount}
+                        onClick={deleteStock}
                     >
                         <div className="good-font">
                             ยืนยัน
