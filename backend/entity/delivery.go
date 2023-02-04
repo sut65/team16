@@ -13,7 +13,7 @@ type Car struct {
 	gorm.Model
 	Car_Model			string
 	Registation_Number	string
-	Delivery  []Delivery `gorm:"foreignKey:Car_ID"`
+	Delivery  []Delivery 	`gorm:"foreignKey:Car_ID"`
 }
 
 type Delivery struct {
@@ -22,12 +22,12 @@ type Delivery struct {
 	Customer_name string	`json:"customer_name" valid:"required~กรุณากรอกชื่อลูกค้า"`
 	Delivery_date time.Time
 
-	Car_ID	*uint`valid:"-"`
-	Car	Car`valid:"-"`
-	Employee_ID *uint`valid:"-"`
-	Employee    Employee`valid:"-"`
-	Payment_ID		*uint`valid:"-"`
-	Payment	Payment`valid:"-"`
+	Car_ID	*uint			`valid:"-"`
+	Car	Car					`valid:"-"`
+	Employee_ID *uint		`valid:"-"`
+	Employee    Employee	`valid:"-"`
+	Payment_ID		*uint	`valid:"-"`
+	Payment	Payment			`valid:"-"`
 }
 
 func TestNotBlank(t *testing.T) {

@@ -34,7 +34,9 @@ function DiscountCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
-
+    const [message, setAlertMessage] = React.useState("");
+    const [salePrice, setSalePrice] = React.useState(0);
+    const [disPrice, setDisPrice] = React.useState(0);
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [stock, setStock] = React.useState<StocksInterface[]>([]);
     const [dt, setDt] = React.useState<Discount_Type_Interface[]>([]);
@@ -69,6 +71,10 @@ function DiscountCreate() {
         const id = event.target.id as keyof typeof DiscountCreate;
         const { value } = event.target;
         setDiscount({ ...discount, [id]: value });
+        setSalePrice(value);
+        console.log("Price: " + disPrice);
+        console.log("SALE: " + salePrice);
+        console.log("result: " + (disPrice - salePrice));
     };
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -132,9 +138,7 @@ function DiscountCreate() {
             Discount_Type_ID: convertType(discount.Discount_Type_ID),
             Employee_ID: convertType(discount.Employee_ID),
         };
-
         console.log(data)
-
         const requestOptions = {
             method: "POST",
             headers: {
@@ -143,23 +147,61 @@ function DiscountCreate() {
             },
             body: JSON.stringify(data),
         };
-
-        fetch(`${apiUrl}/discounts`, requestOptions)
+        let res = await fetch(`${apiUrl}/discounts`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setSuccess(true);
                     setErrorMessage("")
+                    return { status: true, message: res.data };
                 } else {
                     setError(true);
                     setErrorMessage(res.error)
+                    return { status: false, message: res.error };
                 }
             });
+        if (res.status) {
+            setAlertMessage("บันทึกข้อมูลสำเร็จ");
+            setSuccess(true);
+        } else {
+            setAlertMessage(res.message);
+            setError(true);
+        }
+    }
+
+    async function discounting() {
+        let stockDisID = discount.Stock_ID;
+        let data = {
+            Price: (disPrice - salePrice),
+        };
+        console.log(stockDisID)
+        console.log(data)
+
+        const requestOptions = {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`${apiUrl}/discounting/${stockDisID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setErrorMessage("")
+                } else {
+                    setErrorMessage(res.error)
+                }
+            });
+
     }
 
     return (
         <Container maxWidth="md">
             <Snackbar
+                id="success"
                 open={success}
                 autoHideDuration={6000}
                 onClose={handleClose}
@@ -167,14 +209,17 @@ function DiscountCreate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                        บันทึกข้อมูลสำเร็จ
+                        {message}
                     </div>
                 </Alert>
             </Snackbar>
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+            <Snackbar
+                id="error"
+                open={error}
+                autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                        บันทึกข้อมูลไม่สำเร็จ
+                        {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -202,8 +247,6 @@ function DiscountCreate() {
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                
-                    
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">ประเภทของส่วนลด</p>
@@ -232,7 +275,13 @@ function DiscountCreate() {
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
                                     option.ID === value.ID}
-                                onChange={(e, value) => { discount.Stock_ID = value?.ID }}
+                                onChange={(e, value) => {
+                                    discount.Stock_ID = value?.ID;
+                                    if (value) {
+                                        setDisPrice(value.Price)
+                                    };
+                                    console.log("Stock Price: " + disPrice);
+                                }}
                                 renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
                         </FormControl>
@@ -247,7 +296,7 @@ function DiscountCreate() {
                                 variant="outlined"
                                 type="number"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1 , max: 50}}}
+                                InputProps={{ inputProps: { min: 1, max: 50 } }}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -323,7 +372,10 @@ function DiscountCreate() {
                         </Button>
                         <Button
                             style={{ float: "right" }}
-                            onClick={submit}
+                            onClick={async () => {
+                                await submit();
+                                await discounting();
+                            }}
                             variant="contained"
                             color="primary"
                         >
