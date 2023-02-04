@@ -18,7 +18,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { ReasonInterface } from "../../models/apisit/IReason";
 // import { EmployeeInterface } from "../../models/IEmployee";
-import { IShelving } from "../../models/methas/IShelving";
+import { ShelvingsInterface } from "../../models/methas/IShelving";
 // import { SeparationInterface } from "../../models/apisit/ISeparation";
 import Autocomplete from "@mui/material/Autocomplete";
 import { GetCurrentEmployee } from "../../services/HttpClientService";
