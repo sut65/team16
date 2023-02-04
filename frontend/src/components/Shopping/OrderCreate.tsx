@@ -18,7 +18,7 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import { EmployeeInterface } from "../../models/IEmployee";
 import { MemberInterface } from "../../models/theerawat/IMember";
 import { OrderInterface } from "../../models/Natthapon/IOrder";
-import { IShelving } from "../../models/methas/IShelving";
+import { ShelvingsInterface } from "../../models/methas/IShelving";
 import { StocksInterface } from "../../models/methas/IStock";
 import { CartInterface } from "../../models/Natthapon/ICart";
 import { StatusInterface } from "../../models/Natthapon/IStatus";
@@ -43,7 +43,7 @@ function OrderCreate() {
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [member, setMember] = React.useState<MemberInterface[]>([]);
-    const [shelving, setShelving] = React.useState<IShelving[]>([]);
+    const [shelving, setShelving] = React.useState<ShelvingsInterface[]>([]);
     const [status, setStatus] = React.useState<StatusInterface[]>([]);
     const [order, setOrder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
