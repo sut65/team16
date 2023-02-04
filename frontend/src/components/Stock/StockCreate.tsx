@@ -32,8 +32,9 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 
 function StockCreate() {
-  const [date, setDate] = React.useState<Date | null>(null);
-  const [stock, setStock] = React.useState<Partial<StocksInterface>>({});
+  const [stock, setStock] = React.useState<Partial<StocksInterface>>({
+    DateTime: new Date(),
+  });
   const [kind, setKind] = React.useState<KindsInterface[]>([]);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [employee, setEmployee] = React.useState<EmployeeInterface>();
@@ -133,7 +134,7 @@ function StockCreate() {
       Kind_ID: convertType(stock.Kind_ID),
       Storage_ID: convertType(stock.Storage_ID),
       Employee_ID: convertType(stock.Employee_ID),
-      DateTime: date,
+      DateTime: stock.DateTime,
     };
 
     console.log(data);
@@ -285,14 +286,17 @@ function StockCreate() {
            <FormControl fullWidth variant="outlined">
              <p>DateTime</p>
              <LocalizationProvider dateAdapter={AdapterDateFns}>
-               <DatePicker
-                 value={date}
-                 onChange={(newValue) => {
-                   setDate(newValue);
-                 }}
-                 renderInput={(params) => <TextField {...params} />}
-               />
-             </LocalizationProvider>
+             <DatePicker
+                  value={stock.DateTime}
+                  onChange={(newValue) => {
+                    setStock({
+                      ...stock,
+                      DateTime: newValue,
+                    });
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
            </FormControl>
          </Grid>
          <Grid item xs={12}>
