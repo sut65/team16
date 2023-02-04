@@ -18,7 +18,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 import { ReasonInterface } from "../../models/apisit/IReason";
 import { EmployeeInterface } from "../../models/IEmployee";
-import { IShelving } from "../../models/methas/IShelving";
+import { ShelvingsInterface } from "../../models/methas/IShelving";
 import { SeparationInterface } from "../../models/apisit/ISeparation";
 // import { GetCurrentAdmin } from "../services/HttpClientService";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -41,7 +41,7 @@ function SeparationCreate() {
 
     const [emp, setEmployee] = React.useState<EmployeeInterface>();  
     const [reas, setReason] = React.useState<ReasonInterface[]>([]);
-    const [shelf, setShelf] = React.useState<IShelving[]>([]);
+    const [shelf, setShelf] = React.useState<ShelvingsInterface[]>([]);
     const [sep, setSeparation] = React.useState<SeparationInterface>({
         Date_Out: new Date(),
      });
@@ -301,7 +301,7 @@ function SeparationCreate() {
                             <Autocomplete
                                 disablePortal
                                 id="Shelving_ID"
-                                getOptionLabel={(item: IShelving) => `${item.ID}`}
+                                getOptionLabel={(item: ShelvingsInterface) => `${item.ID}`}
                                 options={shelf}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
