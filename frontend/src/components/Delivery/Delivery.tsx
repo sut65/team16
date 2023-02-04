@@ -79,10 +79,10 @@ function Delivery() {
 
     const columns: GridColDef[] = [
         { field: "ID", headerName: "ID", width: 50 },
-        { field: "Location", headerName: "สถานที่", width: 80 },
-        { field: "Customer_name", headerName: "ชื่อลูกค้า", width: 80 },
+        { field: "location", headerName: "สถานที่", width: 190 },
+        { field: "customer_name", headerName: "ชื่อลูกค้า", width: 120 },
         {
-            field: "Delivery_date", headerName: "วันที่สิ้นสุด", width: 150,
+            field: "Delivery_date", headerName: "วันที่สิ้นสุด", width: 100,
             renderCell: (params) => moment(params.row.Delivery_date).format('YY-MM-DD')
         },
         {
@@ -94,7 +94,7 @@ function Delivery() {
             valueFormatter: (params) => params.value.Registation_Number,
         },
         {
-            field: "Payment", headerName: "รายการสินค้า", width: 150,
+            field: "Payment", headerName: "รายการสินค้า", width: 100,
             valueFormatter: (params) => params.value.ID,
         },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
