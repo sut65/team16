@@ -12,12 +12,12 @@ type Discount struct {
 	Discount_s     time.Time
 	Discount_e     time.Time
 
-	Discount_Type_ID *uint
-	Discount_Type    Discount_Type
-	Employee_ID      *uint
-	Employee         Employee
-	Stock_ID     *uint
-	Stock        Stock
+	Discount_Type_ID *uint 			`valid:"-"`
+	Discount_Type    Discount_Type 	`valid:"-"`
+	Employee_ID      *uint 			`valid:"-"`
+	Employee         Employee 		`valid:"-"`
+	Stock_ID     *uint 				`valid:"-"`
+	Stock        Stock 				`valid:"-"`
 }
 
 type Discount_Type struct {
