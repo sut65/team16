@@ -14,5 +14,5 @@ export interface StocksInterface{
     Kind: KindsInterface,
     Storage_ID: number,
     Storage: StoragesInterface,
-    DateTime: Date
+    DateTime: Date | null
 }

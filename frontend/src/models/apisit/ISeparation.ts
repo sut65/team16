@@ -1,7 +1,6 @@
 import { EmployeeInterface } from "../IEmployee";
 import { ReasonInterface } from "./IReason";
-import { IShelving } from "./../methas/IShelving";
-
+import { ShelvingsInterface } from "./../methas/IShelving";
 
 export interface SeparationInterface {
     ID?: number,
@@ -13,7 +12,7 @@ export interface SeparationInterface {
     Reason?: ReasonInterface;
     
     Shelving_ID?: number;
-    Shelving?: IShelving;
+    Shelving?: ShelvingsInterface;
 
     Date_Out?: Date | null,
     Amount?: number,

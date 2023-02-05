@@ -18,11 +18,12 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import { EmployeeInterface } from "../../models/IEmployee";
 import { MemberInterface } from "../../models/theerawat/IMember";
 import { OrderInterface } from "../../models/Natthapon/IOrder";
-import { IShelving } from "../../models/methas/IShelving";
+import { ShelvingsInterface } from "../../models/methas/IShelving";
 import { StocksInterface } from "../../models/methas/IStock";
 import { CartInterface } from "../../models/Natthapon/ICart";
 import { StatusInterface } from "../../models/Natthapon/IStatus";
 import { GetCurrentEmployee } from "../../services/HttpClientService";
+
 
 
 
@@ -43,7 +44,7 @@ function OrderCreate() {
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [member, setMember] = React.useState<MemberInterface[]>([]);
-    const [shelving, setShelving] = React.useState<IShelving[]>([]);
+    const [shelving, setShelving] = React.useState<ShelvingsInterface[]>([]);
     const [status, setStatus] = React.useState<StatusInterface[]>([]);
     const [order, setOrder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
@@ -404,7 +405,7 @@ function OrderCreate() {
                             <Autocomplete
                                 disablePortal
                                 id="Stock_ID"
-                                getOptionLabel={(item: StocksInterface) => `${item.Name} ราคา ${item.Price}`}
+                                getOptionLabel={(item: StocksInterface) => `${item.ID} ${item.Name} ราคา ${item.Price}`}
                                 options={stock}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) => option.ID === value.ID}
@@ -413,6 +414,24 @@ function OrderCreate() {
                             />
                         </FormControl>
                     </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">รายการสินค้า</p>
+                            <Autocomplete
+                                disablePortal
+                                id="Stock_ID"
+                                getOptionLabel={(item: IShelving) => `${item.ID} ${item.Stock.Name} ราคา ${item.Stock.Price}`}
+                                options={shelving}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) => option.ID === value.ID}
+                                onChange={(e, value) => { order.Shelving_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
+                            />
+                        </FormControl>
+                    </Grid>
+
+        
 
 
                     <Grid item xs={3}>

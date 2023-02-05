@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/Team16/farm_mart/entity"
 	"github.com/asaskevich/govalidator"
@@ -20,15 +21,15 @@ func CreateDiscount(c *gin.Context) {
 		return
 	}
 	if tx := entity.DB().Where("id = ?", discount.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกพนักงาน"})
 		return
 	}
 	if tx := entity.DB().Where("id = ?", discount.Stock_ID).First(&inventory); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "inventory not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกสินค้า"})
 		return
 	}
 	if tx := entity.DB().Where("id = ?", discount.Discount_Type_ID).First(&discount_type); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "discount_type not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกปรเภทส่วนลด"})
 		return
 	}
 	dc := entity.Discount{
@@ -121,4 +122,45 @@ func UpdateDiscount(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": discount})
+}
+
+// PATCH discounting stock
+func DiscountingStock(c *gin.Context) {
+	var stock entity.Stock
+	id := c.Param("id")
+	if err := c.ShouldBindJSON(&stock); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	st := entity.Stock{
+		Price: 	stock.Price,
+	}
+	if err := entity.DB().Where("id = ?", id).Updates(&st).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": stock})
+}
+
+// PATCH discounting stock
+func ResetPrice(c *gin.Context) {
+	var stock entity.Stock
+	stockID := c.Param("stockID")
+	price, _ := strconv.ParseFloat(c.Param("price"), 64)
+
+	if err := entity.DB().Where("id = ?", stockID).First(&stock).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	newStock := entity.Stock{
+		Price: stock.Price + price,
+	}
+
+	if err := entity.DB().Model(&stock).Update("price", newStock.Price).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": stock})
 }

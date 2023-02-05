@@ -122,12 +122,14 @@ func main() {
 			r.PATCH("/discount/:id", controller.UpdateDiscount)
 			r.DELETE("/discount/:id", controller.DeleteDiscount)
 
+			//Discouting price Routes 
+			r.PATCH("/discounting/:id", controller.DiscountingStock)
+
+			//Reset price Routes 
+			r.PATCH("/reset_price/:stockID/:price", controller.ResetPrice)
+
 			//Discount_Type Routes
 			r.GET("/discount_types", controller.ListDiscount_Type)
-			r.GET("/discount_type/:id", controller.GetDiscount_Type)
-			r.POST("/discount_types", controller.CreateDiscount_Type)
-			r.PATCH("/discount_type/:id", controller.UpdateDiscount_Type)
-			r.DELETE("/discount_type/:id", controller.DeleteDiscount_Type)
 
 			//Separartion Routes
 			r.GET("/separations", controller.ListSeparations)
@@ -211,10 +213,6 @@ func main() {
 
 			//Car Routes
 			r.GET("/cars", controller.ListCar)
-			r.GET("/car/:id", controller.GetCar)
-			r.POST("/cars", controller.CreateCar)
-			r.PATCH("/car/:id", controller.UpdateCar)
-			r.DELETE("/car/:id", controller.DeleteCar)
 
 			//Delivery Routes
 			r.GET("/deliveries", controller.ListDelivery)

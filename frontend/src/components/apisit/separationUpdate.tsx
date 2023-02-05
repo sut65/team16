@@ -23,7 +23,7 @@ import { EmployeeInterface } from "../../models/IEmployee"
 // import { StocksInterface } from "../../models/methas/IStock"
 import { GetCurrentEmployee } from "../../services/HttpClientService";
 import { ReasonInterface } from "../../models/apisit/IReason";
-import { IShelving } from "../../models/methas/IShelving";
+import { ShelvingsInterface } from "../../models/methas/IShelving";
 import { SeparationInterface } from "../../models/apisit/ISeparation";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -42,7 +42,7 @@ function SeparationUpdate() {
 
     const [emp, setEmployee] = React.useState<EmployeeInterface>();
     const [reas, setReason] = React.useState<ReasonInterface[]>([]);
-    const [shelf, setShelf] = React.useState<IShelving[]>([]);
+    const [shelf, setShelf] = React.useState<ShelvingsInterface[]>([]);
     const [sep, setSeparation] = React.useState<SeparationInterface>({
         Date_Out: new Date(),
     });
@@ -258,7 +258,7 @@ function SeparationUpdate() {
                         <Autocomplete
                             disablePortal
                             id="Shelving_ID"
-                            getOptionLabel={(item: IShelving) => `${item.ID}`}
+                            getOptionLabel={(item: ShelvingsInterface) => `${item.ID}`}
                             options={shelf}
                             sx={{ width: 'auto' }}
                             isOptionEqualToValue={(option, value) =>
@@ -276,7 +276,7 @@ function SeparationUpdate() {
                             <Autocomplete
                                 disablePortal
                                 id="Shelving_ID"
-                                getOptionLabel={(item: IShelving) => `${item.ID}`}
+                                getOptionLabel={(item: ShelvingsInterface) => `${item.ID}`}
                                 options={shelf}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>

@@ -14,6 +14,8 @@ import { Dialog, DialogTitle } from "@mui/material";
 function Discount() {
     const [discount, setDiscount] = React.useState<DiscountInterface[]>([]);
     const [discountID, setDiscountID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
+    const [price, setPrice] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
+    const [stockID, setStockID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
     const [openUpdate, setOpenupdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การแก้ไข
 
@@ -59,15 +61,45 @@ function Discount() {
             });
         handleClose();
         getDiscount();
+        resetPrice();
+    }
+
+    async function resetPrice() {
+        let data = {
+            Price: price,
+        };
+        const requestOptions = {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`http://localhost:8080/reset_price/${stockID}/${price}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    if (res.data) {
+                        console.log("reset price ID: " + discountID)
+                    }
+                    else { console.log("NO DATA") }
+                }
+            });
     }
 
     // เมื่อมีการคลิ๊กที่แถวใดแถวหนึ่งในDataGrid functionนี้จะsetค่าIDของข้อมูลที่ต้องการ(ในกรณีนี้คือdiscountID)เพื่อรอสำหรับการแก้ไข/ลบ
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
         setDiscountID(Number(params.row.ID)); //setเพื่อรอการลบ
+        setPrice(Number(params.row.Discount_Price)); //setเพื่อรอการลบ
+        setStockID(Number(params.row.Stock_ID)); //setเพื่อรอการลบ
         localStorage.setItem("discountID", params.row.ID); //setเพื่อการแก้ไข
+        console.log(price);
+        console.log(stockID);
     };
 
-     // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
+    // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
     const handleClose = () => {
         setOpendelete(false)
         setOpenupdate(false)
@@ -80,6 +112,10 @@ function Discount() {
     const columns: GridColDef[] = [
         { field: "ID", headerName: "ID", width: 50 },
         { field: "Discount_Price", headerName: "ราคาที่ลด", width: 80 },
+        // {
+        //     field: "Stock", headerName: "ราคาหลังลด", width: 150,
+        //     valueFormatter: (params) => params.value.Price,
+        // },
         {
             field: "Discount_s", headerName: "วันที่เริ่มลดราคา", width: 150,
             renderCell: (params) => moment(params.row.Discount_s).format('YY-MM-DD')
@@ -96,6 +132,10 @@ function Discount() {
             field: "Stock", headerName: "สินค้า", width: 150,
             valueFormatter: (params) => params.value.Name,
         },
+        // {
+        //     field: "Stock", headerName: "IDสินค้า", width: 150,
+        //     valueFormatter: (params) => params.value.ID,
+        // },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
         {
             field: "edit", headerName: "แก้ไข", width: 100,
@@ -133,30 +173,30 @@ function Discount() {
             <Dialog open={openDelete} onClose={handleClose} >
                 <DialogTitle><div className="good-font">ยืนยันการลบส่วนลดนี้</div></DialogTitle>
                 <Button
-                        variant="contained"
-                        color="primary"
-                        //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
-                        onClick={deleteDiscount}
-                    >
-                        <div className="good-font">
-                            ยืนยัน
-                        </div>
-                    </Button>
+                    variant="contained"
+                    color="primary"
+                    //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
+                    onClick={deleteDiscount}
+                >
+                    <div className="good-font">
+                        ยืนยัน
+                    </div>
+                </Button>
             </Dialog>
             {/* ยืนยันการแก้ไข */}
             <Dialog open={openUpdate} onClose={handleClose} >
                 <DialogTitle><div className="good-font">ยืนยันการแก้ไขส่วนลดนี้</div></DialogTitle>
                 <Button
-                        variant="contained"
-                        color="primary"
-                        //กด "ยืนยัน" ไปที่หน้าแก้ไข
-                        component={RouterLink}
-                        to="/DiscountUpdate"
-                    >
-                        <div className="good-font">
-                            ยืนยัน
-                        </div>
-                    </Button>
+                    variant="contained"
+                    color="primary"
+                    //กด "ยืนยัน" ไปที่หน้าแก้ไข
+                    component={RouterLink}
+                    to="/DiscountUpdate"
+                >
+                    <div className="good-font">
+                        ยืนยัน
+                    </div>
+                </Button>
             </Dialog>
             <Container maxWidth="lg">
                 <Box

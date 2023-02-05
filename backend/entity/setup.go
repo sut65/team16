@@ -1,12 +1,11 @@
 package entity
 
 import (
+	// "time"
 
-	"time"
-	"golang.org/x/crypto/bcrypt"
-	"gorm.io/gorm"
-
+	// "golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 var db *gorm.DB
@@ -43,103 +42,99 @@ func SetupDatabase() {
 	)
 	db = database // ห้าม comment บรรทัดนี้
 
+	// password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	// password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
+	// password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 
-	password1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
-	password2, _ := bcrypt.GenerateFromPassword([]byte("654321"), 14)
-	password3, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	// Em1 := Employee{
+	// 	Name:     "นายคณาการ เชิดในเมือง",
+	// 	Email:    "k@gmail.com",
+	// 	Password: string(password1),
+	// 	Position: "Full-Time",
+	// }
+	// db.Model(&Employee{}).Create(&Em1)
 
+	// Em2 := Employee{
+	// 	Name:     "นางญาตา ประสานวงศ์",
+	// 	Email:    "y@gmail.com",
+	// 	Password: string(password2),
+	// 	Position: "Part-Time",
+	// }
+	// db.Model(&Employee{}).Create(&Em2)
 
-	Em1 := Employee{
-		Name:     "นายคณาการ เชิดในเมือง",
-		Email:    "k@gmail.com",
-		Password: string(password1),
-		Position: "Full-Time",
-	}
-	db.Model(&Employee{}).Create(&Em1)
+	// Em3 := Employee{
+	// 	Name:     "นางรสนันท์ กลับเพชร",
+	// 	Email:    "r@gmail.com",
+	// 	Password: string(password3),
+	// 	Position: "Trainee",
+	// }
+	// db.Model(&Employee{}).Create(&Em3)
 
-	Em2 := Employee{
-		Name:     "นางญาตา ประสานวงศ์",
-		Email:    "y@gmail.com",
-		Password: string(password2),
-		Position: "Part-Time",
-	}
-	db.Model(&Employee{}).Create(&Em2)
+	// //Kind
+	// Kind1 := Kind{
+	// 	Name: "Meat",
+	// }
+	// db.Model(&Kind{}).Create(&Kind1)
 
-	Em3 := Employee{
-		Name:     "นางรสนันท์ กลับเพชร",
-		Email:    "r@gmail.com",
-		Password: string(password3),
-		Position: "Trainee",
-	}
-	db.Model(&Employee{}).Create(&Em3)
+	// Kind2 := Kind{
+	// 	Name: "Fresh",
+	// }
+	// db.Model(&Kind{}).Create(&Kind2)
 
-	//Kind
-	Kind1 := Kind{
-		Name: "Meat",
-	}
-	db.Model(&Kind{}).Create(&Kind1)
+	// Kind3 := Kind{
+	// 	Name: "Dairy",
+	// }
+	// db.Model(&Kind{}).Create(&Kind3)
 
-	Kind2 := Kind{
-		Name: "Fresh",
-	}
-	db.Model(&Kind{}).Create(&Kind2)
+	// //Storage
+	// Storage1 := Storage{
+	// 	Name: "Storage1",
+	// }
+	// db.Model(&Storage{}).Create(&Storage1)
 
-	Kind3 := Kind{
-		Name: "Dairy",
-	}
-	db.Model(&Kind{}).Create(&Kind3)
+	// Storage2 := Storage{
+	// 	Name: "Storage2",
+	// }
+	// db.Model(&Storage{}).Create(&Storage2)
 
-	//Storage
-	Storage1 := Storage{
-		Name: "Storage1",
-	}
-	db.Model(&Storage{}).Create(&Storage1)
+	// Storage3 := Storage{
+	// 	Name: "Storage3",
+	// }
+	// db.Model(&Storage{}).Create(&Storage3)
 
-	Storage2 := Storage{
-		Name: "Storage2",
-	}
-	db.Model(&Storage{}).Create(&Storage2)
+	// //Stock
+	// Stock1 := Stock{
+	// 	Name:     "Banana",
+	// 	Amount:   100,
+	// 	Price:    20.00,
+	// 	Employee: Em1,
+	// 	Kind:     Kind2,
+	// 	Storage:  Storage2,
+	// 	DateTime: time.Now(),
+	// }
+	// db.Model(&Stock{}).Create(&Stock1)
 
-	Storage3 := Storage{
-		Name: "Storage3",
-	}
-	db.Model(&Storage{}).Create(&Storage3)
+	// Stock2 := Stock{
+	// 	Name:     "Pork",
+	// 	Amount:   100,
+	// 	Price:    80.00,
+	// 	Employee: Em1,
+	// 	Kind:     Kind1,
+	// 	Storage:  Storage1,
+	// 	DateTime: time.Now(),
+	// }
+	// db.Model(&Stock{}).Create(&Stock2)
 
-	//Stock
-	Stock1 := Stock{
-		Name:     "Banana",
-		Amount:   100,
-		Price:    20.00,
-		Employee: Em1,
-		Kind:     Kind2,
-		Storage:  Storage2,
-		DateTime: time.Now(),
-	}
-	db.Model(&Stock{}).Create(&Stock1)
-
-	Stock2 := Stock{
-		Name:     "Pork",
-		Amount:   100,
-		Price:    80.00,
-		Employee: Em1,
-		Kind:     Kind1,
-		Storage:  Storage1,
-		DateTime: time.Now(),
-	}
-	db.Model(&Stock{}).Create(&Stock2)
-
-	Stock3 := Stock{
-		Name:     "Milk",
-		Amount:   100,
-		Price:    20.00,
-		Employee: Em1,
-		Kind:     Kind3,
-		Storage:  Storage3,
-		DateTime: time.Now(),
-	}
-	db.Model(&Stock{}).Create(&Stock3)
-}
-
+	// Stock3 := Stock{
+	// 	Name:     "Milk",
+	// 	Amount:   100,
+	// 	Price:    20.00,
+	// 	Employee: Em1,
+	// 	Kind:     Kind3,
+	// 	Storage:  Storage3,
+	// 	DateTime: time.Now(),
+	// }
+	// db.Model(&Stock{}).Create(&Stock3)
 
 	// //Label
 	// Label1 := Label{
@@ -162,7 +157,7 @@ func SetupDatabase() {
 	// 	Employee: Em1,
 	// 	Label:    Label1,
 	// 	Stock:    Stock2,
-	// 	Quantity: 20,
+	// 	Amount: 20,
 	// }
 	// db.Model(&Shelving{}).Create(&Shelving1)
 
@@ -170,7 +165,7 @@ func SetupDatabase() {
 	// 	Employee: Em1,
 	// 	Label:    Label2,
 	// 	Stock:    Stock1,
-	// 	Quantity: 20,
+	// 	Amount: 20,
 	// }
 	// db.Model(&Shelving{}).Create(&Shelving2)
 
@@ -178,7 +173,7 @@ func SetupDatabase() {
 	// 	Employee: Em1,
 	// 	Label:    Label3,
 	// 	Stock:    Stock3,
-	// 	Quantity: 20,
+	// 	Amount: 20,
 	// }
 	// db.Model(&Shelving{}).Create(&Shelving3)
 
@@ -237,7 +232,6 @@ func SetupDatabase() {
 	// }
 	// db.Model(&Type_Comment{}).Create(&TypeCom4)
 
-
 	// //Payment_method
 	// Pay1 := Payment_method{
 	// 	Method: "Cash",
@@ -261,37 +255,37 @@ func SetupDatabase() {
 
 	// //Gender
 	// Gender1 := Gender{
-	// 	Gender_Name : "ชาย",
+	// 	Gender_Name: "ชาย",
 	// }
 	// db.Model(&Gender{}).Create(&Gender1)
 
 	// Gender2 := Gender{
-	// 	Gender_Name : "หญิง",
+	// 	Gender_Name: "หญิง",
 	// }
 	// db.Model(&Gender{}).Create(&Gender2)
 
 	// //Level
 	// Level1 := Level{
-	// 	Level_Name : "General",
-	// 	Level_Pay: 59,
+	// 	Level_Name:    "General",
+	// 	Level_Pay:     59,
 	// 	Level_Benefit: "ได้รับโปรโมชั้นขั้นพื้นฐานทั่วไป",
 	// }
 	// db.Model(&Level{}).Create(&Level1)
 	// Level2 := Level{
-	// 	Level_Name : "Veggie",
-	// 	Level_Pay: 119,
+	// 	Level_Name:    "Veggie",
+	// 	Level_Pay:     119,
 	// 	Level_Benefit: "ได้รับโปรโมชั่นพิเศษสำหรับสินค้าประเภทผัก ผลไม้",
 	// }
 	// db.Model(&Level{}).Create(&Level2)
 	// Level3 := Level{
-	// 	Level_Name : "Eivit",
-	// 	Level_Pay: 119,
+	// 	Level_Name:    "Eivit",
+	// 	Level_Pay:     119,
 	// 	Level_Benefit: "ได้รับโปรโมชั่นพิเศษสำหรับสินค้าประเภทเนื้อสัตว์ นม ไข้",
 	// }
 	// db.Model(&Level{}).Create(&Level3)
 	// Level4 := Level{
-	// 	Level_Name : "Prime",
-	// 	Level_Pay: 199,
+	// 	Level_Name:    "Prime",
+	// 	Level_Pay:     199,
 	// 	Level_Benefit: "ได้รับโปรโมชั่นพิเศษสำหรับสินค้าทุกประเภท",
 	// }
 	// db.Model(&Level{}).Create(&Level4)
@@ -299,71 +293,71 @@ func SetupDatabase() {
 	// //Member
 	// Member1 := Member{
 	// 	Mem_Name: "Tony Stark",
-	// 	Mem_Age: 33,
-	// 	Mem_Tel: "0987654321",
-	// 	Gender: Gender1,
-	// 	Level: Level4,
+	// 	Mem_Age:  33,
+	// 	Mem_Tel:  "0987654321",
+	// 	Gender:   Gender1,
+	// 	Level:    Level4,
 	// 	Employee: Em1,
 	// }
 	// db.Model(&Member{}).Create(&Member1)
 
 	// //L_Type
 	// L_Type1 := L_Type{
-	// 	Type_Name: "ลาป่วย",
+	// 	Type_Name:      "ลาป่วย",
 	// 	Type_Condition: "ลาตั้งแต่ 3 วันขึ้นไป ต้องมีใบรับรองแพทย์",
-	// 	Type_NTime: 15,
+	// 	Type_NTime:     15,
 	// }
 	// db.Model(&L_Type{}).Create(&L_Type1)
 
 	// L_Type2 := L_Type{
-	// 	Type_Name: "ลากิจส่วนตัว",
+	// 	Type_Name:      "ลากิจส่วนตัว",
 	// 	Type_Condition: "ต้องยื่นเอกสารล่วงหน้าก่อน 3 วัน",
-	// 	Type_NTime: 10,
+	// 	Type_NTime:     10,
 	// }
 	// db.Model(&L_Type{}).Create(&L_Type2)
 
 	// L_Type3 := L_Type{
-	// 	Type_Name: "ลาคลอดบุตร",
+	// 	Type_Name:      "ลาคลอดบุตร",
 	// 	Type_Condition: "ต้องมีสูติบัตรของบุตร",
-	// 	Type_NTime: 60,
+	// 	Type_NTime:     60,
 	// }
 	// db.Model(&L_Type{}).Create(&L_Type3)
 
 	// L_Type4 := L_Type{
-	// 	Type_Name: "ลาไปช่วยภริยาคลอดบุตร",
+	// 	Type_Name:      "ลาไปช่วยภริยาคลอดบุตร",
 	// 	Type_Condition: "เป็นภริยาโดยชอบด้วยกฎหมาย และยื่นใบลาให้หัวหน้าแผนกอนุญาต",
-	// 	Type_NTime: 15,
+	// 	Type_NTime:     15,
 	// }
 	// db.Model(&L_Type{}).Create(&L_Type4)
 
 	// L_Type5 := L_Type{
-	// 	Type_Name: "ลาเข้ารับการคัดเลือกทหาร",
+	// 	Type_Name:      "ลาเข้ารับการคัดเลือกทหาร",
 	// 	Type_Condition: "ลมีหมายเรียก (สด.35) และยื่นใบลาให้หัวหน้าแผนกอนุญาต",
-	// 	Type_NTime: 7,
+	// 	Type_NTime:     7,
 	// }
 	// db.Model(&L_Type{}).Create(&L_Type5)
 	// L_Type6 := L_Type{
-	// 	Type_Name: "ไปศึกษา ฝึกอบรม หรือดูงาน ",
+	// 	Type_Name:      "ไปศึกษา ฝึกอบรม หรือดูงาน ",
 	// 	Type_Condition: "ยื่นใบลาให้หัวหน้าแผนกอนุญาต",
-	// 	Type_NTime: 90,
+	// 	Type_NTime:     90,
 	// }
 	// db.Model(&L_Type{}).Create(&L_Type6)
 
 	// //Section
 	// Section1 := Section{
-	// 	Sec_Name: "แผนกบริการลูกค้า",
+	// 	Sec_Name:   "แผนกบริการลูกค้า",
 	// 	Sec_Salary: 11500,
 	// }
 	// db.Model(&Section{}).Create(&Section1)
 
 	// Section2 := Section{
-	// 	Sec_Name: "แผนกตรวจสอบสินค้า",
+	// 	Sec_Name:   "แผนกตรวจสอบสินค้า",
 	// 	Sec_Salary: 14900,
 	// }
 	// db.Model(&Section{}).Create(&Section2)
 
 	// Section3 := Section{
-	// 	Sec_Name: "แผนกขนส่ง",
+	// 	Sec_Name:   "แผนกขนส่ง",
 	// 	Sec_Salary: 13700,
 	// }
 	// db.Model(&Section{}).Create(&Section3)
@@ -395,40 +389,18 @@ func SetupDatabase() {
 
 	// // Car
 	// Car1 := Car{
-	// 	Car_Model: "Ranger Double Cab Raptor",
+	// 	Car_Model:          "Ranger Double Cab Raptor",
 	// 	Registation_Number: "รกช อุดรธานี 965",
 	// }
 	// db.Model(&Car{}).Create(&Car1)
 	// Car2 := Car{
-	// 	Car_Model: "Ranger Double Cab Wildtrak",
+	// 	Car_Model:          "Ranger Double Cab Wildtrak",
 	// 	Registation_Number: "ดชช อุดรธานี 564",
 	// }
 	// db.Model(&Car{}).Create(&Car2)
 	// Car3 := Car{
-	// 	Car_Model: "Ranger Double Cab Wildtrak",
+	// 	Car_Model:          "Ranger Double Cab Wildtrak",
 	// 	Registation_Number: "สวง สุโขทัย 122",
 	// }
 	// db.Model(&Car{}).Create(&Car3)
-
-
-	//Payment_method
-	// Pay1 := Kind{
-	// 	Name: "Cash",
-	// }
-	// db.Model(&Payment_method{}).Create(&Pay1)
-
-	// Pay2 := Kind{
-	// 	Name: "Banking",
-	// }
-	// db.Model(&Payment_method{}).Create(&Pay2)
-
-	// Pay3 := Kind{
-	// 	Name: "Prompt Pay",
-	// }
-	// db.Model(&Payment_method{}).Create(&Pay3)
-
-	// Pay4 := Kind{
-	// 	Name: "Debit/Credit Card",
-	// }
-	// db.Model(&Payment_method{}).Create(&Pay4)
-
+}

@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/Team16/farm_mart/entity"
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,6 +32,12 @@ func CreateStock(c *gin.Context) {
 
 	if tx := entity.DB().Where("id = ?", stock.Kind_ID).First(&kind); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "kind not found"})
+		return
+	}
+
+	// แทรกการ validate
+	if _, err := govalidator.ValidateStruct(&stock); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -108,6 +115,7 @@ func DeleteStock(c *gin.Context) {
 func UpdateStock(c *gin.Context) {
 
 	var stock entity.Stock
+	id := c.Param("id")
 	var employee entity.Employee
 	var kind entity.Kind
 	var storage entity.Storage
@@ -143,7 +151,7 @@ func UpdateStock(c *gin.Context) {
 		Storage:  storage,
 		DateTime: stock.DateTime,
 	}
-	if err := entity.DB().Create(&st).Error; err != nil {
+	if err := entity.DB().Where("id = ?", id).Updates(&st).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 

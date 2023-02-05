@@ -51,6 +51,7 @@ func TestNameNotBlank(t *testing.T) {
 	g.Expect(err.Error()).To(Equal("Name cannot be blank"))
 }
 
+// Amount
 func TestAmount(t *testing.T) {
 	g := NewGomegaWithT(t)
 	fixture := []int{
@@ -78,6 +79,7 @@ func TestAmount(t *testing.T) {
 	}
 }
 
+// Price
 func TestPrice(t *testing.T) {
 	g := NewGomegaWithT(t)
 	fixture := []float64{
@@ -105,6 +107,7 @@ func TestPrice(t *testing.T) {
 	}
 }
 
+// DateTime Past-Future
 func TestDateTimeMustNotBePast(t *testing.T) {
 	g := NewGomegaWithT(t)
 
