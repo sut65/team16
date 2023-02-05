@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/Team16/farm_mart/entity"
 	"github.com/asaskevich/govalidator"
@@ -138,5 +139,28 @@ func DiscountingStock(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	c.JSON(http.StatusOK, gin.H{"data": stock})
+}
+
+// PATCH discounting stock
+func ResetPrice(c *gin.Context) {
+	var stock entity.Stock
+	stockID := c.Param("stockID")
+	price, _ := strconv.ParseFloat(c.Param("price"), 64)
+
+	if err := entity.DB().Where("id = ?", stockID).First(&stock).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	newStock := entity.Stock{
+		Price: stock.Price + price,
+	}
+
+	if err := entity.DB().Model(&stock).Update("price", newStock.Price).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{"data": stock})
 }

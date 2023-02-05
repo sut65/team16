@@ -121,7 +121,12 @@ func main() {
 			r.POST("/discounts", controller.CreateDiscount)
 			r.PATCH("/discount/:id", controller.UpdateDiscount)
 			r.DELETE("/discount/:id", controller.DeleteDiscount)
+
+			//Discouting price Routes 
 			r.PATCH("/discounting/:id", controller.DiscountingStock)
+
+			//Reset price Routes 
+			r.PATCH("/reset_price/:stockID/:price", controller.ResetPrice)
 
 			//Discount_Type Routes
 			r.GET("/discount_types", controller.ListDiscount_Type)

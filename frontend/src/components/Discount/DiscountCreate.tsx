@@ -195,7 +195,6 @@ function DiscountCreate() {
                     setErrorMessage(res.error)
                 }
             });
-
     }
 
     return (
