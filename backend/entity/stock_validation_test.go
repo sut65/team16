@@ -106,7 +106,7 @@ func TestPrice(t *testing.T) {
 	}
 }
 
-// DateTime
+// DateTime Past-Future
 func TestDateTimeMustNotBePast(t *testing.T) {
 	g := NewGomegaWithT(t)
 
