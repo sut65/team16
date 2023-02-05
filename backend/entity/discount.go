@@ -20,7 +20,6 @@ type Discount struct {
 	Stock        Stock 				`valid:"-"`
 }
 
-
 type Discount_Type struct {
 	gorm.Model
 	Type_Name string
