@@ -79,6 +79,7 @@ func TestAmount(t *testing.T) {
 	}
 }
 
+// Price
 func TestPrice(t *testing.T) {
 	g := NewGomegaWithT(t)
 	fixture := []float64{
