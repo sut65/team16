@@ -180,9 +180,9 @@ function DeliveryCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
                 <Alert onClose={handleClose} severity="success">
-                    <div className="good-font">
+                    
                         {message}
-                    </div>
+                    
                 </Alert>
             </Snackbar>
             <Snackbar
@@ -190,9 +190,9 @@ function DeliveryCreate() {
                 open={error}
                 autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
-                    <div className="good-font">
+                    
                         {message}
-                    </div>
+                    
                 </Alert>
             </Snackbar>
             <Paper>
@@ -210,16 +210,16 @@ function DeliveryCreate() {
                             gutterBottom
 
                         >
-                            <div className="good-font">
+                            
                                 เพิ่มรายการการสั่งซื้อ
-                            </div>
+                            
                         </Typography>
                     </Box>
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                    <Grid item xs={8}>
+                    <Grid item xs={6}>
                         <p className="good-font">ชื่อ - นามสกุล ของลูกค้า</p>
                         <FormControl fullWidth variant="outlined">
                             <TextField
@@ -233,7 +233,7 @@ function DeliveryCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={8}>
+                    <Grid item xs={6}>
                         <p className="good-font">สถานที่จัดส่งสินค้า</p>
                         <FormControl fullWidth variant="outlined">
                             <TextField
@@ -318,9 +318,9 @@ function DeliveryCreate() {
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/Delivery" variant="contained">
-                            <div className="good-font-white">
+                            
                                 กลับ
-                            </div>
+                            
                         </Button>
                         <Button
                             style={{ float: "right" }}
@@ -329,9 +329,9 @@ function DeliveryCreate() {
                             color="primary"
         
                         >
-                            <div className="good-font-white">
+                            
                                 บันทึก
-                            </div>
+                            
                         </Button>
                     </Grid>
                 </Grid>

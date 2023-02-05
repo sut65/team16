@@ -132,21 +132,21 @@ function Delivery() {
         <div>
             {/* ยืนยันการลบ */}
             <Dialog open={openDelete} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการลบรายการการส่งสินค้านี้</div></DialogTitle>
+                <DialogTitle>ยืนยันการลบรายการการส่งสินค้านี้</DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
                         //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
                         onClick={deleteDelivery}
                     >
-                        <div className="good-font">
+                        
                             ยืนยัน
-                        </div>
+                        
                     </Button>
             </Dialog>
             {/* ยืนยันการแก้ไข */}
             <Dialog open={openUpdate} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการแก้ไขรายการการส่งสินค้านี้นี้</div></DialogTitle>
+                <DialogTitle>ยืนยันการแก้ไขรายการการส่งสินค้านี้นี้</DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
@@ -154,9 +154,7 @@ function Delivery() {
                         component={RouterLink}
                         to="/DeliveryUpdate"
                     >
-                        <div className="good-font">
                             ยืนยัน
-                        </div>
                     </Button>
             </Dialog>
             <Container maxWidth="lg">

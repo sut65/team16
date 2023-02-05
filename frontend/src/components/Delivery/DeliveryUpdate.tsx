@@ -206,7 +206,7 @@ function DeliveryCreate() {
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
-                        <Grid item xs={8}>
+                        <Grid item xs={6}>
                             <p className="good-font">ชื่อ - นามสกุล ของลูกค้า</p>
                             <FormControl fullWidth variant="outlined">
                                 <TextField
@@ -220,7 +220,7 @@ function DeliveryCreate() {
                             </FormControl>
                         </Grid>
 
-                        <Grid item xs={8}>
+                        <Grid item xs={6}>
                             <p className="good-font">สถานที่จัดส่งสินค้า</p>
                             <FormControl fullWidth variant="outlined">
                                 <TextField

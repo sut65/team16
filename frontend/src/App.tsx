@@ -153,6 +153,7 @@ export default function App() {
   };
 
   useEffect(() => {
+    
     getEmployee();
 
     const token = localStorage.getItem("token");
@@ -165,7 +166,6 @@ export default function App() {
     }, 500);
   }, []);
 
-
   if (!token) {
     return <SignIn />;
   }
@@ -176,6 +176,10 @@ export default function App() {
   };
 
   const theme = createTheme({
+    typography: {
+      fontFamily: "Prompt, sans-serif",
+      fontSize: 16,
+    },
     palette: {
       primary: {
         main: '#98A8F8',
