@@ -22,7 +22,7 @@ type Shelving struct {
 	Stock_ID *uint
 	Stock    Stock
 
-	Quantity int
+	Amount int
 
 	Separation   []Separation `gorm:"foreignKey:Shelving_ID"`
 	Order   []Order `gorm:"foreignKey:Shelving_ID"`
