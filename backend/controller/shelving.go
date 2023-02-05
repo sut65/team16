@@ -94,6 +94,7 @@ func ListShelvings(c *gin.Context) {
 
 }
 
+
 // DELETE /shelvings/:id
 
 func DeleteShelving(c *gin.Context) {

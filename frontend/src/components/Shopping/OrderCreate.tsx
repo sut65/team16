@@ -26,6 +26,7 @@ import { GetCurrentEmployee } from "../../services/HttpClientService";
 
 
 
+
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref
@@ -404,7 +405,7 @@ function OrderCreate() {
                             <Autocomplete
                                 disablePortal
                                 id="Stock_ID"
-                                getOptionLabel={(item: StocksInterface) => `${item.Name} ราคา ${item.Price}`}
+                                getOptionLabel={(item: StocksInterface) => `${item.ID} ${item.Name} ราคา ${item.Price}`}
                                 options={stock}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) => option.ID === value.ID}
@@ -413,6 +414,24 @@ function OrderCreate() {
                             />
                         </FormControl>
                     </Grid>
+
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">รายการสินค้า</p>
+                            <Autocomplete
+                                disablePortal
+                                id="Stock_ID"
+                                getOptionLabel={(item: IShelving) => `${item.ID} ${item.Stock.Name} ราคา ${item.Stock.Price}`}
+                                options={shelving}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) => option.ID === value.ID}
+                                onChange={(e, value) => { order.Shelving_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
+                            />
+                        </FormControl>
+                    </Grid>
+
+        
 
 
                     <Grid item xs={3}>
