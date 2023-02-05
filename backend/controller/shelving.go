@@ -30,19 +30,19 @@ func CreateShelving(c *gin.Context) {
 	}
 
 	if tx := entity.DB().Where("id = ?", shelving.Label_ID).First(&label); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "kind not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "label not found"})
 		return
 	}
 
 	if tx := entity.DB().Where("id = ?", shelving.Stock_ID).First(&stock); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "storage not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "stock not found"})
 		return
 	}
 	sv := entity.Shelving{
 		Employee: employee,
 		Label:    label,
 		Stock:    stock,
-		Quantity: shelving.Quantity,
+		Amount:   shelving.Amount,
 	}
 	if err := entity.DB().Create(&sv).Error; err != nil {
 
@@ -117,6 +117,10 @@ func DeleteShelving(c *gin.Context) {
 func UpdateShelving(c *gin.Context) {
 
 	var shelving entity.Shelving
+	id := c.Param("id")
+	var employee entity.Employee
+	var label entity.Label
+	var stock entity.Stock
 
 	if err := c.ShouldBindJSON(&shelving); err != nil {
 
@@ -126,15 +130,27 @@ func UpdateShelving(c *gin.Context) {
 
 	}
 
-	if tx := entity.DB().Where("id = ?", shelving.ID).First(&shelving); tx.RowsAffected == 0 {
-
-		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
-
+	if tx := entity.DB().Where("id = ?", shelving.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
-
 	}
 
-	if err := entity.DB().Save(&shelving).Error; err != nil {
+	if tx := entity.DB().Where("id = ?", shelving.Label_ID).First(&label); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "label not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", shelving.Stock_ID).First(&stock); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "stock not found"})
+		return
+	}
+	sv := entity.Shelving{
+		Employee: employee,
+		Label:    label,
+		Stock:    stock,
+		Amount:   shelving.Amount,
+	}
+	if err := entity.DB().Where("id = ?", id).Updates(&sv).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
