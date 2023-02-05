@@ -51,6 +51,7 @@ func TestNameNotBlank(t *testing.T) {
 	g.Expect(err.Error()).To(Equal("Name cannot be blank"))
 }
 
+// Amount
 func TestAmount(t *testing.T) {
 	g := NewGomegaWithT(t)
 	fixture := []int{

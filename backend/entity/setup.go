@@ -157,7 +157,7 @@ func SetupDatabase() {
 		Employee: Em1,
 		Label:    Label1,
 		Stock:    Stock2,
-		Amount 20,
+		Amount: 20,
 	}
 	db.Model(&Shelving{}).Create(&Shelving1)
 
