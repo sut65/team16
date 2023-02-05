@@ -177,6 +177,7 @@ func main() {
 			r.GET("/orders", controller.ListOrder)
 			r.GET("/order/:id", controller.GetOrder)
 			r.GET("/ordercart/:id", controller.ListOrderCart)
+			r.GET("/ordersum/:id", controller.ListOrdersum)
 			r.POST("/orders", controller.CreateOrder)
 			r.PATCH("/order/:id", controller.UpdateOrder)
 			r.DELETE("/order/:id", controller.DeleteOrder)
