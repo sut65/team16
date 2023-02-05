@@ -30,7 +30,6 @@
     fetch(apiUrl, requestOptions)
       .then((response) => response.json())
       .then((res) => {
-        console.log(res.data);
         if (res.data) {
           console.log(res.data)
           setCart (res.data);
@@ -167,13 +166,13 @@
             </Dialog>
             {/* list */}
             <Dialog open={openList} onClose={handleClose} >
-                <DialogTitle><div className="good-font">ยืนยันการเพิ่มสินค้า</div></DialogTitle>
+                <DialogTitle><div className="good-font">ยืนยันการตรวจสอบรายการสินค้า</div></DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"
                         //กด "ยืนยัน" ไปที่หน้าจ่าย
                         component={RouterLink}
-                        to="/Order"
+                        to="/OrderList"
                     >
                         <div className="good-font">
                             ยืนยัน
@@ -188,7 +187,7 @@
                         color="primary"
                         //กด "ยืนยัน" ไปที่หน้าจ่าย
                         component={RouterLink}
-                        to="/OrderUpdate"
+                        to="/OrderAdd"
                     >
                         <div className="good-font">
                             ยืนยัน

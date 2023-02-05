@@ -84,6 +84,23 @@ func ListOrderCart(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": order})
 }
 
+func ListOrdersum(c *gin.Context) {
+	var order []entity.Order
+	id := c.Param("id")
+	if err := entity.DB().Preload("Shelving").Preload("Shopping_Cart").Raw("SELECT * FROM orders WHERE shopping_cart_id = ?", id).Find(&order).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var sumPrices float64
+	for _, o := range order {
+		sumPrices += o.Prices
+	}
+
+	c.JSON(http.StatusOK, gin.H{"sumPrices": sumPrices})
+}
+
+
 // DELETE /Order/:id
 func DeleteOrder(c *gin.Context) {
 	id := c.Param("id")

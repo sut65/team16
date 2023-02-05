@@ -129,6 +129,11 @@ func UpdateSeparation(c *gin.Context) {
 		Amount:	        separationS.Amount,  
 		Status:		    separationS.Status,     
 	}
+	if _, err := govalidator.ValidateStruct(dc); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	if err := entity.DB().Where("id = ?", id).Updates(&dc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

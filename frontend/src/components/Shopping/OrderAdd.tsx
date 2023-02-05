@@ -37,9 +37,11 @@ function OrderCreate() {
     const [message, setAlertMessage] = React.useState("");
 
     const [shelving, setShelving] = React.useState<ShelvingsInterface[]>([]);
-    const [order, setOder] = React.useState<OrderInterface>({});
+    const [order, setOrder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
     const [stock, setStock] = React.useState<StocksInterface[]>([]);
+    const [sumprice, setSumprice] = React.useState(0);
+    const [orderPrice, setOrerPrice] = React.useState(0);
 
 
     const apiUrl = "http://localhost:8080";
@@ -67,15 +69,19 @@ function OrderCreate() {
     ) => {
         const id = event.target.id as keyof typeof OrderCreate;
         const { value } = event.target;
-        setOder({ ...order, [id]: value });
+        setOrder({ ...order, [id]: value });
     };
 
-    const handleChange = (event: SelectChangeEvent) => {
-        const name = event.target.name as keyof typeof order;
-        setOder({
-            ...order,
-            [name]: event.target.value,
-        });
+    const handleInputPrice = (
+        event: React.ChangeEvent<{ id?: string; value: any }>
+    ) => {
+        const id = event.target.id as keyof typeof OrderCreate;
+        const { value } = event.target;
+        setOrder({ ...order, [id]: value });
+        setOrerPrice(value);
+        console.log("Price: " + orderPrice);
+        console.log("carttotal: " + sumprice);
+        console.log("sum: " + (Number(sumprice) + Number(orderPrice)));
     };
 
     const getStock = async () => {
@@ -108,6 +114,16 @@ function OrderCreate() {
         getShelving();
         getStock();
     }, []);
+
+    fetch(`${apiUrl}/ordersum/${cartID}`, requestOptions)
+        .then((response) => response.json())
+        .then(data => {
+            let sumPrices = data.sumPrices;
+            setSumprice(sumPrices);
+            console.log(sumPrices)
+            // Use the sumPrices variable as needed
+            
+    });
 
     const convertType = (data: string | number | undefined) => {
         let val = typeof data === "string" ? parseInt(data) : data;
@@ -153,6 +169,35 @@ function OrderCreate() {
                 setAlertMessage(res.message);
                 setError2(true);
               }
+    }
+
+    async function sum() {
+        let price = Number(sumprice) + Number(orderPrice)
+        let data = {
+            Total: price,
+            Status_ID: 1,
+        };
+        console.log(data)
+
+        const requestOptions = {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`${apiUrl}/cart/${cartID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setErrorMessage("")            
+                } else {
+                    setErrorMessage(res.error)
+                }
+            });
+
     }
 
     return (
@@ -268,7 +313,7 @@ function OrderCreate() {
                                     shrink: true,
                                 }}
                                 value={order.Prices || ""}
-                                onChange={handleInputChange}
+                                onChange={handleInputPrice}
                             />
                         </FormControl>
                     </Grid>
@@ -276,7 +321,10 @@ function OrderCreate() {
                     <Grid item xs={12}>
                         <Button
                             style={{ display: "flex", justifyContent: "center", margin: "0 auto" }}
-                            onClick={addproduct}
+                            onClick={async () => {
+                                await addproduct();
+                                await sum();
+                            }}
                             variant="contained"
                             color="primary"
                         >

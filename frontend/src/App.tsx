@@ -44,9 +44,9 @@ import Leave from "./components/Leave/Leave";
 import LeaveCreate from "./components/Leave/LeaveCreate";
 import SeparationShow from "./components/apisit/separationShow";
 import SeparationCreate from "./components/apisit/separationCreate";
-import Shopping from "./components/Shopping/Shopping";
+import OrderList from "./components/Shopping/OrderList";
 import OrderCreate from "./components/Shopping/OrderCreate";
-import OrderUpdate from "./components/Shopping/OrderUpdate";
+import OrderAdd from "./components/Shopping/OrderAdd";
 import Cart from "./components/Shopping/Cart";
 import Delivery from "./components/Delivery/Delivery";
 import DeliveryCreate from "./components/Delivery/DeliveryCreate";
@@ -303,9 +303,9 @@ export default function App() {
                   <Route path="/commentShow" element={<CommentShow />} />
                   <Route path="/commentCreate" element={<CommentCreate />} />
                   <Route path="/commentUpdate" element={<CommentUpdate />} />
-                  <Route path="/Order" element={<Shopping />} />
+                  <Route path="/OrderList" element={<OrderList />} />
                   <Route path="/OrderCreate" element={<OrderCreate />} />
-                  <Route path="/OrderUpdate" element={<OrderUpdate />} />
+                  <Route path="/OrderAdd" element={<OrderAdd />} />
                   <Route path="/Cart" element={<Cart />} />
                   <Route path="/Payment" element={<Payment />} />
                   <Route path="/PaymentCreate" element={<PaymentCreate />} />
