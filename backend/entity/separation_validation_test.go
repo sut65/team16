@@ -60,43 +60,26 @@ func TestStatusNotBeBank(t *testing.T) {
 		g.Expect(err).ToNot(BeNil())
 		g.Expect(err.Error()).To(Equal("สถานะต้องไม่เป็นค่าว่าง"))
 	})
-	// sep := Separation{
-	// 	Date_Out: time.Now(),
-	// 	Amount:   2,
-	// 	Status:   "",
-	// }
-
-	// // ตรวจสอบด้วย govalidator
-	// ok, err := govalidator.ValidateStruct(sep)
-
-	// // ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-	// g.Expect(ok).ToNot(BeTrue())
-
-	// // err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-	// g.Expect(err).ToNot(BeNil())
-
-	// // err.Error ต้องมี error message แสดงออกมา
-	// g.Expect(err.Error()).To(Equal("Status cannot be blank"))
+	
 }
 
-// func TestEmailMustBeValid(t *testing.T) {
-// 	g := NewGomegaWithT(t)
+func TestStatusMustBePlusOrNegative(t *testing.T) {
+	g := NewGomegaWithT(t)
 
-// 	user := User{
-// 		Name:     "Abc",
-// 		Email:    "qwe#123", // ผิด
-// 		Password: "111",
-// 		Role:     "employee",
-// 	}
+	t.Run("Status must be positive", func(t *testing.T) {
+		sep := Separation{
+			Date_Out: time.Now(),
+			Amount:   2,
+			Status:   "",
+		}
 
-// 	ok, err := govalidator.ValidateStruct(user)
+		ok, err := govalidator.ValidateStruct(sep)
 
-// 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-// 	g.Expect(ok).ToNot(BeTrue())
+		g.Expect(ok).NotTo(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("กรุณากรอก + หรือ - เท่านั้น"))
+	})
+	
+}
 
-// 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-// 	g.Expect(err).ToNot(BeNil())
 
-// 	// err.Error ต้องมี error message แสดงออกมา
-// 	g.Expect(err.Error()).To(Equal("Email: qwe#123 does not validate as email"))
-// }

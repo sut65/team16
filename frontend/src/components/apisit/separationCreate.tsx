@@ -105,18 +105,6 @@ function SeparationCreate() {
             });
     };
     
-    // const getEmployee = async () => {
-    //     fetch(`${apiUrl}/emloyees`, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((res) => {
-    //             if (res.data) {
-    //                 console.log(res.data)
-    //                 setEmployee(res.data);
-    //             }
-    //             else { console.log("NO DATA") }
-    //         });
-    // };
-
     const getEmployee = async () => {
         let res = await GetCurrentEmployee();
         sep.Employee_ID = res.ID;
@@ -126,14 +114,6 @@ function SeparationCreate() {
         }
     };
 
-    // const getAdmin = async () => {
-    //     let res = await GetCurrentAdmin();
-    //     activityHis.ADMIN_ID = res.ID;
-    //     if (res) {
-    //         setAdmin(res);
-    //         console.log(res)
-    //     }
-    // };
 
     useEffect(() => {
         getReason();
