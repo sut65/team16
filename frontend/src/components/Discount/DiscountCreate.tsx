@@ -37,6 +37,7 @@ function DiscountCreate() {
     const [message, setAlertMessage] = React.useState("");
     const [salePrice, setSalePrice] = React.useState(0);
     const [disPrice, setDisPrice] = React.useState(0);
+    const [stockID, setStockID] = React.useState(0);
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [stock, setStock] = React.useState<StocksInterface[]>([]);
     const [dt, setDt] = React.useState<Discount_Type_Interface[]>([]);
@@ -130,6 +131,7 @@ function DiscountCreate() {
     };
 
     async function submit() {
+        console.log("stock ID: " + stockID)
         let data = {
             Discount_Price: typeof discount.Discount_Price === "string" ? parseInt(discount.Discount_Price) : 0,
             Discount_s: discount.Discount_s,
@@ -147,7 +149,7 @@ function DiscountCreate() {
             },
             body: JSON.stringify(data),
         };
-        let res = await fetch(`${apiUrl}/discounts`, requestOptions)
+        let res = await fetch(`${apiUrl}/discounts/${stockID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -163,6 +165,7 @@ function DiscountCreate() {
         if (res.status) {
             setAlertMessage("บันทึกข้อมูลสำเร็จ");
             setSuccess(true);
+            discounting();
         } else {
             setAlertMessage(res.message);
             setError(true);
@@ -278,6 +281,7 @@ function DiscountCreate() {
                                     discount.Stock_ID = value?.ID;
                                     if (value) {
                                         setDisPrice(value.Price)
+                                        setStockID(value.ID)
                                     };
                                     console.log("Stock Price: " + disPrice);
                                 }}
@@ -332,6 +336,7 @@ function DiscountCreate() {
                             <p className="good-font">วันที่เริ่มลดราคา</p>
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DatePicker
+                                    // disabled
                                     value={discount.Discount_s}
                                     onChange={(newValue) => {
                                         setDiscount({
@@ -371,10 +376,7 @@ function DiscountCreate() {
                         </Button>
                         <Button
                             style={{ float: "right" }}
-                            onClick={async () => {
-                                await submit();
-                                await discounting();
-                            }}
+                            onClick={submit}
                             variant="contained"
                             color="primary"
                         >

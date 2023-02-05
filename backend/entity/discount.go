@@ -8,9 +8,9 @@ import (
 
 type Discount struct {
 	gorm.Model
-	Discount_Price float64
-	Discount_s     time.Time
-	Discount_e     time.Time
+	Discount_Price float64		`valid:"required~กรุณากรอกราคาที่ลด,range(1|1000)~กรุณากรอกราคาที่ลดอยู่ในช่วง 1-1000"`
+	Discount_s     time.Time	`valid:"Past~วันที่เริ่มลดราคาต้องไม่เป็นวันที่ผ่านมาแล้ว, Future~วันที่เริ่มลดราคาต้องไม่เป็นวันที่ในอนาคต"`
+	Discount_e     time.Time	`valid:"Past~วันที่สิ้นสุดการลดราคาต้องไม่เป็นวันที่ผ่านมาแล้ว"`
 
 	Discount_Type_ID *uint 			`valid:"-"`
 	Discount_Type    Discount_Type 	`valid:"-"`
