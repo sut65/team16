@@ -22,8 +22,8 @@ type Shelving struct {
 	Stock_ID *uint
 	Stock    Stock
 
-	Amount int
+	Amount int `valid:"required~A number of goods must be in the range 1-20,range(1|20)~A number of goods must be in the range 1-20"`
 
-	Separation   []Separation `gorm:"foreignKey:Shelving_ID"`
-	Order   []Order `gorm:"foreignKey:Shelving_ID"`
+	Separation []Separation `gorm:"foreignKey:Shelving_ID"`
+	Order      []Order      `gorm:"foreignKey:Shelving_ID"`
 }
