@@ -421,7 +421,7 @@ function OrderCreate() {
                             <Autocomplete
                                 disablePortal
                                 id="Stock_ID"
-                                getOptionLabel={(item: IShelving) => `${item.ID} ${item.Stock.Name} ราคา ${item.Stock.Price}`}
+                                getOptionLabel={(item: ShelvingsInterface) => `${item.ID} ${item.Stock.Name} ราคา ${item.Stock.Price}`}
                                 options={shelving}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) => option.ID === value.ID}

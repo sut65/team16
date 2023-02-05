@@ -11,6 +11,8 @@ import (
 
 // POST /discount
 func CreateDiscount(c *gin.Context) {
+	stockID := c.Param("stockID")
+	var stock entity.Stock // for check price if discount price more than current price
 	var discount entity.Discount
 	var inventory entity.Stock
 	var employee entity.Employee
@@ -32,6 +34,20 @@ func CreateDiscount(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกปรเภทส่วนลด"})
 		return
 	}
+	if (discount.Discount_s.After(discount.Discount_e)){
+		c.JSON(http.StatusBadRequest, gin.H{"error": "วันที่เริ่มลดราคาต้องไม่อยู่หลังจากวันที่วันที่สิ้นสุดการลดราคา"})
+		return
+	}
+
+	if err := entity.DB().Where("id = ?", stockID).First(&stock).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if (stock.Price <= discount.Discount_Price){
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ราคาที่ลดต้องไม่ มากกว่าหรือเท่ากับ ราคาของสินค้า"})
+		return
+	}
+
 	dc := entity.Discount{
 		Discount_Price: discount.Discount_Price,             
 		Discount_s: discount.Discount_s,
