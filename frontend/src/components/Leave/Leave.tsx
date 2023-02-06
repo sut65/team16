@@ -64,7 +64,7 @@ function Leave() {
     setLeaveID(Number(params.row.ID)); 
     localStorage.setItem("Leave_ID", params.row.ID); 
   };
-//
+
   const handleClose = () => {
     setOpendelete(false)
     setOpenupdate(false)
