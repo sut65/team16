@@ -30,10 +30,15 @@ import ArticleIcon from '@mui/icons-material/Article';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 import "./styles.css"
 import Stocks from "./components/Stock/Stock";
 import StockCreate from "./components/Stock/StockCreate";
+import StockUpdate from "./components/Stock/StockUpdate";
+import Shelving from "./components/Shelving/Shelving";
+import ShelvingCreate from "./components/Shelving/ShelvingCreate";
+import ShelvingUpdate from "./components/Shelving/ShelvingUpdate";
 import Member from "./components/Member/Member";
 import MemberCreate from "./components/Member/MemberCreate";
 import Discount from "./components/Discount/Discount";
@@ -44,9 +49,9 @@ import Leave from "./components/Leave/Leave";
 import LeaveCreate from "./components/Leave/LeaveCreate";
 import SeparationShow from "./components/apisit/separationShow";
 import SeparationCreate from "./components/apisit/separationCreate";
-import Shopping from "./components/Shopping/Shopping";
+import OrderList from "./components/Shopping/OrderList";
 import OrderCreate from "./components/Shopping/OrderCreate";
-import OrderUpdate from "./components/Shopping/OrderUpdate";
+import OrderAdd from "./components/Shopping/OrderAdd";
 import Cart from "./components/Shopping/Cart";
 import Delivery from "./components/Delivery/Delivery";
 import DeliveryCreate from "./components/Delivery/DeliveryCreate";
@@ -67,7 +72,7 @@ import EmployeeattemdanceOutUpdate from "./components/Panupol/Em_Out_update";
 import CommentShow from "./components/comments/commentShow";
 import CommentCreate from "./components/comments/commentCreate";
 import CommentUpdate from "./components/comments/commentUpdate";
-import StockUpdate from "./components/Stock/StockUpdate";
+
 
 var employeeName = "";
 
@@ -134,6 +139,7 @@ const menu = [
   { name: "หน้าแรก", icon: <HomeIcon />, path: "/" },
   { name: "ตะกร้าสินค้า", icon: <AddShoppingCartIcon />, path: "/Cart" },
   { name: "สต๊อกสินค้า", icon: <InventoryIcon />, path: "/Stock" },
+  { name: "ชั้นวางสินค้า", icon: <ListAltIcon />, path: "/Shelving" },
   { name: "สมาชิก", icon: <PeopleIcon />, path: "/Member" },
   { name: "ส่วนลด", icon: <MonetizationOnIcon />, path: "/Discount" },
   { name: "แจ้งลา", icon: <ArticleIcon />, path: "/Leave" },
@@ -153,6 +159,7 @@ export default function App() {
   };
 
   useEffect(() => {
+    
     getEmployee();
 
     const token = localStorage.getItem("token");
@@ -165,7 +172,6 @@ export default function App() {
     }, 500);
   }, []);
 
-
   if (!token) {
     return <SignIn />;
   }
@@ -176,6 +182,10 @@ export default function App() {
   };
 
   const theme = createTheme({
+    typography: {
+      fontFamily: "Prompt, sans-serif",
+      fontSize: 16,
+    },
     palette: {
       primary: {
         main: '#98A8F8',
@@ -288,6 +298,9 @@ export default function App() {
                   <Route path="/Stock" element={<Stocks />} />
                   <Route path="/StockCreate" element={<StockCreate />} />
                   <Route path="/StockUpdate" element={<StockUpdate />} />
+                  <Route path="/Shelving" element={<Shelving />} />
+                  <Route path="/ShelvingCreate" element={<ShelvingCreate />} />
+                  <Route path="/ShelvingUpdate" element={<ShelvingUpdate />} />
                   <Route path="/Discount" element={<Discount />} />
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />
                   <Route path="/DiscountUpdate" element={<DiscountUpdate />} />
@@ -303,9 +316,9 @@ export default function App() {
                   <Route path="/commentShow" element={<CommentShow />} />
                   <Route path="/commentCreate" element={<CommentCreate />} />
                   <Route path="/commentUpdate" element={<CommentUpdate />} />
-                  <Route path="/Order" element={<Shopping />} />
+                  <Route path="/OrderList" element={<OrderList />} />
                   <Route path="/OrderCreate" element={<OrderCreate />} />
-                  <Route path="/OrderUpdate" element={<OrderUpdate />} />
+                  <Route path="/OrderAdd" element={<OrderAdd />} />
                   <Route path="/Cart" element={<Cart />} />
                   <Route path="/Payment" element={<Payment />} />
                   <Route path="/PaymentCreate" element={<PaymentCreate />} />

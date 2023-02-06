@@ -5,15 +5,15 @@
   font-size: large;
 }
 
+
 .good-font-white {
   font-family: "Prompt", sans-serif;
   color: #faf7f0;
   font-size: large;
 }
 
-.good-font-big {
-  font-family: "Prompt", sans-serif;
-  font-size: larger;
+.good-font-white:hover {
+  animation: wiggle 1s linear infinite;
 }
 
 .good-font-green {

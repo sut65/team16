@@ -118,7 +118,7 @@ func main() {
 			//Discount Routes
 			r.GET("/discounts", controller.ListDiscount)
 			r.GET("/discount/:id", controller.GetDiscount)
-			r.POST("/discounts", controller.CreateDiscount)
+			r.POST("/discounts/:stockID", controller.CreateDiscount)
 			r.PATCH("/discount/:id", controller.UpdateDiscount)
 			r.DELETE("/discount/:id", controller.DeleteDiscount)
 
@@ -177,6 +177,7 @@ func main() {
 			r.GET("/orders", controller.ListOrder)
 			r.GET("/order/:id", controller.GetOrder)
 			r.GET("/ordercart/:id", controller.ListOrderCart)
+			r.GET("/ordersum/:id", controller.ListOrdersum)
 			r.POST("/orders", controller.CreateOrder)
 			r.PATCH("/order/:id", controller.UpdateOrder)
 			r.DELETE("/order/:id", controller.DeleteOrder)
