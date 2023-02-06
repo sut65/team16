@@ -266,25 +266,25 @@ func SetupDatabase() {
 
 	// //Level
 	// Level1 := Level{
-	// 	Level_Name:    "General",
+	// 	Level_Name:    "ปกติ",
 	// 	Level_Pay:     59,
 	// 	Level_Benefit: "ได้รับโปรโมชั้นขั้นพื้นฐานทั่วไป",
 	// }
 	// db.Model(&Level{}).Create(&Level1)
 	// Level2 := Level{
-	// 	Level_Name:    "Veggie",
+	// 	Level_Name:    "มังสาวิรัติ",
 	// 	Level_Pay:     119,
 	// 	Level_Benefit: "ได้รับโปรโมชั่นพิเศษสำหรับสินค้าประเภทผัก ผลไม้",
 	// }
 	// db.Model(&Level{}).Create(&Level2)
 	// Level3 := Level{
-	// 	Level_Name:    "Eivit",
+	// 	Level_Name:    "เนื้อล้วนๆ",
 	// 	Level_Pay:     119,
 	// 	Level_Benefit: "ได้รับโปรโมชั่นพิเศษสำหรับสินค้าประเภทเนื้อสัตว์ นม ไข้",
 	// }
 	// db.Model(&Level{}).Create(&Level3)
 	// Level4 := Level{
-	// 	Level_Name:    "Prime",
+	// 	Level_Name:    "พระเจ้า",
 	// 	Level_Pay:     199,
 	// 	Level_Benefit: "ได้รับโปรโมชั่นพิเศษสำหรับสินค้าทุกประเภท",
 	// }

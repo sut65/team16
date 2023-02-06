@@ -71,20 +71,20 @@ function Leave() {
   };
 
   const columns: GridColDef[] = [
-    { field: "ID", headerName: "ID", width: 20, headerAlign: "center" },
-    { field: "L_Type", headerName: "Type", width: 150, headerAlign: "center", valueFormatter: (params) => params.value.Type_Name, },
-    { field: "Section", headerName: "Section", width: 150, headerAlign: "center", valueFormatter: (params) => params.value.Sec_Name, },
-    { field: "Doc_Reason", headerName: "Reason", width: 150, headerAlign: "center" },
+    { field: "ID", headerName: "ID", width: 50 },
+    { field: "L_Type", headerName: "ประเภทการลา", width: 150, valueFormatter: (params) => params.value.Type_Name, },
+    { field: "Section", headerName: "แผนก", width: 160, valueFormatter: (params) => params.value.Sec_Name, },
+    { field: "Doc_Reason", headerName: "รายละเอียด / เหตผลการลา", width: 220 },
     {
-      field: "Doc_DateS", headerName: "Start Date", width: 80,
-      renderCell: (params) => moment(params.row.date_rec).format('YY-MM-DD')
+      field: "Doc_DateS", headerName: "วันเริ่มลา", width: 100,
+      renderCell: (params) => moment(params.row.Doc_DateS).format('YY-MM-DD')
     },
     {
-      field: "Doc_DateE", headerName: "End Date", width: 80,
-      renderCell: (params) => moment(params.row.date_rec).format('YY-MM-DD')
+      field: "Doc_DateE", headerName: "วันสิ้นสุดลา", width: 100,
+      renderCell: (params) => moment(params.row.Doc_DateE).format('YY-MM-DD')
     },
-    { field: "Doc_Cont", headerName: "Contact", width: 120, headerAlign: "center" },
-    { field: "edit", headerName: "แก้ไข", width: 80,
+    { field: "Doc_Cont", headerName: "เบอร์ติดต่อ", width: 140 },
+    { field: "edit", headerName: "แก้ไข", width: 90,
       renderCell: () => {
           return (
               <Button
@@ -94,7 +94,7 @@ function Leave() {
                   startIcon={<EditIcon />}
               > </Button>
               );},},
-    { field: "delete", headerName: "ลบ", width: 80,
+    { field: "delete", headerName: "ลบ", width: 90,
       renderCell: () => {
           return (
               <Button
