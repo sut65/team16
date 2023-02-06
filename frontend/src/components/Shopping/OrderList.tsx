@@ -14,9 +14,12 @@ import { Dialog, DialogTitle } from "@mui/material";
 function Order() {
     const [order, setOrder] = React.useState<OrderInterface[]>([]);
     const [orderID, setOrderID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
+    const [price, setPrice] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
 
     let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
+    let Total = localStorage.getItem("Total"); // เรีกใช้ค่าจากlocal storage 
+
     // โหลดข้อมูลทั้งหมดใส่ datagrid
     const getOrder = async () => {
         const apiUrl = `http://localhost:8080/ordercart/${cartID}`;
@@ -38,6 +41,39 @@ function Order() {
                 else { console.log("NO DATA") }
             });
     };
+    let minus = Number(Total) - Number(price)
+    console.log("total " + Total)
+    console.log("price " + price)
+    console.log("minus " + minus)
+
+
+    async function sum() {   
+        let data = {
+            Total: minus,
+            Status_ID: 1,
+        };
+        console.log(minus)
+
+        const requestOptions = {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`http://localhost:8080/cart/${cartID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log("reset price ID: " + data.Total)
+                }
+                else { console.log("NO DATA") }
+
+            });
+
+    }
 
     // function ลบข้อมูล
     const deleteOrder = async () => {
@@ -58,13 +94,16 @@ function Order() {
                 else { console.log("NO DATA") }
             });
         handleClose();
+        sum();
         getOrder();
     }
 
     // เมื่อมีการคลิ๊กที่แถวใดแถวหนึ่งในDataGrid functionนี้จะsetค่าIDของข้อมูลที่ต้องการ(ในกรณีนี้คือOrderID)เพื่อรอสำหรับการแก้ไข/ลบ
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
         setOrderID(Number(params.row.ID)); //setเพื่อรอการลบ
+        setPrice(Number(params.row.Prices)); //setเพื่อรอการลบ
         localStorage.setItem("orderID", params.row.ID); //setเพื่อการแก้ไข
+        console.log(price)
     };
 
      // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
