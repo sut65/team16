@@ -319,7 +319,7 @@ async function submit() {
 
          <Grid item xs={12}>
            <Button component={RouterLink} to="/Leave" variant="contained">
-             Back
+           <div className="good-font-white"> ย้อนกลับ </div>
            </Button>
            <Button
              style={{ float: "right" }}
@@ -327,7 +327,7 @@ async function submit() {
              variant="contained"
              color="primary"
            >
-             Submit
+            <div className="good-font-white"> ยืนยันการแก้ไขข้อมูล </div>
            </Button>
          </Grid>
          </Grid>

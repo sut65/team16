@@ -189,7 +189,7 @@ async function submit() {
          display="flex"
          sx={{ marginTop: 2,backgroundColor: 'lavender', }}
        >
-         <Box sx={{ paddingX: 2, paddingY: 2,height: 70}}>
+         <Box sx={{ paddingX: 2, paddingY:2,height: 70}}>
            <Typography
              component="h2"
              variant="h6"
@@ -305,7 +305,7 @@ async function submit() {
 
          <Grid item xs={12}>
            <Button component={RouterLink} to="/Member" variant="contained">
-           <p className="good-font-white"> ย้อนกลับ </p>
+           <div className="good-font-white"> ย้อนกลับ </div>
            </Button>
            <Button
              style={{ float: "right" }}
@@ -313,7 +313,7 @@ async function submit() {
              variant="contained"
              color="primary"
            >
-            <p className="good-font-white"> ยืนยันการบันทึกข้อมูล </p>
+            <div className="good-font-white"> ยืนยันการบันทึกข้อมูล </div>
            </Button>
          </Grid>
        </Grid>
