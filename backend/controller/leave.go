@@ -20,15 +20,15 @@ func CreateLeave(c *gin.Context) {
 		return
 	}
 	if tx := entity.DB().Where("id = ?", leave.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเข้าสู่ระบบเพื่อเลือกพนักงาน"})
 		return
 	}
 	if tx := entity.DB().Where("id = ?", leave.Section_ID).First(&section); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "gender not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาระบุแผนก"})
 		return
 	}
 	if tx := entity.DB().Where("id = ?", leave.L_Type_ID).First(&l_type); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "level not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกประเภทการลา"})
 		return
 	}
 	lf := entity.Leave{
@@ -46,6 +46,10 @@ func CreateLeave(c *gin.Context) {
 	}
 	if err := entity.DB().Create(&lf).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if (leave.Doc_DateS.After(leave.Doc_DateE)){
+		c.JSON(http.StatusBadRequest, gin.H{"error": "วันที่เริ่มลาต้องไม่อยู่หลังจากวันที่วันที่สิ้นสุดการลา"})
 		return
 	}
 	c.JSON(http.StatusCreated, gin.H{"data": lf})

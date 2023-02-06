@@ -23,15 +23,15 @@ type L_Type struct {
 
 type Leave struct {
 	gorm.Model
-	Doc_Reason string
-	Doc_DateS  time.Time
-	Doc_DateE  time.Time
-	Doc_Cont   string
+	Doc_Reason string `json:"Doc_Reason" valid:"required~กรุณากรอกเหตุผลการลา / รายละเอียด"`
+	Doc_DateS  time.Time `valid:"Past~วันที่เริ่มลาต้องไม่เป็นวันที่ผ่านมาแล้ว"`
+	Doc_DateE  time.Time `valid:"Past~วันที่สิ้นสุดการลาต้องไม่เป็นวันที่ผ่านมาแล้ว"`
+	Doc_Cont   string `json:"Doc_Cont" valid:"required~กรุณากรอกเบอร์ติดต่อ"`
 
-	Section_ID  *uint
-	Section     Section
-	L_Type_ID   *uint
-	L_Type      L_Type
-	Employee_ID *uint
-	Employee    Employee
-}
+	Section_ID  *uint `valid:"-"`
+	Section     Section `valid:"-"`
+	L_Type_ID   *uint `valid:"-"`
+	L_Type      L_Type `valid:"-"`
+	Employee_ID *uint `valid:"-"`
+	Employee    Employee `valid:"-"`
+} 

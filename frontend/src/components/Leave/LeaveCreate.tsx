@@ -41,6 +41,8 @@ function LeaveCreate() {
  const [l_type, setL_Type] = React.useState<L_TypeInterface[]>([]);
  const [section, setSection] = React.useState<SectionInterface[]>([]);
 
+ const [message, setAlertMessage] = React.useState("");
+
  const handleClose = (
    event?: React.SyntheticEvent | Event,
    reason?: string
@@ -145,17 +147,27 @@ async function submit() {
        body: JSON.stringify(data),
    };
 
-   fetch(`${apiUrl}/leaves`, requestOptions)
+   let res = await fetch(`${apiUrl}/leaves`, requestOptions)
        .then((response) => response.json())
        .then((res) => {
            if (res.data) {
                setSuccess(true);
                setErrorMessage("")
+               return { status: true, message: res.data };
            } else {
                setError(true);
                setErrorMessage(res.error)
+               return { status: false, message: res.error };
            }
        });
+
+       if (res.status) {
+        setAlertMessage("บันทึกข้อมูลสำเร็จ");
+        setSuccess(true);
+      } else {
+        setAlertMessage(res.message);
+        setError(true);
+      }
 }
 
  return (
@@ -168,12 +180,16 @@ async function submit() {
        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
      >
        <Alert onClose={handleClose} severity="success">
-         บันทึกข้อมูลสำเร็จ
+       <div className="good-font">
+          {message}
+       </div>
        </Alert>
      </Snackbar>
      <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
        <Alert onClose={handleClose} severity="error">
-         บันทึกข้อมูลไม่สำเร็จ
+       <div className="good-font">
+          {message}
+       </div>
        </Alert>
      </Snackbar>
      <Paper>
@@ -237,7 +253,7 @@ async function submit() {
              <TextField
                id="Doc_Reason"
                variant="outlined"
-               placeholder="Placeholder"
+               placeholder=""
                multiline
                type="string"
                size="medium"
