@@ -141,7 +141,7 @@ function Leave() {
                     </Button>
             </Dialog>
 
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Box
           display="flex"
           sx={{ marginTop: 2, }}

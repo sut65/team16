@@ -67,13 +67,13 @@ const handleClose = () => {
 };
 
  const columns: GridColDef[] = [
-   { field: "ID", headerName: "ID", width: 50,  headerAlign:"center" },
-   { field: "Mem_Name", headerName: "Name", width: 200, headerAlign:"center" },
-   { field: "Mem_Age", headerName: "Age", width: 80, headerAlign:"center" },
-   { field: "Mem_Tel", headerName: "Phone number", width: 150, headerAlign:"center" },
-   { field: "Gender", headerName: "Gender", width: 100, headerAlign:"center",valueFormatter: (params)=>params.value.Gender_Name },
-   { field: "Level", headerName: "Level", width: 100, headerAlign:"center" ,valueFormatter: (params)=>params.value.Level_Name},
-   { field: "edit", headerName: "แก้ไข", width: 80,
+   { field: "ID", headerName: "ID", width: 50 },
+   { field: "Mem_Name", headerName: "ชื่อ - นามสกุล", width: 250 },
+   { field: "Mem_Age", headerName: "อายุ", width: 100 },
+   { field: "Mem_Tel", headerName: "เบอร์โทรศัพท์", width: 200},
+   { field: "Gender", headerName: "เพศ" , valueFormatter: (params)=>params.value.Gender_Name },
+   { field: "Level", headerName: "ระดับสมาชิก", width: 150 , valueFormatter: (params)=>params.value.Level_Name},
+   { field: "edit", headerName: "แก้ไข", width: 100,
       renderCell: () => {
           return (
               <Button
@@ -83,7 +83,7 @@ const handleClose = () => {
                   startIcon={<EditIcon />}
               > </Button>
               );},},
-    { field: "delete", headerName: "ลบ", width: 80,
+    { field: "delete", headerName: "ลบ", width: 100,
       renderCell: () => {
           return (
               <Button
@@ -130,7 +130,7 @@ const handleClose = () => {
                </Button>
        </Dialog>
        
-     <Container maxWidth="md">
+     <Container maxWidth="lg">
        <Box
          display="flex"
          sx={{ marginTop: 2,}}
