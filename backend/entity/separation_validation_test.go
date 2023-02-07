@@ -25,23 +25,26 @@ func TestAmountNotBeBank(t *testing.T) {
 		g.Expect(err).ToNot(BeNil())
 		g.Expect(err.Error()).To(Equal("จำนวนต้องไม่เป็นค่าว่าง"))
 	})
-	// sep := Separation{
-	// 	Date_Out: time.Now(),
-	// 	Amount:   5,
-	// 	Status:   "+",
-	// }
 
-	// // ตรวจสอบด้วย govalidator
-	// ok, err := govalidator.ValidateStruct(sep)
+}
 
-	// // ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-	// g.Expect(ok).ToNot(BeTrue())
+func TestAmountMustBePositive(t *testing.T) {
+	g := NewGomegaWithT(t)
 
-	// // err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-	// g.Expect(err).ToNot(BeNil())
+	t.Run("Amount must be positive", func(t *testing.T) {
+		sep := Separation{
+			Date_Out: time.Now(),
+			Amount:   2,
+			Status:   "",
+		}
 
-	// // err.Error ต้องมี error message แสดงออกมา
-	// g.Expect(err.Error()).To(Equal("Amount cannot be blank"))
+		ok, err := govalidator.ValidateStruct(sep)
+
+		g.Expect(ok).NotTo(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("กรุณากรอกจำนวนเต็มบวกเท่านั้น"))
+	})
+
 }
 
 func TestStatusNotBeBank(t *testing.T) {
@@ -81,5 +84,8 @@ func TestStatusMustBePlusOrNegative(t *testing.T) {
 	})
 	
 }
+
+
+
 
 
