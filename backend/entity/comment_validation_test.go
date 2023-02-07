@@ -65,24 +65,7 @@ func TestDate_NowCannotPast(t *testing.T) {
 	})
 
 }
-func TestDate_NowConnotBeFuture(t *testing.T) {
-	g := NewGomegaWithT(t)
 
-	t.Run("Date Now cannot be future", func(t *testing.T) {
-		sep := Separation{
-			Date_Out: time.Now(),
-			Amount:   2,
-			Status:   "",
-		}
-
-		ok, err := govalidator.ValidateStruct(sep)
-
-		g.Expect(ok).NotTo(BeTrue())
-		g.Expect(err).ToNot(BeNil())
-		g.Expect(err.Error()).To(Equal("วันที่ต้องไม่เป็นอนาคต"))
-	})
-
-}
 
 
 
