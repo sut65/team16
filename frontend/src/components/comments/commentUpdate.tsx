@@ -35,6 +35,8 @@ function CommentUpdate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [message, setAlertMessage] = React.useState("");
+
 
     const [type_com, setType_Com] = React.useState<Type_CommentInterface[]>([]);
     const [review_point, setReview_Point] = React.useState<Review_pointInterface[]>([]);
@@ -149,17 +151,26 @@ function CommentUpdate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/comment/${commentID}`, requestOptions) // แนบIDไปด้วย
+        let res = await fetch(`${apiUrl}/comment/${commentID}`, requestOptions) // แนบIDไปด้วย
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setSuccess(true);
                     setErrorMessage("")
+                    return { status: true, message: res.data };
                 } else {
                     setError(true);
                     setErrorMessage(res.error)
+                    return { status: false, message: res.error };
                 }
             });
+            if (res.status) {
+                setAlertMessage("เพิ่มข้อมูลเสร็จสิ้น");
+                setSuccess(true);
+            } else {
+                setAlertMessage(res.message);
+                setError(true);
+            }
     }
 
     return (
@@ -172,14 +183,14 @@ function CommentUpdate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                        การแก้ไขเสร็จสิ้น
+                        {message}
                     </div>
                 </Alert>
             </Snackbar>
-            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+            <Snackbar open={error} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                        การแก้ไขไม่สำเร็จ
+                        {message}
                     </div>
                 </Alert>
             </Snackbar>

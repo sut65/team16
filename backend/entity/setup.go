@@ -189,26 +189,35 @@ func SetupDatabase() {
 
 	// ReviewP1 := &Review_Point{
 	// 	Point: 1,
+	//  Point_Name: "ไม่พอใจ",
 	// }
 	// db.Model(&Review_Point{}).Create(&ReviewP1)
 
 	// ReviewP2 := &Review_Point{
 	// 	Point: 2,
+	//  Point_Name: "พอใจน้อย",
+
 	// }
 	// db.Model(&Review_Point{}).Create(&ReviewP2)
 
 	// ReviewP3 := &Review_Point{
 	// 	Point: 3,
+	//  Point_Name: "พอใช้",
+
 	// }
 	// db.Model(&Review_Point{}).Create(&ReviewP3)
 
 	// ReviewP4 := &Review_Point{
 	// 	Point: 4,
+	//  Point_Name: "พอใจมาก",
+
 	// }
 	// db.Model(&Review_Point{}).Create(&ReviewP4)
 
 	// ReviewP5 := &Review_Point{
 	// 	Point: 5,
+	//  Point_Name: "พอใจมากที่สุด",
+
 	// }
 	// db.Model(&Review_Point{}).Create(&ReviewP5)
 

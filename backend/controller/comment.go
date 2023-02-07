@@ -130,6 +130,11 @@ func UpdateComment(c *gin.Context) {
 		Date_Now:      		commentS.Date_Now,
 		Bought_now:	        commentS.Bought_now,  
 	}
+	// ขั้นตอนการ validate ที่นำมาจาก unit test
+	if _, err := govalidator.ValidateStruct(dc); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	if err := entity.DB().Where("id = ?", id).Updates(&dc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
