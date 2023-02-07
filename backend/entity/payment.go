@@ -14,13 +14,14 @@ type Payment_method struct {
 
 type Payment struct {
 	gorm.Model
-	Time              time.Time
-	Paytotal          float64
-	Shopping_Cart_ID  *uint
-	Shopping_Cart     Shopping_Cart
-	Payment_method_ID *uint
-	Payment_method    Payment_method
-	Employee_ID       *uint
-	Employee          Employee
-	Delivery          []Delivery `gorm:"foreignKey:Payment_ID"`
+	Time              time.Time			`valid:"Past~วันที่ต้องเป็นปัจจุบัน,Future~วันที่ต้องเป็นปัจจุบัน"`
+	Paytotal          float64			`valid:"required~ระบุราคา,range(1|1000000)~ยอดรวมอยู่ในช่วง (1-1000000)"` 
+	Note			  string			`valid:"stringlength(0|64)~อักขระไม่เกิน 64 ตัว"`
+	Shopping_Cart_ID  *uint				`valid:"-"`
+	Shopping_Cart     Shopping_Cart		`gorm:"references:id" valid:"-"`
+	Payment_method_ID *uint				`valid:"-"`
+	Payment_method    Payment_method	`gorm:"references:id" valid:"-"`
+	Employee_ID       *uint				`valid:"-"`
+	Employee          Employee			`gorm:"references:id" valid:"-"`
+	Delivery          []Delivery		`gorm:"foreignKey:Payment_ID"`
 }

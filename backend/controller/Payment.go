@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/Team16/farm_mart/entity"
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,7 +30,7 @@ func CreatePayment(c *gin.Context) {
 
 	// 11: ค้นหา Payment_method ด้วย id
 	if tx := entity.DB().Where("id = ?", payment.Payment_method_ID).First(&method); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Payment_method not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกช่องทางการชำระ"})
 		return
 	}
 
@@ -42,12 +43,17 @@ func CreatePayment(c *gin.Context) {
 	// 12: สร้าง Payment
 	sc := entity.Payment{
 		Paytotal:       payment.Paytotal,
+		Note: 			payment.Note,
 		Time:           payment.Time,
 		Shopping_Cart:  cart,     // โยงความสัมพันธ์กับ Entity Shopping_Cart
 		Payment_method: method,   // โยงความสัมพันธ์กับ Entity Payment_method
 		Employee:       employee, // โยงความสัมพันธ์กับ Entity Employee
 	}
 	payment.Time = payment.Time.Local()
+	if _, err := govalidator.ValidateStruct(sc); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	// 13: บันทึก
 	if err := entity.DB().Create(&sc).Error; err != nil {
@@ -108,22 +114,27 @@ func UpdatePayment(c *gin.Context) {
 		return
 	}
 	if tx := entity.DB().Where("id = ?", payment.Payment_method_ID).First(&method); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Shopping_Cart_ID not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบช่องทางการชำระ"})
 		return
 	}
 	if tx := entity.DB().Where("id = ?", payment.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Shopping_Cart_ID not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Employee not found"})
 		return
 	}
 
 	sc := entity.Payment{
 		Paytotal:       payment.Paytotal,
 		Time:           payment.Time,
+		Note: 			payment.Note,
 		Shopping_Cart:  cart,     
 		Payment_method: method,   
 		Employee:       employee, 
 	}
 	payment.Time = payment.Time.Local()
+	if _, err := govalidator.ValidateStruct(sc); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	
 	if err := entity.DB().Where("id = ?", id).Updates(&sc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

@@ -10,6 +10,7 @@
   import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
   import PaymentIcon from '@mui/icons-material/Payment';
   import { Dialog, DialogTitle } from "@mui/material";
+  import pay from "../Payment/pay";
 
   function Cart() {
   const [cart, setCart] = React.useState<CartInterface[]>([]);
@@ -174,6 +175,7 @@
                         color="primary"
                         //กด "ยืนยัน" ไปที่หน้าจ่าย
                         component={RouterLink}
+                        
                         to="/OrderList"
                     >
                         <div className="good-font">

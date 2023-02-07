@@ -34,16 +34,17 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function PaymentCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
-    const [total, setTotal] = React.useState(0)
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [message, setAlertMessage] = React.useState("");
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [methods, setMethod] = React.useState<Payment_methodInterface[]>([]);
     const [cart, setCart] = React.useState<CartInterface>();
-    const [carts, setCarts] = React.useState<CartInterface[]>([]);
     const [payment, setPayment] = React.useState<PaymentInterface>({
         Time: new Date(),
     });
+    let Total = localStorage.getItem("Total"); // เรีกใช้ค่าจากlocal storage 
+    let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
 
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -98,12 +99,8 @@ function PaymentCreate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    let total = 0;
-                    for (let item of res.data) {
-                        total += item.Total;
-                    }
+                    console.log(res.data)
                     setCart(res.data);
-                    setTotal(total);
                 }
                 else { console.log("NO DATA") }
             });
@@ -119,7 +116,6 @@ function PaymentCreate() {
         }
     };
 
-    let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
 
     useEffect(() => {
         getEmployee();
@@ -134,9 +130,9 @@ function PaymentCreate() {
 
     async function submit() {
         let data = {
-            Paytotal: total,
-            //Paytotal: typeof payment.Paytotal === "string" ? parseInt(payment.Paytotal) : 0,
+            Paytotal: Number(Total),
             Time: payment.Time,
+            Note: payment.Note ?? "",
             Shopping_Cart_ID: Number(cartID),
             Payment_method_ID: convertType(payment.Payment_method_ID),
             Employee_ID: convertType(payment.Employee_ID),
@@ -153,17 +149,26 @@ function PaymentCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/payments`, requestOptions)
+        let res = await fetch(`${apiUrl}/payments`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setSuccess(true);
                     setErrorMessage("")
+                    return { status: true, message: res.data };
                 } else {
                     setError(true);
                     setErrorMessage(res.error)
+                    return { status: false, message: res.error };
                 }
             });
+            if (res.status) {
+                setAlertMessage("บันทึกสำเร็จ");
+                setSuccess(true);
+              } else {
+                setAlertMessage(res.message);
+                setError(true);
+              }
     }
 
     async function pay() {
@@ -203,7 +208,7 @@ function PaymentCreate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                        บันทึกข้อมูลสำเร็จ
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -211,7 +216,7 @@ function PaymentCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                        บันทึกข้อมูลไม่สำเร็จ
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -312,7 +317,19 @@ function PaymentCreate() {
                         </FormControl>
                     </Grid>
 
-
+                    <Grid item xs={12}>
+                        <p className="good-font">หมายเหตุ</p>
+                        <FormControl fullWidth variant="outlined">
+                            <TextField
+                            id="Note"
+                            variant="outlined"
+                            type="string"
+                            size="medium"
+                            value={payment.Note || ""}
+                            onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/Cart" variant="contained">

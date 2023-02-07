@@ -16,7 +16,6 @@ import { Dialog, DialogTitle } from "@mui/material";
 function Payment() {
     const [payment, setPayment] = React.useState<PaymentInterface[]>([]);
     const [paymentID, setPaymentID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
-    const [cartID, setCartID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
     const [openUpdate, setOpenupdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การแก้ไข
 
@@ -69,6 +68,7 @@ function Payment() {
         setPaymentID(Number(params.row.ID)); //setเพื่อรอการลบ
         localStorage.setItem("paymentID", params.row.ID); //setเพื่อการแก้ไข
         localStorage.setItem("cartID", params.row.Shopping_Cart_ID); //setเพื่อการแก้ไข
+        localStorage.setItem("total", params.row.Paytotal); //setเพื่อการแก้ไข
     };
 
      // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
@@ -82,27 +82,31 @@ function Payment() {
     }, []);
 
     const columns: GridColDef[] = [
-        { field: "ID", headerName: "ID", width: 50 },
-        { field: "Paytotal", headerName: "ยอดรวม", width: 80 },
+        { field: "ID", headerName: "ID", width: 50 ,headerAlign:"center", align:"center"},
         {
-            field: "Time", headerName: "วันที่ชำระสินค้า", width: 160,
-            renderCell: (params) => moment(params.row.Time).format('YY-MM-DD HH:mm:ss')
-        },
-        {
-            field: "Shopping_Cart", headerName: "ตะกร้า", width: 60,
+            field: "Shopping_Cart", headerName: "ตะกร้า", width: 60,headerAlign:"center", align:"center",
             valueFormatter: (params) => params.value.ID,
         },
+        { field: "Paytotal", headerName: "ยอดรวม", width: 80 ,headerAlign:"center", align:"center",},
         {
-            field: "Payment_method", headerName: "ช่องทางการขำระ", width: 130,
+            field: "Payment_method", headerName: "ช่องทางการขำระ", width: 150,headerAlign:"center", align:"center",
             valueFormatter: (params) => params.value.Method,
         },
         {
-            field: "Employee", headerName: "พนักงาน", width: 180,
+            field: "Time", headerName: "วันที่ชำระสินค้า", width: 180, headerAlign:"center", align:"center",
+            renderCell: (params) => moment(params.row.Time).format('YY-MM-DD HH:mm:ss')
+        },
+        {
+            field: "Note", headerName: "หมายเหตุ", width: 180,headerAlign:"center", align:"center",
+            valueFormatter: (params) => params.value.Method,
+        },
+        {
+            field: "Employee", headerName: "พนักงาน", width: 200,headerAlign:"center", align:"center",
             valueFormatter: (params) => params.value.Name,
         },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
         {
-            field: "edit", headerName: "แก้ไข", width: 100,
+            field: "edit", headerName: "แก้ไข", width: 100,headerAlign:"center", align:"center",
             renderCell: () => {
                 return (
                     <Button
@@ -116,7 +120,7 @@ function Payment() {
             },
         },
         {
-            field: "delete", headerName: "ลบ", width: 100,
+            field: "delete", headerName: "ลบ", width: 100,headerAlign:"center", align:"center",
             renderCell: () => {
                 return (
                     <Button
@@ -162,7 +166,7 @@ function Payment() {
                         </div>
                     </Button>
             </Dialog>
-            <Container maxWidth="md">
+            <Container maxWidth="lg">
                 <Box display="flex" sx={{ marginTop: 2,}}>
                     <Box flexGrow={1}>
                         <Typography
