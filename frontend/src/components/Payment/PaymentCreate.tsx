@@ -36,6 +36,7 @@ function PaymentCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [message, setAlertMessage] = React.useState("");
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [methods, setMethod] = React.useState<Payment_methodInterface[]>([]);
@@ -43,6 +44,8 @@ function PaymentCreate() {
     const [payment, setPayment] = React.useState<PaymentInterface>({
         Time: new Date(),
     });
+    const [latestCartId, setLatestCartId] = React.useState(0);
+    const [sumprice, setSumprice] = React.useState(0);
 
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -70,6 +73,14 @@ function PaymentCreate() {
             ...payment,
             [name]: event.target.value,
         });
+    };
+
+    const handleInputChange = (
+        event: React.ChangeEvent<{ id?: string; value: any }>
+    ) => {
+        const id = event.target.id as keyof typeof PaymentCreate;
+        const { value } = event.target;
+        setPayment({ ...payment, [id]: value });
     };
 
     const getPayment_method = async () => {
@@ -105,11 +116,36 @@ function PaymentCreate() {
         }
     };
 
+    const getLatestCartId = async () => {
+        fetch(`${apiUrl}/unpaids`, requestOptions)
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+                // Find the cart with the highest ID
+                let latestCart = res.data.reduce((prev: any, current: any) => {
+                    return (prev.ID > current.ID) ? prev : current
+                });
+                setLatestCartId(latestCart.ID);
+            }
+        });
+    }
+
     useEffect(() => {
         getEmployee();
         getPayment_method();
         getCart();
+        getLatestCartId();
     }, []);
+
+    fetch(`${apiUrl}/ordersum/${latestCartId}`, requestOptions)
+        .then((response) => response.json())
+        .then(data => {
+            let sumPrices = data.sumPrices;
+            setSumprice(sumPrices);
+            console.log(sumPrices)
+            // Use the sumPrices variable as needed
+            
+    });
 
     const convertType = (data: string | number | undefined) => {
         let val = typeof data === "string" ? parseInt(data) : data;
@@ -118,9 +154,10 @@ function PaymentCreate() {
 
     async function submit() {
         let data = {
-            Paytotal: payment.Shopping_Cart && payment.Shopping_Cart.Total ? payment.Shopping_Cart.Total : 0,
+            Paytotal: sumprice,
             Time: payment.Time,
-            Shopping_Cart_ID: convertType(payment.Shopping_Cart_ID),
+            Note: payment.Note ?? "",
+            Shopping_Cart_ID: latestCartId,
             Payment_method_ID: convertType(payment.Payment_method_ID),
             Employee_ID: convertType(payment.Employee_ID),
         };
@@ -136,17 +173,26 @@ function PaymentCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/payments`, requestOptions)
+        let res = await fetch(`${apiUrl}/payments`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setSuccess(true);
                     setErrorMessage("")
+                    return { status: true, message: res.data };
                 } else {
                     setError(true);
                     setErrorMessage(res.error)
+                    return { status: false, message: res.error };
                 }
             });
+            if (res.status) {
+                setAlertMessage("บันทึกสำเร็จ");
+                setSuccess(true);
+              } else {
+                setAlertMessage(res.message);
+                setError(true);
+              }
     }
     async function pay() {
         let cartID = payment.Shopping_Cart_ID;
@@ -187,7 +233,7 @@ function PaymentCreate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                        บันทึกข้อมูลสำเร็จ
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -195,7 +241,7 @@ function PaymentCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                        บันทึกข้อมูลไม่สำเร็จ
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -217,19 +263,17 @@ function PaymentCreate() {
                 </Box>
                 <Divider />
                 <Grid container spacing={3} sx={{ padding: 2 }}> 
-                    <Grid item xs={6}>
+                <Grid item xs={6}>
+                        <p className="good-font">ตะกร้าสินค้า</p>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">ตะกร้าสินค้า</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Cart_ID"
-                                getOptionLabel={(item: CartInterface) => `${item.ID}`}
-                                options={cart}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
-                                onChange={(e, value) => {  payment.Shopping_Cart_ID = value?.ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
+                            <TextField
+                            id="Shopping_Cart_ID"
+                            variant="outlined"
+                            defaultValue={latestCartId}
+                            type="string"
+                            size="medium"
+                            value={latestCartId}
+                            onChange={handleInputChange}
                             />
                         </FormControl>
                     </Grid>
@@ -266,6 +310,20 @@ function PaymentCreate() {
                                     }}
                                 />
                             </LocalizationProvider>
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <p className="good-font">หมายเหตุ</p>
+                        <FormControl fullWidth variant="outlined">
+                            <TextField
+                            id="Note"
+                            variant="outlined"
+                            type="string"
+                            size="medium"
+                            value={payment.Note || ""}
+                            onChange={handleInputChange}
+                            />
                         </FormControl>
                     </Grid>
 

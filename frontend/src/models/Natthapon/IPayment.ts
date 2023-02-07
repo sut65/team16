@@ -6,6 +6,7 @@ export interface PaymentInterface {
     ID?: number,
     Time?: Date| null,
     Paytotal?: number,
+    Note?: string,
 
     Shopping_Cart_ID?: number,
     Shopping_Cart?: CartInterface

@@ -37,6 +37,7 @@ function PaymentCreate() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
+    const [message, setAlertMessage] = React.useState("");
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [methods, setMethod] = React.useState<Payment_methodInterface[]>([]);
@@ -71,6 +72,13 @@ function PaymentCreate() {
             ...payment,
             [name]: event.target.value,
         });
+    };
+    const handleInputChange = (
+        event: React.ChangeEvent<{ id?: string; value: any }>
+    ) => {
+        const id = event.target.id as keyof typeof PaymentCreate;
+        const { value } = event.target;
+        setPayment({ ...payment, [id]: value });
     };
 
     const getPayment_method = async () => {
@@ -108,6 +116,7 @@ function PaymentCreate() {
 
     let paymentID = localStorage.getItem("paymentID"); // เรีกใช้ค่าจากlocal storage 
     let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
+    const total = Number(localStorage.getItem("total")) || 1; // เรีกใช้ค่าจากlocal storage 
 
     useEffect(() => {
         getEmployee();
@@ -122,9 +131,9 @@ function PaymentCreate() {
 
     async function submit() {
         let data = {
-            //Paytotal: cart.length > 0 ? cart[0].Total : 0,
-            Paytotal: typeof payment.Paytotal === "string" ? parseInt(payment.Paytotal) : 0,
+            Paytotal: typeof payment.Paytotal === "string" ? parseInt(payment.Paytotal) : total,
             Time: payment.Time,
+            Note: payment.Note ?? "",
             Shopping_Cart_ID: Number(cartID),
             Payment_method_ID: convertType(payment.Payment_method_ID),
             Employee_ID: convertType(payment.Employee_ID),
@@ -141,17 +150,26 @@ function PaymentCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/payment/${paymentID}`, requestOptions)
+        let res = await fetch(`${apiUrl}/payment/${paymentID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     setSuccess(true);
                     setErrorMessage("")
+                    return { status: true, message: res.data };
                 } else {
                     setError(true);
                     setErrorMessage(res.error)
+                    return { status: false, message: res.error };
                 }
             });
+            if (res.status) {
+                setAlertMessage("แก้ไขสำเร็จ");
+                setSuccess(true);
+              } else {
+                setAlertMessage(res.message);
+                setError(true);
+              }
     }
 
     return (
@@ -164,7 +182,7 @@ function PaymentCreate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                        บันทึกข้อมูลสำเร็จ
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -172,7 +190,7 @@ function PaymentCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                        บันทึกข้อมูลไม่สำเร็จ
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -218,18 +236,23 @@ function PaymentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">ช่องทางการขำระ</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Payment_method_ID"
-                                getOptionLabel={(item: Payment_methodInterface) => `${item.Method}`}
-                                options={methods}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) =>
-                                    option.ID === value.ID}
-                                onChange={(e, value) => { payment.Payment_method_ID = value?.ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกช่องทางการชำระ" />}
-                            />
+                            <p className="good-font">พนักงานที่บันทึก</p>
+                            <Select
+                                native
+                                value={payment.Employee_ID + ""}
+                                onChange={handleChange}
+                                disabled
+                                inputProps={{
+                                    name: "Employee_ID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    เลือก
+                                </option>
+                                <option value={employee?.ID} key={employee?.ID}>
+                                    {employee?.Name}
+                                </option>
+                            </Select>
                         </FormControl>
                     </Grid>
 
@@ -253,26 +276,54 @@ function PaymentCreate() {
 
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
-                            <p className="good-font">พนักงานที่บันทึก</p>
-                            <Select
-                                native
-                                value={payment.Employee_ID + ""}
-                                onChange={handleChange}
-                                disabled
-                                inputProps={{
-                                    name: "Employee_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือก
-                                </option>
-                                <option value={employee?.ID} key={employee?.ID}>
-                                    {employee?.Name}
-                                </option>
-                            </Select>
+                            <p className="good-font">ช่องทางการขำระ</p>
+                            <Autocomplete
+                                disablePortal
+                                id="Payment_method_ID"
+                                getOptionLabel={(item: Payment_methodInterface) => `${item.Method}`}
+                                options={methods}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) =>
+                                    option.ID === value.ID}
+                                onChange={(e, value) => { payment.Payment_method_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกช่องทางการชำระ" />}
+                            />
                         </FormControl>
                     </Grid>
 
+                    
+
+                    <Grid item xs={3}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">ยอดรวม</p>
+                            <TextField
+                                id="Paytotal"
+                                variant="outlined"
+                                defaultValue={total}
+                                type="number"
+                                size="medium"
+                                InputProps={{ inputProps: { min: 1 , max: 100000}}}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={9}>
+                        <p className="good-font">หมายเหตุ</p>
+                        <FormControl fullWidth variant="outlined">
+                            <TextField
+                            id="Note"
+                            variant="outlined"
+                            type="string"
+                            size="medium"
+                            value={payment.Note || ""}
+                            onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/Payment" variant="contained">

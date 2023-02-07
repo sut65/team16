@@ -74,7 +74,7 @@ function Leave() {
     { field: "ID", headerName: "ID", width: 50 },
     { field: "L_Type", headerName: "ประเภทการลา", width: 150, valueFormatter: (params) => params.value.Type_Name, },
     { field: "Section", headerName: "แผนก", width: 160, valueFormatter: (params) => params.value.Sec_Name, },
-    { field: "Doc_Reason", headerName: "รายละเอียด / เหตผลการลา", width: 220 },
+    { field: "Doc_Reason", headerName: "เหตุผลการลา / รายละเอียด", width: 220 },
     {
       field: "Doc_DateS", headerName: "วันเริ่มลา", width: 100,
       renderCell: (params) => moment(params.row.Doc_DateS).format('YY-MM-DD')
