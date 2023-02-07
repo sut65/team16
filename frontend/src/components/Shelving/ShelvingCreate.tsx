@@ -55,6 +55,7 @@ function ShelvingCreate() {
 
  const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof shelving;
+    console.log(name, event.target.value);
     setShelving({
         ...shelving,
         [name]: event.target.value,
@@ -117,7 +118,8 @@ const convertType = (data: string | number | undefined) => {
 
 async function submit() {
    let data = {
-     Amount: shelving.Amount ?? "",
+     Amount: convertType(shelving.Amount),
+     Price: convertType(shelving.Price),
      Stock_ID: convertType(shelving.Stock_ID),
      Label_ID: convertType(shelving.Label_ID),
      Employee_ID: convertType(shelving.Employee_ID),
@@ -134,7 +136,7 @@ async function submit() {
        body: JSON.stringify(data),
    };
 
-   fetch(`${apiUrl}/shelvings`, requestOptions)
+   fetch(`${apiUrl}/shelves`, requestOptions)
        .then((response) => response.json())
        .then((res) => {
            if (res.data) {
@@ -178,16 +180,16 @@ async function submit() {
              color="primary"
              gutterBottom
            >
-             <div className="good-font">นำสินค้ามาวางบนชั้น</div>
+             <div className="good-font">Add The Shelf</div>
            </Typography>
          </Box>
        </Box>
 
        <Divider />
        <Grid container spacing={3} sx={{ padding: 2 }}>
-       <Grid item xs={5}>
+       <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-                <p className="good-font">ชื่อสินค้า</p>
+                <p className="good-font">Name</p>
                 <Autocomplete
                 disablePortal
                 id="Stock_ID"
@@ -202,9 +204,26 @@ async function submit() {
             </FormControl>
         </Grid>
 
-         <Grid item xs={4}>
+         <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+                <p className="good-font">Label</p>
+                <Autocomplete
+                disablePortal
+                id="Label_ID"
+                getOptionLabel={(item: LabelsInterface) => `${item.Name}`}
+                options={label}
+                sx={{ width: 'auto' }}
+                isOptionEqualToValue={(option, value) =>
+                    option.ID === value.ID}
+                onChange={(e, value) => { shelving.Label_ID = value?.ID }}
+                renderInput={(params) => <TextField {...params} label="- Select Label -" />}
+                />
+            </FormControl>
+        </Grid>
+
+        <Grid item xs={6}>
            <FormControl fullWidth variant="outlined">
-             <p className="good-font">จำนวน</p>
+             <p className="good-font">Amount</p>
              <TextField
                id="Amount"
                variant="outlined"
@@ -221,43 +240,27 @@ async function submit() {
          </Grid>
 
 
-         <Grid item xs={5}>
-            <FormControl fullWidth variant="outlined">
-                <p className="good-font">ประเภทชั้นวาง</p>
-                <Autocomplete
-                disablePortal
-                id="Label_ID"
-                getOptionLabel={(item: LabelsInterface) => `${item.Name}`}
-                options={label}
-                sx={{ width: 'auto' }}
-                isOptionEqualToValue={(option, value) =>
-                    option.ID === value.ID}
-                onChange={(e, value) => { shelving.Label_ID = value?.ID }}
-                renderInput={(params) => <TextField {...params} label="- Select Label -" />}
-                />
-            </FormControl>
-        </Grid>
-
         <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-                <p className="good-font">ราคา</p>
-                <Autocomplete
-                disablePortal
-                id="Stock_ID"
-                getOptionLabel={(item: StocksInterface) => `${item.Price}`}
-                options={stock}
-                sx={{ width: 'auto' }}
-                isOptionEqualToValue={(option, value) =>
-                    option.ID === value.ID}
-                onChange={(e, value) => { shelving.Stock_ID = value?.ID }}
-                renderInput={(params) => <TextField {...params} label="- Select Price -" />}
-                />
-            </FormControl>
-        </Grid>
+           <FormControl fullWidth variant="outlined">
+             <p className="good-font">Price</p>
+             <TextField
+               id="Price"
+               variant="outlined"
+               type="number"
+               size="medium"
+               InputProps={{ inputProps: { min: 1 } }}
+               InputLabelProps={{
+                 shrink: true,
+               }}
+               value={shelving.Price || ""}
+               onChange={handleInputChange}
+             />
+           </FormControl>
+         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12}>
             <FormControl fullWidth variant="outlined">
-                <p className="good-font">พนักงานที่บันทึก</p>
+                <p className="good-font">Employee</p>
                 <Select
                     native
                     value={shelving.Employee_ID + ""}
@@ -276,7 +279,7 @@ async function submit() {
         </Grid>
 
          <Grid item xs={12}>
-           <Button component={RouterLink} to="/Member" variant="contained">
+           <Button component={RouterLink} to="/Shelving" variant="contained">
              Back
            </Button>
            <Button
