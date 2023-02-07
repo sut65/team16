@@ -15,12 +15,13 @@ type Reason struct {
 type Separation struct {
 	gorm.Model
 	Reason_ID  *uint
-	Reason      Reason
+	Reason      Reason		`valid:"-"`
 	Employee_ID *uint
-	Employee    Employee
+	Employee    Employee	`valid:"-"`
 	Shelving_ID *uint
-	Shelving    Shelving
+	Shelving    Shelving	`valid:"-"`
 	Date_Out    time.Time   //`valid:"required~Date out cannot be blank"`
-	Amount      int         `valid:"required~จำนวนต้องไม่เป็นค่าว่าง"`
+	Amount      int         `valid:"required~จำนวนต้องไม่เป็นค่าว่าง, range(0|9223372036854775807)~กรุณากรอกจำนวนเต็มบวกเท่านั้น"`
 	Status      string		`valid:"required~สถานะต้องไม่เป็นค่าว่าง"`
 }
+
