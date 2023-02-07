@@ -47,7 +47,7 @@ func TestDate_NowNotBeBank(t *testing.T) {
 
 }
 
-func TestDate_NowCannotPast(t *testing.T) {
+func TestDate_NowCannotBePast(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	t.Run("Date Now cannot be past", func(t *testing.T) {
@@ -65,7 +65,7 @@ func TestDate_NowCannotPast(t *testing.T) {
 	})
 
 }
-func TestDate_NowConnotBeFuture(t *testing.T) {
+func TestDate_NowCannotBeFuture(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	t.Run("Date Now cannot be future", func(t *testing.T) {
