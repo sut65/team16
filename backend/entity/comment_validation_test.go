@@ -9,10 +9,10 @@ import (
 )
 
 // ตรวจสอบค่าว่างของชื่อแล้วต้องเจอ Error
-func TestAmountNotBeBank(t *testing.T) {
+func TestCommentNotBeBank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	t.Run("Amount cannot be blank", func(t *testing.T) {
+	t.Run("Comment cannot be blank", func(t *testing.T) {
 		sep := Separation{
 			Date_Out: time.Now(),
 			Amount:   2,
@@ -23,15 +23,72 @@ func TestAmountNotBeBank(t *testing.T) {
 
 		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).ToNot(BeNil())
-		g.Expect(err.Error()).To(Equal("จำนวนต้องไม่เป็นค่าว่าง"))
+		g.Expect(err.Error()).To(Equal("ความคิดเห็นต้องไม่เป็นค่าว่าง"))
+	})
+
+}
+// ตรวจสอบค่าว่างของชื่อแล้วต้องเจอ Error
+func TestDate_NowNotBeBank(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	t.Run("Date Now cannot be blank", func(t *testing.T) {
+		sep := Separation{
+			Date_Out: time.Now(),
+			Amount:   2,
+			Status:   "",
+		}
+
+		ok, err := govalidator.ValidateStruct(sep)
+
+		g.Expect(ok).NotTo(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("วันที่ต้องไม่เป็นค่าว่าง"))
 	})
 
 }
 
-func TestAmountMustBePositive(t *testing.T) {
+func TestDate_NowCannotBePast(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	t.Run("Amount must be positive", func(t *testing.T) {
+	t.Run("Date Now cannot be past", func(t *testing.T) {
+		sep := Separation{
+			Date_Out: time.Now(),
+			Amount:   2,
+			Status:   "",
+		}
+
+		ok, err := govalidator.ValidateStruct(sep)
+
+		g.Expect(ok).NotTo(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("วันที่ต้องไม่เป็นอดีต"))
+	})
+
+}
+
+func TestDate_NowCannotBeFuture(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	t.Run("Date Now cannot be future", func(t *testing.T) {
+		sep := Separation{
+			Date_Out: time.Now(),
+			Amount:   2,
+			Status:   "",
+		}
+
+		ok, err := govalidator.ValidateStruct(sep)
+
+		g.Expect(ok).NotTo(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("วันที่ต้องไม่เป็นอนาคต"))
+	})
+
+}
+
+func TestBought_NowCannotBeNegative(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	t.Run("Date now cannot be negative number", func(t *testing.T) {
 		sep := Separation{
 			Date_Out: time.Now(),
 			Amount:   2,
@@ -47,62 +104,7 @@ func TestAmountMustBePositive(t *testing.T) {
 
 }
 
-func TestStatusNotBeBank(t *testing.T) {
-	g := NewGomegaWithT(t)
 
-	t.Run("Status cannot be blank", func(t *testing.T) {
-		sep := Separation{
-			Date_Out: time.Now(),
-			Amount:   2,
-			Status:   "",
-		}
-
-		ok, err := govalidator.ValidateStruct(sep)
-
-		g.Expect(ok).NotTo(BeTrue())
-		g.Expect(err).ToNot(BeNil())
-		g.Expect(err.Error()).To(Equal("สถานะต้องไม่เป็นค่าว่าง"))
-	})
-	
-}
-
-func TestStatusMustBePlusOrNegative(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	t.Run("Status must be positive", func(t *testing.T) {
-		sep := Separation{
-			Date_Out: time.Now(),
-			Amount:   2,
-			Status:   "",
-		}
-
-		ok, err := govalidator.ValidateStruct(sep)
-
-		g.Expect(ok).NotTo(BeTrue())
-		g.Expect(err).ToNot(BeNil())
-		g.Expect(err.Error()).To(Equal("กรุณากรอก + หรือ - เท่านั้น"))
-	})
-	
-}
-
-func TestDate_OutCannotBePast(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	t.Run("Date Out cannot be past", func(t *testing.T) {
-		sep := Separation{
-			Date_Out: time.Now(),
-			Amount:   2,
-			Status:   "",
-		}
-
-		ok, err := govalidator.ValidateStruct(sep)
-
-		g.Expect(ok).NotTo(BeTrue())
-		g.Expect(err).ToNot(BeNil())
-		g.Expect(err.Error()).To(Equal("วันที่ต้องไม่เป็นอดีต"))
-	})
-
-}
 
 
 

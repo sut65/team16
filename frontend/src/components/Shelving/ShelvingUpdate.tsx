@@ -55,6 +55,7 @@ function ShelvingUpdate() {
 
  const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof shelving;
+    console.log(name, event.target.value);
     setShelving({
         ...shelving,
         [name]: event.target.value,
@@ -101,6 +102,9 @@ useEffect(() => {
     getLabel();
     getEmployee();
 }, []);
+
+let shelvingID = localStorage.getItem("shelvingID"); // เรีกใช้ค่าจากlocal storage 
+
 const requestOptions = {
     method: "GET",
     headers: {
@@ -114,21 +118,19 @@ const convertType = (data: string | number | undefined) => {
     return val;
 };
 
-let shelvingID = localStorage.getItem("shelvingID");
-
 async function submit() {
-    let data = {
-      Amount: shelving.Amount ?? "",
-      Stock_ID: convertType(shelving.Stock_ID),
-      Label_ID: convertType(shelving.Label_ID),
-      Employee_ID: convertType(shelving.Employee_ID),
-    };
-
+   let data = {
+     Amount: convertType(shelving.Amount),
+     Price: convertType(shelving.Price),
+     Stock_ID: convertType(shelving.Stock_ID),
+     Label_ID: convertType(shelving.Label_ID),
+     Employee_ID: convertType(shelving.Employee_ID),
+   };
 
    console.log(data)
 
    const requestOptions = {
-       method: "PATCH",
+       method: "POST",
        headers: {
            Authorization: `Bearer ${localStorage.getItem("token")}`,
            "Content-Type": "application/json"
@@ -136,7 +138,7 @@ async function submit() {
        body: JSON.stringify(data),
    };
 
-   fetch(`${apiUrl}/shelvings/${shelvingID}`, requestOptions)
+   fetch(`${apiUrl}/shelves/${shelvingID}`, requestOptions)
        .then((response) => response.json())
        .then((res) => {
            if (res.data) {
@@ -180,16 +182,18 @@ async function submit() {
              color="primary"
              gutterBottom
            >
-             <div className="good-font">อัปเดตสินค้าบนชั้นวาง ID : {shelvingID} </div>
+             <div className="good-font">
+             Update Shelf ID : {shelvingID}
+            </div>
            </Typography>
          </Box>
        </Box>
 
        <Divider />
        <Grid container spacing={3} sx={{ padding: 2 }}>
-       <Grid item xs={5}>
+       <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-                <p className="good-font">ชื่อสินค้า</p>
+                <p className="good-font">Name</p>
                 <Autocomplete
                 disablePortal
                 id="Stock_ID"
@@ -204,9 +208,26 @@ async function submit() {
             </FormControl>
         </Grid>
 
-         <Grid item xs={4}>
+         <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+                <p className="good-font">Label</p>
+                <Autocomplete
+                disablePortal
+                id="Label_ID"
+                getOptionLabel={(item: LabelsInterface) => `${item.Name}`}
+                options={label}
+                sx={{ width: 'auto' }}
+                isOptionEqualToValue={(option, value) =>
+                    option.ID === value.ID}
+                onChange={(e, value) => { shelving.Label_ID = value?.ID }}
+                renderInput={(params) => <TextField {...params} label="- Select Label -" />}
+                />
+            </FormControl>
+        </Grid>
+
+        <Grid item xs={6}>
            <FormControl fullWidth variant="outlined">
-             <p className="good-font">จำนวน</p>
+             <p className="good-font">Amount</p>
              <TextField
                id="Amount"
                variant="outlined"
@@ -223,43 +244,27 @@ async function submit() {
          </Grid>
 
 
-         <Grid item xs={5}>
-            <FormControl fullWidth variant="outlined">
-                <p className="good-font">ประเภทชั้นวาง</p>
-                <Autocomplete
-                disablePortal
-                id="Label_ID"
-                getOptionLabel={(item: LabelsInterface) => `${item.Name}`}
-                options={label}
-                sx={{ width: 'auto' }}
-                isOptionEqualToValue={(option, value) =>
-                    option.ID === value.ID}
-                onChange={(e, value) => { shelving.Label_ID = value?.ID }}
-                renderInput={(params) => <TextField {...params} label="- Select Label -" />}
-                />
-            </FormControl>
-        </Grid>
-
         <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-                <p className="good-font">ราคา</p>
-                <Autocomplete
-                disablePortal
-                id="Stock_ID"
-                getOptionLabel={(item: StocksInterface) => `${item.Price}`}
-                options={stock}
-                sx={{ width: 'auto' }}
-                isOptionEqualToValue={(option, value) =>
-                    option.ID === value.ID}
-                onChange={(e, value) => { shelving.Stock_ID = value?.ID }}
-                renderInput={(params) => <TextField {...params} label="- Select Price -" />}
-                />
-            </FormControl>
-        </Grid>
+           <FormControl fullWidth variant="outlined">
+             <p className="good-font">Price</p>
+             <TextField
+               id="Price"
+               variant="outlined"
+               type="number"
+               size="medium"
+               InputProps={{ inputProps: { min: 1 } }}
+               InputLabelProps={{
+                 shrink: true,
+               }}
+               value={shelving.Price || ""}
+               onChange={handleInputChange}
+             />
+           </FormControl>
+         </Grid>
 
-        <Grid item xs={6}>
+        <Grid item xs={12}>
             <FormControl fullWidth variant="outlined">
-                <p className="good-font">พนักงานที่บันทึก</p>
+                <p className="good-font">Employee</p>
                 <Select
                     native
                     value={shelving.Employee_ID + ""}
