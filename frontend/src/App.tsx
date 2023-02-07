@@ -31,6 +31,8 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
+import CommentIcon from '@mui/icons-material/Comment';
 
 import "./styles.css"
 import Stocks from "./components/Stock/Stock";
@@ -143,11 +145,11 @@ const menu = [
   { name: "สมาชิก", icon: <PeopleIcon />, path: "/Member" },
   { name: "ส่วนลด", icon: <MonetizationOnIcon />, path: "/Discount" },
   { name: "แจ้งลา", icon: <ArticleIcon />, path: "/Leave" },
-  { name: "จำหน่ายสินค้า", icon: <InventoryIcon />, path: "/SeparationShow" },
+  { name: "จำหน่ายสินค้า", icon: <ContentPasteGoIcon />, path: "/SeparationShow" },
   { name: "รายการการส่งสินค้า", icon: <LocalShippingIcon />, path: "/Delivery" },
   { name: "รายการเข้างาน", icon: <GroupAddIcon />, path: "/EmployeeattemdanceIN" },
   { name: "รายการออกงาน", icon: <GroupRemoveIcon />, path: "/EmployeeattemdanceOUT" },
-  { name: "ความคิดเห็น", icon: <LocalShippingIcon />, path: "/CommentShow" },
+  { name: "ความคิดเห็น", icon: <CommentIcon />, path: "/CommentShow" },
 ];
 
 
