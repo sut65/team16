@@ -5,6 +5,7 @@ import { StocksInterface } from "./IStock";
 export interface ShelvingsInterface{
     ID: number;
     Amount: number,
+    Price: number,
     Employee_ID: number;
     Employee: EmployeeInterface;
     Label_ID: number;
