@@ -48,11 +48,11 @@ func main() {
 			r.DELETE("/labels/:id", controller.DeleteLabel)
 
 			//Shelving Routes
-			r.GET("/Shelving", controller.ListShelvings)
-			r.GET("/Shelving/:id", controller.GetShelving)
-			r.POST("/Shelving", controller.CreateShelving)
-			r.PATCH("/Shelving", controller.UpdateShelving)
-			r.DELETE("/Shelving/:id", controller.DeleteShelving)
+			r.GET("/shelves", controller.ListShelvings)
+			r.GET("/shelf/:id", controller.GetShelving)
+			r.POST("/shelves", controller.CreateShelving)
+			r.PATCH("/shelves", controller.UpdateShelving)
+			r.DELETE("/shelves/:id", controller.DeleteShelving)
 
 			//Member Routes
 			r.GET("/members", controller.ListMember)
