@@ -15,7 +15,6 @@
   function Cart() {
   const [cart, setCart] = React.useState<CartInterface[]>([]);
   const [cartID, setCartID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการจ่าย/ลบ
-  const [total, setTotal] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการจ่าย/ลบ
   const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
   const [openPament, setOpenPament] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การจ่าย
   const [openUpdate, setOpenUpdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การจ่าย

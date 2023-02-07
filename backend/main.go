@@ -175,11 +175,13 @@ func main() {
 
 			//Order Routes
 			r.GET("/orders", controller.ListOrder)
+			r.GET("/shelv", controller.ListShelv)
 			r.GET("/order/:id", controller.GetOrder)
 			r.GET("/ordercart/:id", controller.ListOrderCart)
 			r.GET("/ordersum/:id", controller.ListOrdersum)
 			r.POST("/orders", controller.CreateOrder)
 			r.PATCH("/order/:id", controller.UpdateOrder)
+			r.PATCH("/UpdateQuantity/:id", controller.UpdateQuantity)
 			r.DELETE("/order/:id", controller.DeleteOrder)
 
 			//payment Routes
