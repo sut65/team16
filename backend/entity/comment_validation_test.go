@@ -85,6 +85,25 @@ func TestDate_NowCannotBeFuture(t *testing.T) {
 
 }
 
+func TestBought_NowCannotBeNegative(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	t.Run("Date now cannot be negative number", func(t *testing.T) {
+		sep := Separation{
+			Date_Out: time.Now(),
+			Amount:   2,
+			Status:   "",
+		}
+
+		ok, err := govalidator.ValidateStruct(sep)
+
+		g.Expect(ok).NotTo(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("กรุณากรอกจำนวนเต็มบวกเท่านั้น"))
+	})
+
+}
+
 
 
 
