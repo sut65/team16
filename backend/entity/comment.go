@@ -33,6 +33,6 @@ type Comment struct {
 	Type_Com_ID *uint
 	Type_Com    Type_Comment	`valid:"-"`
 
-	Date_Now    time.Time		`valid:"required~ความคิดเห็นต้องไม่เป็นค่าว่าง, Past~วันที่ต้องไม่เป็นอดีต, Future~วันที่ต้องไม่เป็นอนาคต"`
+	Date_Now    time.Time		`valid:"required~ความคิดเห็นต้องไม่เป็นค่าว่าง, Past~วันที่ต้องไม่เป็นอดีต"`
 	Bought_now  int
 }
