@@ -48,14 +48,11 @@ function OrderCreate() {
     const [status, setStatus] = React.useState<StatusInterface[]>([]);
     const [order, setOrder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
-    const [stock, setStock] = React.useState<StocksInterface[]>([]);
+    const [stock, setStock] = React.useState<StocksInterface[]>([]); 
 
     const [latestCartId, setLatestCartId] = React.useState(0);
     const [orderPrice, setOrerPrice] = React.useState(0);
     const [sumprice, setSumprice] = React.useState(0);
-    const [amounts, setAmounts] = React.useState(0);
-    const [shevID, setShevID] = React.useState(0);
-    const [num, setNum] = React.useState(0);
 
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -85,8 +82,6 @@ function OrderCreate() {
         const id = event.target.id as keyof typeof OrderCreate;
         const { value } = event.target;
         setOrder({ ...order, [id]: value });
-        setNum(value)
-        console.log("Quantity: " + num);
     };
     const handleInputPrice = (
         event: React.ChangeEvent<{ id?: string; value: any }>
@@ -109,67 +104,67 @@ function OrderCreate() {
     };
 
     const getShelving = async () => {
-        fetch(`${apiUrl}/shelv`, requestOptions)
+        fetch(`${apiUrl}/Shelving`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setShelving(res.data);
-                }
-                else { console.log("NO DATA") }
+            if (res.data) {
+                console.log(res.data)
+                setShelving(res.data);
+            }
+            else { console.log("NO DATA") }
             });
     };
-
+    
     const getStock = async () => {
         fetch(`${apiUrl}/stocks`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setStock(res.data);
-                }
-                else { console.log("NO DATA") }
+            if (res.data) {
+                console.log(res.data)
+                setStock(res.data);
+            }
+            else { console.log("NO DATA") }
             });
     };
-
+    
     const getMember = async () => {
         fetch(`${apiUrl}/members`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setMember(res.data);
-                }
-                else { console.log("NO DATA") }
+            if (res.data) {
+                console.log(res.data)
+                setMember(res.data);
+            }
+            else { console.log("NO DATA") }
             });
     };
 
-
+    
     const getLatestCartId = async () => {
         fetch(`${apiUrl}/unpaids`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    // Find the cart with the highest ID
-                    let latestCart = res.data.reduce((prev: any, current: any) => {
-                        return (prev.ID > current.ID) ? prev : current
-                    });
-                    setLatestCartId(latestCart.ID);
-                }
-            });
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+                // Find the cart with the highest ID
+                let latestCart = res.data.reduce((prev: any, current: any) => {
+                    return (prev.ID > current.ID) ? prev : current
+                });
+                setLatestCartId(latestCart.ID);
+            }
+        });
     }
-
-
+    
+    
     const getStatus = async () => {
         fetch(`${apiUrl}/statuses`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setStatus(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.data) {
+                console.log(res.data)
+                setStatus(res.data);
+            }
+            else { console.log("NO DATA") }
+        });
     };
 
     const getEmployee = async () => {
@@ -187,7 +182,7 @@ function OrderCreate() {
         getShelving();
         getStock();
         getStatus();
-        getLatestCartId();;
+        getLatestCartId();;     
     }, []);
 
     fetch(`${apiUrl}/ordersum/${latestCartId}`, requestOptions)
@@ -197,8 +192,8 @@ function OrderCreate() {
             setSumprice(sumPrices);
             console.log(sumPrices)
             // Use the sumPrices variable as needed
-
-        });
+            
+    });
 
     const convertType = (data: string | number | undefined) => {
         let val = typeof data === "string" ? parseInt(data) : data;
@@ -231,7 +226,7 @@ function OrderCreate() {
                     setSuccess1(true);
                     setErrorMessage("")
                     getLatestCartId();
-
+                    
                 } else {
                     setError1(true);
                     setErrorMessage(res.error)
@@ -240,39 +235,9 @@ function OrderCreate() {
 
     }
 
-    async function reduce() {
-        let quantity = amounts - num;
-        let data = {
-            Amount: quantity,
-        };
-
-        console.log(quantity)
-        console.log(data)
-
-        const requestOptions = {
-            method: "PATCH",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data),
-        };
-
-        fetch(`${apiUrl}/UpdateQuantity/${shevID}`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    setErrorMessage("")
-                } else {
-                    setErrorMessage(res.error)
-                }
-            });
-
-    }
-
     async function addproduct() {
         let data = {
-            Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
+            Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity): 0,
             Prices: typeof order.Prices === "string" ? parseFloat(order.Prices) : 0,
             Shelving_ID: convertType(order.Shelving_ID),
             Shopping_Cart_ID: latestCartId,
@@ -295,8 +260,6 @@ function OrderCreate() {
                 if (res.data) {
                     setSuccess2(true);
                     setErrorMessage("")
-                    reduce()
-                    sum()
                     return { status: true, message: res.data };
                 } else {
                     setError2(true);
@@ -304,13 +267,13 @@ function OrderCreate() {
                     return { status: false, message: res.error };
                 }
             });
-        if (res.status) {
-            setAlertMessage("เพิ่มสินค้าลงตะกร้าแล้ว");
-            setSuccess2(true);
-        } else {
-            setAlertMessage(res.message);
-            setError2(true);
-        }
+            if (res.status) {
+                setAlertMessage("เพิ่มสินค้าลงตะกร้าแล้ว");
+                setSuccess2(true);
+              } else {
+                setAlertMessage(res.message);
+                setError2(true);
+              }
     }
 
     async function sum() {
@@ -334,7 +297,7 @@ function OrderCreate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    setErrorMessage("")
+                    setErrorMessage("")            
                 } else {
                     setErrorMessage(res.error)
                 }
@@ -356,9 +319,9 @@ function OrderCreate() {
                     </div>
                 </Alert>
             </Snackbar>
-            <Snackbar open={error1}
-                autoHideDuration={6000}
-                onClose={handleClose}
+            <Snackbar open={error1} 
+                autoHideDuration={6000} 
+                onClose={handleClose} 
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
@@ -374,23 +337,23 @@ function OrderCreate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                        {message}
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>
-            <Snackbar open={error2}
-                autoHideDuration={6000}
-                onClose={handleClose}
+            <Snackbar open={error2} 
+                autoHideDuration={6000} 
+                onClose={handleClose} 
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                        {message}
+                    {message}
                     </div>
                 </Alert>
             </Snackbar>
-
+            
             <Paper>
-                <Box display="flex" sx={{ marginTop: 2, paddingX: 2, paddingY: 1 }}>
+                <Box display="flex" sx={{ marginTop: 2, paddingX: 2, paddingY: 1}}>
                     <Box flexGrow={1}>
                         <Typography
                             component="h2"
@@ -402,7 +365,7 @@ function OrderCreate() {
                         </Typography>
                     </Box>
 
-                    <Box sx={{ paddingX: 1, paddingY: 0 }}>
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}> 
                         <Button
                             component={RouterLink}
                             to="/Cart"
@@ -410,11 +373,11 @@ function OrderCreate() {
                             color="primary"
                             startIcon={<ArrowBackIcon />}
                         >
-                            กลับ
+                        กลับ
                         </Button>
                     </Box>
 
-                    <Box sx={{ paddingX: 1, paddingY: 0 }}>
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}> 
                         <Button
                             component={RouterLink}
                             to="/PaymentCreate"
@@ -422,7 +385,7 @@ function OrderCreate() {
                             color="primary"
                             startIcon={<PaymentIcon />}
                         >
-                            ชำระสินค้า
+                        ชำระสินค้า
                         </Button>
                     </Box>
 
@@ -440,11 +403,11 @@ function OrderCreate() {
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
                                     option.Mem_Tel === value.Mem_Tel}
-                                onChange={(e, value) => {
+                                onChange={(e, value) => { 
                                     // find the member that matches the selected phone number
                                     let selectedMember = member.find(member => member.Mem_Tel === value?.Mem_Tel)
                                     // set the cart.Member_ID with the ID of the selected member
-                                    cart.Member_ID = selectedMember?.ID
+                                    cart.Member_ID = selectedMember?.ID 
                                 }}
                                 renderInput={(params) => <TextField {...params} label="-" />}
                             />
@@ -487,10 +450,25 @@ function OrderCreate() {
                     </Grid>
                 </Grid>
 
-
+                    
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-
                     <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">รายการสินค้า</p>
+                            <Autocomplete
+                                disablePortal
+                                id="Stock_ID"
+                                getOptionLabel={(item: StocksInterface) => `${item.ID} ${item.Name} ราคา ${item.Price}`}
+                                options={stock}
+                                sx={{ width: 'auto' }}
+                                isOptionEqualToValue={(option, value) => option.ID === value.ID}
+                                onChange={(e, value) => { order.Shelving_ID = value?.ID }}
+                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    {/* <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">รายการสินค้า</p>
                             <Autocomplete
@@ -500,19 +478,14 @@ function OrderCreate() {
                                 options={shelving}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) => option.ID === value.ID}
-                                onChange={(e, value) => { 
-                                    order.Shelving_ID = value?.ID;
-                                    if (value) {
-                                        setAmounts(value.Amount)
-                                        setShevID(value.ID)
-                                    };
-                                    console.log("shevID: " + shevID);
-                                    console.log("Amount: " + amounts);
-                                }}
+                                onChange={(e, value) => { order.Shelving_ID = value?.ID }}
                                 renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
                         </FormControl>
-                    </Grid>
+                    </Grid> */}
+
+        
+
 
                     <Grid item xs={3}>
                         <FormControl fullWidth variant="outlined">
@@ -522,7 +495,7 @@ function OrderCreate() {
                                 variant="outlined"
                                 type="number"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1, max: 50 } }}
+                                InputProps={{ inputProps: { min: 1 , max: 50}}}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -540,7 +513,7 @@ function OrderCreate() {
                                 variant="outlined"
                                 type="number"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1 } }}
+                                InputProps={{ inputProps: { min: 1}}}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -553,7 +526,10 @@ function OrderCreate() {
                     <Grid item xs={12}>
                         <Button
                             style={{ display: "flex", justifyContent: "center", margin: "0 auto" }}
-                            onClick={addproduct}
+                            onClick={async () => {
+                                await addproduct();
+                                await sum();
+                            }}
                             variant="contained"
                             color="primary"
                         >
@@ -562,11 +538,11 @@ function OrderCreate() {
                             </div>
                         </Button>
                     </Grid>
-
+    
                 </Grid>
 
             </Paper>
-
+            
         </Container>
     );
 }

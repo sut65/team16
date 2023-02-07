@@ -155,7 +155,6 @@ function PaymentCreate() {
                 if (res.data) {
                     setSuccess(true);
                     setErrorMessage("")
-                    pay()
                     return { status: true, message: res.data };
                 } else {
                     setError(true);
@@ -340,7 +339,10 @@ function PaymentCreate() {
                         </Button>
                         <Button
                             style={{ float: "right" }}
-                            onClick={submit}
+                            onClick={async () => {
+                                await submit();
+                                await pay();
+                            }}
                             variant="contained"
                             color="primary"
                         >

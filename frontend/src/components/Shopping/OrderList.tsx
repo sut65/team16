@@ -15,7 +15,6 @@ function Order() {
     const [order, setOrder] = React.useState<OrderInterface[]>([]);
     const [orderID, setOrderID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [price, setPrice] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
-    const [num, setNum] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการจ่าย/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
 
     let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
@@ -43,9 +42,9 @@ function Order() {
             });
     };
     let minus = Number(Total) - Number(price)
-    // console.log("total " + Total)
-    // console.log("price " + price)
-    // console.log("minus " + minus)
+    console.log("total " + Total)
+    console.log("price " + price)
+    console.log("minus " + minus)
 
 
     async function sum() {   
@@ -68,43 +67,13 @@ function Order() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log("Total: " + data.Total)
+                    console.log("reset price ID: " + data.Total)
                 }
                 else { console.log("NO DATA") }
 
             });
 
     }
-
-    // async function reduce() {
-    //     let quantity =  order;
-    //     let data = {
-    //         Amount: quantity,
-    //     };
-
-    //     console.log(quantity)
-    //     console.log(data)
-
-    //     const requestOptions = {
-    //         method: "PATCH",
-    //         headers: {
-    //             Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //             "Content-Type": "application/json"
-    //         },
-    //         body: JSON.stringify(data),
-    //     };
-
-    //     fetch(`${apiUrl}/UpdateQuantity/${shevID}`, requestOptions)
-    //         .then((response) => response.json())
-    //         .then((res) => {
-    //             if (res.data) {
-    //                 setErrorMessage("")
-    //             } else {
-    //                 setErrorMessage(res.error)
-    //             }
-    //         });
-
-    // }
 
     // function ลบข้อมูล
     const deleteOrder = async () => {
@@ -133,10 +102,9 @@ function Order() {
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
         setOrderID(Number(params.row.ID)); //setเพื่อรอการลบ
         setPrice(Number(params.row.Prices)); //setเพื่อรอการลบ
-        setNum(Number(params.row.Quantity)); //setเพื่อรอการลบ
         localStorage.setItem("orderID", params.row.ID); //setเพื่อการแก้ไข
+        console.log(price)
     };
-    console.log("Quantity " + num)
 
      // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
     const handleClose = () => {
@@ -149,7 +117,7 @@ function Order() {
 
     const columns: GridColDef[] = [
       { field: "ID", headerName: "ID", width: 100,  headerAlign:"center", align:"center" },
-      { field: "Shelving", headerName: "สินค้า", width: 100, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.Stock.Name},
+      { field: "Shelving", headerName: "สินค้า", width: 100, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
       { field: "Quantity", headerName: "จำนวน", width: 150, headerAlign:"center", align:"center" },
       { field: "Prices", headerName: "รวมราคา", width: 150, headerAlign:"center", align:"center" },
       { field: "Shopping_Cart", headerName: "ตะกร้า", width: 150, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.ID},
