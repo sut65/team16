@@ -42,7 +42,8 @@ func CreateShelving(c *gin.Context) {
 		Employee: employee,
 		Label:    label,
 		Stock:    stock,
-		Amount:   shelving.Amount,
+		Number:   shelving.Number,
+		Cost:     shelving.Cost,
 	}
 	if err := entity.DB().Create(&sv).Error; err != nil {
 
@@ -64,7 +65,7 @@ func GetShelving(c *gin.Context) {
 
 	id := c.Param("id")
 
-	if err := entity.DB().Raw("SELECT * FROM shelvings WHERE id = ?", id).Scan(&shelving).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM shelves WHERE id = ?", id).Scan(&shelving).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -82,7 +83,7 @@ func ListShelvings(c *gin.Context) {
 
 	var shelvings []entity.Shelving
 
-	if err := entity.DB().Raw("SELECT * FROM shelvings").Scan(&shelvings).Error; err != nil {
+	if err := entity.DB().Raw("SELECT * FROM shelves").Scan(&shelvings).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -94,16 +95,15 @@ func ListShelvings(c *gin.Context) {
 
 }
 
-
 // DELETE /shelvings/:id
 
 func DeleteShelving(c *gin.Context) {
 
 	id := c.Param("id")
 
-	if tx := entity.DB().Exec("DELETE FROM shelvings WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM shelves WHERE id = ?", id); tx.RowsAffected == 0 {
 
-		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "shelf not found"})
 
 		return
 
@@ -149,7 +149,8 @@ func UpdateShelving(c *gin.Context) {
 		Employee: employee,
 		Label:    label,
 		Stock:    stock,
-		Amount:   shelving.Amount,
+		Number:   shelving.Number,
+		Cost:     shelving.Cost,
 	}
 	if err := entity.DB().Where("id = ?", id).Updates(&sv).Error; err != nil {
 

@@ -4,8 +4,8 @@ import { StocksInterface } from "./IStock";
 //ระบบชั้นวางสินค้า
 export interface ShelvingsInterface{
     ID: number;
-    Amount: number,
-    Price: number,
+    Number: number,
+    Cost: number,
     Employee_ID: number;
     Employee: EmployeeInterface;
     Label_ID: number;

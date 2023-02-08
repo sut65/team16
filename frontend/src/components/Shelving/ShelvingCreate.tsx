@@ -118,8 +118,8 @@ const convertType = (data: string | number | undefined) => {
 
 async function submit() {
    let data = {
-     Amount: convertType(shelving.Amount),
-     Price: convertType(shelving.Price),
+     Amount: convertType(shelving.Number),
+     Price: convertType(shelving.Cost),
      Stock_ID: convertType(shelving.Stock_ID),
      Label_ID: convertType(shelving.Label_ID),
      Employee_ID: convertType(shelving.Employee_ID),
@@ -225,7 +225,7 @@ async function submit() {
            <FormControl fullWidth variant="outlined">
              <p className="good-font">Amount</p>
              <TextField
-               id="Amount"
+               id="Number"
                variant="outlined"
                type="number"
                size="medium"
@@ -233,7 +233,7 @@ async function submit() {
                InputLabelProps={{
                  shrink: true,
                }}
-               value={shelving.Amount || ""}
+               value={shelving.Number || ""}
                onChange={handleInputChange}
              />
            </FormControl>
@@ -244,7 +244,7 @@ async function submit() {
            <FormControl fullWidth variant="outlined">
              <p className="good-font">Price</p>
              <TextField
-               id="Price"
+               id="Cost"
                variant="outlined"
                type="number"
                size="medium"
@@ -252,7 +252,7 @@ async function submit() {
                InputLabelProps={{
                  shrink: true,
                }}
-               value={shelving.Price || ""}
+               value={shelving.Cost || ""}
                onChange={handleInputChange}
              />
            </FormControl>
