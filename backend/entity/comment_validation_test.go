@@ -47,7 +47,7 @@ func TestDate_NowNotBeBank(t *testing.T) {
 
 }
 
-func TestDate_NowCannotPast(t *testing.T) {
+func TestDate_NowCannotBePast(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	t.Run("Date Now cannot be past", func(t *testing.T) {
@@ -65,7 +65,8 @@ func TestDate_NowCannotPast(t *testing.T) {
 	})
 
 }
-func TestDate_NowConnotBeFuture(t *testing.T) {
+
+func TestDate_NowCannotBeFuture(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	t.Run("Date Now cannot be future", func(t *testing.T) {
@@ -80,6 +81,25 @@ func TestDate_NowConnotBeFuture(t *testing.T) {
 		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).ToNot(BeNil())
 		g.Expect(err.Error()).To(Equal("วันที่ต้องไม่เป็นอนาคต"))
+	})
+
+}
+
+func TestBought_NowCannotBeNegative(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	t.Run("Date now cannot be negative number", func(t *testing.T) {
+		sep := Separation{
+			Date_Out: time.Now(),
+			Amount:   2,
+			Status:   "",
+		}
+
+		ok, err := govalidator.ValidateStruct(sep)
+
+		g.Expect(ok).NotTo(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("กรุณากรอกจำนวนเต็มบวกเท่านั้น"))
 	})
 
 }

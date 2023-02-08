@@ -34,5 +34,5 @@ type Comment struct {
 	Type_Com    Type_Comment	`valid:"-"`
 
 	Date_Now    time.Time		`valid:"required~ความคิดเห็นต้องไม่เป็นค่าว่าง, Past~วันที่ต้องไม่เป็นอดีต, Future~วันที่ต้องไม่เป็นอนาคต"`
-	Bought_now  int
+	Bought_now  int				`valid:"required~จำนวนต้องไม่เป็นค่าว่าง, range(0|9223372036854775807)~กรุณากรอกจำนวนเต็มบวกเท่านั้น"`
 }

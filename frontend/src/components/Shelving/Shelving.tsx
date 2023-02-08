@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import { ShelvingsInterface } from "../../models/methas/IShelving";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import { Dialog, DialogTitle } from "@mui/material";
@@ -69,8 +69,8 @@ const handleClose = () => {
  const columns: GridColDef[] = [
    { field: "ID", headerName: "ID", width: 50,  headerAlign:"center" },
    { field: "Name", headerName: "Name", width: 150, headerAlign:"center" ,valueFormatter: (params)=>params.value.Name },
-   { field: "Amount", headerName: "Amount", width: 150, headerAlign:"center" },
-   { field: "Price", headerName: "Price", width: 150, headerAlign:"center",valueFormatter: (params)=>params.value.Price },
+   { field: "Amount", headerName: "Number", width: 150, headerAlign:"center" },
+   { field: "Price", headerName: "Cost", width: 150, headerAlign:"center" },
    { field: "Label", headerName: "Label", width: 150, headerAlign:"center",valueFormatter: (params)=>params.value.Name },
    { field: "Edit", headerName: "Edit", width: 120,
       renderCell: () => {
