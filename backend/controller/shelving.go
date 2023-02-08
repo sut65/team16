@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/Team16/farm_mart/entity"
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -38,12 +39,18 @@ func CreateShelving(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "stock not found"})
 		return
 	}
+
 	sv := entity.Shelving{
 		Employee: employee,
 		Label:    label,
 		Stock:    stock,
 		Number:   shelving.Number,
 		Cost:     shelving.Cost,
+	}
+	// แทรกการ validate
+	if _, err := govalidator.ValidateStruct(&shelving); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 	if err := entity.DB().Create(&sv).Error; err != nil {
 
@@ -145,6 +152,11 @@ func UpdateShelving(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "stock not found"})
 		return
 	}
+	// แทรกการ validate
+	if _, err := govalidator.ValidateStruct(&shelving); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	sv := entity.Shelving{
 		Employee: employee,
 		Label:    label,
@@ -162,4 +174,21 @@ func UpdateShelving(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": shelving})
 
+}
+func UpdateNumber(c *gin.Context) {
+	var stock entity.Stock
+	id := c.Param("id")
+	if err := c.ShouldBindJSON(&stock); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	st := entity.Stock{
+		Amount: stock.Amount,
+	}
+
+	if err := entity.DB().Where("id = ?", id).Updates(&st).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": stock})
 }

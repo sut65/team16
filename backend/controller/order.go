@@ -2,8 +2,9 @@ package controller
 
 import (
 	"net/http"
-	"github.com/asaskevich/govalidator"
+
 	"github.com/Team16/farm_mart/entity"
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,7 +25,7 @@ func CreateOrder(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Shopping_Cart not found"})
 		return
 	}
-	
+
 	// 11: ค้นหา shelv ด้วย id
 	if tx := entity.DB().Where("id = ?", order.Shelving_ID).First(&shelv); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบสินค้า"})
@@ -32,10 +33,10 @@ func CreateOrder(c *gin.Context) {
 	}
 	// 12: สร้าง Order
 	sc := entity.Order{
-		Quantity:   order.Quantity,
-		Prices:   	order.Prices,
-		Shopping_Cart:   	cart,
-		Shelving:   shelv,   // โยงความสัมพันธ์กับ Entity shelving
+		Quantity:      order.Quantity,
+		Prices:        order.Prices,
+		Shopping_Cart: cart,
+		Shelving:      shelv, // โยงความสัมพันธ์กับ Entity shelving
 	}
 
 	if _, err := govalidator.ValidateStruct(sc); err != nil {
@@ -109,7 +110,6 @@ func ListOrdersum(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"sumPrices": sumPrices})
 }
 
-
 // DELETE /Order/:id
 func DeleteOrder(c *gin.Context) {
 	id := c.Param("id")
@@ -149,7 +149,7 @@ func UpdateQuantity(c *gin.Context) {
 		return
 	}
 	sc := entity.Shelving{
-		Number: 	shelv.Number,
+		Number: shelv.Number,
 	}
 
 	if err := entity.DB().Where("id = ?", id).Updates(&sc).Error; err != nil {

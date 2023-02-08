@@ -33,6 +33,9 @@ function ShelvingCreate() {
  const [employee, setEmployee] = React.useState<EmployeeInterface>();
  const [stock, setStock] = React.useState<StocksInterface[]>([]);
  const [label, setLabel] = React.useState<LabelsInterface[]>([]);
+ const [num, setNum] = React.useState(0);
+ const [amounts, setAmounts] = React.useState(0);
+ const [stID, setStID] = React.useState(0);
 
  const handleClose = (
    event?: React.SyntheticEvent | Event,
@@ -51,6 +54,8 @@ function ShelvingCreate() {
    const id = event.target.id as keyof typeof ShelvingCreate;
    const { value } = event.target;
    setShelving({ ...shelving, [id]: value });
+   setNum(value)
+   console.log("Number: " + num);
  };
 
  const handleChange = (event: SelectChangeEvent) => {
@@ -116,6 +121,36 @@ const convertType = (data: string | number | undefined) => {
     return val;
 };
 
+async function reduce() {
+  let quantity = amounts - num;
+  let data = {
+      Amount: quantity,
+  };
+
+  console.log(quantity)
+  console.log(data)
+
+  const requestOptions = {
+      method: "PATCH",
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+  };
+
+  fetch(`${apiUrl}/shelf/${stID}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+          if (res.data) {
+              setErrorMessage("")
+          } else {
+              setErrorMessage(res.error)
+          }
+      });
+
+}
+
 async function submit() {
    let data = {
      Number: convertType(shelving.Number),
@@ -141,6 +176,7 @@ async function submit() {
        .then((res) => {
            if (res.data) {
                setSuccess(true);
+               reduce()
                setErrorMessage("")
            } else {
                setError(true);
@@ -198,7 +234,15 @@ async function submit() {
                 sx={{ width: 'auto' }}
                 isOptionEqualToValue={(option, value) =>
                     option.ID === value.ID}
-                onChange={(e, value) => { shelving.Stock_ID = value?.ID }}
+                    onChange={(e, value) => { 
+                      shelving.Stock_ID = value?.ID;
+                      if (value) {
+                          setAmounts(value.Amount)
+                          setStID(value.ID)
+                      };
+                      console.log("stID: " + stID);
+                      console.log("Amount: " + amounts);
+                  }}
                 renderInput={(params) => <TextField {...params} label="- Select Name -" />}
                 />
             </FormControl>
