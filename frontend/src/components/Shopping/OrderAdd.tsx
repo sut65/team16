@@ -42,6 +42,9 @@ function OrderCreate() {
     const [stock, setStock] = React.useState<StocksInterface[]>([]);
     const [sumprice, setSumprice] = React.useState(0);
     const [orderPrice, setOrerPrice] = React.useState(0);
+    const [num, setNum] = React.useState(0);
+    const [amounts, setAmounts] = React.useState(0);
+    const [shevID, setShevID] = React.useState(0);
 
 
     const apiUrl = "http://localhost:8080";
@@ -70,6 +73,8 @@ function OrderCreate() {
         const id = event.target.id as keyof typeof OrderCreate;
         const { value } = event.target;
         setOrder({ ...order, [id]: value });
+        setNum(value)
+        console.log("Quantity: " + num);
     };
 
     const handleInputPrice = (
@@ -88,16 +93,16 @@ function OrderCreate() {
         fetch(`${apiUrl}/stocks`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-            if (res.data) {
-                console.log(res.data)
-                setStock(res.data);
-            }
-            else { console.log("NO DATA") }
-            });
+                if (res.data) {
+                    console.log(res.data)
+                    setStock(res.data);
+                }
+                else { console.log("NO DATA") }
+                });
     };
 
     const getShelving = async () => {
-        fetch(`${apiUrl}/Shelving`, requestOptions)
+        fetch(`${apiUrl}/shelv`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
             if (res.data) {
@@ -130,6 +135,36 @@ function OrderCreate() {
         return val;
     };
 
+    async function reduce() {
+        let quantity = amounts - num;
+        let data = {
+            Amount: quantity,
+        };
+
+        console.log(quantity)
+        console.log(data)
+
+        const requestOptions = {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`${apiUrl}/UpdateQuantity/${shevID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setErrorMessage("")
+                } else {
+                    setErrorMessage(res.error)
+                }
+            });
+
+    }
+
     async function addproduct() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
@@ -155,6 +190,8 @@ function OrderCreate() {
                 if (res.data) {
                     setSuccess2(true);
                     setErrorMessage("")
+                    reduce()
+                    sum()
                     return { status: true, message: res.data };
                 } else {
                     setError2(true);
@@ -272,11 +309,19 @@ function OrderCreate() {
                             <Autocomplete
                                 disablePortal
                                 id="Stock_ID"
-                                getOptionLabel={(item: StocksInterface) => `${item.Name} ราคา ${item.Price}`}
-                                options={stock}
+                                getOptionLabel={(item: ShelvingsInterface) => `${item.Stock.Name} ราคา ${item.Stock.Price}`}
+                                options={shelving}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) => option.ID === value.ID}
-                                onChange={(e, value) => { order.Shelving_ID = value?.ID }}
+                                onChange={(e, value) => { 
+                                    order.Shelving_ID = value?.ID;
+                                    if (value) {
+                                        setAmounts(value.Number)
+                                        setShevID(value.ID)
+                                    };
+                                    console.log("shevID: " + shevID);
+                                    console.log("Amount: " + amounts);
+                                }}
                                 renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
                         </FormControl>
@@ -321,10 +366,7 @@ function OrderCreate() {
                     <Grid item xs={12}>
                         <Button
                             style={{ display: "flex", justifyContent: "center", margin: "0 auto" }}
-                            onClick={async () => {
-                                await addproduct();
-                                await sum();
-                            }}
+                            onClick={addproduct}
                             variant="contained"
                             color="primary"
                         >
