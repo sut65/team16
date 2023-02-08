@@ -94,7 +94,7 @@ function SeparationCreate() {
     };
 
     const getShelf = async () => {
-        fetch(`${apiUrl}/Shelving`, requestOptions)
+        fetch(`${apiUrl}/shelves`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
