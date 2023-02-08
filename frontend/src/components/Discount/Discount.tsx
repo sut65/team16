@@ -198,7 +198,7 @@ function Discount() {
                     </div>
                 </Button>
             </Dialog>
-            <Container maxWidth="lg">
+            <Container maxWidth='xl'>
                 <Box
                     display="flex"
                     sx={{
