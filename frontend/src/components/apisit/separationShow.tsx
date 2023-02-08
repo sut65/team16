@@ -94,7 +94,7 @@ function SeparationShow() {
                         color="primary"
                         onClick={() => setOpenupdate(true)}
                     >
-                        Edit
+                        แก้ไข
                     </Button>
                 );
             },
@@ -108,7 +108,7 @@ function SeparationShow() {
                         color="primary"
                         onClick={() => setOpendelete(true)}
                     >
-                        Delete
+                        ลบ
                     </Button>
                 );
             },
