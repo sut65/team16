@@ -37,7 +37,7 @@
   margin-left: 10%;
   border-width: 10px;
   transition: color 0.2s;
-  background: linear-gradient(#98A8F8, #faf7f0),
+  background: linear-gradient(#86B049, #faf7f0),
     linear-gradient(to right, darkblue, rgb(255, 255, 255)) border-box;
 
 }
@@ -132,4 +132,17 @@
 .avatar {
   padding: 5%;
   border-radius: 8%;
+}
+
+.green1 {
+  color: #476930;
+}
+.green2 {
+  color: #86B049 ;
+}
+.brown {
+  color: #C8B88A;
+}
+.pink {
+  color: #F1DDDF ;
 }

@@ -190,10 +190,10 @@ export default function App() {
     },
     palette: {
       primary: {
-        main: '#98A8F8',
+        main: '#476930',
       },
       secondary: {
-        main: '#FAF7F0',
+        main: '#F1DDDF',
       },
     },
   });
@@ -272,7 +272,7 @@ export default function App() {
                     key={item.name}
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
-                    <ListItem button>
+                    <ListItem button >
                       <ListItemIcon>{item.icon}</ListItemIcon>
                       <ListItemText primary={item.name} />
                     </ListItem>
