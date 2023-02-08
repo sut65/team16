@@ -98,18 +98,18 @@ function OrderCreate() {
                     setStock(res.data);
                 }
                 else { console.log("NO DATA") }
-                });
+            });
     };
 
     const getShelving = async () => {
         fetch(`${apiUrl}/shelv`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
-            if (res.data) {
-                console.log(res.data)
-                setShelving(res.data);
-            }
-            else { console.log("NO DATA") }
+                if (res.data) {
+                    console.log(res.data)
+                    setShelving(res.data);
+                }
+                else { console.log("NO DATA") }
             });
     };
 
@@ -127,8 +127,8 @@ function OrderCreate() {
             setSumprice(sumPrices);
             console.log(sumPrices)
             // Use the sumPrices variable as needed
-            
-    });
+
+        });
 
     const convertType = (data: string | number | undefined) => {
         let val = typeof data === "string" ? parseInt(data) : data;
@@ -199,13 +199,13 @@ function OrderCreate() {
                     return { status: false, message: res.error };
                 }
             });
-            if (res.status) {
-                setAlertMessage("เพิ่มสินค้าลงตะกร้าแล้ว");
-                setSuccess2(true);
-              } else {
-                setAlertMessage(res.message);
-                setError2(true);
-              }
+        if (res.status) {
+            setAlertMessage("เพิ่มสินค้าลงตะกร้าแล้ว");
+            setSuccess2(true);
+        } else {
+            setAlertMessage(res.message);
+            setError2(true);
+        }
     }
 
     async function sum() {
@@ -229,7 +229,7 @@ function OrderCreate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    setErrorMessage("")            
+                    setErrorMessage("")
                 } else {
                     setErrorMessage(res.error)
                 }
@@ -247,23 +247,23 @@ function OrderCreate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                    {message}
+                        {message}
                     </div>
                 </Alert>
             </Snackbar>
-            <Snackbar open={error2} 
-                autoHideDuration={6000} 
-                onClose={handleClose} 
+            <Snackbar open={error2}
+                autoHideDuration={6000}
+                onClose={handleClose}
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                    {message}
+                        {message}
                     </div>
                 </Alert>
             </Snackbar>
-            
+
             <Paper>
-                <Box display="flex" sx={{ marginTop: 2, paddingX: 2, paddingY: 1}}>
+                <Box display="flex" sx={{ marginTop: 2, paddingX: 2, paddingY: 1 }}>
                     <Box flexGrow={1}>
                         <Typography
                             component="h2"
@@ -275,7 +275,7 @@ function OrderCreate() {
                         </Typography>
                     </Box>
 
-                    <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}>
                         <Button
                             component={RouterLink}
                             to="/Cart"
@@ -283,11 +283,11 @@ function OrderCreate() {
                             color="primary"
                             startIcon={<ArrowBackIcon />}
                         >
-                        กลับ
+                            กลับ
                         </Button>
                     </Box>
 
-                    <Box sx={{ paddingX: 1, paddingY: 0 }}> 
+                    <Box sx={{ paddingX: 1, paddingY: 0 }}>
                         <Button
                             component={RouterLink}
                             to="/Pay"
@@ -295,15 +295,15 @@ function OrderCreate() {
                             color="primary"
                             startIcon={<PaymentIcon />}
                         >
-                        ชำระสินค้า
+                            ชำระสินค้า
                         </Button>
                     </Box>
 
                 </Box>
                 <Divider />
-                 
+
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-                <Grid item xs={6}>
+                    <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">รายการสินค้า</p>
                             <Autocomplete
@@ -313,7 +313,7 @@ function OrderCreate() {
                                 options={shelving}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) => option.ID === value.ID}
-                                onChange={(e, value) => { 
+                                onChange={(e, value) => {
                                     order.Shelving_ID = value?.ID;
                                     if (value) {
                                         setAmounts(value.Number)
@@ -335,7 +335,7 @@ function OrderCreate() {
                                 variant="outlined"
                                 type="number"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1 , max: 50}}}
+                                InputProps={{ inputProps: { min: 1, max: 50 } }}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -353,7 +353,7 @@ function OrderCreate() {
                                 variant="outlined"
                                 type="number"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1}}}
+                                InputProps={{ inputProps: { min: 1 } }}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
@@ -375,11 +375,11 @@ function OrderCreate() {
                             </div>
                         </Button>
                     </Grid>
-    
+
                 </Grid>
 
             </Paper>
-            
+
         </Container>
     );
 }

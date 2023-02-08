@@ -13,14 +13,14 @@ type Label struct {
 type Shelving struct {
 	gorm.Model
 
-	Employee_ID *uint
-	Employee    Employee
+	Employee_ID *uint    `valid:"-"`
+	Employee    Employee `gorm:"references:id" valid:"-"`
 
-	Label_ID *uint
-	Label    Label
+	Label_ID *uint `valid:"-"`
+	Label    Label `gorm:"references:id" valid:"-"`
 
-	Stock_ID *uint
-	Stock    Stock
+	Stock_ID *uint `valid:"-"`
+	Stock    Stock `gorm:"references:id" valid:"-"`
 
 	Number int `valid:"required~Number must be in the range 1-20,range(1|20)~Number must be in the range 1-20"`
 
