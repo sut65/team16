@@ -17,25 +17,28 @@ function Shelving() {
  const [openDelete, setOpenDelete] = React.useState(false);
  const [openUpdate, setOpenUpdate] = React.useState(false);
 
- const getShelving= async () => {
-   const apiUrl = "http://localhost:8080/shelvings";
-   const requestOptions = {
-     method: "GET",
-     headers: {Authorization: `Bearer ${localStorage.getItem("token")}`,
-     "Content-Type": "application/json",},
-   };
+ const getShelving = async () => {
+  const apiUrl = "http://localhost:8080/shelvings";
+  const requestOptions = {
+      method: "GET",
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+      },
+  };
 
-   fetch(apiUrl, requestOptions)
-     .then((response) => response.json())
-     .then((res) => {
-       console.log(res.data);
-       if (res.data) {
-         setShelving (res.data);
-       }
-     });
- };
+  await fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+          if (res.data) {
+              console.log(res.data)
+              setShelving(res.data);
+          }
+          else { console.log("NO DATA") }
+      });
+};
 
- const deleteMember = async () => {
+ const deleteShelf = async () => {
   const apiUrl = `http://localhost:8080/shelvings/${shelvingID}`;
   const requestOptions = {
       method: "DELETE",
@@ -67,11 +70,11 @@ const handleClose = () => {
 };
 
  const columns: GridColDef[] = [
-   { field: "ID", headerName: "ID", width: 50,  headerAlign:"center" },
-   { field: "Name", headerName: "Name", width: 150, headerAlign:"center" ,valueFormatter: (params)=>params.value.Name },
-   { field: "Amount", headerName: "Number", width: 150, headerAlign:"center" },
-   { field: "Price", headerName: "Cost", width: 150, headerAlign:"center" },
-   { field: "Label", headerName: "Label", width: 150, headerAlign:"center",valueFormatter: (params)=>params.value.Name },
+   { field: "ID", headerName: "ID", width: 50,  headerAlign:"center", align:"center" },
+   { field: "Stock", headerName: "Name", width: 150, headerAlign:"center", align:"center" ,valueFormatter: (params)=>params.value.Name },
+   { field: "Number", headerName: "Amount", width: 150, headerAlign:"center", align:"center" },
+   { field: "Cost", headerName: "Price", width: 150, headerAlign:"center", align:"center" },
+   { field: "Label", headerName: "Label", width: 150, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.Name },
    { field: "Edit", headerName: "Edit", width: 120,
       renderCell: () => {
           return (
@@ -106,7 +109,7 @@ const handleClose = () => {
            <Button
                    variant="contained"
                    color="primary"
-                   onClick={deleteMember}
+                   onClick={deleteShelf}
                >
                    <div className="good-font">
                        ยืนยัน
@@ -140,7 +143,7 @@ const handleClose = () => {
              color="primary"
              gutterBottom
            >
-             <div className="good-font">ชั้นวางสินค้า</div>
+             <div className="good-font">Product Shelf</div>
            </Typography>
          </Box>
 
@@ -152,7 +155,7 @@ const handleClose = () => {
              color="primary"
              startIcon={<GroupAddIcon />}
            >
-             <div className="good-font">เพิ่มสินค้าบนชั้นวาง</div>
+             <div className="good-font">Add products to the shelf</div>
            </Button>
          </Box>
 

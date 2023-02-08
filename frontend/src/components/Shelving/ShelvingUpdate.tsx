@@ -138,7 +138,7 @@ async function submit() {
        body: JSON.stringify(data),
    };
 
-   fetch(`${apiUrl}/shelves/${shelvingID}`, requestOptions)
+   fetch(`${apiUrl}/shelvings/${shelvingID}`, requestOptions)
        .then((response) => response.json())
        .then((res) => {
            if (res.data) {

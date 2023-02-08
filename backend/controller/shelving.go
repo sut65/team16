@@ -65,7 +65,7 @@ func GetShelving(c *gin.Context) {
 
 	id := c.Param("id")
 
-	if err := entity.DB().Raw("SELECT * FROM shelves WHERE id = ?", id).Scan(&shelving).Error; err != nil {
+	if err := entity.DB().Preload("Employee").Preload("stock").Preload("Label").Raw("SELECT * FROM shelvings WHERE id = ?", id).Find(&shelving).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -83,7 +83,7 @@ func ListShelvings(c *gin.Context) {
 
 	var shelvings []entity.Shelving
 
-	if err := entity.DB().Raw("SELECT * FROM shelves").Scan(&shelvings).Error; err != nil {
+	if err := entity.DB().Preload("Employee").Preload("Stock").Preload("Label").Raw("SELECT * FROM shelvings").Find(&shelvings).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
@@ -101,9 +101,9 @@ func DeleteShelving(c *gin.Context) {
 
 	id := c.Param("id")
 
-	if tx := entity.DB().Exec("DELETE FROM shelves WHERE id = ?", id); tx.RowsAffected == 0 {
+	if tx := entity.DB().Exec("DELETE FROM shelvings WHERE id = ?", id); tx.RowsAffected == 0 {
 
-		c.JSON(http.StatusBadRequest, gin.H{"error": "shelf not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
 
 		return
 

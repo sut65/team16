@@ -142,6 +142,13 @@ func UpdateStock(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "storage not found"})
 		return
 	}
+
+	// แทรกการ validate
+	if _, err := govalidator.ValidateStruct(&stock); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	st := entity.Stock{
 		Name:     stock.Name,
 		Amount:   stock.Amount,
@@ -151,6 +158,7 @@ func UpdateStock(c *gin.Context) {
 		Storage:  storage,
 		DateTime: stock.DateTime,
 	}
+
 	if err := entity.DB().Where("id = ?", id).Updates(&st).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

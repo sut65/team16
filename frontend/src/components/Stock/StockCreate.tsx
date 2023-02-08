@@ -130,7 +130,7 @@ function StockCreate() {
     let data = {
       Name: stock.Name,
       Amount: convertType(stock.Amount),
-      Price: convertType(stock.Price),
+      Price: typeof stock.Price === "string" ? parseFloat(stock.Price) : 0,
       Kind_ID: convertType(stock.Kind_ID),
       Storage_ID: convertType(stock.Storage_ID),
       Employee_ID: convertType(stock.Employee_ID),
