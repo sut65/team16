@@ -149,7 +149,7 @@ func UpdateQuantity(c *gin.Context) {
 		return
 	}
 	sc := entity.Shelving{
-		Amount: 	shelv.Amount,
+		Number: 	shelv.Number,
 	}
 
 	if err := entity.DB().Where("id = ?", id).Updates(&sc).Error; err != nil {

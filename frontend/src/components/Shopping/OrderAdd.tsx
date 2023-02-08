@@ -316,7 +316,7 @@ function OrderCreate() {
                                 onChange={(e, value) => { 
                                     order.Shelving_ID = value?.ID;
                                     if (value) {
-                                        setAmounts(value.Amount)
+                                        setAmounts(value.Number)
                                         setShevID(value.ID)
                                     };
                                     console.log("shevID: " + shevID);
