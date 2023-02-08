@@ -187,13 +187,12 @@ async function submit() {
 
        <Box
          display="flex"
-         sx={{ marginTop: 2,backgroundColor: 'lavender', }}
+         sx={{ marginTop: 2,backgroundColor: '#86B049', }}
        >
          <Box sx={{ paddingX: 2, paddingY:2,height: 70}}>
            <Typography
              component="h2"
              variant="h6"
-             color="primary"
              gutterBottom
            >
              <div className="good-font-big">สมัครสมาชิกฟาร์มมาร์ท</div>
