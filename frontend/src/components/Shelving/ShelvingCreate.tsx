@@ -118,8 +118,8 @@ const convertType = (data: string | number | undefined) => {
 
 async function submit() {
    let data = {
-     Amount: convertType(shelving.Number),
-     Price: convertType(shelving.Cost),
+     Number: convertType(shelving.Number),
+     Cost: typeof shelving.Cost === "string" ? parseFloat(shelving.Cost) : 0,
      Stock_ID: convertType(shelving.Stock_ID),
      Label_ID: convertType(shelving.Label_ID),
      Employee_ID: convertType(shelving.Employee_ID),
@@ -136,7 +136,7 @@ async function submit() {
        body: JSON.stringify(data),
    };
 
-   fetch(`${apiUrl}/shelves`, requestOptions)
+   fetch(`${apiUrl}/shelvings`, requestOptions)
        .then((response) => response.json())
        .then((res) => {
            if (res.data) {
@@ -189,11 +189,11 @@ async function submit() {
        <Grid container spacing={3} sx={{ padding: 2 }}>
        <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-                <p className="good-font">Name</p>
+                <p className="good-font">Product</p>
                 <Autocomplete
                 disablePortal
                 id="Stock_ID"
-                getOptionLabel={(item: StocksInterface) => `${item.Name}`}
+                getOptionLabel={(item: StocksInterface) => `${item.ID} ${item.Name} ราคา ${item.Price}`}
                 options={stock}
                 sx={{ width: 'auto' }}
                 isOptionEqualToValue={(option, value) =>
@@ -222,41 +222,31 @@ async function submit() {
         </Grid>
 
         <Grid item xs={6}>
-           <FormControl fullWidth variant="outlined">
-             <p className="good-font">Amount</p>
-             <TextField
-               id="Number"
-               variant="outlined"
-               type="number"
-               size="medium"
-               InputProps={{ inputProps: { min: 1 } }}
-               InputLabelProps={{
-                 shrink: true,
-               }}
-               value={shelving.Number || ""}
-               onChange={handleInputChange}
-             />
-           </FormControl>
-         </Grid>
-
-
-        <Grid item xs={6}>
-           <FormControl fullWidth variant="outlined">
-             <p className="good-font">Price</p>
-             <TextField
-               id="Cost"
-               variant="outlined"
-               type="number"
-               size="medium"
-               InputProps={{ inputProps: { min: 1 } }}
-               InputLabelProps={{
-                 shrink: true,
-               }}
-               value={shelving.Cost || ""}
-               onChange={handleInputChange}
-             />
-           </FormControl>
-         </Grid>
+            <FormControl fullWidth variant="outlined">
+              <p>Amount</p>
+              <TextField
+                id="Number"
+                variant="outlined"
+                type="number"
+                size="medium"
+                value={shelving.Number || ""}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+              <p>Price</p>
+              <TextField
+                id="Cost"
+                variant="outlined"
+                type="number"
+                size="medium"
+                value={shelving.Cost || ""}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+          </Grid>
 
         <Grid item xs={12}>
             <FormControl fullWidth variant="outlined">

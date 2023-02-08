@@ -72,11 +72,20 @@ func ListOrder(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": order})
 }
+func ListShelv(c *gin.Context) {
+	var shelvings []entity.Shelving
+	if err := entity.DB().Preload("Stock").Raw("SELECT * FROM shelvings").Find(&shelvings).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": shelvings})
+}
+
 // ListOrderCart /OrderCart/:id
 func ListOrderCart(c *gin.Context) {
 	var order []entity.Order
 	id := c.Param("id")
-	if err := entity.DB().Preload("Shelving").Preload("Shopping_Cart").Raw("SELECT * FROM orders WHERE shopping_cart_id = ?", id).Find(&order).Error; err != nil {
+	if err := entity.DB().Preload("Shelving").Preload("Shelving.Stock").Preload("Shopping_Cart").Raw("SELECT * FROM orders WHERE shopping_cart_id = ?", id).Find(&order).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -131,4 +140,21 @@ func UpdateOrder(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": order})
+}
+func UpdateQuantity(c *gin.Context) {
+	var shelv entity.Shelving
+	id := c.Param("id")
+	if err := c.ShouldBindJSON(&shelv); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	sc := entity.Shelving{
+		Number: 	shelv.Number,
+	}
+
+	if err := entity.DB().Where("id = ?", id).Updates(&sc).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": shelv})
 }
