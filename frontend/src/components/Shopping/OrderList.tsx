@@ -6,7 +6,6 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import EditIcon from '@mui/icons-material/Edit';
 import { OrderInterface } from "../../models/Natthapon/IOrder"
 import { Dialog, DialogTitle } from "@mui/material";
 
@@ -17,9 +16,12 @@ function Order() {
     const [price, setPrice] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
     const [num, setNum] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการจ่าย/ลบ
+    const [amounts, setAmounts] = React.useState(0);
+    const [shevID, setShevID] = React.useState(0);
 
     let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
     let Total = localStorage.getItem("Total"); // เรีกใช้ค่าจากlocal storage 
+
 
     // โหลดข้อมูลทั้งหมดใส่ datagrid
     const getOrder = async () => {
@@ -42,6 +44,29 @@ function Order() {
                 else { console.log("NO DATA") }
             });
     };
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+        },
+    };
+    const getAmounts = async () => {
+        fetch(`http://localhost:8080/shelving/${shevID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                    setAmounts(res.data);
+                }
+                else { console.log("NO DATA") }
+            });
+    };
+
+    useEffect(() => {
+        getAmounts();
+    }, []);
+
     let minus = Number(Total) - Number(price)
     // console.log("total " + Total)
     // console.log("price " + price)
@@ -75,6 +100,37 @@ function Order() {
             });
 
     }
+    console.log("amount "+amounts)
+    console.log("shevID "+shevID)
+
+    async function restore() {
+        let amount = amounts
+        let data = {
+            Number: num,
+        };
+
+        console.log(num)
+        console.log(data)
+
+        const requestOptions = {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`http://localhost:8080/UpdateQuantity/${shevID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                }
+                else { console.log("NO DATA") }
+            });
+
+    }
 
     // function ลบข้อมูล
     const deleteOrder = async () => {
@@ -104,10 +160,14 @@ function Order() {
         setOrderID(Number(params.row.ID)); //setเพื่อรอการลบ
         setPrice(Number(params.row.Prices)); //setเพื่อรอการลบ
         setNum(Number(params.row.Quantity)); //setเพื่อรอการลบ
+        setShevID(Number(params.row.Shelving)); //setเพื่อรอการลบ
         localStorage.setItem("orderID", params.row.ID); //setเพื่อการแก้ไข
+        //localStorage.setItem("ShelvID", params.row.Shelving); //setเพื่อการแก้ไข
         console.log(price)
     };
     console.log("Quantity " + num)
+    // let ShelvID = localStorage.getItem("ShelvID");
+    // console.log("ShelvID " + ShelvID)
 
      // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
     const handleClose = () => {
@@ -151,6 +211,7 @@ function Order() {
                         color="primary"
                         //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
                         onClick={deleteOrder}
+                    
                     >
                         <div className="good-font">
                             ยืนยัน

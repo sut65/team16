@@ -11,14 +11,11 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Autocomplete from "@mui/material/Autocomplete";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { OrderInterface } from "../../models/Natthapon/IOrder";
 import { ShelvingsInterface } from "../../models/methas/IShelving";
-import { CartInterface } from "../../models/Natthapon/ICart";
 import PaymentIcon from '@mui/icons-material/Payment';
-import { StocksInterface } from "../../models/methas/IStock";
 
 
 
@@ -38,8 +35,6 @@ function OrderCreate() {
 
     const [shelving, setShelving] = React.useState<ShelvingsInterface[]>([]);
     const [order, setOrder] = React.useState<OrderInterface>({});
-    const [cart, setCart] = React.useState<CartInterface>({});
-    const [stock, setStock] = React.useState<StocksInterface[]>([]);
     const [sumprice, setSumprice] = React.useState(0);
     const [orderPrice, setOrerPrice] = React.useState(0);
     const [num, setNum] = React.useState(0);
@@ -89,18 +84,6 @@ function OrderCreate() {
         console.log("sum: " + (Number(sumprice) + Number(orderPrice)));
     };
 
-    const getStock = async () => {
-        fetch(`${apiUrl}/stocks`, requestOptions)
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    console.log(res.data)
-                    setStock(res.data);
-                }
-                else { console.log("NO DATA") }
-            });
-    };
-
     const getShelving = async () => {
         fetch(`${apiUrl}/shelv`, requestOptions)
             .then((response) => response.json())
@@ -117,7 +100,6 @@ function OrderCreate() {
 
     useEffect(() => {
         getShelving();
-        getStock();
     }, []);
 
     fetch(`${apiUrl}/ordersum/${cartID}`, requestOptions)
