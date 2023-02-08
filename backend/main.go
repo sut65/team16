@@ -48,11 +48,11 @@ func main() {
 			r.DELETE("/labels/:id", controller.DeleteLabel)
 
 			//Shelving Routes
-			r.GET("/shelves", controller.ListShelvings)
-			r.GET("/shelf/:id", controller.GetShelving)
-			r.POST("/shelves", controller.CreateShelving)
-			r.PATCH("/shelves", controller.UpdateShelving)
-			r.DELETE("/shelves/:id", controller.DeleteShelving)
+			r.GET("/shelvings", controller.ListShelvings)
+			r.GET("/shelving/:id", controller.GetShelving)
+			r.POST("/shelvings", controller.CreateShelving)
+			r.PATCH("/shelvings", controller.UpdateShelving)
+			r.DELETE("/shelvings/:id", controller.DeleteShelving)
 
 			//Member Routes
 			r.GET("/members", controller.ListMember)
@@ -122,10 +122,10 @@ func main() {
 			r.PATCH("/discount/:id", controller.UpdateDiscount)
 			r.DELETE("/discount/:id", controller.DeleteDiscount)
 
-			//Discouting price Routes 
+			//Discouting price Routes
 			r.PATCH("/discounting/:id", controller.DiscountingStock)
 
-			//Reset price Routes 
+			//Reset price Routes
 			r.PATCH("/reset_price/:stockID/:price", controller.ResetPrice)
 
 			//Discount_Type Routes
