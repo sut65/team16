@@ -53,6 +53,9 @@ function OrderCreate() {
     const [latestCartId, setLatestCartId] = React.useState(0);
     const [orderPrice, setOrerPrice] = React.useState(0);
     const [sumprice, setSumprice] = React.useState(0);
+    const [num, setNum] = React.useState(0);
+    const [shevID, setShevID] = React.useState(0);
+    const [amounts, setAmounts] = React.useState(0);
 
     const apiUrl = "http://localhost:8080";
     const requestOptions = {
@@ -82,6 +85,8 @@ function OrderCreate() {
         const id = event.target.id as keyof typeof OrderCreate;
         const { value } = event.target;
         setOrder({ ...order, [id]: value });
+        setNum(value)
+        console.log("Quantity: " + num);
     };
     const handleInputPrice = (
         event: React.ChangeEvent<{ id?: string; value: any }>
@@ -235,6 +240,36 @@ function OrderCreate() {
 
     }
 
+    async function reduce() {
+        let quantity = amounts - num;
+        let data = {
+            Amount: quantity,
+        };
+
+        console.log(quantity)
+        console.log(data)
+
+        const requestOptions = {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`${apiUrl}/UpdateQuantity/${shevID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    setErrorMessage("")
+                } else {
+                    setErrorMessage(res.error)
+                }
+            });
+
+    }
+
     async function addproduct() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity): 0,
@@ -260,6 +295,8 @@ function OrderCreate() {
                 if (res.data) {
                     setSuccess2(true);
                     setErrorMessage("")
+                    reduce()
+                    sum()
                     return { status: true, message: res.data };
                 } else {
                     setError2(true);
@@ -452,38 +489,29 @@ function OrderCreate() {
 
                     
                 <Grid container spacing={3} sx={{ padding: 2 }}>
+                    
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">รายการสินค้า</p>
                             <Autocomplete
                                 disablePortal
                                 id="Stock_ID"
-                                getOptionLabel={(item: StocksInterface) => `${item.ID} ${item.Name} ราคา ${item.Price}`}
-                                options={stock}
+                                getOptionLabel={(item: ShelvingsInterface) => `${item.Stock.Name} ราคา ${item.Stock.Price}`}
+                                options={shelving}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) => option.ID === value.ID}
-                                onChange={(e, value) => { order.Shelving_ID = value?.ID }}
+                                onChange={(e, value) => {
+                                    order.Shelving_ID = value?.ID;
+                                    if (value) {
+                                        setAmounts(value.Number)
+                                        setShevID(value.ID)
+                                    };
+                                    console.log("shevID: " + shevID);
+                                }}
                                 renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
                         </FormControl>
                     </Grid>
-
-                    {/* <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">รายการสินค้า</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Stock_ID"
-                                getOptionLabel={(item: ShelvingsInterface) => `${item.ID} ${item.Stock.Name} ราคา ${item.Stock.Price}`}
-                                options={shelving}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) => option.ID === value.ID}
-                                onChange={(e, value) => { order.Shelving_ID = value?.ID }}
-                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
-                            />
-                        </FormControl>
-                    </Grid> */}
-
         
 
 
@@ -526,10 +554,7 @@ function OrderCreate() {
                     <Grid item xs={12}>
                         <Button
                             style={{ display: "flex", justifyContent: "center", margin: "0 auto" }}
-                            onClick={async () => {
-                                await addproduct();
-                                await sum();
-                            }}
+                            onClick={addproduct}
                             variant="contained"
                             color="primary"
                         >
