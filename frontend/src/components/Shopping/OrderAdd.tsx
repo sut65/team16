@@ -308,7 +308,7 @@ function OrderCreate() {
                             <p className="good-font">รายการสินค้า</p>
                             <Autocomplete
                                 disablePortal
-                                id="Stock_ID"
+                                id="Shelving_ID"
                                 getOptionLabel={(item: ShelvingsInterface) => `${item.Stock.Name} ราคา ${item.Stock.Price}`}
                                 options={shelving}
                                 sx={{ width: 'auto' }}

@@ -109,7 +109,7 @@ function OrderCreate() {
     };
 
     const getShelving = async () => {
-        fetch(`${apiUrl}/Shelving`, requestOptions)
+        fetch(`${apiUrl}/shelv`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
             if (res.data) {
@@ -490,12 +490,12 @@ function OrderCreate() {
                     
                 <Grid container spacing={3} sx={{ padding: 2 }}>
                     
-                    <Grid item xs={6}>
+                <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">รายการสินค้า</p>
                             <Autocomplete
                                 disablePortal
-                                id="Stock_ID"
+                                id="Shelving_ID"
                                 getOptionLabel={(item: ShelvingsInterface) => `${item.Stock.Name} ราคา ${item.Stock.Price}`}
                                 options={shelving}
                                 sx={{ width: 'auto' }}
@@ -507,6 +507,7 @@ function OrderCreate() {
                                         setShevID(value.ID)
                                     };
                                     console.log("shevID: " + shevID);
+                                    console.log("Amount: " + amounts);
                                 }}
                                 renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
