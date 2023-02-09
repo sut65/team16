@@ -69,7 +69,7 @@ const handleClose = () => {
   setOpenUpdate(false)
 };
 
- const columns: GridColDef[] = [
+ const columns1: GridColDef[] = [
    { field: "ID", headerName: "ID", width: 50,  headerAlign:"center", align:"center" },
    { field: "Stock", headerName: "Name", width: 150, headerAlign:"center", align:"center" ,valueFormatter: (params)=>params.value.Name },
    { field: "Number", headerName: "Amount", width: 150, headerAlign:"center", align:"center" },
@@ -96,6 +96,64 @@ const handleClose = () => {
               > </Button>
               );},},
  ];
+
+ //2
+ const columns2: GridColDef[] = [
+  { field: "ID", headerName: "ID", width: 50,  headerAlign:"center", align:"center" },
+  { field: "Stock", headerName: "Name", width: 150, headerAlign:"center", align:"center" ,valueFormatter: (params)=>params.value.Name },
+  { field: "Number", headerName: "Amount", width: 150, headerAlign:"center", align:"center" },
+  { field: "Cost", headerName: "Price", width: 150, headerAlign:"center", align:"center" },
+  { field: "Label", headerName: "Label", width: 150, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.Name },
+  { field: "Edit", headerName: "Edit", width: 120,
+     renderCell: () => {
+         return (
+             <Button
+                 variant="contained"
+                 color="primary"
+                 onClick={() => setOpenUpdate(true)}
+                 startIcon={<EditIcon />}
+             > </Button>
+             );},},
+   { field: "Delete", headerName: "Delete", width: 120,
+     renderCell: () => {
+         return (
+             <Button
+                 variant="contained"
+                 color="primary"
+                 onClick={() => setOpenDelete(true)}
+                 startIcon={<DeleteIcon />}
+             > </Button>
+             );},},
+];
+
+//3
+const columns3: GridColDef[] = [
+  { field: "ID", headerName: "ID", width: 50,  headerAlign:"center", align:"center" },
+  { field: "Stock", headerName: "Name", width: 150, headerAlign:"center", align:"center" ,valueFormatter: (params)=>params.value.Name },
+  { field: "Number", headerName: "Amount", width: 150, headerAlign:"center", align:"center" },
+  { field: "Cost", headerName: "Price", width: 150, headerAlign:"center", align:"center" },
+  { field: "Label", headerName: "Label", width: 150, headerAlign:"center", align:"center",valueFormatter: (params)=>params.value.Name },
+  { field: "Edit", headerName: "Edit", width: 120,
+     renderCell: () => {
+         return (
+             <Button
+                 variant="contained"
+                 color="primary"
+                 onClick={() => setOpenUpdate(true)}
+                 startIcon={<EditIcon />}
+             > </Button>
+             );},},
+   { field: "Delete", headerName: "Delete", width: 120,
+     renderCell: () => {
+         return (
+             <Button
+                 variant="contained"
+                 color="primary"
+                 onClick={() => setOpenDelete(true)}
+                 startIcon={<DeleteIcon />}
+             > </Button>
+             );},},
+];
 
  useEffect(() => {
    getShelving();
@@ -136,15 +194,14 @@ const handleClose = () => {
          display="flex"
          sx={{ marginTop: 2,}}
        >
+
          <Box flexGrow={1}>
-           <Typography
-             component="h2"
-             variant="h6"
+           <Button
+             variant="contained"
              color="primary"
-             gutterBottom
            >
-             <div className="good-font">Product Shelf</div>
-           </Typography>
+             <div className="good-font">Meat</div>
+           </Button>
          </Box>
 
          <Box sx={{ paddingX: 1, paddingY: 0 }}>
@@ -155,7 +212,7 @@ const handleClose = () => {
              color="primary"
              startIcon={<GroupAddIcon />}
            >
-             <div className="good-font">Add products to the shelf</div>
+             <div className="good-font">Add Meat to the shelf</div>
            </Button>
          </Box>
 
@@ -164,7 +221,86 @@ const handleClose = () => {
                     <DataGrid
                         rows={shelving}
                         getRowId={(row) => row.ID}
-                        columns={columns}
+                        columns={columns1}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        onRowClick={handleRowClick}
+                    />
+                </div>
+     </Container>
+
+
+     <Container maxWidth="md">
+       <Box
+         display="flex"
+         sx={{ marginTop: 2,}}
+       >
+         <Box flexGrow={1}>
+           <Button
+             variant="contained"
+             color="primary"
+           >
+             <div className="good-font">Fresh</div>
+           </Button>
+         </Box>
+
+         <Box sx={{ paddingX: 1, paddingY: 0 }}>
+           <Button
+             component={RouterLink}
+             to="/ShelvingCreate"
+             variant="contained"
+             color="primary"
+             startIcon={<GroupAddIcon />}
+           >
+             <div className="good-font">Add Fresh to the shelf</div>
+           </Button>
+         </Box>
+
+       </Box>
+       <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
+                    <DataGrid
+                        rows={shelving}
+                        getRowId={(row) => row.ID}
+                        columns={columns2}
+                        pageSize={5}
+                        rowsPerPageOptions={[5]}
+                        onRowClick={handleRowClick}
+                    />
+                </div>
+     </Container>
+
+     <Container maxWidth="md">
+       <Box
+         display="flex"
+         sx={{ marginTop: 2,}}
+       >
+         <Box flexGrow={1}>
+           <Button
+             variant="contained"
+             color="primary"
+           >
+             <div className="good-font">Dairy</div>
+           </Button>
+         </Box>
+
+         <Box sx={{ paddingX: 1, paddingY: 0 }}>
+           <Button
+             component={RouterLink}
+             to="/ShelvingCreate"
+             variant="contained"
+             color="primary"
+             startIcon={<GroupAddIcon />}
+           >
+             <div className="good-font">Add Dairy to the shelf</div>
+           </Button>
+         </Box>
+
+       </Box>
+       <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
+                    <DataGrid
+                        rows={shelving}
+                        getRowId={(row) => row.ID}
+                        columns={columns3}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
                         onRowClick={handleRowClick}
