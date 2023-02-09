@@ -231,7 +231,7 @@
               component={RouterLink}
               to="/Payment"
               variant="contained"
-              color="primary"
+              color="success"
               startIcon={<PaymentIcon />}
           >
           ประวัติการชำระ
@@ -243,7 +243,7 @@
             component={RouterLink}
             to="/OrderCreate"
             variant="contained"
-            color="primary"
+            color="success"
             startIcon={<ShoppingCartCheckoutIcon />}
         >
             สร้างรายการสินค้า
