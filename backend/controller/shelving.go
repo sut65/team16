@@ -80,7 +80,7 @@ func GetShelving(c *gin.Context) {
 
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": shelving.Number})
+	c.JSON(http.StatusOK, gin.H{"data": shelving})
 
 }
 

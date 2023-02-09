@@ -35,11 +35,13 @@ function OrderCreate() {
 
     const [shelving, setShelving] = React.useState<ShelvingsInterface[]>([]);
     const [order, setOrder] = React.useState<OrderInterface>({});
-    const [sumprice, setSumprice] = React.useState(0);
-    const [orderPrice, setOrerPrice] = React.useState(0);
-    const [num, setNum] = React.useState(0);
-    const [amounts, setAmounts] = React.useState(0);
-    const [shevID, setShevID] = React.useState(0);
+
+    const [orderPrice, setOrerPrice] = React.useState(0);       //ราคา input
+    const [num, setNum] = React.useState(0);                    //จำนวนสินค้า input
+    const [sumprice, setSumprice] = React.useState(0);          //รวมราคาในตะกร้า
+    const [shevID, setShevID] = React.useState(0);              //ID ชั้นวาง
+    const [amounts, setAmounts] = React.useState(0);            //จำนวนสินค้าที่ชั้นวาง
+    const [shevprice, setShevprice] = React.useState(0);        //ราคาสินค้าที่ชั้นวาง
 
 
     const apiUrl = "http://localhost:8080";
@@ -67,10 +69,10 @@ function OrderCreate() {
     ) => {
         const id = event.target.id as keyof typeof OrderCreate;
         const { value } = event.target;
-        setOrder({ ...order, [id]: value });
-        setNum(value)
-        console.log("Quantity: " + num);
+        setOrder({ ...order, [id]: value, Prices: value * shevprice });
+        setNum(value)  
     };
+    let total = order.Prices
 
     const handleInputPrice = (
         event: React.ChangeEvent<{ id?: string; value: any }>
@@ -150,7 +152,7 @@ function OrderCreate() {
     async function addproduct() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
-            Prices: typeof order.Prices === "string" ? parseFloat(order.Prices) : 0,
+            Prices: typeof order.Prices === "string" ? parseFloat(order.Prices) : total,
             Shelving_ID: convertType(order.Shelving_ID),
             Shopping_Cart_ID: Number(cartID),
         };
@@ -300,9 +302,11 @@ function OrderCreate() {
                                     if (value) {
                                         setAmounts(value.Number)
                                         setShevID(value.ID)
+                                        setShevprice(value.Cost)
                                     };
                                     console.log("shevID: " + shevID);
                                     console.log("Amount: " + amounts);
+                                    console.log("shevprice: " + shevprice);
                                 }}
                                 renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />

@@ -387,12 +387,12 @@ func SetupDatabase() {
 
 	// //Status
 	// Status1 := Status{
-	// 	Status: "unpaid",
+	// 	Status: "ยังไม่ได้ชำระ",
 	// }
 	// db.Model(&Status{}).Create(&Status1)
 
 	// Status2 := Status{
-	// 	Status: "paid",
+	// 	Status: "ชำระแล้ว",
 	// }
 	// db.Model(&Status{}).Create(&Status2)
 

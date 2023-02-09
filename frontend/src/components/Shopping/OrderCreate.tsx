@@ -86,7 +86,7 @@ function OrderCreate() {
         setOrder({ ...order, [id]: value, Prices: value * shevprice });
         setNum(value)  
     };
-    let pric = order.Prices
+    let total = order.Prices
 
     const handleInputPrice = (
         event: React.ChangeEvent<{ id?: string; value: any }>
@@ -261,7 +261,7 @@ function OrderCreate() {
     async function addproduct() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
-            Prices: typeof order.Prices === "string" ? parseFloat(order.Prices) : pric,
+            Prices: typeof order.Prices === "string" ? parseFloat(order.Prices) : total,
             Shelving_ID: convertType(order.Shelving_ID),
             Shopping_Cart_ID: latestCartId,
         };
