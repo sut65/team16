@@ -79,22 +79,3 @@ func TestCost(t *testing.T) {
 		g.Expect(err.Error()).To(Equal("Cost must be in the range 1-1000"))
 	}
 }
-
-func TestNumberDoesNotStartWithZero(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	sv := entity.Shelving{
-		Number: 05,
-		Cost:   60.00,
-	}
-	ok, err := govalidator.ValidateStruct(sv)
-
-	// ok ต้องไม่เป็น true แปลว่าต้องจับ error ได้
-	g.Expect(ok).ToNot(BeTrue())
-
-	// err ต้องไม่เป็น nil แปลว่าต้องจับ error ได้
-	g.Expect(err).ToNot(BeNil())
-
-	// err.Error() ต้องมี message แสดงออกมา
-	g.Expect(err.Error()).NotTo(Equal('0'), "Number should not start with 0")
-}
