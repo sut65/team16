@@ -110,7 +110,9 @@ function Shelving() {
             color="primary"
             onClick={() => setOpenUpdate(true)}
             startIcon={<EditIcon />}
-          > </Button>
+          >
+            แก้ไข
+          </Button>
         );
       },
     },
@@ -123,7 +125,9 @@ function Shelving() {
             color="primary"
             onClick={() => setOpenDelete(true)}
             startIcon={<DeleteIcon />}
-          > </Button>
+            >
+            ลบ
+          </Button>
         );
       },
     },
@@ -145,7 +149,9 @@ function Shelving() {
             color="primary"
             onClick={() => setOpenUpdate(true)}
             startIcon={<EditIcon />}
-          > </Button>
+          >
+            แก้ไข
+          </Button>
         );
       },
     },
@@ -158,7 +164,9 @@ function Shelving() {
             color="primary"
             onClick={() => setOpenDelete(true)}
             startIcon={<DeleteIcon />}
-          > </Button>
+            >
+            ลบ
+          </Button>
         );
       },
     },
@@ -180,7 +188,9 @@ function Shelving() {
             color="primary"
             onClick={() => setOpenUpdate(true)}
             startIcon={<EditIcon />}
-          > </Button>
+          >
+            แก้ไข
+          </Button>
         );
       },
     },
@@ -193,7 +203,9 @@ function Shelving() {
             color="primary"
             onClick={() => setOpenDelete(true)}
             startIcon={<DeleteIcon />}
-          > </Button>
+            >
+            ลบ
+          </Button>
         );
       },
     },
@@ -258,7 +270,7 @@ function Shelving() {
               color="primary"
               startIcon={<AddIcon />}
             >
-              <div className="good-font">เพิ่มสินค้าบนชั้นวาง</div>
+              <div className="good-font">เพิ่มเนื้อบนชั้นวาง</div>
             </Button>
           </Box>
 
@@ -289,6 +301,17 @@ function Shelving() {
               <div className="good-font">ผักและผลไม้</div>
             </Button>
           </Box>
+          <Box sx={{ paddingX: 1, paddingY: 0 }}>
+            <Button
+              component={RouterLink}
+              to="/ShelvingCreate"
+              variant="contained"
+              color="primary"
+              startIcon={<AddIcon />}
+            >
+              <div className="good-font">เพิ่มผักและผลไม้บนชั้นวาง</div>
+            </Button>
+          </Box>
 
         </Box>
         <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
@@ -314,6 +337,18 @@ function Shelving() {
               color="primary"
             >
               <div className="good-font">ผลิตภัณฑ์ประเภทนม</div>
+            </Button>
+          </Box>
+
+          <Box sx={{ paddingX: 1, paddingY: 0 }}>
+            <Button
+              component={RouterLink}
+              to="/ShelvingCreate"
+              variant="contained"
+              color="primary"
+              startIcon={<AddIcon />}
+            >
+              <div className="good-font">เพิ่มผลิตภัณฑ์นมบนชั้นวาง</div>
             </Button>
           </Box>
 
