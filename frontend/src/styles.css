@@ -4,7 +4,9 @@
   font-family: "Prompt", sans-serif;
   font-size: large;
 }
-
+.title-big{
+  font-size: xx-large;
+}
 .good-font-white {
   font-family: "Prompt", sans-serif;
   color: #faf7f0;
