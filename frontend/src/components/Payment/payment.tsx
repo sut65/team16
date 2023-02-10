@@ -192,7 +192,7 @@ function Payment() {
                     </Box>
             
                 </Box>
-                <div style={{ height: 400, width: '100%', marginTop: '20px'columns={columns} }}>
+                <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
                     <DataGrid
                         rows={payment}
                         getRowId={(row) => row.ID}
