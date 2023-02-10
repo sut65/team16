@@ -1,9 +1,9 @@
-package entity
+package test
 
 import (
 	"testing"
 	"time"
-
+	"github.com/Team16/farm_mart/entity"
 	"github.com/asaskevich/govalidator"
 	. "github.com/onsi/gomega"
 )
@@ -11,7 +11,7 @@ import (
 func TestStock(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	st := Stock{
+	st := entity.Stock{
 		Name:     "Me",
 		Amount:   100,
 		Price:    60.00,
@@ -32,7 +32,7 @@ func TestStock(t *testing.T) {
 func TestNameNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	st := Stock{
+	st := entity.Stock{
 		Name:     "",
 		Amount:   100,
 		Price:    60,
@@ -59,7 +59,7 @@ func TestAmount(t *testing.T) {
 	}
 
 	for _, am := range fixture {
-		st := Stock{
+		st := entity.Stock{
 			Name:     "Me",
 			Amount:   am,
 			Price:    60,
@@ -87,7 +87,7 @@ func TestPrice(t *testing.T) {
 	}
 
 	for _, pr := range fixture {
-		st := Stock{
+		st := entity.Stock{
 			Name:     "Me",
 			Amount:   100,
 			Price:    pr,
@@ -111,7 +111,7 @@ func TestPrice(t *testing.T) {
 func TestDateTimeMustNotBePast(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	st := Stock{
+	st := entity.Stock{
 		Name:     "Me",
 		Amount:   100,
 		Price:    60.00,
@@ -134,7 +134,7 @@ func TestDateTimeMustNotBePast(t *testing.T) {
 func TestDateTimeMushNotBeFuture(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	st := Stock{
+	st := entity.Stock{
 		Name:     "Me",
 		Amount:   100,
 		Price:    60.00,

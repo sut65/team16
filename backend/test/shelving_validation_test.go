@@ -1,8 +1,8 @@
-package entity
+package test
 
 import (
 	"testing"
-
+	"github.com/Team16/farm_mart/entity"
 	"github.com/asaskevich/govalidator"
 	. "github.com/onsi/gomega"
 )
@@ -10,7 +10,7 @@ import (
 func TestShelving(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	sv := Shelving{
+	sv := entity.Shelving{
 		Number: 15,
 		Cost:   60.00,
 	}
@@ -35,7 +35,7 @@ func TestNumberOf(t *testing.T) {
 	}
 
 	for _, sh := range fixture {
-		sh := Shelving{
+		sh := entity.Shelving{
 			Number: sh,
 			Cost:   20,
 		}
@@ -61,7 +61,7 @@ func TestCost(t *testing.T) {
 	}
 
 	for _, ct := range fixture {
-		sv := Shelving{
+		sv := entity.Shelving{
 
 			Number: 20,
 			Cost:   ct,
@@ -83,7 +83,7 @@ func TestCost(t *testing.T) {
 func TestNumberDoesNotStartWithZero(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	sv := Shelving{
+	sv := entity.Shelving{
 		Number: 05,
 		Cost:   60.00,
 	}

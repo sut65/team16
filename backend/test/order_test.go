@@ -1,16 +1,17 @@
-package entity
+package test
 
 import (
 	"testing"
 	"github.com/asaskevich/govalidator"
 	"github.com/onsi/gomega"
+	"github.com/Team16/farm_mart/entity"
 )
 
 func TestQuantityNotBlank(t *testing.T) {
 	g := gomega.NewGomegaWithT(t)
 
 	t.Run("Quantity can not Blank", func(t *testing.T) {
-		order := Order{
+		order := entity.Order{
 			Prices: 1,
 		}
 
@@ -24,7 +25,7 @@ func TestQuantityNotBlank(t *testing.T) {
 func TestQuantityInRange(t *testing.T) {
 	g := gomega.NewGomegaWithT(t)
 	t.Run("Quantity must be in range (1-100)", func(t *testing.T) {
-		order := Order{
+		order := entity.Order{
 			Quantity: 101,
 			Prices: 1,
 		}
@@ -40,7 +41,7 @@ func TestQuantityInRange(t *testing.T) {
 func TestPricesInRange(t *testing.T) {
 	g := gomega.NewGomegaWithT(t)
 	t.Run("Price must be in range (1-1000000)", func(t *testing.T) {
-		order := Order{
+		order := entity.Order{
 			Quantity: 10,
 			Prices: -5,
 		}

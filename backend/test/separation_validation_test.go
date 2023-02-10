@@ -1,9 +1,9 @@
-package entity
+package test
 
 import (
 	"testing"
 	"time"
-
+	"github.com/Team16/farm_mart/entity"
 	"github.com/asaskevich/govalidator"
 	. "github.com/onsi/gomega"
 )
@@ -13,7 +13,7 @@ func TestAmountNotBeBank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	t.Run("Amount cannot be blank", func(t *testing.T) {
-		sep := Separation{
+		sep := entity.Separation{
 			Date_Out: time.Now(),
 			// Amount:   ,
 			Status:   "+",
@@ -32,7 +32,7 @@ func TestAmountMustBePositive(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	t.Run("Amount must be positive", func(t *testing.T) {
-		sep := Separation{
+		sep := entity.Separation{
 			Date_Out: time.Now(),
 			Amount:   -2,
 			Status:   "+",
@@ -52,7 +52,7 @@ func TestStatusNotBeBank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	t.Run("Status cannot be blank", func(t *testing.T) {
-		sep := Separation{
+		sep := entity.Separation{
 			Date_Out: time.Now(),
 			Amount:   2,
 			Status:   "",
@@ -71,7 +71,7 @@ func TestStatusMustBePlusOrNegative(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	t.Run("Status must be Plus or Minus", func(t *testing.T) {
-		sep := Separation{
+		sep := entity.Separation{
 			Date_Out: time.Now(),
 			Amount:   2,
 			Status:   "O",
@@ -93,7 +93,7 @@ func TestDate_OutCannotBePast(t *testing.T) {
 	yesterday := time.Now().AddDate(0, 0, -1);
 
 	t.Run("Date Out cannot be past", func(t *testing.T) {
-		sep := Separation{
+		sep := entity.Separation{
 			Date_Out: yesterday,
 			Amount:   2,
 			Status:   "+",
