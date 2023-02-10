@@ -102,6 +102,17 @@ func ListShelvings(c *gin.Context) {
 
 }
 
+func ListLabel(c *gin.Context) {
+	var shelvings []entity.Shelving
+	id := c.Param("id")
+	if err := entity.DB().Preload("Stock").Preload("Label").Preload("Employee").Raw("SELECT * FROM shelvings WHERE Label_id = ?", id).Find(&shelvings).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": shelvings})
+}
+
 // DELETE /shelvings/:id
 
 func DeleteShelving(c *gin.Context) {
@@ -152,11 +163,7 @@ func UpdateShelving(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "stock not found"})
 		return
 	}
-	// แทรกการ validate
-	if _, err := govalidator.ValidateStruct(&shelving); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+
 	sv := entity.Shelving{
 		Employee: employee,
 		Label:    label,
@@ -170,6 +177,11 @@ func UpdateShelving(c *gin.Context) {
 
 		return
 
+	}
+	// แทรกการ validate
+	if _, err := govalidator.ValidateStruct(&sv); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": shelving})

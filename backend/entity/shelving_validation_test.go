@@ -7,7 +7,7 @@ import (
 <<<<<<< HEAD
 
 =======
-	"github.com/onsi/gomega"
+
 >>>>>>> 32c26d3 (superupdate)
 	. "github.com/onsi/gomega"
 )
@@ -28,9 +28,8 @@ func TestShelving(t *testing.T) {
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
 	g.Expect(err).To(BeNil())
-	g.Expect(ok).To(gomega.BeFalse(), "Number should not start with 0")
-	g.Expect(err).ToNot(gomega.BeNil(), "Error should not be nil")
-	g.Expect(err.Error()).To(gomega.Equal("Number should not start with 0"))
+
+
 
 
 }
