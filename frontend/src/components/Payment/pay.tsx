@@ -23,7 +23,6 @@ import { Payment_methodInterface } from "../../models/Natthapon/IPayment_method"
 import { PaymentInterface } from "../../models/Natthapon/IPayment"
 import { GetCurrentEmployee } from "../../services/HttpClientService";
 
-
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref
@@ -43,6 +42,7 @@ function PaymentCreate() {
     const [payment, setPayment] = React.useState<PaymentInterface>({
         Time: new Date(),
     });
+
     let Total = localStorage.getItem("Total"); // เรีกใช้ค่าจากlocal storage 
     let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
 
@@ -163,13 +163,13 @@ function PaymentCreate() {
                     return { status: false, message: res.error };
                 }
             });
-            if (res.status) {
-                setAlertMessage("บันทึกสำเร็จ");
-                setSuccess(true);
-              } else {
-                setAlertMessage(res.message);
-                setError(true);
-              }
+        if (res.status) {
+            setAlertMessage("บันทึกสำเร็จ");
+            setSuccess(true);
+        } else {
+            setAlertMessage(res.message);
+            setError(true);
+        }
     }
 
     async function pay() {
@@ -191,7 +191,7 @@ function PaymentCreate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    setErrorMessage("")            
+                    setErrorMessage("")
                 } else {
                     setErrorMessage(res.error)
                 }
@@ -209,7 +209,7 @@ function PaymentCreate() {
             >
                 <Alert onClose={handleClose} severity="success">
                     <div className="good-font">
-                    {message}
+                        {message}
                     </div>
                 </Alert>
             </Snackbar>
@@ -217,12 +217,12 @@ function PaymentCreate() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
                 <Alert onClose={handleClose} severity="error">
                     <div className="good-font">
-                    {message}
+                        {message}
                     </div>
                 </Alert>
             </Snackbar>
             <Paper>
-                <Box display="flex" sx={{marginTop: 2}}>
+                <Box display="flex" sx={{ marginTop: 2 }}>
                     <Box sx={{ paddingX: 2, paddingY: 1 }}>
                         <Typography
                             component="h2"
@@ -238,7 +238,7 @@ function PaymentCreate() {
                     </Box>
                 </Box>
                 <Divider />
-                <Grid container spacing={3} sx={{ padding: 2 }}> 
+                <Grid container spacing={3} sx={{ padding: 2 }}>
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">ตะกร้าสินค้า</p>
@@ -252,7 +252,7 @@ function PaymentCreate() {
                                 }}
                             >
                                 <option aria-label="None" value="">
-                                    {cartID} 
+                                    {cartID}
                                 </option>
                                 <option value={cart?.ID} key={cart?.ID}>
                                     {cart?.ID}
@@ -322,12 +322,12 @@ function PaymentCreate() {
                         <p className="good-font">หมายเหตุ</p>
                         <FormControl fullWidth variant="outlined">
                             <TextField
-                            id="Note"
-                            variant="outlined"
-                            type="string"
-                            size="medium"
-                            value={payment.Note || ""}
-                            onChange={handleInputChange}
+                                id="Note"
+                                variant="outlined"
+                                type="string"
+                                size="medium"
+                                value={payment.Note || ""}
+                                onChange={handleInputChange}
                             />
                         </FormControl>
                     </Grid>
