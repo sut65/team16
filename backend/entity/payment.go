@@ -14,7 +14,7 @@ type Payment_method struct {
 
 type Payment struct {
 	gorm.Model
-	Time              time.Time			`valid:"Past~วันที่ต้องเป็นปัจจุบัน,Future~วันที่ต้องเป็นปัจจุบัน"`
+	Time              time.Time			`valid:"Past~วันที่ห้ามเป็นอดีต,Future~วันที่ห้ามเป็นอนาคต"`
 	Paytotal          float64			`valid:"required~ระบุราคา,range(1|1000000)~ยอดรวมอยู่ในช่วง (1-1000000)"` 
 	Note			  string			`valid:"stringlength(0|64)~อักขระไม่เกิน 64 ตัว"`
 	Shopping_Cart_ID  *uint				`valid:"-"`

@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"github.com/asaskevich/govalidator"
 	"gorm.io/gorm"
 )
 
@@ -28,4 +29,10 @@ type Shelving struct {
 
 	Separation []Separation `gorm:"foreignKey:Shelving_ID"`
 	Order      []Order      `gorm:"foreignKey:Shelving_ID"`
+}
+
+func init() {
+	govalidator.TagMap["image_valid"] = govalidator.Validator(func(str string) bool {
+		return govalidator.Matches(str, "^(data:image(.+);base64,.+)$")
+	})
 }

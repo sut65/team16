@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/asaskevich/govalidator"
+
 	. "github.com/onsi/gomega"
 )
 
@@ -23,6 +24,7 @@ func TestShelving(t *testing.T) {
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
 	g.Expect(err).To(BeNil())
+
 
 }
 func TestNumberOf(t *testing.T) {
@@ -76,3 +78,4 @@ func TestCost(t *testing.T) {
 		g.Expect(err.Error()).To(Equal("Cost must be in the range 1-1000"))
 	}
 }
+

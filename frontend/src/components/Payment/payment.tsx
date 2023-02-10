@@ -191,20 +191,8 @@ function Payment() {
                         </Button>
                     </Box>
             
-                    <Box sx={{ paddingX: 1, paddingY: 0 }}>
-                        <Button
-                            component={RouterLink}
-                            to="/PaymentCreate"
-                            variant="contained"
-                            color="primary"
-                            startIcon={<PaymentIcon />}
-                        >
-                            ชำระสินค้า
-                        </Button>
-                    </Box>
-
                 </Box>
-                <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
+                <div style={{ height: 400, width: '100%', marginTop: '20px'columns={columns} }}>
                     <DataGrid
                         rows={payment}
                         getRowId={(row) => row.ID}
