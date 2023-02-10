@@ -180,7 +180,7 @@ function SeparationShow() {
                             color="primary"
                             gutterBottom
                         >
-                            <div className="good-font">
+                            <div className="title-big">
                                 การจำหน่ายสินค้า
                             </div>
                         </Typography>
