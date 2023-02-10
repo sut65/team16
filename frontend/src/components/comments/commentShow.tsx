@@ -94,7 +94,7 @@ function CommentShow() {
                         color="primary"
                         onClick={() => setOpenupdate(true)}
                     >
-                        Edit
+                        แก้ไข
                     </Button>
                 );
             },
@@ -108,7 +108,7 @@ function CommentShow() {
                         color="primary"
                         onClick={() => setOpendelete(true)}
                     >
-                        Delete
+                        ลบ
                     </Button>
                 );
             },
@@ -180,7 +180,7 @@ function CommentShow() {
                             color="primary"
                             gutterBottom
                         >
-                            <div className="good-font">
+                            <div className="title-big">
                                 ความคิดเห็นและการให้คะแนน
                             </div>
                         </Typography>

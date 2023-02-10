@@ -24,19 +24,19 @@ func CreateComment(c *gin.Context) {
 
 	// 9: ค้นหา video ด้วย id
 	if tx := entity.DB().Where("id = ?", comment.Review_point_ID).First(&review_point); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "review point not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบคะแนนรีวิว"})
 		return
 	}
 
 	// 10: ค้นหา resolution ด้วย id
 	if tx := entity.DB().Where("id = ?", comment.Type_Com_ID).First(&type_comment); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "type comment not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบชนิดความคิดเห็น"})
 		return
 	}
 
 	// 11: ค้นหา playlist ด้วย id
 	if tx := entity.DB().Where("id = ?", comment.Payment_ID).First(&payment); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "payment not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบใบเสร็จ"})
 		return
 	}
 	// 12: สร้าง WatchVideo
@@ -89,7 +89,7 @@ func ListComments(c *gin.Context) {
 func DeleteComment(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM comments WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "comment not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบความคิดเห็น"})
 		return
 	}
 
@@ -111,15 +111,15 @@ func UpdateComment(c *gin.Context) {
 		return
 	}
 	if tx := entity.DB().Where("id = ?", commentS.Type_Com_ID).First(&type_com); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบชนิดความคิดเห็น"})
 		return
 	}
 	if tx := entity.DB().Where("id = ?", commentS.Review_point_ID).First(&review_point); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบคะแนนรีวิว"})
 		return
 	}
 	if tx := entity.DB().Where("id = ?", commentS.Payment_ID).First(&pay); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "reason not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบใบเสร็จ"})
 		return
 	}
 	dc := entity.Comment{           

@@ -202,7 +202,7 @@ function StockCreate() {
         <Grid container spacing={3} sx={{ padding: 2 }}>
 
           <Grid item xs={6}>
-            <p>Name</p>
+            <p>ชื่อสินค้า</p>
             <FormControl fullWidth variant="outlined">
               <TextField
                 id="Name"
@@ -216,7 +216,7 @@ function StockCreate() {
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-              <p>Amount</p>
+              <p>จำนวน</p>
               <TextField
                 id="Amount"
                 variant="outlined"
@@ -229,7 +229,7 @@ function StockCreate() {
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-              <p>Price</p>
+              <p>ราคา</p>
               <TextField
                 id="Price"
                 variant="outlined"
@@ -242,7 +242,7 @@ function StockCreate() {
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-              <p>Kind</p>
+              <p>ชนิด</p>
               <Select
                 native
                 value={stock.Kind_ID + ""}
@@ -263,7 +263,7 @@ function StockCreate() {
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-              <p>Storage</p>
+              <p>ที่จัดเก็บ</p>
               <Select
                 native
                 value={stock.Storage_ID + ""}
@@ -284,7 +284,7 @@ function StockCreate() {
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-              <p>DateTime</p>
+              <p>วันที่-เวลา</p>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   value={stock.DateTime}
@@ -301,7 +301,7 @@ function StockCreate() {
           </Grid>
           <Grid item xs={12}>
             <FormControl fullWidth variant="outlined">
-              <p className="good-font">Employee</p>
+              <p className="good-font">พนักงาน</p>
               <Select
                 native
                 value={stock.Employee_ID + ""}

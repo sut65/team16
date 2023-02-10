@@ -6,7 +6,6 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import EditIcon from '@mui/icons-material/Edit';
 import { OrderInterface } from "../../models/Natthapon/IOrder"
 import { Dialog, DialogTitle } from "@mui/material";
 
@@ -17,21 +16,23 @@ function Order() {
     const [price, setPrice] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
     const [num, setNum] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการจ่าย/ลบ
+    const [amounts, setAmounts] = React.useState(0);
+    const [shevID, setShevID] = React.useState(0);
 
     let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
     let Total = localStorage.getItem("Total"); // เรีกใช้ค่าจากlocal storage 
 
+
+    const requestOptions = {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+        },
+    };
     // โหลดข้อมูลทั้งหมดใส่ datagrid
     const getOrder = async () => {
         const apiUrl = `http://localhost:8080/ordercart/${cartID}`;
-        const requestOptions = {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json",
-            },
-        };
-
         await fetch(apiUrl, requestOptions)
             .then((response) => response.json())
             .then((res) => {
@@ -42,13 +43,49 @@ function Order() {
                 else { console.log("NO DATA") }
             });
     };
-    let minus = Number(Total) - Number(price)
+
+    useEffect(() => {
+        getOrder();
+    }, []);
+
+        // เมื่อมีการคลิ๊กที่แถวใดแถวหนึ่งในDataGrid functionนี้จะsetค่าIDของข้อมูลที่ต้องการ(ในกรณีนี้คือOrderID)เพื่อรอสำหรับการแก้ไข/ลบ
+        const handleRowClick: GridEventListener<'rowClick'> = (params) => {
+            setOrderID(Number(params.row.ID)); //setเพื่อรอการลบ
+            setPrice(Number(params.row.Prices)); //setเพื่อรอการลบ
+            setNum(Number(params.row.Quantity)); //setเพื่อรอการลบ
+            localStorage.setItem("orderID", params.row.ID); //setเพื่อการแก้ไข
+            //localStorage.setItem("ShelvID", params.row.Shelving); //setเพื่อการแก้ไข
+            
+            fetch(`http://localhost:8080/order/${orderID}`, requestOptions)
+                .then((response) => response.json())
+                .then((res) => {
+                    if (res.Shelving_ID && res.Shelving_Number) {
+                        console.log("shevID " + res.Shelving_ID)
+                        console.log("shevNumber " + res.Shelving_Number)
+                        setShevID(res.Shelving_ID); 
+                        setAmounts(res.Shelving_Number);    
+                    }
+                    else { console.log("NO DATA") }
+                });
+            console.log("Quantity " + num)
+            console.log("Price "+price)
+            };
+        // let ShelvID = localStorage.getItem("ShelvID");
+        // console.log("ShelvID " + ShelvID)
+    
+         // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
+        const handleClose = () => {
+            setOpendelete(false)
+        };
+
+    
     // console.log("total " + Total)
     // console.log("price " + price)
-    // console.log("minus " + minus)
+    //console.log("minus " + minus)
 
 
     async function sum() {   
+        let minus = Number(Total) - Number(price)
         let data = {
             Total: minus,
             Status_ID: 1,
@@ -75,6 +112,32 @@ function Order() {
             });
 
     }
+    async function restore() {
+        let data = {
+            Number: amounts + num,
+        };
+
+        console.log(data)
+
+        const requestOptions = {
+            method: "PATCH",
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+        };
+
+        fetch(`http://localhost:8080/UpdateQuantity/${shevID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                }
+                else { console.log("NO DATA") }
+            });
+
+    }
 
     // function ลบข้อมูล
     const deleteOrder = async () => {
@@ -95,28 +158,12 @@ function Order() {
                 else { console.log("NO DATA") }
             });
         handleClose();
+        restore()
         sum();
         getOrder();
     }
 
-    // เมื่อมีการคลิ๊กที่แถวใดแถวหนึ่งในDataGrid functionนี้จะsetค่าIDของข้อมูลที่ต้องการ(ในกรณีนี้คือOrderID)เพื่อรอสำหรับการแก้ไข/ลบ
-    const handleRowClick: GridEventListener<'rowClick'> = (params) => {
-        setOrderID(Number(params.row.ID)); //setเพื่อรอการลบ
-        setPrice(Number(params.row.Prices)); //setเพื่อรอการลบ
-        setNum(Number(params.row.Quantity)); //setเพื่อรอการลบ
-        localStorage.setItem("orderID", params.row.ID); //setเพื่อการแก้ไข
-        console.log(price)
-    };
-    console.log("Quantity " + num)
-
-     // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
-    const handleClose = () => {
-        setOpendelete(false)
-    };
-
-    useEffect(() => {
-        getOrder();
-    }, []);
+    
 
     const columns: GridColDef[] = [
       { field: "ID", headerName: "ID", width: 100,  headerAlign:"center", align:"center" },
@@ -151,6 +198,7 @@ function Order() {
                         color="primary"
                         //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
                         onClick={deleteOrder}
+                    
                     >
                         <div className="good-font">
                             ยืนยัน

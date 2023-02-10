@@ -72,39 +72,39 @@ func SetupDatabase() {
 
 	// //Kind
 	// Kind1 := Kind{
-	// 	Name: "Meat",
+	// 	Name: "เนื้อ",
 	// }
 	// db.Model(&Kind{}).Create(&Kind1)
 
 	// Kind2 := Kind{
-	// 	Name: "Fresh",
+	// 	Name: "ผักและผลไม้",
 	// }
 	// db.Model(&Kind{}).Create(&Kind2)
 
 	// Kind3 := Kind{
-	// 	Name: "Dairy",
+	// 	Name: "ผลิตภัณฑ์นม",
 	// }
 	// db.Model(&Kind{}).Create(&Kind3)
 
 	// //Storage
 	// Storage1 := Storage{
-	// 	Name: "Storage1",
+	// 	Name: "คลังเก็บเนื้อ",
 	// }
 	// db.Model(&Storage{}).Create(&Storage1)
 
 	// Storage2 := Storage{
-	// 	Name: "Storage2",
+	// 	Name: "คลังเก็บผักและผลไม้",
 	// }
 	// db.Model(&Storage{}).Create(&Storage2)
 
 	// Storage3 := Storage{
-	// 	Name: "Storage3",
+	// 	Name: "คลังเก็บผลิตภัณฑ์นม",
 	// }
 	// db.Model(&Storage{}).Create(&Storage3)
 
 	// //Stock
 	// Stock1 := Stock{
-	// 	Name:     "Banana",
+	// 	Name:     "กล้วย",
 	// 	Amount:   100,
 	// 	Price:    20.00,
 	// 	Employee: Em1,
@@ -115,7 +115,7 @@ func SetupDatabase() {
 	// db.Model(&Stock{}).Create(&Stock1)
 
 	// Stock2 := Stock{
-	// 	Name:     "Pork",
+	// 	Name:     "เนื้อหมู",
 	// 	Amount:   100,
 	// 	Price:    80.00,
 	// 	Employee: Em1,
@@ -126,7 +126,7 @@ func SetupDatabase() {
 	// db.Model(&Stock{}).Create(&Stock2)
 
 	// Stock3 := Stock{
-	// 	Name:     "Milk",
+	// 	Name:     "นม",
 	// 	Amount:   100,
 	// 	Price:    20.00,
 	// 	Employee: Em1,
@@ -138,44 +138,19 @@ func SetupDatabase() {
 
 	// //Label
 	// Label1 := Label{
-	// 	Name: "Meat",
+	// 	Name: "เนื้อ",
 	// }
 	// db.Model(&Label{}).Create(&Label1)
 
 	// Label2 := Label{
-	// 	Name: "Fresh",
+	// 	Name: "ผักและผลไม้",
 	// }
 	// db.Model(&Label{}).Create(&Label2)
 
 	// Label3 := Label{
-	// 	Name: "Dairy",
+	// 	Name: "ผลิตภัณฑ์นม",
 	// }
 	// db.Model(&Label{}).Create(&Label3)
-
-	// //Shelving
-	// Shelving1 := Shelving{
-	// 	Employee: Em1,
-	// 	Label:    Label1,
-	// 	Stock:    Stock2,
-	// 	Amount: 20,
-	// }
-	// db.Model(&Shelving{}).Create(&Shelving1)
-
-	// Shelving2 := Shelving{
-	// 	Employee: Em1,
-	// 	Label:    Label2,
-	// 	Stock:    Stock1,
-	// 	Amount: 20,
-	// }
-	// db.Model(&Shelving{}).Create(&Shelving2)
-
-	// Shelving3 := &Shelving{
-	// 	Employee: Em1,
-	// 	Label:    Label3,
-	// 	Stock:    Stock3,
-	// 	Amount: 20,
-	// }
-	// db.Model(&Shelving{}).Create(&Shelving3)
 
 	// Reason1 := &Reason{
 	// 	Cuase: "สินค้าหมดอายุ",
@@ -387,12 +362,12 @@ func SetupDatabase() {
 
 	// //Status
 	// Status1 := Status{
-	// 	Status: "unpaid",
+	// 	Status: "ยังไม่ได้ชำระ",
 	// }
 	// db.Model(&Status{}).Create(&Status1)
 
 	// Status2 := Status{
-	// 	Status: "paid",
+	// 	Status: "ชำระแล้ว",
 	// }
 	// db.Model(&Status{}).Create(&Status2)
 

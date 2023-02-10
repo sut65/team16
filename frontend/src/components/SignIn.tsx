@@ -87,6 +87,22 @@ function SignIn() {
 
         }
     };
+
+    const theme = createTheme({
+        typography: {
+          fontFamily: "Prompt, sans-serif",
+          fontSize: 16,
+        },
+        palette: {
+          primary: {
+            main: '#476930',
+          },
+          secondary: {
+            main: '#F1DDDF',
+          },
+        },
+      });
+      
     // const toComment = async () => {
     //     // let res = await Login(signin);
     //     // if (res) {
@@ -123,8 +139,8 @@ function SignIn() {
             <Grid
                 item xs={false} sm={8} md={12} container component="main"
                 sx={{
-                    backgroundImage: "url(https://sv1.picz.in.th/images/2022/10/23/vfPECa.jpg)",
-                    backgroundPosition: "center", height: "100vh", width: '100%',
+                    backgroundImage: "url(https://rare-gallery.com/uploads/posts/563247-bright-colours.jpg)",
+                    backgroundPosition: "center", height: "100vh", width: '100%', scale: "initial",
                 }} >
 
                 <Snackbar
@@ -156,7 +172,7 @@ function SignIn() {
                     sx={{ my: 'auto', mx: '-10%', width: 300, height: 420, borderRadius: 2, alignItems: "center", alignSelf: "center", }}>
 
                     <Typography component="h1" variant="h4" sx={{ m: 'auto' }}>
-                        <Avatar sx={{ mx: 'auto', my: '5%', bgcolor: "#03a9f4", width: 56, height: 56 }}> <LockOutlinedIcon /> </Avatar>
+                        <Avatar sx={{ mx: 'auto', my: '5%', bgcolor: "#86B049", width: 56, height: 56 }}> <LockOutlinedIcon /> </Avatar>
                         <div className="good-font"> Sign in to website </div>
                     </Typography>
 
@@ -211,6 +227,7 @@ function SignIn() {
                             <Button
                                 type="submit"
                                 fullWidth
+                                color="primary"
                                 variant="contained"
                                 sx={{ mt: 2, mb: 6 }}
                                 onClick={submit}
@@ -227,6 +244,7 @@ function SignIn() {
                                 type="submit"
                                 fullWidth
                                 variant="contained"
+                                color="secondary"
                                 sx={{ mt: 2, mb: 6 }}
                                 onClick={toComment}
                             >

@@ -212,7 +212,7 @@ function Discount() {
                             color="primary"
                             gutterBottom
                         >
-                            <div className="good-font">
+                            <div className="title-big">
                                 ส่วนลด
                             </div>
                         </Typography>

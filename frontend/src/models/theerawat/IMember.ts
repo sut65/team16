@@ -3,6 +3,7 @@ import { GenderInterface } from "./IGender";
 import { LevelInterface } from "./ILevel";
 
 export interface MemberInterface {
+    gender: any;
     ID?: number,
     Mem_Name?: string,
     Mem_Age?: number,

@@ -24,19 +24,19 @@ func CreateSeparation(c *gin.Context) {
 
 	// 9: ค้นหา video ด้วย id
 	if tx := entity.DB().Where("id = ?", separation.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบพนักงาน"})
 		return
 	}
 
 	// 10: ค้นหา resolution ด้วย id
 	if tx := entity.DB().Where("id = ?", separation.Shelving_ID).First(&shelving); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบชั้นวาง"})
 		return
 	}
 
 	// 11: ค้นหา playlist ด้วย id
 	if tx := entity.DB().Where("id = ?", separation.Reason_ID).First(&reason); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "reason not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบเหตุผลที่จำหน่าย"})
 		return
 	}
 	// 12: สร้าง WatchVideo
@@ -89,7 +89,7 @@ func ListSeparations(c *gin.Context) {
 func DeleteSeparation(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM separations WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "separation not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบการจำหน่าย"})
 		return
 	}
 
@@ -110,15 +110,15 @@ func UpdateSeparation(c *gin.Context) {
 		return
 	}
 	if tx := entity.DB().Where("id = ?", separationS.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบพนักงาน"})
 		return
 	}
 	if tx := entity.DB().Where("id = ?", separationS.Shelving_ID).First(&shelving); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "shelving not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบชั้นวาง"})
 		return
 	}
 	if tx := entity.DB().Where("id = ?", separationS.Reason_ID).First(&reason); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "reason not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบเหตุผลที่จำหน่าย"})
 		return
 	}
 	dc := entity.Separation{           

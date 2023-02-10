@@ -38,6 +38,7 @@ function DiscountUpdate() {
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [stock, setStock] = React.useState<StocksInterface[]>([]);
     const [dt, setDt] = React.useState<Discount_Type_Interface[]>([]);
+    // const [selectedValue, setSelectedValue] = React.useState<Discount_Type_Interface>(dt[1]);
     const [discount, setDiscount] = React.useState<DiscountInterface>({
         Discount_s: new Date(),
         Discount_e: new Date(),
@@ -84,7 +85,7 @@ function DiscountUpdate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data)
+                    // console.log(res.data)
                     setDt(res.data);
                 }
                 else { console.log("NO DATA") }
@@ -96,7 +97,7 @@ function DiscountUpdate() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    console.log(res.data)
+                    // console.log(res.data)
                     setStock(res.data);
                 }
                 else { console.log("NO DATA") }
@@ -108,8 +109,19 @@ function DiscountUpdate() {
         discount.Employee_ID = res.ID;
         if (res) {
             setEmployee(res);
-            console.log(res)
+            // console.log(res)
         }
+    };
+
+    const getDiscount = async () => {
+        fetch(`${apiUrl}/discount/${discountID}`, requestOptions)
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.data) {
+                    console.log(res.data)
+                }
+                else { console.log("NO DATA") }
+            });
     };
 
     let discountID = localStorage.getItem("discountID"); // เรีกใช้ค่าจากlocal storage 
@@ -118,6 +130,7 @@ function DiscountUpdate() {
         getEmployee();
         getDiscount_Type();
         getStock();
+        getDiscount();
     }, []);
 
     const convertType = (data: string | number | undefined) => {
@@ -213,6 +226,7 @@ function DiscountUpdate() {
                                 disablePortal
                                 id="Discount_Type_ID"
                                 getOptionLabel={(item: Discount_Type_Interface) => `${item.Type_Name}`}
+                                // value={selectedValue}
                                 options={dt}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
