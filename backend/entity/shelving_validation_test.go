@@ -4,11 +4,6 @@ import (
 	"testing"
 
 	"github.com/asaskevich/govalidator"
-<<<<<<< HEAD
-
-=======
-
->>>>>>> 32c26d3 (superupdate)
 	. "github.com/onsi/gomega"
 )
 
@@ -85,10 +80,8 @@ func TestCost(t *testing.T) {
 	}
 }
 
-<<<<<<< HEAD
-=======
 func TestNumberDoesNotStartWithZero(t *testing.T) {
-	g := gomega.NewGomegaWithT(t)
+	g := NewGomegaWithT(t)
 
 	sv := Shelving{
 		Number: 05,
@@ -105,4 +98,3 @@ func TestNumberDoesNotStartWithZero(t *testing.T) {
 	// err.Error() ต้องมี message แสดงออกมา
 	g.Expect(err.Error()).NotTo(Equal('0'), "Number should not start with 0")
 }
->>>>>>> 32c26d3 (superupdate)
