@@ -167,7 +167,7 @@ async function submit() {
 
  return (
 
-   <Container maxWidth="md">
+   <Container maxWidth="lg">
       <Snackbar
        id="success" open={success} autoHideDuration={6000} onClose={handleClose}
        anchorOrigin={{ vertical: "bottom", horizontal: "center" }} >
@@ -189,7 +189,7 @@ async function submit() {
 
        <Box
          display="flex"
-         sx={{ marginTop: 2,backgroundColor: '#86B049', }}
+         sx={{ marginTop: 2,backgroundColor: '#A6CF98', }}
        >
          <Box sx={{ paddingX: 2, paddingY: 2 }}>
            <Typography
