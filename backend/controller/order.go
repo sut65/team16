@@ -60,7 +60,10 @@ func GetOrder(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": order})
+	c.JSON(http.StatusOK, gin.H{
+		"Shelving_ID": order.Shelving_ID,
+		"Shelving_Number": order.Shelving.Number,
+	 })
 }
 
 // GET /Order

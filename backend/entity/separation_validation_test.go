@@ -15,8 +15,8 @@ func TestAmountNotBeBank(t *testing.T) {
 	t.Run("Amount cannot be blank", func(t *testing.T) {
 		sep := Separation{
 			Date_Out: time.Now(),
-			Amount:   2,
-			Status:   "",
+			// Amount:   ,
+			Status:   "+",
 		}
 
 		ok, err := govalidator.ValidateStruct(sep)
@@ -34,8 +34,8 @@ func TestAmountMustBePositive(t *testing.T) {
 	t.Run("Amount must be positive", func(t *testing.T) {
 		sep := Separation{
 			Date_Out: time.Now(),
-			Amount:   2,
-			Status:   "",
+			Amount:   -2,
+			Status:   "+",
 		}
 
 		ok, err := govalidator.ValidateStruct(sep)
@@ -43,6 +43,7 @@ func TestAmountMustBePositive(t *testing.T) {
 		g.Expect(ok).NotTo(BeTrue())
 		g.Expect(err).ToNot(BeNil())
 		g.Expect(err.Error()).To(Equal("กรุณากรอกจำนวนเต็มบวกเท่านั้น"))
+		// g.Expect(err.Error()).To(Equal("test"))
 	})
 
 }
@@ -69,11 +70,11 @@ func TestStatusNotBeBank(t *testing.T) {
 func TestStatusMustBePlusOrNegative(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	t.Run("Status must be positive", func(t *testing.T) {
+	t.Run("Status must be Plus or Minus", func(t *testing.T) {
 		sep := Separation{
 			Date_Out: time.Now(),
 			Amount:   2,
-			Status:   "",
+			Status:   "O",
 		}
 
 		ok, err := govalidator.ValidateStruct(sep)
@@ -87,12 +88,15 @@ func TestStatusMustBePlusOrNegative(t *testing.T) {
 
 func TestDate_OutCannotBePast(t *testing.T) {
 	g := NewGomegaWithT(t)
+	// today := time.Now();
+	// tomorrow := today.Add(24 * time.Hour);
+	yesterday := time.Now().AddDate(0, 0, -1);
 
 	t.Run("Date Out cannot be past", func(t *testing.T) {
 		sep := Separation{
-			Date_Out: time.Now(),
+			Date_Out: yesterday,
 			Amount:   2,
-			Status:   "",
+			Status:   "+",
 		}
 
 		ok, err := govalidator.ValidateStruct(sep)

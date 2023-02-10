@@ -72,7 +72,7 @@ func GetShelving(c *gin.Context) {
 
 	id := c.Param("id")
 
-	if err := entity.DB().Preload("Employee").Preload("stock").Preload("Label").Raw("SELECT * FROM shelvings WHERE id = ?", id).Find(&shelving).Error; err != nil {
+	if err := entity.DB().Preload("Employee").Preload("Stock").Preload("Label").Raw("SELECT * FROM shelvings WHERE id = ?", id).Find(&shelving).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
