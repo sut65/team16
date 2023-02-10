@@ -46,7 +46,7 @@ function Cart() {
             })
             .catch(error => {
                 console.error('There was a problem with the fetch operation:', error);
-              });
+            });
     };
 
     // function ลบข้อมูล
@@ -90,16 +90,16 @@ function Cart() {
         getCart();
     }, []);
 
-
+    
     const columns: GridColDef[] = [
-        { field: "ID", headerName: "ID", width: 30, headerAlign: "center", align: "center" },
-        { field: "Total", headerName: "รวมยอด", width: 100, headerAlign: "center", align: "center" },
-        { field: "Status", headerName: "สถานะการชำระ", width: 150, headerAlign: "center", align: "center", valueFormatter: (params) => params.value.Status },
-        { field: "Member", headerName: "สมากชิก", width: 200, headerAlign: "center", align: "center", valueFormatter: (params) => params.value.Mem_Name },
-        { field: "Employee", headerName: "พนักงาน", width: 200, headerAlign: "center", align: "center", valueFormatter: (params) => params.value.Name },
+        { field: "ID", headerName: "ID", width: 30, headerAlign: "center", align: "center", headerClassName: 'green0' },
+        { field: "Total", headerName: "รวมยอด", width: 100, headerAlign: "center", align: "center", headerClassName: 'green0' },
+        { field: "Status", headerName: "สถานะการชำระ", width: 150, headerAlign: "center", align: "center", headerClassName: 'green0', valueFormatter: (params) => params.value.Status },
+        { field: "Member", headerName: "สมากชิก", width: 200, headerAlign: "center", align: "center", headerClassName: 'green0', valueFormatter: (params) => params.value.Mem_Name },
+        { field: "Employee", headerName: "พนักงาน", width: 200, headerAlign: "center", align: "center", headerClassName: 'green0', valueFormatter: (params) => params.value.Name },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการจ่าย/ลบ
         {
-            field: "pay", headerName: "ชำระ", width: 100, headerAlign: "center",
+            field: "pay", headerName: "ชำระ", width: 100, headerAlign: "center", headerClassName: 'green0',
             renderCell: () => {
                 return (
                     <Button
@@ -113,7 +113,7 @@ function Cart() {
             },
         },
         {
-            field: "List", headerName: "รายการ", width: 100, headerAlign: "center",
+            field: "List", headerName: "รายการ", width: 100, headerAlign: "center", headerClassName: 'green0',
             renderCell: () => {
                 return (
                     <Button
@@ -127,7 +127,7 @@ function Cart() {
             },
         },
         {
-            field: "add", headerName: "เพิ่มสินค้า", width: 100, headerAlign: "center",
+            field: "add", headerName: "เพิ่มสินค้า", width: 100, headerAlign: "center", headerClassName: 'green0',
             renderCell: () => {
                 return (
                     <Button
@@ -141,7 +141,7 @@ function Cart() {
             },
         },
         {
-            field: "delete", headerName: "ลบ", width: 100, headerAlign: "center",
+            field: "delete", headerName: "ลบ", width: 100, headerAlign: "center", headerClassName: 'green0',
             renderCell: () => {
                 return (
                     <Button
@@ -262,7 +262,7 @@ function Cart() {
 
                 </Box>
 
-                <div style={{ height: 550, width: "100%", marginTop: '20px' }}>
+                <div style={{ height: 550, width: "100%", marginTop: '20px', backgroundColor: 'white' }}>
                     <DataGrid
                         rows={cart}
                         getRowId={(row) => row.ID}
