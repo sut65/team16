@@ -190,10 +190,10 @@ export default function App() {
     },
     palette: {
       primary: {
-        main: '#476930',
+        main: '#557C55',
       },
       secondary: {
-        main: '#F1DDDF',
+        main: '#F2FFE9',
       },
     },
   });
@@ -283,7 +283,7 @@ export default function App() {
             <Box
               component="main"
               sx={{
-                backgroundColor: '#FAF7F0',
+                backgroundColor: '#F2FFE9',
                 flexGrow: 1,
                 height: "100vh",
                 overflow: "auto",
