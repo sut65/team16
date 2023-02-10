@@ -86,7 +86,7 @@ function Stock() {
         { field: "Amount", headerName: "จำนวน", width: 100, headerAlign: "center" },
         { field: "Price", headerName: "ราคา", width: 100, headerAlign: "center" },
         { field: "Kind", headerName: "ชนิด", valueFormatter: (params) => params.value.Name, width: 120, headerAlign: "center" },
-        { field: "Storage", headerName: "ที่จัดเก็บ", valueFormatter: (params) => params.value.Name, width: 150, headerAlign: "center" },
+        { field: "Storage", headerName: "ที่จัดเก็บ", valueFormatter: (params) => params.value.Name, width: 170, headerAlign: "center" },
         { field: "DateTime", headerName: "วันที่-เวลา", width: 200, headerAlign: "center",
         renderCell: (params) => moment(params.row.DateTime).format('DD-MM-YYYY HH:mm:ss')
     },
@@ -101,7 +101,7 @@ function Stock() {
                         onClick={() => setOpenUpdate(true)}
                         startIcon={<EditIcon />}
                     >
-                        Edit
+                        แก้ไข
                     </Button>
                 );
             },
@@ -116,7 +116,7 @@ function Stock() {
                         onClick={() => setOpenDelete(true)}
                         startIcon={<DeleteIcon />}
                     >
-                        Delete
+                        ลบ
                     </Button>
                 );
             },
