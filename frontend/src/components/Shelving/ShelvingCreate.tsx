@@ -251,7 +251,7 @@ function ShelvingCreate() {
                   console.log("stID: " + stID);
                   console.log("Amount: " + amounts);
                 }}
-                renderInput={(params) => <TextField {...params} label="- Select Name -" />}
+                renderInput={(params) => <TextField {...params} label="- เลือกสินค้า -" />}
               />
             </FormControl>
           </Grid>
@@ -268,7 +268,7 @@ function ShelvingCreate() {
                 isOptionEqualToValue={(option, value) =>
                   option.ID === value.ID}
                 onChange={(e, value) => { shelving.Label_ID = value?.ID }}
-                renderInput={(params) => <TextField {...params} label="- Select Label -" />}
+                renderInput={(params) => <TextField {...params} label="- เลือกชั้นวาง -" />}
               />
             </FormControl>
           </Grid>
