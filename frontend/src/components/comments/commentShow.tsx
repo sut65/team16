@@ -180,7 +180,7 @@ function CommentShow() {
                             color="primary"
                             gutterBottom
                         >
-                            <div className="good-font">
+                            <div className="title-big">
                                 ความคิดเห็นและการให้คะแนน
                             </div>
                         </Typography>
