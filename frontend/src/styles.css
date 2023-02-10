@@ -23,6 +23,10 @@
   font-size: large;
 }
 
+.title-big{
+  font-size: xx-large;
+  color: #434242;
+}
 .header {
   font-family: "Prompt", sans-serif;
   display: grid;
