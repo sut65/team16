@@ -190,10 +190,10 @@ export default function App() {
     },
     palette: {
       primary: {
-        main: '#476930',
+        main: '#557C55',
       },
       secondary: {
-        main: '#F1DDDF',
+        main: '#F2FFE9',
       },
     },
   });
@@ -208,6 +208,7 @@ export default function App() {
               <Toolbar
                 sx={{
                   pr: "24px", // keep right padding when drawer closed
+                  
                 }}
               >
                 <IconButton
@@ -258,6 +259,7 @@ export default function App() {
                   alignItems: "center",
                   justifyContent: "flex-end",
                   px: [1],
+                  backgroundColor: '#A6CF98',
                 }}
               >
                 <IconButton onClick={toggleDrawer}>
@@ -270,9 +272,9 @@ export default function App() {
                   <Link
                     to={item.path}
                     key={item.name}
-                    style={{ textDecoration: "none", color: "inherit" }}
+                    style={{ textDecoration: "none", color: "secondary"}}
                   >
-                    <ListItem button >
+                    <ListItem button>
                       <ListItemIcon>{item.icon}</ListItemIcon>
                       <ListItemText primary={item.name} />
                     </ListItem>
@@ -283,7 +285,7 @@ export default function App() {
             <Box
               component="main"
               sx={{
-                backgroundColor: '#FAF7F0',
+                backgroundColor: '#F2FFE9',
                 flexGrow: 1,
                 height: "100vh",
                 overflow: "auto",
