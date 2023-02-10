@@ -142,7 +142,7 @@ const handleClose = () => {
              color="primary"
              gutterBottom
            >
-             <div className="good-font">รายชื่อสมาชิกฟาร์มมาร์ท</div>
+             <div className="title-big">รายชื่อสมาชิกฟาร์มมาร์ท</div>
            </Typography>
          </Box>
 
