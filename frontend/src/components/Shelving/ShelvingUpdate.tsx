@@ -17,6 +17,8 @@ import { StocksInterface } from "../../models/methas/IStock";
 import { LabelsInterface } from "../../models/methas/ILabel";
 import { Autocomplete, Select, SelectChangeEvent } from "@mui/material";
 import { GetCurrentEmployee } from "../../services/HttpClientService";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -26,6 +28,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 function ShelvingUpdate() {
+  const [date, setDate] = React.useState<Date | null>(null);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
@@ -125,6 +128,7 @@ function ShelvingUpdate() {
       Stock_ID: convertType(shelving.Stock_ID),
       Label_ID: convertType(shelving.Label_ID),
       Employee_ID: convertType(shelving.Employee_ID),
+      Date_Time: shelving.Date_Time,
     };
 
     console.log(data)
@@ -262,7 +266,22 @@ function ShelvingUpdate() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+              <p>วันที่-เวลา</p>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  value={date}
+                  onChange={(newValue) => {
+                    setDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
               <p className="good-font">พนักงาน</p>
               <Select

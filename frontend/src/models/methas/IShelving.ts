@@ -5,6 +5,7 @@ import { StocksInterface } from "./IStock";
 export interface ShelvingsInterface{
     ID: number;
     Number: number,
+    Date_Time: Date | null
     Cost: number,
     Employee_ID: number;
     Employee: EmployeeInterface;

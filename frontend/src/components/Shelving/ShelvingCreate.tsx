@@ -17,6 +17,8 @@ import { StocksInterface } from "../../models/methas/IStock";
 import { LabelsInterface } from "../../models/methas/ILabel";
 import { Autocomplete, Select, SelectChangeEvent } from "@mui/material";
 import { GetCurrentEmployee } from "../../services/HttpClientService";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -29,7 +31,9 @@ function ShelvingCreate() {
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
-  const [shelving, setShelving] = React.useState<Partial<ShelvingsInterface>>({});
+  const [shelving, setShelving] = React.useState<Partial<ShelvingsInterface>>({
+    Date_Time: new Date(),
+  });
   const [employee, setEmployee] = React.useState<EmployeeInterface>();
   const [stock, setStock] = React.useState<StocksInterface[]>([]);
   const [label, setLabel] = React.useState<LabelsInterface[]>([]);
@@ -166,6 +170,7 @@ function ShelvingCreate() {
       Stock_ID: convertType(shelving.Stock_ID),
       Label_ID: convertType(shelving.Label_ID),
       Employee_ID: convertType(shelving.Employee_ID),
+      Date_Time: shelving.Date_Time,
     };
 
     console.log(data)
@@ -300,7 +305,25 @@ function ShelvingCreate() {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+              <p>วันที่-เวลา</p>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  value={shelving.Date_Time}
+                  onChange={(newValue) => {
+                    setShelving({
+                      ...shelving,
+                      Date_Time: newValue,
+                    });
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
               <p className="good-font">พนักงาน</p>
               <Select

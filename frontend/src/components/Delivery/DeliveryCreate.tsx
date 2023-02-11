@@ -147,7 +147,7 @@ function DeliveryCreate() {
             body: JSON.stringify(data),
         };
 
-        let res =  await fetch(`${apiUrl}/deliveries`, requestOptions) 
+        let res = await fetch(`${apiUrl}/deliveries`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -164,6 +164,9 @@ function DeliveryCreate() {
         if (res.status) {
             setAlertMessage("บันทึกข้อมูลสำเร็จ");
             setSuccess(true);
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         } else {
             setAlertMessage(res.message);
             setError(true);
@@ -173,16 +176,14 @@ function DeliveryCreate() {
     return (
         <Container maxWidth="md">
             <Snackbar
-                id="success" 
+                id="success"
                 open={success}
                 autoHideDuration={6000}
                 onClose={handleClose}
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             >
                 <Alert onClose={handleClose} severity="success">
-                    
-                        {message}
-                    
+                    {message}
                 </Alert>
             </Snackbar>
             <Snackbar
@@ -190,9 +191,7 @@ function DeliveryCreate() {
                 open={error}
                 autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
-                    
-                        {message}
-                    
+                    {message}
                 </Alert>
             </Snackbar>
             <Paper>
@@ -208,11 +207,8 @@ function DeliveryCreate() {
                             variant="h6"
                             color="primary"
                             gutterBottom
-
                         >
-                            
-                                เพิ่มรายการการสั่งซื้อ
-                            
+                            เพิ่มรายการการสั่งซื้อ
                         </Typography>
                     </Box>
                 </Box>
@@ -318,20 +314,15 @@ function DeliveryCreate() {
 
                     <Grid item xs={12}>
                         <Button component={RouterLink} to="/Delivery" variant="contained">
-                            
-                                กลับ
-                            
+                            กลับ
                         </Button>
                         <Button
                             style={{ float: "right" }}
                             onClick={submit}
                             variant="contained"
                             color="primary"
-        
                         >
-                            
-                                บันทึก
-                            
+                            บันทึก
                         </Button>
                     </Grid>
                 </Grid>

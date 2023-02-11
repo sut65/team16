@@ -41,11 +41,12 @@ func CreateShelving(c *gin.Context) {
 	}
 
 	sv := entity.Shelving{
-		Employee: employee,
-		Label:    label,
-		Stock:    stock,
-		Number:   shelving.Number,
-		Cost:     shelving.Cost,
+		Employee:  employee,
+		Label:     label,
+		Stock:     stock,
+		Number:    shelving.Number,
+		Cost:      shelving.Cost,
+		Date_Time: shelving.Date_Time,
 	}
 	// แทรกการ validate
 	if _, err := govalidator.ValidateStruct(&shelving); err != nil {
@@ -165,11 +166,18 @@ func UpdateShelving(c *gin.Context) {
 	}
 
 	sv := entity.Shelving{
-		Employee: employee,
-		Label:    label,
-		Stock:    stock,
-		Number:   shelving.Number,
-		Cost:     shelving.Cost,
+		Employee:  employee,
+		Label:     label,
+		Stock:     stock,
+		Number:    shelving.Number,
+		Cost:      shelving.Cost,
+		Date_Time: shelving.Date_Time,
+	}
+
+	// แทรกการ validate
+	if _, err := govalidator.ValidateStruct(&sv); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 	if err := entity.DB().Where("id = ?", id).Updates(&sv).Error; err != nil {
 
@@ -177,11 +185,6 @@ func UpdateShelving(c *gin.Context) {
 
 		return
 
-	}
-	// แทรกการ validate
-	if _, err := govalidator.ValidateStruct(&sv); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": shelving})
