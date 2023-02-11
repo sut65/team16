@@ -30,29 +30,29 @@ type Working_time struct {
 
 type Employee_attendance struct {
 	gorm.Model
-	Employee_ID     *uint
-	Employee        Employee
-	Duty_ID         *uint
-	Duty            Duty
-	Working_time_ID *uint
-	Working_time    Working_time
-	Overtime_ID     *uint
-	Overtime        Overtime
-	Time_IN         time.Time
-	Status_ID       bool
-	Number_Em       string	 `valid:"required~Number cannot be blank,minstringlength(10)~โปรดใส่เบอร์โทรที่ถูกต้อง,maxstringlength(10)~โปรดใส่เบอร์โทรที่ถูกต้อง"`
+	Employee_ID     *uint        `valid:"-"`
+	Employee        Employee     `valid:"-"`
+	Duty_ID         *uint        `valid:"-"`
+	Duty            Duty         `valid:"-"`
+	Working_time_ID *uint        `valid:"-"`
+	Working_time    Working_time `valid:"-"`
+	Overtime_ID     *uint        `valid:"-"`
+	Overtime        Overtime     `valid:"-"`
+	Time_IN         time.Time    `valid:"-"`
+	Status_ID       bool         `valid:"-"`
+	Number_Em       string       `valid:"required~โปรดใส่เบอร์โทร,minstringlength(10)~ใส่เบอร์โทรไม่ครบ,maxstringlength(10)~ใส่เบอร์โทรเกิน"`
 }
 
 type Record_employee_leave struct {
 	gorm.Model
-	Employee_ID     *uint
-	Employee        Employee
-	Duty_ID         *uint
-	Duty            Duty
-	Working_time_ID *uint
-	Working_time    Working_time
-	Overtime_ID     *uint
-	Overtime        Overtime
-	Time_OUT        time.Time
-	Number_Em       string	 `valid:"required~Number cannot be blank,minstringlength(10)~โปรดใส่เบอร์โทรที่ถูกต้อง,maxstringlength(10)~โปรดใส่เบอร์โทรที่ถูกต้อง"`
+	Employee_ID     *uint        `valid:"-"`
+	Employee        Employee     `valid:"-"`
+	Duty_ID         *uint        `valid:"-"`
+	Duty            Duty         `valid:"-"`
+	Working_time_ID *uint        `valid:"-"`
+	Working_time    Working_time `valid:"-"`
+	Overtime_ID     *uint        `valid:"-"`
+	Overtime        Overtime     `valid:"-"`
+	Time_OUT        time.Time    `valid:"-"`
+	Number_Em       string       `valid:"required~โปรดใส่เบอร์โทร,minstringlength(10)~ใส่เบอร์โทรไม่ครบ,maxstringlength(10)~ใส่เบอร์โทรเกิน"`
 }
