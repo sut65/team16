@@ -276,7 +276,7 @@ func SetupDatabase() {
 
 	// //Member
 	// Member1 := Member{
-	// 	Mem_Name: "Tony Stark",
+	// 	Mem_Name: "บรรเจิด เลิศเลอ",
 	// 	Mem_Age:  33,
 	// 	Mem_Tel:  "0987654321",
 	// 	Gender:   Gender1,

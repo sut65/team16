@@ -53,13 +53,13 @@ func CreateEmployee_attendance(c *gin.Context) {
 		Number_Em:    Em_IN.Number_Em, // ตั้งค่าฟิลด์ Number_Em
 	}
 	
-
-	// 14: บันทึก
+	// ขั้นตอนการ validate ที่นำมาจาก unit test
+	
 	if _, err := govalidator.ValidateStruct(sc); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
+	// 14: บันทึก
 	if err := entity.DB().Create(&sc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
