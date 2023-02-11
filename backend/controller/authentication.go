@@ -67,3 +67,33 @@ func Login(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
 }
+
+
+// POST /login
+func Access(c *gin.Context) {
+	// var payload LoginPayload
+
+	// กำหนดค่า SecretKey, Issuer และระยะเวลาหมดอายุของ Token สามารถกำหนดเองได้
+	// SecretKey ใช้สำหรับการ sign ข้อความเพื่อบอกว่าข้อความมาจากตัวเราแน่นอน
+	// Issuer เป็น unique id ที่เอาไว้ระบุตัว client
+	// ExpirationHours เป็นเวลาหมดอายุของ token
+
+	jwtWrapper := service.JwtWrapper{
+		SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
+		Issuer:          "AuthService",
+		ExpirationHours: 24,
+	}
+
+	signedToken, err := jwtWrapper.GenerateToken("Unauthentication")
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
+		return
+	}
+
+	tokenResponse := LoginResponse{
+		Token: signedToken,
+		ID:    9999,
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
+}

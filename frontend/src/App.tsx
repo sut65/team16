@@ -77,10 +77,14 @@ import CommentUpdate from "./components/comments/commentUpdate";
 
 
 var employeeName = "";
+const eid: any = localStorage.getItem("eid");
 
 const getEmployee = async () => {
   let res = await GetCurrentEmployee();
   employeeName = res.Name;
+  if (eid == '9999') {
+    employeeName = "ลูกค้า";
+  }
   if (res) {
     console.log(res);
     console.log(employeeName);
@@ -160,11 +164,14 @@ export default function App() {
     setOpen(!open);
   };
 
+
+
   useEffect(() => {
-    
+
     getEmployee();
 
     const token = localStorage.getItem("token");
+
     if (token) {
       setToken(token);
     };
@@ -208,7 +215,7 @@ export default function App() {
               <Toolbar
                 sx={{
                   pr: "24px", // keep right padding when drawer closed
-                  
+
                 }}
               >
                 <IconButton
@@ -272,7 +279,7 @@ export default function App() {
                   <Link
                     to={item.path}
                     key={item.name}
-                    style={{ textDecoration: "none", color: "secondary"}}
+                    style={{ textDecoration: "none", color: "secondary" }}
                   >
                     <ListItem button>
                       <ListItemIcon>{item.icon}</ListItemIcon>
