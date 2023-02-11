@@ -3,10 +3,11 @@
     "@date-io/date-fns": "^2.16.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
-    "@mui/x-data-grid": "^5.17.18",
-    "@mui/x-date-pickers": "^5.0.13",
+    "@mui/x-data-grid": "^5.17.23",
+    "@mui/x-date-pickers": "^5.0.18",
     "date-fns": "^2.29.3",
     "fs": "^0.0.1-security",
     "moment": "^2.29.4",
@@ -14,6 +15,6 @@
     "qrcode": "^1.5.1",
     "qrcode.react": "^3.1.0",
     "react-qr-code": "^2.0.11",
-    "react-router-dom": "^6.8.0"
+    "react-router-dom": "^6.8.1"
   }
 }

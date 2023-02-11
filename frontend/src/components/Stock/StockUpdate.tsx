@@ -25,9 +25,9 @@ import { EmployeeInterface } from "../../models/IEmployee";
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref
- ) {
+) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
- });
+});
 
 
 
@@ -107,10 +107,10 @@ function StockUpdate() {
     let res = await GetCurrentEmployee();
     stock.Employee_ID = res.ID;
     if (res) {
-        setEmployee(res);
-        console.log(res)
+      setEmployee(res);
+      console.log(res)
     }
-};
+  };
 
 
   useEffect(() => {
@@ -139,27 +139,27 @@ function StockUpdate() {
 
     console.log(data)
 
-        const requestOptions = {
-            method: "PATCH", // ใช้ PATCH
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data),
-        };
+    const requestOptions = {
+      method: "PATCH", // ใช้ PATCH
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+    };
 
-        fetch(`${apiUrl}/stocks/${stockID}`, requestOptions) // แนบIDไปด้วย
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.data) {
-                    setSuccess(true);
-                    setErrorMessage("")
-                } else {
-                    setError(true);
-                    setErrorMessage(res.error)
-                }
-            });
-    }
+    fetch(`${apiUrl}/stocks/${stockID}`, requestOptions) // แนบIDไปด้วย
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setSuccess(true);
+          setErrorMessage("")
+        } else {
+          setError(true);
+          setErrorMessage(res.error)
+        }
+      });
+  }
 
   return (
 
@@ -180,73 +180,73 @@ function StockUpdate() {
         </Alert>
       </Snackbar>
       <Paper>
-       <Box
-         display="flex"
-         sx={{
-           marginTop: 2,
-         }}
-       >
-         <Box sx={{ paddingX: 2, paddingY: 1 }}>
-           <Typography
-             component="h2"
-             variant="h6"
-             color="primary"
-             gutterBottom
-           >
-            <div className="good-font">
-             อัปเดตสินค้า ID : {stockID}
-            </div>
-           </Typography>
-         </Box>
-       </Box>
-       <Divider />
-       <Grid container spacing={3} sx={{ padding: 2 }}>
+        <Box
+          display="flex"
+          sx={{
+            marginTop: 2,
+          }}
+        >
+          <Box sx={{ paddingX: 2, paddingY: 1 }}>
+            <Typography
+              component="h2"
+              variant="h6"
+              color="primary"
+              gutterBottom
+            >
+              <div className="good-font">
+                อัปเดตสินค้า ID : {stockID}
+              </div>
+            </Typography>
+          </Box>
+        </Box>
+        <Divider />
+        <Grid container spacing={3} sx={{ padding: 2 }}>
 
-<Grid item xs={6}>
-  <p>Name</p>
-  <FormControl fullWidth variant="outlined">
-    <TextField
-      id="Name"
-      variant="outlined"
-      type="string"
-      size="medium"
-      value={stock.Name || ""}
-      onChange={handleInputChange}
-    />
-  </FormControl>
-</Grid>
-<Grid item xs={6}>
-  <FormControl fullWidth variant="outlined">
-    <p>Amount</p>
-    <TextField
-      id="Amount"
-      variant="outlined"
-      type="number"
-      size="medium"
-      value={stock.Amount || ""}
-      onChange={handleInputChange}
-    />
-  </FormControl>
-</Grid>
-<Grid item xs={6}>
-  <FormControl fullWidth variant="outlined">
-    <p>Price</p>
-    <TextField
-      id="Price"
-      variant="outlined"
-      type="number"
-      size="medium"
-      value={stock.Price || ""}
-      onChange={handleInputChange}
-    />
-  </FormControl>
-</Grid>
+          <Grid item xs={6}>
+            <p>ชื่อสินค้า</p>
+            <FormControl fullWidth variant="outlined">
+              <TextField
+                id="Name"
+                variant="outlined"
+                type="string"
+                size="medium"
+                value={stock.Name || ""}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+          </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-              <p>Kind</p>
+              <p>จำนวน</p>
+              <TextField
+                id="Amount"
+                variant="outlined"
+                type="number"
+                size="medium"
+                value={stock.Amount || ""}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+              <p>ราคา</p>
+              <TextField
+                id="Price"
+                variant="outlined"
+                type="number"
+                size="medium"
+                value={stock.Price || ""}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+              <p>ชนิด</p>
               <Select
                 native
-                value={stock.Kind_ID+""}
+                value={stock.Kind_ID + ""}
                 onChange={handleChange}
                 inputProps={{
                   name: "Kind_ID",
@@ -264,10 +264,10 @@ function StockUpdate() {
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-              <p>Storage</p>
+              <p>สถานที่จัดเก็บ</p>
               <Select
                 native
-                value={stock.Storage_ID+""}
+                value={stock.Storage_ID + ""}
                 onChange={handleChange}
                 inputProps={{
                   name: "Storage_ID",
@@ -284,40 +284,40 @@ function StockUpdate() {
             </FormControl>
           </Grid>
           <Grid item xs={6}>
-           <FormControl fullWidth variant="outlined">
-             <p>DateTime</p>
-             <LocalizationProvider dateAdapter={AdapterDateFns}>
-               <DatePicker
-                 value={date}
-                 onChange={(newValue) => {
-                   setDate(newValue);
-                 }}
-                 renderInput={(params) => <TextField {...params} />}
-               />
-             </LocalizationProvider>
-           </FormControl>
-         </Grid>
-         <Grid item xs={12}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">Employee</p>
-                            <Select
-                                native
-                                value={stock.Employee_ID + ""}
-                                onChange={handleChange}
-                                disabled
-                                inputProps={{
-                                    name: "Employee_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือก
-                                </option>
-                                <option value={employee?.ID} key={employee?.ID}>
-                                    {employee?.Name}
-                                </option>
-                            </Select>
-                        </FormControl>
-                    </Grid>
+            <FormControl fullWidth variant="outlined">
+              <p>วันที่-เวลา</p>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  value={date}
+                  onChange={(newValue) => {
+                    setDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined">
+              <p className="good-font">Employee</p>
+              <Select
+                native
+                value={stock.Employee_ID + ""}
+                onChange={handleChange}
+                disabled
+                inputProps={{
+                  name: "Employee_ID",
+                }}
+              >
+                <option aria-label="None" value="">
+                  เลือก
+                </option>
+                <option value={employee?.ID} key={employee?.ID}>
+                  {employee?.Name}
+                </option>
+              </Select>
+            </FormControl>
+          </Grid>
           <Grid item xs={12}>
             <Button
               component={RouterLink}

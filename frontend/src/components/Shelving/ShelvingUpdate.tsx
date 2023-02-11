@@ -17,288 +17,307 @@ import { StocksInterface } from "../../models/methas/IStock";
 import { LabelsInterface } from "../../models/methas/ILabel";
 import { Autocomplete, Select, SelectChangeEvent } from "@mui/material";
 import { GetCurrentEmployee } from "../../services/HttpClientService";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
- props,
- ref
+  props,
+  ref
 ) {
- return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 function ShelvingUpdate() {
- const [success, setSuccess] = React.useState(false);
- const [error, setError] = React.useState(false);
- const [errorMessage, setErrorMessage] = React.useState("");
- const [shelving, setShelving] = React.useState<Partial<ShelvingsInterface>>({});
- const [employee, setEmployee] = React.useState<EmployeeInterface>();
- const [stock, setStock] = React.useState<StocksInterface[]>([]);
- const [label, setLabel] = React.useState<LabelsInterface[]>([]);
+  const [date, setDate] = React.useState<Date | null>(null);
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
+  const [shelving, setShelving] = React.useState<Partial<ShelvingsInterface>>({});
+  const [employee, setEmployee] = React.useState<EmployeeInterface>();
+  const [stock, setStock] = React.useState<StocksInterface[]>([]);
+  const [label, setLabel] = React.useState<LabelsInterface[]>([]);
 
- const handleClose = (
-   event?: React.SyntheticEvent | Event,
-   reason?: string
- ) => {
-   if (reason === "clickaway") {
-     return;
-   }
-   setSuccess(false);
-   setError(false);
- };
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccess(false);
+    setError(false);
+  };
 
- const handleInputChange = (
-   event: React.ChangeEvent<{ id?: string; value: any }>
- ) => {
-   const id = event.target.id as keyof typeof ShelvingUpdate;
-   const { value } = event.target;
-   setShelving({ ...shelving, [id]: value });
- };
+  const handleInputChange = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof ShelvingUpdate;
+    const { value } = event.target;
+    setShelving({ ...shelving, [id]: value });
+  };
 
- const handleChange = (event: SelectChangeEvent) => {
+  const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof shelving;
     console.log(name, event.target.value);
     setShelving({
-        ...shelving,
-        [name]: event.target.value,
+      ...shelving,
+      [name]: event.target.value,
     });
-};
+  };
 
- const apiUrl = "http://localhost:8080";
+  const apiUrl = "http://localhost:8080";
 
- const getStock = async () => {
+  const getStock = async () => {
     fetch(`${apiUrl}/stocks`, requestOptions)
-        .then((response) => response.json())
-        .then((res) => {
-            if (res.data) {
-                console.log(res.data)
-                setStock(res.data);
-            }
-            else { console.log("NO DATA") }
-        });
-};
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          console.log(res.data)
+          setStock(res.data);
+        }
+        else { console.log("NO DATA") }
+      });
+  };
 
-const getLabel = async () => {
+  const getLabel = async () => {
     fetch(`${apiUrl}/labels`, requestOptions)
-        .then((response) => response.json())
-        .then((res) => {
-            if (res.data) {
-                console.log(res.data)
-                setLabel(res.data);
-            }
-            else { console.log("NO DATA") }
-        });
-};
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          console.log(res.data)
+          setLabel(res.data);
+        }
+        else { console.log("NO DATA") }
+      });
+  };
 
-const getEmployee = async () => {
+  const getEmployee = async () => {
     let res = await GetCurrentEmployee();
     shelving.Employee_ID = res.ID;
     if (res) {
-        setEmployee(res);
-        console.log(res)
+      setEmployee(res);
+      console.log(res)
     }
-};
+  };
 
-useEffect(() => {
+  useEffect(() => {
     getStock();
     getLabel();
     getEmployee();
-}, []);
+  }, []);
 
-let shelvingID = localStorage.getItem("shelvingID"); // เรีกใช้ค่าจากlocal storage 
+  let shelvingID = localStorage.getItem("shelvingID"); // เรีกใช้ค่าจากlocal storage 
 
-const requestOptions = {
+  const requestOptions = {
     method: "GET",
     headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json"
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json"
     },
-};
+  };
 
-const convertType = (data: string | number | undefined) => {
+  const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
-};
+  };
 
-async function submit() {
-   let data = {
-     Price: convertType(shelving.Cost),
-     Amount: convertType(shelving.Number),
-     Stock_ID: convertType(shelving.Stock_ID),
-     Label_ID: convertType(shelving.Label_ID),
-     Employee_ID: convertType(shelving.Employee_ID),
-   };
+  async function submit() {
+    let data = {
+      Number: convertType(shelving.Number),
+      Cost: typeof shelving.Cost === "string" ? parseFloat(shelving.Cost) : 0,
+      Stock_ID: convertType(shelving.Stock_ID),
+      Label_ID: convertType(shelving.Label_ID),
+      Employee_ID: convertType(shelving.Employee_ID),
+      Date_Time: shelving.Date_Time,
+    };
 
-   console.log(data)
+    console.log(data)
 
-   const requestOptions = {
-       method: "POST",
-       headers: {
-           Authorization: `Bearer ${localStorage.getItem("token")}`,
-           "Content-Type": "application/json"
-       },
-       body: JSON.stringify(data),
-   };
+    const requestOptions = {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+    };
 
-   fetch(`${apiUrl}/shelvings/${shelvingID}`, requestOptions)
-       .then((response) => response.json())
-       .then((res) => {
-           if (res.data) {
-               setSuccess(true);
-               setErrorMessage("")
-           } else {
-               setError(true);
-               setErrorMessage(res.error)
-           }
-       });
-}
+    fetch(`${apiUrl}/shelves/${shelvingID}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setSuccess(true);
+          setErrorMessage("")
+        } else {
+          setError(true);
+          setErrorMessage(res.error)
+        }
+      });
+  }
 
- return (
+  return (
 
-   <Container maxWidth="md">
-     <Snackbar
-       open={success}
-       autoHideDuration={6000}
-       onClose={handleClose}
-       anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-     >
-       <Alert onClose={handleClose} severity="success">
-         บันทึกข้อมูลสำเร็จ
-       </Alert>
-     </Snackbar>
-     <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
-       <Alert onClose={handleClose} severity="error">
-         บันทึกข้อมูลไม่สำเร็จ {errorMessage}
-       </Alert>
-     </Snackbar>
-     <Paper>
+    <Container maxWidth="md">
+      <Snackbar
+        open={success}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="success">
+          บันทึกข้อมูลสำเร็จ
+        </Alert>
+      </Snackbar>
+      <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error">
+          บันทึกข้อมูลไม่สำเร็จ {errorMessage}
+        </Alert>
+      </Snackbar>
+      <Paper>
 
-       <Box
-         display="flex"
-         sx={{ marginTop: 2, }}
-       >
-         <Box sx={{ paddingX: 2, paddingY: 1 }}>
-           <Typography
-             component="h2"
-             variant="h6"
-             color="primary"
-             gutterBottom
-           >
-             <div className="good-font">
-             Update Shelf ID : {shelvingID}
-            </div>
-           </Typography>
-         </Box>
-       </Box>
+        <Box
+          display="flex"
+          sx={{ marginTop: 2, }}
+        >
+          <Box sx={{ paddingX: 2, paddingY: 1 }}>
+            <Typography
+              component="h2"
+              variant="h6"
+              color="primary"
+              gutterBottom
+            >
+              <div className="good-font">
+                อัปเดตชั้นวาง ID : {shelvingID}
+              </div>
+            </Typography>
+          </Box>
+        </Box>
 
-       <Divider />
-       <Grid container spacing={3} sx={{ padding: 2 }}>
-       <Grid item xs={6}>
+        <Divider />
+        <Grid container spacing={3} sx={{ padding: 2 }}>
+          <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-                <p className="good-font">Name</p>
-                <Autocomplete
+              <p className="good-font">ชื่อสินค้า</p>
+              <Autocomplete
                 disablePortal
                 id="Stock_ID"
-                getOptionLabel={(item: StocksInterface) => `${item.Name}`}
+                getOptionLabel={(item: StocksInterface) => `${item.ID} ${item.Name} ${item.Price}`}
                 options={stock}
                 sx={{ width: 'auto' }}
                 isOptionEqualToValue={(option, value) =>
-                    option.ID === value.ID}
+                  option.ID === value.ID}
                 onChange={(e, value) => { shelving.Stock_ID = value?.ID }}
                 renderInput={(params) => <TextField {...params} label="- Select Name -" />}
-                />
+              />
             </FormControl>
-        </Grid>
+          </Grid>
 
-         <Grid item xs={6}>
+          <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-                <p className="good-font">Label</p>
-                <Autocomplete
+              <p className="good-font">ชั้นวาง</p>
+              <Autocomplete
                 disablePortal
                 id="Label_ID"
                 getOptionLabel={(item: LabelsInterface) => `${item.Name}`}
                 options={label}
                 sx={{ width: 'auto' }}
                 isOptionEqualToValue={(option, value) =>
-                    option.ID === value.ID}
+                  option.ID === value.ID}
                 onChange={(e, value) => { shelving.Label_ID = value?.ID }}
                 renderInput={(params) => <TextField {...params} label="- Select Label -" />}
-                />
+              />
             </FormControl>
-        </Grid>
+          </Grid>
 
-        <Grid item xs={6}>
-           <FormControl fullWidth variant="outlined">
-             <p className="good-font">Amount</p>
-             <TextField
-               id="Number"
-               variant="outlined"
-               type="number"
-               size="medium"
-               InputProps={{ inputProps: { min: 1 } }}
-               InputLabelProps={{
-                 shrink: true,
-               }}
-               value={shelving.Number || ""}
-               onChange={handleInputChange}
-             />
-           </FormControl>
-         </Grid>
-
-
-        <Grid item xs={6}>
-           <FormControl fullWidth variant="outlined">
-             <p className="good-font">Price</p>
-             <TextField
-               id="Cost"
-               variant="outlined"
-               type="number"
-               size="medium"
-               InputProps={{ inputProps: { min: 1 } }}
-               InputLabelProps={{
-                 shrink: true,
-               }}
-               value={shelving.Cost || ""}
-               onChange={handleInputChange}
-             />
-           </FormControl>
-         </Grid>
-
-        <Grid item xs={12}>
+          <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-                <p className="good-font">Employee</p>
-                <Select
-                    native
-                    value={shelving.Employee_ID + ""}
-                    onChange={handleChange}
-                    disabled
-                    inputProps={{name: "Employee_ID",}}
-                 >
+              <p className="good-font">จำนวน</p>
+              <TextField
+                id="Number"
+                variant="outlined"
+                type="number"
+                size="medium"
+                InputProps={{ inputProps: { min: 1 } }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={shelving.Number || ""}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+          </Grid>
+
+
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+              <p className="good-font">ราคา</p>
+              <TextField
+                id="Cost"
+                variant="outlined"
+                type="number"
+                size="medium"
+                InputProps={{ inputProps: { min: 1 } }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={shelving.Cost || ""}
+                onChange={handleInputChange}
+              />
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+              <p>วันที่-เวลา</p>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  value={date}
+                  onChange={(newValue) => {
+                    setDate(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={6}>
+            <FormControl fullWidth variant="outlined">
+              <p className="good-font">พนักงาน</p>
+              <Select
+                native
+                value={shelving.Employee_ID + ""}
+                onChange={handleChange}
+                disabled
+                inputProps={{ name: "Employee_ID", }}
+              >
                 <option aria-label="None" value="">
-                     Disable
+                  Disable
                 </option>
                 <option value={employee?.ID} key={employee?.ID}>
-                    {employee?.Name}
+                  {employee?.Name}
                 </option>
-                </Select>
+              </Select>
             </FormControl>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Button component={RouterLink} to="/Shelving" variant="contained">
+              Back
+            </Button>
+            <Button
+              style={{ float: "right" }}
+              onClick={submit}
+              variant="contained"
+              color="primary"
+            >
+              Submit
+            </Button>
+          </Grid>
         </Grid>
 
-         <Grid item xs={12}>
-           <Button component={RouterLink} to="/Shelving" variant="contained">
-             Back
-           </Button>
-           <Button
-             style={{ float: "right" }}
-             onClick={submit}
-             variant="contained"
-             color="primary"
-           >
-             Submit
-           </Button>
-         </Grid>
-       </Grid>
-
-     </Paper>
-   </Container>
- );
+      </Paper>
+    </Container>
+  );
 }
 export default ShelvingUpdate;

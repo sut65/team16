@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Dialog, DialogTitle } from "@mui/material";
 import { StocksInterface } from "../../models/methas/IStock";
+import moment from "moment";
 
 
 
@@ -68,7 +69,7 @@ function Stock() {
         localStorage.setItem("stockID", params.row.ID); //setเพื่อการแก้ไข
     };
 
-     // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
+    // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
     const handleClose = () => {
         setOpenDelete(false)
         setOpenUpdate(false)
@@ -80,16 +81,18 @@ function Stock() {
 
     const columns: GridColDef[] = [
 
-      { field: "ID", headerName: "ID", width: 50,  headerAlign:"center" },
-      { field: "Name", headerName: "Name", width: 150, headerAlign:"center" },
-      { field: "Amount", headerName: "Amount", width: 150, headerAlign:"center" },
-      { field: "Price", headerName: "Price", width: 150, headerAlign:"center" },
-      { field: "Kind", headerName: "Kind", valueFormatter:(params) => params.value.Name, width: 150, headerAlign:"center" },
-      { field: "Storage", headerName: "Storage", valueFormatter:(params) => params.value.Name, width: 150, headerAlign:"center" },
-      { field: "DateTime", headerName: "DateTime", width: 200, headerAlign:"center" },
+        { field: "ID", headerName: "ID", width: 50, headerAlign: "center" },
+        { field: "Name", headerName: "ชื่อสินค้า", width: 150, headerAlign: "center" },
+        { field: "Amount", headerName: "จำนวน", width: 100, headerAlign: "center" },
+        { field: "Price", headerName: "ราคา", width: 100, headerAlign: "center" },
+        { field: "Kind", headerName: "ชนิด", valueFormatter: (params) => params.value.Name, width: 120, headerAlign: "center" },
+        { field: "Storage", headerName: "ที่จัดเก็บ", valueFormatter: (params) => params.value.Name, width: 150, headerAlign: "center" },
+        { field: "DateTime", headerName: "วันที่-เวลา", width: 200, headerAlign: "center",
+        renderCell: (params) => moment(params.row.DateTime).format('DD-MM-YYYY HH:mm:ss')
+    },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
         {
-            field: "Edit", headerName: "Edit", width: 120,
+            field: "Edit", headerName: "แก้ไข", width: 120,
             renderCell: () => {
                 return (
                     <Button
@@ -98,13 +101,13 @@ function Stock() {
                         onClick={() => setOpenUpdate(true)}
                         startIcon={<EditIcon />}
                     >
-                        Edit
+                        แก้ไข
                     </Button>
                 );
             },
         },
         {
-            field: "Delete", headerName: "Delete", width: 120,
+            field: "Delete", headerName: "ลบ", width: 120,
             renderCell: () => {
                 return (
                     <Button
@@ -113,7 +116,7 @@ function Stock() {
                         onClick={() => setOpenDelete(true)}
                         startIcon={<DeleteIcon />}
                     >
-                        Delete
+                        ลบ
                     </Button>
                 );
             },
@@ -126,30 +129,30 @@ function Stock() {
             <Dialog open={openDelete} onClose={handleClose} >
                 <DialogTitle><div className="good-font">ยืนยันการลบสต๊อก</div></DialogTitle>
                 <Button
-                        variant="contained"
-                        color="primary"
-                        //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
-                        onClick={deleteStock}
-                    >
-                        <div className="good-font">
-                            ยืนยัน
-                        </div>
-                    </Button>
+                    variant="contained"
+                    color="primary"
+                    //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
+                    onClick={deleteStock}
+                >
+                    <div className="good-font">
+                        ยืนยัน
+                    </div>
+                </Button>
             </Dialog>
             {/* ยืนยันการแก้ไข */}
             <Dialog open={openUpdate} onClose={handleClose} >
                 <DialogTitle><div className="good-font">ยืนยันการอัปเดตสต๊อก</div></DialogTitle>
                 <Button
-                        variant="contained"
-                        color="primary"
-                        //กด "ยืนยัน" ไปที่หน้าแก้ไข
-                        component={RouterLink}
-                        to="/StockUpdate"
-                    >
-                        <div className="good-font">
-                            ยืนยัน
-                        </div>
-                    </Button>
+                    variant="contained"
+                    color="primary"
+                    //กด "ยืนยัน" ไปที่หน้าแก้ไข
+                    component={RouterLink}
+                    to="/StockUpdate"
+                >
+                    <div className="good-font">
+                        ยืนยัน
+                    </div>
+                </Button>
             </Dialog>
             <Container maxWidth="lg">
                 <Box

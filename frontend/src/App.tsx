@@ -45,7 +45,7 @@ import Member from "./components/Member/Member";
 import MemberCreate from "./components/Member/MemberCreate";
 import Discount from "./components/Discount/Discount";
 import DiscountCreate from "./components/Discount/DiscountCreate";
-import DiscountUpdate from "./components/Discount/DiscountUpdate";
+// import DiscountUpdate from "./components/Discount/DiscountUpdate";
 import { GetCurrentEmployee } from "./services/HttpClientService";
 import Leave from "./components/Leave/Leave";
 import LeaveCreate from "./components/Leave/LeaveCreate";
@@ -77,10 +77,14 @@ import CommentUpdate from "./components/comments/commentUpdate";
 
 
 var employeeName = "";
+const eid: any = localStorage.getItem("eid");
 
 const getEmployee = async () => {
   let res = await GetCurrentEmployee();
   employeeName = res.Name;
+  if (eid == '9999') {
+    employeeName = "ลูกค้า";
+  }
   if (res) {
     console.log(res);
     console.log(employeeName);
@@ -155,23 +159,26 @@ const menu = [
 
 export default function App() {
   const [token, setToken] = useState<String>("");
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
+
+
   useEffect(() => {
-    
+
     getEmployee();
 
     const token = localStorage.getItem("token");
+
     if (token) {
       setToken(token);
     };
 
-    setTimeout(() => {
-      setOpen(false);
-    }, 500);
+    // setTimeout(() => {
+    //   setOpen(false);
+    // }, 500);
   }, []);
 
   if (!token) {
@@ -190,10 +197,10 @@ export default function App() {
     },
     palette: {
       primary: {
-        main: '#476930',
+        main: '#557C55',
       },
       secondary: {
-        main: '#F1DDDF',
+        main: '#F2FFE9',
       },
     },
   });
@@ -258,6 +265,7 @@ export default function App() {
                   alignItems: "center",
                   justifyContent: "flex-end",
                   px: [1],
+                  backgroundColor: '#A6CF98',
                 }}
               >
                 <IconButton onClick={toggleDrawer}>
@@ -270,9 +278,9 @@ export default function App() {
                   <Link
                     to={item.path}
                     key={item.name}
-                    style={{ textDecoration: "none", color: "inherit" }}
+                    style={{ textDecoration: "none", color: "secondary" }}
                   >
-                    <ListItem button >
+                    <ListItem button>
                       <ListItemIcon>{item.icon}</ListItemIcon>
                       <ListItemText primary={item.name} />
                     </ListItem>
@@ -283,7 +291,7 @@ export default function App() {
             <Box
               component="main"
               sx={{
-                backgroundColor: '#FAF7F0',
+                backgroundColor: '#F2FFE9',
                 flexGrow: 1,
                 height: "100vh",
                 overflow: "auto",
@@ -305,7 +313,7 @@ export default function App() {
                   <Route path="/ShelvingUpdate" element={<ShelvingUpdate />} />
                   <Route path="/Discount" element={<Discount />} />
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />
-                  <Route path="/DiscountUpdate" element={<DiscountUpdate />} />
+                  {/* <Route path="/DiscountUpdate" element={<DiscountUpdate />} /> */}
                   <Route path="/Delivery" element={<Delivery />} />
                   <Route path="/DeliveryCreate" element={<DeliveryCreate />} />
                   <Route path="/DeliveryUpdate" element={<DeliveryUpdate />} />

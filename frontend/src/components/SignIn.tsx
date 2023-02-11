@@ -15,6 +15,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { SigninInterface } from "../models/ISignin";
 import { Login } from "../services/HttpClientService";
+import { Access } from "../services/HttpClientService";
 import { Container, InputAdornment } from "@mui/material";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
@@ -22,15 +23,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PasswordIcon from '@mui/icons-material/Password';
 import LoginIcon from '@mui/icons-material/Login';
 import CommentShow from "./comments/commentShow";
-
-// import React from 'react';
-import { useNavigate } from "react-router-dom";
-
-{/* <Routes>
-    <Route path="/commentshow" element={<CommentShow />} />
-</Routes> */}
-
-
+import { useNavigate } from 'react-router-dom'
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -40,16 +33,6 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 const theme = createTheme();
-
-// export default function MyComponent() {
-//     return (
-//       <div>
-//         <Button component={Link} to="/posts">
-//           Posts
-//         </Button>
-//       </div>
-//     );
-//   }
 
 function SignIn() {
     const [signin, setSignin] = useState<Partial<SigninInterface>>({});
@@ -84,65 +67,46 @@ function SignIn() {
             }, 1000);
         } else {
             setError(true);
+        }
+    };
 
+    const toComment = async () => {
+        let res = await Access("Unauthentication");
+        if (res) {
+            // setSuccess(true);
+            setTimeout(() => {
+                window.location.href = 'http://localhost:3000/CommentShow';
+            }, 1000);
+        } else {
+            setError(true);
         }
     };
 
     const theme = createTheme({
         typography: {
-          fontFamily: "Prompt, sans-serif",
-          fontSize: 16,
+            fontFamily: "Prompt, sans-serif",
+            fontSize: 16,
         },
         palette: {
-          primary: {
-            main: '#476930',
-          },
-          secondary: {
-            main: '#F1DDDF',
-          },
+            primary: {
+                main: '#476930',
+            },
+            secondary: {
+                main: '#F2FFE9',
+            },
         },
-      });
-      
-    // const toComment = async () => {
-    //     // let res = await Login(signin);
-    //     // if (res) {
-    //     //     setSuccess(true);
-    //     //     setTimeout(() => {
-    //     //         window.location.reload();
-    //     //     }, 1000);
-    //     // } else {
-    //     //     setError(true);
-
-    //     // }
-    //     // navigate(path);
-    //     setTimeout(() => {
-    //         window.location.href = "/comments";
-    //     }, 1000);
-
-
-    // };
-
-    const toComment = () => {
-        // localStorage.clear();
-        window.location.href = "/comments";
-        window.location.reload();
-    };
-
-    // let navigate = useNavigate();
-    // const routeChange = () => {
-    //     let path = `comments`;
-    //     navigate(path);
-    // }
+    });
 
     return (
         <ThemeProvider theme={theme}>
             <Grid
                 item xs={false} sm={8} md={12} container component="main"
                 sx={{
-                    backgroundImage: "url(https://rare-gallery.com/uploads/posts/563247-bright-colours.jpg)",
-                    backgroundPosition: "center", height: "100vh", width: '100%', scale: "initial",
+                    // backgroundImage: "url(https://rare-gallery.com/uploads/posts/563247-bright-colours.jpg)",
+                    backgroundPosition: "center", height: "120vh", width: '100%', scale: "initial",
+                    backgroundColor:"#F2FFE9",
+                    [theme.breakpoints.down("sm")]: {height: "150vh"}
                 }} >
-
                 <Snackbar
                     open={success}
                     autoHideDuration={3000}
@@ -235,50 +199,22 @@ function SignIn() {
                             >
                                 <div className="good-font" > Sign In </div>
                             </Button>
-                            
                             <div>
                                 <br></br>
                             </div>
-
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                color="secondary"
+                                color="primary"
                                 sx={{ mt: 2, mb: 6 }}
                                 onClick={toComment}
                             >
                                 <div className="good-font" > แสดงความคิดเห็น </div>
                             </Button>
-                            {/* <div className="app flex-row align-items-center">
-                                <Container>
-                                    <Button color="primary" className="px-4"
-                                        onClick={toComment}
-                                    >
-                                        Login
-                                    </Button>
-
-                                </Container>
-                            </div> */}
-
-                            {/* <Button color="primary" component={RouterLink} to="/CommentShow" variant="contained">
-                                <div className="good-font-white">
-                                    กลับ
-                                </div>
-                            </Button> */}
-                            {/* <Link styles="button" onClick={(e) => displayNewClaim(e)}>New claim</Link> */}
-                            {/* <Link to="/CommentShow" styles="button" onClick={displayNewClaim}>
-
-                                New claim
-                            </Link> */}
                         </Box>
                     </Box>
                 </Grid>
-                {/* <div>
-                    <Button component={Link} to="/comments">
-                        Posts
-                    </Button>
-                </div> */}
             </Grid>
         </ThemeProvider>
     );

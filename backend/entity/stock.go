@@ -31,8 +31,8 @@ type Stock struct {
 	Storage_ID  *uint
 	Storage     Storage
 	Shelving    []Shelving `gorm:"foreignKey:Stock_ID"`
-	Discount    []Discount `gorm:"foreignKey:Stock_ID"`
-	DateTime    time.Time  `valid:"Past~DateTime must not be in the past,Future~DateTime must not be in the future"`
+	// Discount    []Discount `gorm:"foreignKey:Stock_ID"`
+	DateTime    time.Time  `valid:"Past~DateTime must not be in the past,Future~DateTime must not be in the future,required~DateTime not null"`
 }
 
 // ฟังก์ชันที่จะใช่ในการ validation EntryTime

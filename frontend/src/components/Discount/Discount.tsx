@@ -14,8 +14,8 @@ import { Dialog, DialogTitle } from "@mui/material";
 function Discount() {
     const [discount, setDiscount] = React.useState<DiscountInterface[]>([]);
     const [discountID, setDiscountID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
-    const [price, setPrice] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
-    const [stockID, setStockID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
+    const [cost, setCost] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
+    const [shelvingID, setShelvingID] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการแก้ไข/ลบ
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
     const [openUpdate, setOpenupdate] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การแก้ไข
 
@@ -60,13 +60,15 @@ function Discount() {
                 else { console.log("NO DATA") }
             });
         handleClose();
-        getDiscount();
-        resetPrice();
+        resetCost();
+        setTimeout(() => {
+            getDiscount();
+        }, 0);
     }
 
-    async function resetPrice() {
+    async function resetCost() {
         let data = {
-            Price: price,
+            Cost: cost,
         };
         const requestOptions = {
             method: "PATCH",
@@ -77,12 +79,12 @@ function Discount() {
             body: JSON.stringify(data),
         };
 
-        fetch(`http://localhost:8080/reset_price/${stockID}/${price}`, requestOptions)
+        fetch(`http://localhost:8080/reset_cost/${shelvingID}/${cost}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     if (res.data) {
-                        console.log("reset price ID: " + discountID)
+                        console.log("reset cost ID: " + discountID)
                     }
                     else { console.log("NO DATA") }
                 }
@@ -92,11 +94,11 @@ function Discount() {
     // เมื่อมีการคลิ๊กที่แถวใดแถวหนึ่งในDataGrid functionนี้จะsetค่าIDของข้อมูลที่ต้องการ(ในกรณีนี้คือdiscountID)เพื่อรอสำหรับการแก้ไข/ลบ
     const handleRowClick: GridEventListener<'rowClick'> = (params) => {
         setDiscountID(Number(params.row.ID)); //setเพื่อรอการลบ
-        setPrice(Number(params.row.Discount_Price)); //setเพื่อรอการลบ
-        setStockID(Number(params.row.Stock_ID)); //setเพื่อรอการลบ
+        setCost(Number(params.row.Discount_Price)); //setเพื่อรอการลบ
+        setShelvingID(Number(params.row.Shelving_ID)); //setเพื่อรอการลบ
         localStorage.setItem("discountID", params.row.ID); //setเพื่อการแก้ไข
-        console.log(price);
-        console.log(stockID);
+        console.log(cost);
+        console.log(shelvingID);
     };
 
     // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
@@ -112,10 +114,6 @@ function Discount() {
     const columns: GridColDef[] = [
         { field: "ID", headerName: "ID", width: 50 },
         { field: "Discount_Price", headerName: "ราคาที่ลด", width: 80 },
-        // {
-        //     field: "Stock", headerName: "ราคาหลังลด", width: 150,
-        //     valueFormatter: (params) => params.value.Price,
-        // },
         {
             field: "Discount_s", headerName: "วันที่เริ่มลดราคา", width: 150,
             renderCell: (params) => moment(params.row.Discount_s).format('YY-MM-DD')
@@ -129,14 +127,10 @@ function Discount() {
             valueFormatter: (params) => params.value.Type_Name,
         },
         {
-            field: "Stock", headerName: "สินค้า", width: 150,
-            valueFormatter: (params) => params.value.Name,
+            field: "Shelving", headerName: "สินค้า(ราคาปัจจุบัน)", width: 150,
+            valueFormatter: (params) => params.value.Stock.Name + " ราคา " +params.value.Cost,
         },
-        // {
-        //     field: "Stock", headerName: "IDสินค้า", width: 150,
-        //     valueFormatter: (params) => params.value.ID,
-        // },
-        //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
+        // ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
         {
             field: "edit", headerName: "แก้ไข", width: 100,
             renderCell: () => {
@@ -212,7 +206,7 @@ function Discount() {
                             color="primary"
                             gutterBottom
                         >
-                            <div className="good-font">
+                            <div className="title-big">
                                 ส่วนลด
                             </div>
                         </Typography>

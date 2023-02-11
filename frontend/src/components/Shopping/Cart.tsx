@@ -7,10 +7,13 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import { CartInterface } from "../../models/Natthapon/ICart";
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import PaidIcon from '@mui/icons-material/Paid';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import PaymentIcon from '@mui/icons-material/Payment';
 import { Dialog, DialogTitle } from "@mui/material";
-import pay from "../Payment/pay";
+
 
 function Cart() {
     const [cart, setCart] = React.useState<CartInterface[]>([]);
@@ -92,14 +95,14 @@ function Cart() {
 
 
     const columns: GridColDef[] = [
-        { field: "ID", headerName: "ID", width: 30, headerAlign: "center", align: "center" },
+        { field: "ID", headerName: "ID", width: 30, headerAlign: "center", align: "center", headerClassName: 'green1' },
         { field: "Total", headerName: "รวมยอด", width: 100, headerAlign: "center", align: "center" },
-        { field: "Status", headerName: "สถานะการชำระ", width: 150, headerAlign: "center", align: "center", valueFormatter: (params) => params.value.Status },
-        { field: "Member", headerName: "สมากชิก", width: 200, headerAlign: "center", align: "center", valueFormatter: (params) => params.value.Mem_Name },
-        { field: "Employee", headerName: "พนักงาน", width: 200, headerAlign: "center", align: "center", valueFormatter: (params) => params.value.Name },
+        { field: "Status", headerName: "สถานะการชำระ", width: 150, headerAlign: "center", align: "center", headerClassName: 'green1', valueFormatter: (params) => params.value.Status },
+        { field: "Member", headerName: "สมากชิก", width: 200, headerAlign: "center", align: "center", headerClassName: 'green1', valueFormatter: (params) => params.value.Mem_Name },
+        { field: "Employee", headerName: "พนักงาน", width: 200, headerAlign: "center", align: "center", headerClassName: 'green1', valueFormatter: (params) => params.value.Name },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการจ่าย/ลบ
         {
-            field: "pay", headerName: "ชำระ", width: 100, headerAlign: "center",
+            field: "pay", headerName: "ชำระ", width: 100, headerAlign: "center", headerClassName: 'green1',
             renderCell: () => {
                 return (
                     <Button
@@ -113,7 +116,7 @@ function Cart() {
             },
         },
         {
-            field: "List", headerName: "รายการ", width: 100, headerAlign: "center",
+            field: "List", headerName: "รายการ", width: 100, headerAlign: "center", headerClassName: 'green1',
             renderCell: () => {
                 return (
                     <Button
@@ -127,7 +130,7 @@ function Cart() {
             },
         },
         {
-            field: "add", headerName: "เพิ่มสินค้า", width: 100, headerAlign: "center",
+            field: "add", headerName: "เพิ่มสินค้า", width: 100, headerAlign: "center", headerClassName: 'green1',
             renderCell: () => {
                 return (
                     <Button
@@ -141,7 +144,7 @@ function Cart() {
             },
         },
         {
-            field: "delete", headerName: "ลบ", width: 100, headerAlign: "center",
+            field: "delete", headerName: "ลบ", width: 100, headerAlign: "center", headerClassName: 'green1',
             renderCell: () => {
                 return (
                     <Button

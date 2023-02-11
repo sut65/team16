@@ -82,31 +82,31 @@ function Payment() {
     }, []);
 
     const columns: GridColDef[] = [
-        { field: "ID", headerName: "ID", width: 50 ,headerAlign:"center", align:"center"},
+        { field: "ID", headerName: "ID", width: 50 ,headerAlign:"center", align:"center", headerClassName: 'green1'},
         {
-            field: "Shopping_Cart", headerName: "ตะกร้า", width: 60,headerAlign:"center", align:"center",
+            field: "Shopping_Cart", headerName: "ตะกร้า", width: 60,headerAlign:"center", align:"center", headerClassName: 'green1',
             valueFormatter: (params) => params.value.ID,
         },
-        { field: "Paytotal", headerName: "ยอดรวม", width: 80 ,headerAlign:"center", align:"center",},
+        { field: "Paytotal", headerName: "ยอดรวม", width: 80 ,headerAlign:"center", align:"center", headerClassName: 'green1'},
         {
-            field: "Payment_method", headerName: "ช่องทางการขำระ", width: 150,headerAlign:"center", align:"center",
+            field: "Payment_method", headerName: "ช่องทางการขำระ", width: 150,headerAlign:"center", align:"center", headerClassName: 'green1',
             valueFormatter: (params) => params.value.Method,
         },
         {
-            field: "Time", headerName: "วันที่ชำระสินค้า", width: 180, headerAlign:"center", align:"center",
+            field: "Time", headerName: "วันที่ชำระสินค้า", width: 180, headerAlign:"center", align:"center", headerClassName: 'green1',
             renderCell: (params) => moment(params.row.Time).format('YY-MM-DD HH:mm:ss')
         },
         {
-            field: "Note", headerName: "หมายเหตุ", width: 180,headerAlign:"center", align:"center",
+            field: "Note", headerName: "หมายเหตุ", width: 180,headerAlign:"center", align:"center", headerClassName: 'green1',
             valueFormatter: (params) => params.value.Method,
         },
         {
-            field: "Employee", headerName: "พนักงาน", width: 200,headerAlign:"center", align:"center",
+            field: "Employee", headerName: "พนักงาน", width: 200,headerAlign:"center", align:"center", headerClassName: 'green1',
             valueFormatter: (params) => params.value.Name,
         },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
         {
-            field: "edit", headerName: "แก้ไข", width: 100,headerAlign:"center", align:"center",
+            field: "edit", headerName: "แก้ไข", width: 100,headerAlign:"center", align:"center", headerClassName: 'green1',
             renderCell: () => {
                 return (
                     <Button
@@ -120,7 +120,7 @@ function Payment() {
             },
         },
         {
-            field: "delete", headerName: "ลบ", width: 100,headerAlign:"center", align:"center",
+            field: "delete", headerName: "ลบ", width: 100,headerAlign:"center", align:"center", headerClassName: 'green1',
             renderCell: () => {
                 return (
                     <Button
@@ -192,7 +192,7 @@ function Payment() {
                     </Box>
             
                 </Box>
-                <div style={{ height: 400, width: '100%', marginTop: '20px'columns={columns} }}>
+                <div style={{ height: 400, width: '100%', marginTop: '20px' }}>
                     <DataGrid
                         rows={payment}
                         getRowId={(row) => row.ID}

@@ -20,7 +20,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { DiscountInterface } from "../../models/thanadet/IDiscount"
 import { Discount_Type_Interface } from "../../models/thanadet/IDiscount_Type"
 import { EmployeeInterface } from "../../models/IEmployee"
-import { StocksInterface } from "../../models/methas/IStock"
+import { ShelvingsInterface } from "../../models/methas/IShelving"
 import { GetCurrentEmployee } from "../../services/HttpClientService";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -35,11 +35,11 @@ function DiscountCreate() {
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("");
     const [message, setAlertMessage] = React.useState("");
-    const [salePrice, setSalePrice] = React.useState(0);
-    const [disPrice, setDisPrice] = React.useState(0);
-    const [stockID, setStockID] = React.useState(0);
+    const [saleCost, setSaleCost] = React.useState(0);
+    const [disCost, setDisCost] = React.useState(0);
+    const [shelvingID, setShelvingID] = React.useState(0);
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
-    const [stock, setStock] = React.useState<StocksInterface[]>([]);
+    const [shelving, setShelving] = React.useState<ShelvingsInterface[]>([]);
     const [dt, setDt] = React.useState<Discount_Type_Interface[]>([]);
     const [discount, setDiscount] = React.useState<DiscountInterface>({
         Discount_s: new Date(),
@@ -72,10 +72,10 @@ function DiscountCreate() {
         const id = event.target.id as keyof typeof DiscountCreate;
         const { value } = event.target;
         setDiscount({ ...discount, [id]: value });
-        setSalePrice(value);
-        console.log("Price: " + disPrice);
-        console.log("SALE: " + salePrice);
-        console.log("result: " + (disPrice - salePrice));
+        setSaleCost(value);
+        // console.log("Price: " + disCost);
+        // console.log("SALE: " + saleCost);
+        // console.log("result: " + (disCost - saleCost));
     };
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -98,13 +98,13 @@ function DiscountCreate() {
             });
     };
 
-    const getStock = async () => {
-        fetch(`${apiUrl}/stocks`, requestOptions)
+    const getShelving= async () => {
+        fetch(`${apiUrl}/shelvings`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setStock(res.data);
+                    setShelving(res.data);
                 }
                 else { console.log("NO DATA") }
             });
@@ -122,7 +122,7 @@ function DiscountCreate() {
     useEffect(() => {
         getEmployee();
         getDiscount_Type();
-        getStock();
+        getShelving();
     }, []);
 
     const convertType = (data: string | number | undefined) => {
@@ -131,12 +131,12 @@ function DiscountCreate() {
     };
 
     async function submit() {
-        console.log("stock ID: " + stockID)
+        console.log("shelving ID: " + shelvingID)
         let data = {
             Discount_Price: typeof discount.Discount_Price === "string" ? parseInt(discount.Discount_Price) : 0,
             Discount_s: discount.Discount_s,
             Discount_e: discount.Discount_e,
-            Stock_ID: convertType(discount.Stock_ID),
+            Shelving_ID: convertType(discount.Shelving_ID),
             Discount_Type_ID: convertType(discount.Discount_Type_ID),
             Employee_ID: convertType(discount.Employee_ID),
         };
@@ -149,7 +149,7 @@ function DiscountCreate() {
             },
             body: JSON.stringify(data),
         };
-        let res = await fetch(`${apiUrl}/discounts/${stockID}`, requestOptions)
+        let res = await fetch(`${apiUrl}/discounts/${shelvingID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -166,6 +166,9 @@ function DiscountCreate() {
             setAlertMessage("บันทึกข้อมูลสำเร็จ");
             setSuccess(true);
             discounting();
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 0);
         } else {
             setAlertMessage(res.message);
             setError(true);
@@ -173,11 +176,11 @@ function DiscountCreate() {
     }
 
     async function discounting() {
-        let stockDisID = discount.Stock_ID;
+        let shelvingDisID = discount.Shelving_ID;
         let data = {
-            Price: (disPrice - salePrice),
+            Cost: (disCost - saleCost),
         };
-        console.log(stockDisID)
+        console.log("shelvingDisID " + shelvingDisID)
         console.log(data)
 
         const requestOptions = {
@@ -189,7 +192,7 @@ function DiscountCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/discounting/${stockDisID}`, requestOptions)
+        fetch(`${apiUrl}/discounting/${shelvingDisID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -271,19 +274,19 @@ function DiscountCreate() {
                             <p className="good-font">สินค้า</p>
                             <Autocomplete
                                 disablePortal
-                                id="Stock_ID"
-                                getOptionLabel={(item: StocksInterface) => `${item.Name} ราคา ${item.Price}`}
-                                options={stock}
+                                id="Shelving_ID"
+                                getOptionLabel={(item: ShelvingsInterface) => `${item.Stock.Name} ราคา ${item.Cost}`}
+                                options={shelving}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) =>
                                     option.ID === value.ID}
                                 onChange={(e, value) => {
-                                    discount.Stock_ID = value?.ID;
+                                    discount.Shelving_ID = value?.ID;
                                     if (value) {
-                                        setDisPrice(value.Price)
-                                        setStockID(value.ID)
+                                        setDisCost(value.Cost)
+                                        setShelvingID(value.ID)
                                     };
-                                    console.log("Stock Price: " + disPrice);
+                                    console.log("Shelving Cost: " + disCost);
                                 }}
                                 renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
                             />
