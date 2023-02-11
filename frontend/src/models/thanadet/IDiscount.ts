@@ -1,6 +1,6 @@
 import { Discount_Type_Interface } from "./IDiscount_Type";
 import { EmployeeInterface } from "../IEmployee";
-import { StocksInterface } from "../methas/IStock";
+import { ShelvingsInterface } from "../methas/IShelving";
 
 export interface DiscountInterface {
     ID?: number;
@@ -12,6 +12,6 @@ export interface DiscountInterface {
     Employee?: EmployeeInterface;
     Discount_Type_ID?: number;
     Discount_Type?: Discount_Type_Interface;
-    Stock_ID?: number;
-    Stock?: StocksInterface;
+    Shelving_ID?: number;
+    Shelving?: ShelvingsInterface;
 }

@@ -11,10 +11,10 @@ import (
 
 // POST /discount
 func CreateDiscount(c *gin.Context) {
-	stockID := c.Param("stockID")
-	var stock entity.Stock // for check price if discount price more than current price
+	shelvingID := c.Param("shelvingID")
+	var oldShelve entity.Shelving // for check price if discount price more than current price
 	var discount entity.Discount
-	var inventory entity.Stock
+	var shelving entity.Shelving
 	var employee entity.Employee
 	var discount_type entity.Discount_Type
 
@@ -26,7 +26,7 @@ func CreateDiscount(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกพนักงาน"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", discount.Stock_ID).First(&inventory); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", discount.Shelving_ID).First(&shelving); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกสินค้า"})
 		return
 	}
@@ -39,11 +39,11 @@ func CreateDiscount(c *gin.Context) {
 		return
 	}
 
-	if err := entity.DB().Where("id = ?", stockID).First(&stock).Error; err != nil {
+	if err := entity.DB().Where("id = ?", shelvingID).First(&oldShelve).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if (stock.Price <= discount.Discount_Price){
+	if (oldShelve.Cost <= discount.Discount_Price){
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ราคาที่ลดต้องไม่ มากกว่าหรือเท่ากับ ราคาของสินค้า"})
 		return
 	}
@@ -54,7 +54,7 @@ func CreateDiscount(c *gin.Context) {
 		Discount_e:	discount.Discount_e,             
 		Employee:	employee,               
 		Discount_Type:	discount_type,  
-		Stock:		inventory,     
+		Shelving:		shelving,     
 	}
 	if _, err := govalidator.ValidateStruct(dc); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -71,7 +71,7 @@ func CreateDiscount(c *gin.Context) {
 func GetDiscount(c *gin.Context) {
 	var discount entity.Discount
 	id := c.Param("id")
-	if err := entity.DB().Preload("Stock").Preload("Employee").Preload("Discount_Type").Raw("SELECT * FROM discounts WHERE id = ?", id).Find(&discount).Error; err != nil {
+	if err := entity.DB().Preload("Shelving").Preload("Employee").Preload("Discount_Type").Raw("SELECT * FROM discounts WHERE id = ?", id).Find(&discount).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -81,7 +81,7 @@ func GetDiscount(c *gin.Context) {
 // GET /discount
 func ListDiscount(c *gin.Context) {
 	var discount []entity.Discount
-	if err := entity.DB().Preload("Stock").Preload("Employee").Preload("Discount_Type").Raw("SELECT * FROM discounts").Find(&discount).Error; err != nil {
+	if err := entity.DB().Preload("Shelving.Stock").Preload("Employee").Preload("Discount_Type").Raw("SELECT * FROM discounts").Find(&discount).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -102,11 +102,11 @@ func DeleteDiscount(c *gin.Context) {
 
 // PATCH /discount
 func UpdateDiscount(c *gin.Context) {
-	stockID := c.Param("stockID")
 	id := c.Param("id")
-	var stock entity.Stock // for check price if discount price more than current price
+	shelvingID := c.Param("shelvingID")
+	var oldShelve entity.Shelving // for check price if discount price more than current price
 	var discount entity.Discount
-	var inventory entity.Stock
+	var shelving entity.Shelving
 	var employee entity.Employee
 	var discount_type entity.Discount_Type
 
@@ -118,7 +118,7 @@ func UpdateDiscount(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกพนักงาน"})
 		return
 	}
-	if tx := entity.DB().Where("id = ?", discount.Stock_ID).First(&inventory); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", discount.Shelving_ID).First(&shelving); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกสินค้า"})
 		return
 	}
@@ -131,11 +131,11 @@ func UpdateDiscount(c *gin.Context) {
 		return
 	}
 
-	if err := entity.DB().Where("id = ?", stockID).First(&stock).Error; err != nil {
+	if err := entity.DB().Where("id = ?", shelvingID).First(&oldShelve).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if (stock.Price <= discount.Discount_Price){
+	if (oldShelve.Cost <= discount.Discount_Price){
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ราคาที่ลดต้องไม่ มากกว่าหรือเท่ากับ ราคาของสินค้า"})
 		return
 	}
@@ -146,7 +146,7 @@ func UpdateDiscount(c *gin.Context) {
 		Discount_e:	discount.Discount_e,             
 		Employee:	employee,               
 		Discount_Type:	discount_type,  
-		Stock:		inventory,     
+		Shelving:		shelving,     
 	}
 	if _, err := govalidator.ValidateStruct(dc); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -159,43 +159,43 @@ func UpdateDiscount(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"data": discount})
 }
 
-// PATCH discounting stock
-func DiscountingStock(c *gin.Context) {
-	var stock entity.Stock
+// PATCH discounting shelving
+func DiscountingShelving(c *gin.Context) {
+	var shelving entity.Shelving
 	id := c.Param("id")
-	if err := c.ShouldBindJSON(&stock); err != nil {
+	if err := c.ShouldBindJSON(&shelving); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	st := entity.Stock{
-		Price: 	stock.Price,
+	sh := entity.Shelving{
+		Cost: 	shelving.Cost,
 	}
-	if err := entity.DB().Where("id = ?", id).Updates(&st).Error; err != nil {
+	if err := entity.DB().Where("id = ?", id).Updates(&sh).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": stock})
+	c.JSON(http.StatusOK, gin.H{"data": shelving})
 }
 
-// PATCH discounting stock
-func ResetPrice(c *gin.Context) {
-	var stock entity.Stock
-	stockID := c.Param("stockID")
-	price, _ := strconv.ParseFloat(c.Param("price"), 64)
+// PATCH discounting shelving
+func ResetCost(c *gin.Context) {
+	var shelving entity.Shelving
+	shelvingID := c.Param("shelvingID")
+	cost, _ := strconv.ParseFloat(c.Param("cost"), 64)
 
-	if err := entity.DB().Where("id = ?", stockID).First(&stock).Error; err != nil {
+	if err := entity.DB().Where("id = ?", shelvingID).First(&shelving).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	newStock := entity.Stock{
-		Price: stock.Price + price,
+	newShelving := entity.Shelving{
+		Cost: shelving.Cost + cost,
 	}
 
-	if err := entity.DB().Model(&stock).Update("price", newStock.Price).Error; err != nil {
+	if err := entity.DB().Model(&shelving).Update("cost", newShelving.Cost).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": stock})
+	c.JSON(http.StatusOK, gin.H{"data": shelving})
 }

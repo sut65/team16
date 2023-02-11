@@ -120,15 +120,15 @@ func main() {
 			//Discount Routes
 			r.GET("/discounts", controller.ListDiscount)
 			r.GET("/discount/:id", controller.GetDiscount)
-			r.POST("/discounts/:stockID", controller.CreateDiscount)
+			r.POST("/discounts/:shelvingID", controller.CreateDiscount)
 			r.PATCH("/discount/:id", controller.UpdateDiscount)
 			r.DELETE("/discount/:id", controller.DeleteDiscount)
 
 			//Discouting price Routes
-			r.PATCH("/discounting/:id", controller.DiscountingStock)
+			r.PATCH("/discounting/:id", controller.DiscountingShelving)
 
 			//Reset price Routes
-			r.PATCH("/reset_price/:stockID/:price", controller.ResetPrice)
+			r.PATCH("/reset_cost/:shelvingID/:cost", controller.ResetCost)
 
 			//Discount_Type Routes
 			r.GET("/discount_types", controller.ListDiscount_Type)
