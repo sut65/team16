@@ -40,7 +40,7 @@ type Employee_attendance struct {
 	Overtime        Overtime
 	Time_IN         time.Time
 	Status_ID       bool
-	Number_Em       string
+	Number_Em       string	 `valid:"required~Number cannot be blank,minstringlength(10)~โปรดใส่เบอร์โทรที่ถูกต้อง,maxstringlength(10)~โปรดใส่เบอร์โทรที่ถูกต้อง"`
 }
 
 type Record_employee_leave struct {
@@ -54,5 +54,5 @@ type Record_employee_leave struct {
 	Overtime_ID     *uint
 	Overtime        Overtime
 	Time_OUT        time.Time
-	Number_Em       string
+	Number_Em       string	 `valid:"required~Number cannot be blank,minstringlength(10)~โปรดใส่เบอร์โทรที่ถูกต้อง,maxstringlength(10)~โปรดใส่เบอร์โทรที่ถูกต้อง"`
 }
