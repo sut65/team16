@@ -147,26 +147,26 @@ func main() {
 			r.PATCH("/storages", controller.UpdateStorage)
 			r.DELETE("/Storages/:id", controller.DeleteStorage)
 
-			//Comment Routes
-			r.GET("/comments", controller.ListComments)
-			r.GET("/comment/:id", controller.GetComment)
-			r.POST("/comments", controller.CreateComment)
-			r.PATCH("/comment/:id", controller.UpdateComment)
-			r.DELETE("/comment/:id", controller.DeleteComment)
+			// //Comment Routes
+			// r.GET("/comments", controller.ListComments)
+			// r.GET("/comment/:id", controller.GetComment)
+			// r.POST("/comments", controller.CreateComment)
+			// r.PATCH("/comment/:id", controller.UpdateComment)
+			// r.DELETE("/comment/:id", controller.DeleteComment)
 
-			//Type comment Routes
-			r.GET("/type_comments", controller.ListType_comments)
-			r.GET("/type_comment/:id", controller.GetType_comment)
-			r.POST("/type_comments", controller.CreateType_comment)
-			r.PATCH("/type_comment/:id", controller.UpdateType_comment)
-			r.DELETE("/type_comment/:id", controller.DeleteType_comment)
+			// //Type comment Routes
+			// r.GET("/type_comments", controller.ListType_comments)
+			// r.GET("/type_comment/:id", controller.GetType_comment)
+			// r.POST("/type_comments", controller.CreateType_comment)
+			// r.PATCH("/type_comment/:id", controller.UpdateType_comment)
+			// r.DELETE("/type_comment/:id", controller.DeleteType_comment)
 
-			//Review point Routes
-			r.GET("/review_points", controller.ListReview_points)
-			r.GET("/review_point/:id", controller.GetReview_point)
-			r.POST("/review_points", controller.CreateReview_point)
-			r.PATCH("/review_point/:id", controller.UpdateReview_point)
-			r.DELETE("/review_point/:id", controller.DeleteReview_point)
+			// //Review point Routes
+			// r.GET("/review_points", controller.ListReview_points)
+			// r.GET("/review_point/:id", controller.GetReview_point)
+			// r.POST("/review_points", controller.CreateReview_point)
+			// r.PATCH("/review_point/:id", controller.UpdateReview_point)
+			// r.DELETE("/review_point/:id", controller.DeleteReview_point)
 
 			//Reason Routes
 			r.GET("/reasons", controller.ListReasons)
@@ -227,28 +227,29 @@ func main() {
 			r.DELETE("/delivery/:id", controller.DeleteDelivery)
 		}
 	}
-	// //Comment Routes
-	// router.GET("/comments", controller.ListComments)
-	// router.GET("/comment/:id", controller.GetComment)
-	// router.POST("/comments", controller.CreateComment)
-	// router.PATCH("/comment/:id", controller.UpdateComment)
-	// router.DELETE("/comment/:id", controller.DeleteComment)
+	//Comment Routes
+	router.GET("/comments", controller.ListComments)
+	router.GET("/comment/:id", controller.GetComment)
+	router.POST("/comments", controller.CreateComment)
+	router.PATCH("/comment/:id", controller.UpdateComment)
+	router.DELETE("/comment/:id", controller.DeleteComment)
 
-	// //Type comment Routes
-	// router.GET("/type_comments", controller.ListType_comments)
-	// router.GET("/type_comment/:id", controller.GetType_comment)
-	// router.POST("/type_comments", controller.CreateType_comment)
-	// router.PATCH("/type_comment/:id", controller.UpdateType_comment)
-	// router.DELETE("/type_comment/:id", controller.DeleteType_comment)
+	//Type comment Routes
+	router.GET("/type_comments", controller.ListType_comments)
+	router.GET("/type_comment/:id", controller.GetType_comment)
+	router.POST("/type_comments", controller.CreateType_comment)
+	router.PATCH("/type_comment/:id", controller.UpdateType_comment)
+	router.DELETE("/type_comment/:id", controller.DeleteType_comment)
 
-	// //Review point Routes
-	// router.GET("/review_points", controller.ListReview_points)
-	// router.GET("/review_point/:id", controller.GetReview_point)
-	// router.POST("/review_points", controller.CreateReview_point)
-	// router.PATCH("/review_point/:id", controller.UpdateReview_point)
-	// router.DELETE("/review_point/:id", controller.DeleteReview_point)
+	//Review point Routes
+	router.GET("/review_points", controller.ListReview_points)
+	router.GET("/review_point/:id", controller.GetReview_point)
+	router.POST("/review_points", controller.CreateReview_point)
+	router.PATCH("/review_point/:id", controller.UpdateReview_point)
+	router.DELETE("/review_point/:id", controller.DeleteReview_point)
 
 	router.POST("/login", controller.Login)
+	router.POST("/Access", controller.Access)
 	// Run the server
 	router.Run()
 }
