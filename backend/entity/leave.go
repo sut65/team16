@@ -25,7 +25,7 @@ type Leave struct {
 	Doc_Reason string `json:"Doc_Reason" valid:"required~กรุณากรอกเหตุผลการลา / รายละเอียด"`
 	Doc_DateS  time.Time `valid:"Past~วันที่เริ่มลาต้องไม่เป็นวันที่ผ่านมาแล้ว"`
 	Doc_DateE  time.Time `valid:"Past~วันที่สิ้นสุดการลาต้องไม่เป็นวันที่ผ่านมาแล้ว"`
-	Doc_Cont   string `json:"Doc_Cont" valid:"required~กรุณากรอกเบอร์ติดต่อ"`
+	Doc_Cont   string `json:"Doc_Cont" valid:"required~กรุณากรอกช่องทางการติดต่อ"`
 
 	Section_ID  *uint `valid:"-"`
 	Section     Section `valid:"-"`
