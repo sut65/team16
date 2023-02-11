@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/Team16/farm_mart/entity"
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 )
 
@@ -55,6 +56,13 @@ func CreateRecord_employee_leave(c *gin.Context) {
 		Overtime:     overtime,                        // โยงความสัมพันธ์กับ Entity Overtime
 		Time_OUT:     time.Time{},                     // ตั้งค่าฟิลด์ Time_OUT
 		Number_Em:    record_employee_leave.Number_Em, // ตั้งค่าฟิลด์ Number_Em
+	}
+
+	// ขั้นตอนการ validate ที่นำมาจาก unit test
+	
+	if _, err := govalidator.ValidateStruct(sc); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	// 14: บันทึก

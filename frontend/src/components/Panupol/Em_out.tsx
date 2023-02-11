@@ -45,6 +45,7 @@ function Record_employee_leaves_create() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("")
+    const [message, setAlertMessage] = React.useState("");
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [duty, setduty] = React.useState<DutyInterface[]>([]);
@@ -183,9 +184,11 @@ function Record_employee_leaves_create() {
       .then((res) => {
           if (res.data) {
               setSuccess(true);
+              setAlertMessage("บันทึกข้อมูลสำเร็จ");  
               setErrorMessage("")
           } else {
               setError(true);
+              setAlertMessage(res.error);
               setErrorMessage(res.error)
           }
       });
@@ -201,12 +204,12 @@ function Record_employee_leaves_create() {
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           >
             <Alert onClose={handleClose} severity="success">
-              บันทึกข้อมูลสำเร็จ
+            {message}
             </Alert>
           </Snackbar>
-          <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+          <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}   anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
             <Alert onClose={handleClose} severity="error">
-              บันทึกข้อมูลไม่สำเร็จ
+            {message}
             </Alert>
           </Snackbar>
           <Paper>
