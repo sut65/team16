@@ -186,6 +186,11 @@ func UpdateShelving(c *gin.Context) {
 		return
 
 	}
+	// แทรกการ validate
+	if _, err := govalidator.ValidateStruct(&sv); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{"data": shelving})
 

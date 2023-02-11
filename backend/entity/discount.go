@@ -16,8 +16,10 @@ type Discount struct {
 	Discount_Type    Discount_Type 	`valid:"-"`
 	Employee_ID      *uint 			`valid:"-"`
 	Employee         Employee 		`valid:"-"`
-	Stock_ID     *uint 				`valid:"-"`
-	Stock        Stock 				`valid:"-"`
+	// Stock_ID     *uint 			`valid:"-"`
+	// Stock        Stock 			`valid:"-"`
+	Shelving_ID 	*uint			`valid:"-"`
+	Shelving 		Shelving		`valid:"-"`
 }
 
 type Discount_Type struct {

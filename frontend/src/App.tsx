@@ -45,7 +45,7 @@ import Member from "./components/Member/Member";
 import MemberCreate from "./components/Member/MemberCreate";
 import Discount from "./components/Discount/Discount";
 import DiscountCreate from "./components/Discount/DiscountCreate";
-import DiscountUpdate from "./components/Discount/DiscountUpdate";
+// import DiscountUpdate from "./components/Discount/DiscountUpdate";
 import { GetCurrentEmployee } from "./services/HttpClientService";
 import Leave from "./components/Leave/Leave";
 import LeaveCreate from "./components/Leave/LeaveCreate";
@@ -159,7 +159,7 @@ const menu = [
 
 export default function App() {
   const [token, setToken] = useState<String>("");
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -176,9 +176,9 @@ export default function App() {
       setToken(token);
     };
 
-    setTimeout(() => {
-      setOpen(false);
-    }, 500);
+    // setTimeout(() => {
+    //   setOpen(false);
+    // }, 500);
   }, []);
 
   if (!token) {
@@ -215,7 +215,6 @@ export default function App() {
               <Toolbar
                 sx={{
                   pr: "24px", // keep right padding when drawer closed
-
                 }}
               >
                 <IconButton
@@ -314,7 +313,7 @@ export default function App() {
                   <Route path="/ShelvingUpdate" element={<ShelvingUpdate />} />
                   <Route path="/Discount" element={<Discount />} />
                   <Route path="/DiscountCreate" element={<DiscountCreate />} />
-                  <Route path="/DiscountUpdate" element={<DiscountUpdate />} />
+                  {/* <Route path="/DiscountUpdate" element={<DiscountUpdate />} /> */}
                   <Route path="/Delivery" element={<Delivery />} />
                   <Route path="/DeliveryCreate" element={<DeliveryCreate />} />
                   <Route path="/DeliveryUpdate" element={<DeliveryUpdate />} />

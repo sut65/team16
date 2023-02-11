@@ -166,7 +166,7 @@ function DeliveryCreate() {
             setSuccess(true);
             setTimeout(() => {
                 window.location.reload();
-            }, 500);
+            }, 0);
         } else {
             setAlertMessage(res.message);
             setError(true);
