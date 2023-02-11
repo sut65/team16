@@ -3,6 +3,7 @@ package test
 import (
 	"testing"
 	"time"
+
 	"github.com/Team16/farm_mart/entity"
 	"github.com/asaskevich/govalidator"
 	. "github.com/onsi/gomega"
@@ -131,7 +132,7 @@ func TestDateTimeMustNotBePast(t *testing.T) {
 	g.Expect(err.Error()).To(Equal("DateTime must not be in the past"))
 }
 
-func TestDateTimeMushNotBeFuture(t *testing.T) {
+func TestDateTimeMustNotBeFuture(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	st := entity.Stock{

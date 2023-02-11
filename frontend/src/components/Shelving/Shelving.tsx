@@ -9,6 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import { Dialog, DialogTitle } from "@mui/material";
+import moment from "moment";
 
 function Shelving() {
   const [meat, setMeat] = React.useState<ShelvingsInterface[]>([]);
@@ -101,8 +102,10 @@ function Shelving() {
     { field: "Number", headerName: "จำนวน", width: 100, headerAlign: "center", align: "center" },
     { field: "Cost", headerName: "ราคา", width: 150, headerAlign: "center", align: "center" },
     { field: "Label", headerName: "ชั้นวาง", width: 120, headerAlign: "center", align: "center", valueFormatter: (params) => params.value.Name },
-    {
-      field: "Edit", headerName: "แก้ไข", width: 120, headerAlign: "center", align: "center",
+    { field: "DateTime", headerName: "วันที่-เวลา", width: 200, headerAlign: "center",
+        renderCell: (params) => moment(params.row.DateTime).format('DD-MM-YYYY HH:mm:ss')
+    },
+    { field: "Edit", headerName: "แก้ไข", width: 120, headerAlign: "center", align: "center",
       renderCell: () => {
         return (
           <Button
@@ -140,8 +143,10 @@ function Shelving() {
     { field: "Number", headerName: "จำนวน", width: 100, headerAlign: "center", align: "center" },
     { field: "Cost", headerName: "ราคา", width: 150, headerAlign: "center", align: "center" },
     { field: "Label", headerName: "ชั้นวาง", width: 120, headerAlign: "center", align: "center", valueFormatter: (params) => params.value.Name },
-    {
-      field: "Edit", headerName: "แก้ไข", width: 120, headerAlign: "center", align: "center",
+    { field: "DateTime", headerName: "วันที่-เวลา", width: 200, headerAlign: "center",
+        renderCell: (params) => moment(params.row.DateTime).format('DD-MM-YYYY HH:mm:ss')
+    },
+    { field: "Edit", headerName: "แก้ไข", width: 120, headerAlign: "center", align: "center",
       renderCell: () => {
         return (
           <Button
@@ -179,8 +184,10 @@ function Shelving() {
     { field: "Number", headerName: "จำนวน", width: 100, headerAlign: "center", align: "center" },
     { field: "Cost", headerName: "ราคา", width: 150, headerAlign: "center", align: "center" },
     { field: "Label", headerName: "ชั้นวาง", width: 120, headerAlign: "center", align: "center", valueFormatter: (params) => params.value.Name },
-    {
-      field: "Edit", headerName: "แก้ไข", width: 120, headerAlign: "center", align: "center",
+    { field: "DateTime", headerName: "วันที่-เวลา", width: 200, headerAlign: "center",
+        renderCell: (params) => moment(params.row.DateTime).format('DD-MM-YYYY HH:mm:ss')
+    },
+    { field: "Edit", headerName: "แก้ไข", width: 120, headerAlign: "center", align: "center",
       renderCell: () => {
         return (
           <Button
