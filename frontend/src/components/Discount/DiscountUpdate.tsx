@@ -38,7 +38,6 @@ function DiscountUpdate() {
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [stock, setStock] = React.useState<StocksInterface[]>([]);
     const [dt, setDt] = React.useState<Discount_Type_Interface[]>([]);
-    // const [selectedValue, setSelectedValue] = React.useState<Discount_Type_Interface>(dt[1]);
     const [discount, setDiscount] = React.useState<DiscountInterface>({
         Discount_s: new Date(),
         Discount_e: new Date(),
