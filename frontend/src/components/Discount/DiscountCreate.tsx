@@ -166,9 +166,9 @@ function DiscountCreate() {
             setAlertMessage("บันทึกข้อมูลสำเร็จ");
             setSuccess(true);
             discounting();
-            setTimeout(() => {
-                window.location.reload();
-            }, 0);
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 0);
         } else {
             setAlertMessage(res.message);
             setError(true);
