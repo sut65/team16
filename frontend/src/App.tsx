@@ -215,7 +215,6 @@ export default function App() {
               <Toolbar
                 sx={{
                   pr: "24px", // keep right padding when drawer closed
-
                 }}
               >
                 <IconButton

@@ -31,7 +31,7 @@
   font-family: "Prompt", sans-serif;
   display: grid;
   grid-template-columns: auto;
-  background-color: #faf0f7;
+  background-color: #faf7f0;
   text-align: center;
 }
 
@@ -67,7 +67,7 @@
   display: grid;
   grid-template-columns: auto auto auto;
   grid-template-rows: auto auto;
-  background-color: #f9f0fa;
+  background-color: #faf7f0;
   margin-right: 82px;
 }
 
@@ -140,9 +140,6 @@
   border-radius: 8%;
 }
 
-.green0 {
-  color: #367E18;
-}
 .green1 {
   color: #476930;
 }
@@ -155,6 +152,3 @@
 .pink {
   color: #F1DDDF ;
 }
-
-
-
