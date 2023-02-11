@@ -78,28 +78,28 @@ function Delivery() {
     }, []);
 
     const columns: GridColDef[] = [
-        { field: "ID", headerName: "ID", width: 50 },
-        { field: "location", headerName: "สถานที่", width: 190 },
-        { field: "customer_name", headerName: "ชื่อลูกค้า", width: 120 },
+        { field: "ID", headerName: "ID", width: 50, headerAlign: "center" },
+        { field: "location", headerName: "สถานที่", width: 190, headerAlign: "center"  },
+        { field: "customer_name", headerName: "ชื่อลูกค้า", width: 120, headerAlign: "center"  },
         {
-            field: "Delivery_date", headerName: "วันที่สิ้นสุด", width: 100,
+            field: "Delivery_date", headerName: "วันที่สิ้นสุด", width: 100, headerAlign: "center" ,
             renderCell: (params) => moment(params.row.Delivery_date).format('YY-MM-DD')
         },
         {
-            field: "Employee", headerName: "ชื่อพนักงานที่ส่งสินค้า", width: 150,
+            field: "Employee", headerName: "พนักงานที่ส่งสินค้า", width: 150, headerAlign: "center",
             valueFormatter: (params) => params.value.Name,
         },
         {
-            field: "Car", headerName: "รถยนต์", width: 150,
+            field: "Car", headerName: "รถยนต์", width: 150, headerAlign: "center",
             valueFormatter: (params) => params.value.Registation_Number,
         },
         {
-            field: "Payment", headerName: "รายการสินค้า", width: 100,
+            field: "Payment", headerName: "รายการสินค้า", width: 120, headerAlign: "center",
             valueFormatter: (params) => params.value.ID,
         },
         //ปุ่ม delete กับ edit เรียกหน้าต่างย่อย(Dialog) เพื่อให้ยืนยันการแก้ไข/ลบ
         {
-            field: "edit", headerName: "แก้ไข", width: 100,
+            field: "edit", headerName: "แก้ไข", width: 100, headerAlign: "center",
             renderCell: () => {
                 return (
                     <Button
@@ -113,7 +113,7 @@ function Delivery() {
             },
         },
         {
-            field: "delete", headerName: "ลบ", width: 100,
+            field: "delete", headerName: "ลบ", width: 100, headerAlign: "center",
             renderCell: () => {
                 return (
                     <Button
@@ -146,7 +146,7 @@ function Delivery() {
             </Dialog>
             {/* ยืนยันการแก้ไข */}
             <Dialog open={openUpdate} onClose={handleClose} >
-                <DialogTitle>ยืนยันการแก้ไขรายการการส่งสินค้านี้นี้</DialogTitle>
+                <DialogTitle>ยืนยันการแก้ไขรายการการส่งสินค้านี้</DialogTitle>
                 <Button
                         variant="contained"
                         color="primary"

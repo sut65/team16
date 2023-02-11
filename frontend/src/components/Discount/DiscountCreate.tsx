@@ -72,10 +72,10 @@ function DiscountCreate() {
         const id = event.target.id as keyof typeof DiscountCreate;
         const { value } = event.target;
         setDiscount({ ...discount, [id]: value });
-        setSalePrice(value);
-        console.log("Price: " + disPrice);
-        console.log("SALE: " + salePrice);
-        console.log("result: " + (disPrice - salePrice));
+        // setSalePrice(value);
+        // console.log("Price: " + disPrice);
+        // console.log("SALE: " + salePrice);
+        // console.log("result: " + (disPrice - salePrice));
     };
 
     const handleChange = (event: SelectChangeEvent) => {
