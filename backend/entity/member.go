@@ -1,10 +1,6 @@
 package entity
 
 import (
-	"testing"
-
-	"github.com/asaskevich/govalidator"
-	"github.com/onsi/gomega"
 	"gorm.io/gorm"
 )
 
@@ -36,50 +32,4 @@ type Member struct {
 	Employee    Employee`valid:"-"`
 
 	Shopping_Cart []Shopping_Cart `gorm:"foreignkey:Member_ID"`
-}
-
-func TestMNameNotBlank(t *testing.T) {
-	g := gomega.NewGomegaWithT(t)
-
-	t.Run("check Member Name can  not blank", func(t *testing.T) {
-		member := Member{
-			Mem_Name: "",
-			Mem_Age:  15,
-			Mem_Tel:  "0930963238",
-		}
-
-		ok, err := govalidator.ValidateStruct(member)
-		g.Expect(ok).NotTo(gomega.BeTrue())
-		g.Expect(err).ToNot(gomega.BeNil())
-		g.Expect(err.Error()).To(gomega.Equal("กรุณากรอกชื่อ - นามสกุล"))
-	})
-}
-func TestAgeMT15(t *testing.T) {
-	g := gomega.NewGomegaWithT(t)
-	t.Run("check Member Age must be more than 15 years old", func(t *testing.T) {
-		member := Member{
-			Mem_Name: "keng",
-			Mem_Age:  10,
-			Mem_Tel:  "0930963238",
-		}
-
-		ok, err := govalidator.ValidateStruct(member)
-		g.Expect(ok).NotTo(gomega.BeTrue())
-		g.Expect(err).ToNot(gomega.BeNil())
-		g.Expect(err.Error()).To(gomega.Equal("โปรดระบุอายุที่มากกว่า 15 ปีขึ้นไป"))
-	})
-}
-func TestTelNotBlank(t *testing.T) {
-	g := gomega.NewGomegaWithT(t)
-	t.Run("check Member Telephone number cannot be blank", func(t *testing.T) {
-		member := Member{
-			Mem_Name: "Keng",
-			Mem_Age:  16,
-			Mem_Tel:  "",
-		}
-		ok, err := govalidator.ValidateStruct(member)
-		g.Expect(ok).NotTo(gomega.BeTrue())
-		g.Expect(err).ToNot(gomega.BeNil())
-		g.Expect(err.Error()).To(gomega.Equal("กรุณากรอกเบอร์มือถือ"))
-	})
 }
