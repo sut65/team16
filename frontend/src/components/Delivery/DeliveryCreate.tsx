@@ -164,9 +164,9 @@ function DeliveryCreate() {
         if (res.status) {
             setAlertMessage("บันทึกข้อมูลสำเร็จ");
             setSuccess(true);
-            setTimeout(() => {
-                window.location.reload();
-            }, 0);
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 0);
         } else {
             setAlertMessage(res.message);
             setError(true);
