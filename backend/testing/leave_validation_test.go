@@ -40,7 +40,7 @@ func TestLContact(t *testing.T) {
 		ok, err := govalidator.ValidateStruct(leave)
 		g.Expect(ok).NotTo(gomega.BeTrue())
 		g.Expect(err).ToNot(gomega.BeNil())
-		g.Expect(err.Error()).To(gomega.Equal("กรุณากรอกกรอกช่องทางการติดต่อ"))
+		g.Expect(err.Error()).To(gomega.Equal("กรุณากรอกช่องทางการติดต่อ"))
 	})
 }
 func TestLeaveEndTimeNotPass(t *testing.T) {

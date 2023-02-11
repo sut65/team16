@@ -24,7 +24,7 @@ type Leave struct {
 	gorm.Model
 	Doc_Reason string `json:"Doc_Reason" valid:"required~กรุณากรอกเหตุผลการลา / รายละเอียด"`
 	Doc_DateS  time.Time `valid:"Past~วันที่เริ่มลาต้องไม่เป็นวันที่ผ่านมาแล้ว"`
-	Doc_DateE  time.Time `valid:"Past~วันที่สิ้นสุดการลาต้องไม่เป็นวันที่ผ่านมาแล้ว"`
+	Doc_DateE  time.Time `valid:"Past~วันสิ้นสุดการลาต้องไม่เป็นอดีต"`
 	Doc_Cont   string `json:"Doc_Cont" valid:"required~กรุณากรอกช่องทางการติดต่อ"`
 
 	Section_ID  *uint `valid:"-"`
