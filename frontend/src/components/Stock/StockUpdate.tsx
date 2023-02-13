@@ -32,8 +32,9 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 
 function StockUpdate() {
-  const [date, setDate] = React.useState<Date | null>(null);
-  const [stock, setStock] = React.useState<Partial<StocksInterface>>({});
+  const [stock, setStock] = React.useState<Partial<StocksInterface>>({
+    DateTime: new Date(),
+  });
   const [kind, setKind] = React.useState<KindsInterface[]>([]);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [employee, setEmployee] = React.useState<EmployeeInterface>();
@@ -119,14 +120,14 @@ function StockUpdate() {
     getEmployee();
   }, []);
 
-  let stockID = localStorage.getItem("stockID"); // เรีกใช้ค่าจากlocal storage 
+  let stockID = localStorage.getItem("stockID"); // เรีกใช้ค่าจากlocal storage
 
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
   };
 
-  function submit() {
+  async function submit() {
     let data = {
       Name: stock.Name,
       Amount: convertType(stock.Amount),
@@ -288,9 +289,12 @@ function StockUpdate() {
               <p>วันที่-เวลา</p>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
-                  value={date}
+                  value={stock.DateTime}
                   onChange={(newValue) => {
-                    setDate(newValue);
+                    setStock({
+                      ...stock,
+                      DateTime: newValue,
+                    });
                   }}
                   renderInput={(params) => <TextField {...params} />}
                 />

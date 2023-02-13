@@ -36,7 +36,6 @@ function OrderCreate() {
     const [shelving, setShelving] = React.useState<ShelvingsInterface[]>([]);
     const [order, setOrder] = React.useState<OrderInterface>({});
 
-    const [orderPrice, setOrerPrice] = React.useState(0);       //ราคา input
     const [num, setNum] = React.useState(0);                    //จำนวนสินค้า input
     const [sumprice, setSumprice] = React.useState(0);          //รวมราคาในตะกร้า
     const [shevID, setShevID] = React.useState(0);              //ID ชั้นวาง
@@ -80,10 +79,9 @@ function OrderCreate() {
         const id = event.target.id as keyof typeof OrderCreate;
         const { value } = event.target;
         setOrder({ ...order, [id]: value });
-        setOrerPrice(value);
-        console.log("Price: " + orderPrice);
+        console.log("Price: " + total);
         console.log("carttotal: " + sumprice);
-        console.log("sum: " + (Number(sumprice) + Number(orderPrice)));
+        console.log("sum: " + (Number(sumprice) + Number(total)));
     };
 
     const getShelving = async () => {
@@ -193,7 +191,7 @@ function OrderCreate() {
     }
 
     async function sum() {
-        let price = Number(sumprice) + Number(orderPrice)
+        let price = Number(sumprice) + Number(total)
         let data = {
             Total: price,
             Status_ID: 1,

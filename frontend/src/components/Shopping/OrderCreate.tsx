@@ -48,7 +48,6 @@ function OrderCreate() {
     const [order, setOrder] = React.useState<OrderInterface>({});
     const [cart, setCart] = React.useState<CartInterface>({});
 
-    const [orderPrice, setOrerPrice] = React.useState(0);       //ราคา input
     const [num, setNum] = React.useState(0);                    //จำนวนสินค้า input
     const [latestCartId, setLatestCartId] = React.useState(0);  //ตะกร้าล่าสุด
     const [sumprice, setSumprice] = React.useState(0);          //รวมราคาในตะกร้า
@@ -85,6 +84,9 @@ function OrderCreate() {
         const { value } = event.target;
         setOrder({ ...order, [id]: value, Prices: value * shevprice });
         setNum(value)  
+        console.log("num: "+num)
+        console.log("price: "+shevprice)
+        console.log("sum: "+order.Prices)
     };
     let total = order.Prices
 
@@ -94,10 +96,9 @@ function OrderCreate() {
         const id = event.target.id as keyof typeof OrderCreate;
         const { value } = event.target;
         setOrder({ ...order, [id]: value });
-        setOrerPrice(value);
-        console.log("Price: " + orderPrice);
-        console.log("carttotal: " + sumprice);
-        console.log("sum: " + (Number(sumprice) + Number(orderPrice)));
+        // console.log("Price: " + total);
+        // console.log("carttotal: " + sumprice);
+        // console.log("sum: " + (Number(sumprice) + Number(total)));
     };
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -183,7 +184,7 @@ function OrderCreate() {
         .then(data => {
             let sumPrices = data.sumPrices;
             setSumprice(sumPrices);
-            console.log(sumPrices)
+            console.log("cartTotal: "+sumPrices)
             // Use the sumPrices variable as needed
 
         });
@@ -233,8 +234,6 @@ function OrderCreate() {
         let data = {
             Amount: quantity,
         };
-
-        console.log(quantity)
         console.log(data)
 
         const requestOptions = {
@@ -302,7 +301,7 @@ function OrderCreate() {
     }
 
     async function sum() {
-        let price = Number(sumprice) + Number(orderPrice)
+        let price = Number(sumprice) + Number(total)
         let data = {
             Total: price,
             Status_ID: 1,

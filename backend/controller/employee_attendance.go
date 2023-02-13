@@ -59,6 +59,7 @@ func CreateEmployee_attendance(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	// 14: บันทึก
 	if err := entity.DB().Create(&sc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
