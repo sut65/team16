@@ -37,9 +37,7 @@ function ShelvingUpdate() {
   const [employee, setEmployee] = React.useState<EmployeeInterface>();
   const [stock, setStock] = React.useState<StocksInterface[]>([]);
   const [label, setLabel] = React.useState<LabelsInterface[]>([]);
-  const [num, setNum] = React.useState(0);
-  const [amounts, setAmounts] = React.useState(0);
-  const [stID, setStID] = React.useState(0);
+
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -52,15 +50,7 @@ function ShelvingUpdate() {
     setError(false);
   };
 
-  const handleInputNum = (
-    event: React.ChangeEvent<{ id?: string; value: any }>
-  ) => {
-    const id = event.target.id as keyof typeof ShelvingUpdate;
-    const { value } = event.target;
-    setShelving({ ...shelving, [id]: value });
-    setNum(value)
-    console.log("Number: " + num);
-  };
+
 
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
