@@ -186,11 +186,6 @@ func UpdateShelving(c *gin.Context) {
 		return
 
 	}
-	// แทรกการ validate
-	if _, err := govalidator.ValidateStruct(&sv); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 
 	c.JSON(http.StatusOK, gin.H{"data": shelving})
 
@@ -198,6 +193,7 @@ func UpdateShelving(c *gin.Context) {
 func UpdateNumber(c *gin.Context) {
 	var stock entity.Stock
 	id := c.Param("id")
+
 	if err := c.ShouldBindJSON(&stock); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
