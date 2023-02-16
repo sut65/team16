@@ -28,14 +28,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 function ShelvingUpdate() {
-  const [date, setDate] = React.useState<Date | null>(null);
   const [success, setSuccess] = React.useState(false);
   const [error, setError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
-  const [shelving, setShelving] = React.useState<Partial<ShelvingsInterface>>({});
+  const [shelving, setShelving] = React.useState<Partial<ShelvingsInterface>>({
+    Date_Time: new Date(),
+  });
   const [employee, setEmployee] = React.useState<EmployeeInterface>();
   const [stock, setStock] = React.useState<StocksInterface[]>([]);
   const [label, setLabel] = React.useState<LabelsInterface[]>([]);
+
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -47,6 +49,8 @@ function ShelvingUpdate() {
     setSuccess(false);
     setError(false);
   };
+
+
 
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
@@ -271,9 +275,12 @@ function ShelvingUpdate() {
               <p>วันที่-เวลา</p>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
-                  value={date}
+                  value={shelving.Date_Time}
                   onChange={(newValue) => {
-                    setDate(newValue);
+                    setShelving({
+                      ...shelving,
+                      Date_Time: newValue,
+                    });
                   }}
                   renderInput={(params) => <TextField {...params} />}
                 />

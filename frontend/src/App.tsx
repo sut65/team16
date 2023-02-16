@@ -54,6 +54,7 @@ import SeparationCreate from "./components/apisit/separationCreate";
 import OrderList from "./components/Shopping/OrderList";
 import OrderCreate from "./components/Shopping/OrderCreate";
 import OrderAdd from "./components/Shopping/OrderAdd";
+import OrderUpdate from "./components/Shopping/OrderUpdate";
 import Cart from "./components/Shopping/Cart";
 import Delivery from "./components/Delivery/Delivery";
 import DeliveryCreate from "./components/Delivery/DeliveryCreate";
@@ -278,7 +279,7 @@ export default function App() {
                   <Link
                     to={item.path}
                     key={item.name}
-                    style={{ textDecoration: "none", color: "secondary" }}
+                    style={{ textDecoration: "none", color: "secondary" }}  //name menu
                   >
                     <ListItem button>
                       <ListItemIcon>{item.icon}</ListItemIcon>
@@ -329,6 +330,7 @@ export default function App() {
                   <Route path="/OrderList" element={<OrderList />} />
                   <Route path="/OrderCreate" element={<OrderCreate />} />
                   <Route path="/OrderAdd" element={<OrderAdd />} />
+                  <Route path="/OrderUpdate" element={<OrderUpdate />} />
                   <Route path="/Cart" element={<Cart />} />
                   <Route path="/Payment" element={<Payment />} />
                   <Route path="/PaymentCreate" element={<PaymentCreate />} />
