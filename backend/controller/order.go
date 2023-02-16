@@ -22,7 +22,7 @@ func CreateOrder(c *gin.Context) {
 	}
 	// 10: ค้นหา cart ด้วย id
 	if tx := entity.DB().Where("id = ?", order.Shopping_Cart_ID).First(&cart); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Shopping_Cart not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบตะกร้า"})
 		return
 	}
 
@@ -127,21 +127,24 @@ func DeleteOrder(c *gin.Context) {
 // PATCH /Order
 func UpdateOrder(c *gin.Context) {
 	var order entity.Order
+	id := c.Param("id")
 	if err := c.ShouldBindJSON(&order); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", order.ID).First(&order); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "order not found"})
-		return
+	od := entity.Order{
+		Prices: order.Prices,
+		Quantity: order.Quantity,
 	}
-
-	if err := entity.DB().Save(&order).Error; err != nil {
+	if _, err := govalidator.ValidateStruct(od); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
+	if err := entity.DB().Where("id = ?", id).Updates(&od).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{"data": order})
 }
 func UpdateQuantity(c *gin.Context) {
@@ -153,6 +156,10 @@ func UpdateQuantity(c *gin.Context) {
 	}
 	sc := entity.Shelving{
 		Number: shelv.Number,
+	}
+	if _, err := govalidator.ValidateStruct(sc); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	if err := entity.DB().Where("id = ?", id).Updates(&sc).Error; err != nil {

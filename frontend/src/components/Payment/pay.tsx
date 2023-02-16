@@ -232,7 +232,7 @@ function PaymentCreate() {
 
                         >
                             <div className="good-font">
-                                เพิ่มส่วนลด
+                                ชำระสินค้า
                             </div>
                         </Typography>
                     </Box>
