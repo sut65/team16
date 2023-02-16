@@ -17,7 +17,7 @@ function Order() {
     const [openDelete, setOpendelete] = React.useState(false); // มีเพ่ือsetการเปิดปิดหน้าต่าง"ยืนยัน"การลบ
     const [openUpdate, setOpenupdate] = React.useState(false);
     const [num, setNum] = React.useState(0); // เก็บค่าIDของข้อมูลที่ต้องการจ่าย/ลบ
-    const [amounts, setAmounts] = React.useState(0);
+    const [shelvnum, setShelvNum] = React.useState(0);
     const [shevID, setShevID] = React.useState(0);
 
     let cartID = localStorage.getItem("cartID"); // เรีกใช้ค่าจากlocal storage 
@@ -63,29 +63,27 @@ function Order() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.Shelving_ID && res.Shelving_Number) {
-                    console.log("shevID " + res.Shelving_ID)
+                    // console.log("shevID " + res.Shelving_ID)
                     console.log("shevNumber " + res.Shelving_Number)
                     setShevID(res.Shelving_ID);
-                    setAmounts(res.Shelving_Number);
+                    setShelvNum(res.Shelving_Number);
                 }
                 else { console.log("NO DATA") }
             });
         console.log("Quantity " + num)
         console.log("Price " + price)
     };
-    // let ShelvID = localStorage.getItem("ShelvID");
-    // console.log("ShelvID " + ShelvID)
-
+    
     // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
     const handleClose = () => {
         setOpendelete(false)
         setOpenupdate(false)
     };
 
-
+    // let minus = Number(Total) - Number(price)
     // console.log("total " + Total)
     // console.log("price " + price)
-    //console.log("minus " + minus)
+    // console.log("minus " + minus)
 
 
     async function sum() {
@@ -94,7 +92,7 @@ function Order() {
             Total: minus,
             Status_ID: 1,
         };
-        console.log(minus)
+        console.log(data)
 
         const requestOptions = {
             method: "PATCH",
@@ -116,11 +114,13 @@ function Order() {
             });
 
     }
+    let Num = Number(shelvnum) + Number(num);
+    console.log("Num "+ Num)
     async function restore() {
+        let Num = Number(shelvnum) + Number(num);
         let data = {
-            Number: amounts + num,
+            Number: Num,
         };
-
         console.log(data)
 
         const requestOptions = {
@@ -157,13 +157,14 @@ function Order() {
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
+                    restore()
+                    sum();
                     console.log("delete ID: " + orderID)
                 }
                 else { console.log("NO DATA") }
             });
         handleClose();
-        restore()
-        sum();
+
         getOrder();
     }
 
@@ -227,16 +228,16 @@ function Order() {
             <Dialog open={openUpdate} onClose={handleClose} >
                 <DialogTitle><div className="good-font">ยืนยันการแก้ไขรายการ</div></DialogTitle>
                 <Button
-                        variant="contained"
-                        color="primary"
-                        //กด "ยืนยัน" ไปที่หน้าแก้ไข
-                        component={RouterLink}
-                        to="/OrderUpdate"
-                    >
-                        <div className="good-font">
-                            ยืนยัน
-                        </div>
-                    </Button>
+                    variant="contained"
+                    color="primary"
+                    //กด "ยืนยัน" ไปที่หน้าแก้ไข
+                    component={RouterLink}
+                    to="/OrderUpdate"
+                >
+                    <div className="good-font">
+                        ยืนยัน
+                    </div>
+                </Button>
             </Dialog>
             <Container maxWidth="md">
                 <Box display="flex" sx={{ marginTop: 2, }}>
