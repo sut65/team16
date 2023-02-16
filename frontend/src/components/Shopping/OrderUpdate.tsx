@@ -96,7 +96,7 @@ function OrderCreate() {
     let cartID = localStorage.getItem("cartID");
     let shelvID = localStorage.getItem("shelvID");
     let orderprice = localStorage.getItem("Prices");
-    let orderquantity = localStorage.getItem("Quantity");
+    let orderquantity = Number(localStorage.getItem("Quantity"));
     //console.log(shelvID)
     console.log("OrPrice: "+orderprice)
     console.log("OrQuan: "+orderquantity)
@@ -120,10 +120,13 @@ function OrderCreate() {
         return val;
     };
 
+    console.log("Num: "+ num)
+    let qu = (Number(amounts) + Number(orderquantity)) - Number(num);
+    console.log("quantity "+qu)
     async function reduce() {
-        let quantity = amounts - num;
+        let quantity = (Number(amounts) + Number(orderquantity)) - Number(num);
         let data = {
-            Amount: quantity,
+            Number: quantity,
         };
 
         console.log(quantity)
@@ -194,7 +197,7 @@ function OrderCreate() {
     }
 
     async function sum() {
-        let price = Number(sumprice) + Number(total)
+        let price = Number(sumprice) + Number(total) - Number(orderprice)
         let data = {
             Total: price,
             Status_ID: 1,
@@ -285,11 +288,11 @@ function OrderCreate() {
                                 variant="outlined"
                                 type="number"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1, max: 50 } }}
+                                InputProps={{ inputProps: { min: 0, max: amounts -1 } }}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                                value={order.Quantity || ""}
+                                value={order.Quantity || orderquantity}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
@@ -307,7 +310,7 @@ function OrderCreate() {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                                value={order.Prices || ""}
+                                value={order.Prices || orderprice}
                                 onChange={handleInputPrice}
                             />
                         </FormControl>

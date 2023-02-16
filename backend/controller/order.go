@@ -154,15 +154,16 @@ func UpdateQuantity(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	sc := entity.Shelving{
+	sv := entity.Shelving{
 		Number: shelv.Number,
+		//Cost: shelv.Cost,
 	}
-	if _, err := govalidator.ValidateStruct(sc); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
+	// if _, err := govalidator.ValidateStruct(sv); err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
 
-	if err := entity.DB().Where("id = ?", id).Updates(&sc).Error; err != nil {
+	if err := entity.DB().Where("id = ?", id).Updates(&sv).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
