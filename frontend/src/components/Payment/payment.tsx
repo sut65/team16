@@ -8,6 +8,8 @@ import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import moment from 'moment'
 import PaymentIcon from '@mui/icons-material/Payment';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { PaymentInterface } from "../../models/Natthapon/IPayment"
 import { Dialog, DialogTitle } from "@mui/material";
@@ -111,10 +113,10 @@ function Payment() {
                 return (
                     <Button
                         variant="contained"
-                        color="primary"
+                        color="success"
                         onClick={() => setOpenupdate(true)}
+                        startIcon={<EditIcon />}
                     >
-                        Edit
                     </Button>
                 );
             },
@@ -125,10 +127,10 @@ function Payment() {
                 return (
                     <Button
                         variant="contained"
-                        color="primary"
+                        color="error"
                         onClick={() => setOpendelete(true)}
+                        startIcon={<DeleteIcon />}
                     >
-                        Delete
                     </Button>
                 );
             },

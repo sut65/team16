@@ -8,6 +8,8 @@ import { DataGrid, GridColDef, GridEventListener } from "@mui/x-data-grid";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { OrderInterface } from "../../models/Natthapon/IOrder"
 import { Dialog, DialogTitle } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 function Order() {
@@ -183,10 +185,10 @@ function Order() {
                 return (
                     <Button
                         variant="contained"
-                        color="primary"
+                        color="success"
                         onClick={() => setOpenupdate(true)}
+                        startIcon={<EditIcon />}
                     >
-                        Edit
                     </Button>
                 );
             },
@@ -197,10 +199,10 @@ function Order() {
                 return (
                     <Button
                         variant="contained"
-                        color="primary"
+                        color="error"
                         onClick={() => setOpendelete(true)}
+                        startIcon={<DeleteIcon />}
                     >
-                        Delete
                     </Button>
                 );
             },

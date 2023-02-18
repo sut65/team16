@@ -203,9 +203,21 @@ export default function App() {
       secondary: {
         main: '#F2FFE9',
       },
+      info: {
+        main: '#AAD4E0',
+      },
+      success: {
+        main: '#F9EEB6',
+      },
+      warning: {
+        main: '#EEB189',
+      },
+      error: {
+        main: '#FAAE9F',
+      },
     },
   });
-
+  //"error" | "inherit" | "primary" | "secondary" | "success" | "info" | "warning" |
   return (
     <div className="App">
       <Router>
@@ -279,7 +291,7 @@ export default function App() {
                   <Link
                     to={item.path}
                     key={item.name}
-                    style={{ textDecoration: "none", color: "secondary" }}  //name menu
+                    style={{ textDecoration: "none", color: "#557C55" }}  //name menu
                   >
                     <ListItem button>
                       <ListItemIcon>{item.icon}</ListItemIcon>
