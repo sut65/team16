@@ -317,12 +317,6 @@ function Employeeattemdance_IN() {
                 </FormControl>
               </Grid>
      
-
-
-          
-    
-            
-     
               <Grid item xs={12}>
                 <Button component={RouterLink} to="/EmployeeattemdanceIN" variant="contained">
                   Back
