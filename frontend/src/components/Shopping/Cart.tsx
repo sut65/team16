@@ -109,8 +109,8 @@ function Cart() {
                         variant="contained"
                         color="info"
                         onClick={() => setOpenPament(true)}
+                        startIcon={<PaidIcon />}
                     >
-                        pay
                     </Button>
                 );
             },
@@ -121,10 +121,10 @@ function Cart() {
                 return (
                     <Button
                         variant="contained"
-                        color="secondary"
+                        color="success"
                         onClick={() => setOpenList(true)}
+                        startIcon={<EditIcon />}
                     >
-                        list
                     </Button>
                 );
             },
@@ -137,8 +137,8 @@ function Cart() {
                         variant="contained"
                         color="warning"
                         onClick={() => setOpenUpdate(true)}
+                        startIcon={<AddShoppingCartIcon />}
                     >
-                        add
                     </Button>
                 );
             },
@@ -151,8 +151,8 @@ function Cart() {
                         variant="contained"
                         color="error"
                         onClick={() => setOpendelete(true)}
+                        startIcon={<DeleteIcon />}
                     >
-                        Delete
                     </Button>
                 );
             },
@@ -244,7 +244,7 @@ function Cart() {
                             component={RouterLink}
                             to="/Payment"
                             variant="contained"
-                            color="success"
+                            color="primary"
                             startIcon={<PaymentIcon />}
                         >
                             ประวัติการชำระ
@@ -256,7 +256,7 @@ function Cart() {
                             component={RouterLink}
                             to="/OrderCreate"
                             variant="contained"
-                            color="success"
+                            color="primary"
                             startIcon={<ShoppingCartCheckoutIcon />}
                         >
                             สร้างรายการสินค้า
