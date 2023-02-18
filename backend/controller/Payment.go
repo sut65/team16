@@ -21,6 +21,11 @@ func CreatePayment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	// 9: ค้นหา Employee ด้วย id
+	if tx := entity.DB().Where("id = ?", payment.Employee_ID).First(&employee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		return
+	}
 
 	// 10: ค้นหา cart ด้วย id
 	if tx := entity.DB().Where("id = ?", payment.Shopping_Cart_ID).First(&cart); tx.RowsAffected == 0 {
@@ -34,12 +39,6 @@ func CreatePayment(c *gin.Context) {
 		return
 	}
 
-	// 12: ค้นหา Employee ด้วย id
-	if tx := entity.DB().Where("id = ?", payment.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
-		return
-	}
-
 	// 12: สร้าง Payment
 	sc := entity.Payment{
 		Paytotal:       payment.Paytotal,
@@ -50,12 +49,14 @@ func CreatePayment(c *gin.Context) {
 		Employee:       employee, // โยงความสัมพันธ์กับ Entity Employee
 	}
 	payment.Time = payment.Time.Local()
+
+	// 13,14,15: Validate
 	if _, err := govalidator.ValidateStruct(sc); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// 13: บันทึก
+	// 16: บันทึก
 	if err := entity.DB().Create(&sc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

@@ -270,7 +270,7 @@ function OrderCreate() {
 
     async function addproduct() {
         let data = {
-            Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
+            Quantity: typeof order.Quantity === "string" ? parseFloat(order.Quantity) : 0,
             Prices: typeof order.Prices === "string" ? parseFloat(order.Prices) : total,
             Shelving_ID: convertType(order.Shelving_ID),
             Shopping_Cart_ID: latestCartId,

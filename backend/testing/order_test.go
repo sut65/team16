@@ -53,3 +53,18 @@ func TestPricesInRange(t *testing.T) {
 		g.Expect(err.Error()).To(gomega.Equal("ราคาอยู่ในช่วง (1-1000000)"))
 	})
 }
+
+func TestQuantityIsInt(t *testing.T) {
+	g := gomega.NewGomegaWithT(t)
+	t.Run("Quantity must be Int", func(t *testing.T) {
+		order := entity.Order{
+			Quantity: 10,
+			Prices:   10,
+		}
+
+		ok, err := govalidator.ValidateStruct(order)
+
+		g.Expect(ok).To(gomega.BeTrue())
+		g.Expect(err).To(gomega.BeNil())
+	})
+}
