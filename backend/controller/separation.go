@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// POST /watch_videos
+// POST /separations
 func CreateSeparation(c *gin.Context) {
 
 	var separation entity.Separation
@@ -16,46 +16,47 @@ func CreateSeparation(c *gin.Context) {
 	var employee entity.Employee
 	var shelving entity.Shelving
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร watchVideo
+	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร separation
 	if err := c.ShouldBindJSON(&separation); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// 9: ค้นหา video ด้วย id
+	// 9: ค้นหา reason ด้วย id
+	if tx := entity.DB().Where("id = ?", separation.Reason_ID).First(&reason); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบเหตุผลที่จำหน่าย"})
+		return
+	}
+
+	// 10: ค้นหา employee ด้วย id
 	if tx := entity.DB().Where("id = ?", separation.Employee_ID).First(&employee); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบพนักงาน"})
 		return
 	}
 
-	// 10: ค้นหา resolution ด้วย id
+	// 11: ค้นหา shelving ด้วย id
 	if tx := entity.DB().Where("id = ?", separation.Shelving_ID).First(&shelving); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบชั้นวาง"})
 		return
 	}
 
-	// 11: ค้นหา playlist ด้วย id
-	if tx := entity.DB().Where("id = ?", separation.Reason_ID).First(&reason); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบเหตุผลที่จำหน่าย"})
-		return
-	}
-	// 12: สร้าง WatchVideo
+	// 12: สร้าง comment
 	wv := entity.Separation{
-		Amount:      separation.Amount,
-		Status:      separation.Status,
-		Reason:      reason,                 // โยงความสัมพันธ์กับ Entity Resolution
-		Shelving:    shelving,               // โยงความสัมพันธ์กับ Entity Video
-		Employee:    employee,               // โยงความสัมพันธ์กับ Entity Playlist
-		Date_Out:    separation.Date_Out,    // ตั้งค่าฟิลด์ watchedTime
+		Amount:      separation.Amount,		 // ตั้งค่าฟิลด์ Amount
+		Status:      separation.Status,		 // ตั้งค่าฟิลด์ Status
+		Reason:      reason,                 // โยงความสัมพันธ์กับ Entity Reason
+		Shelving:    shelving,               // โยงความสัมพันธ์กับ Entity Shelving
+		Employee:    employee,               // โยงความสัมพันธ์กับ Entity Employee
+		Date_Out:    separation.Date_Out,    // ตั้งค่าฟิลด์ Date_Out
 	}
 
-	// ขั้นตอนการ validate ที่นำมาจาก unit test
+	// 13, 14, 15: ขั้นตอนการ validate ที่นำมาจาก unit test
 	if _, err := govalidator.ValidateStruct(wv); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// 13: บันทึก
+	// 16: บันทึก
 	if err := entity.DB().Create(&wv).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -63,7 +64,7 @@ func CreateSeparation(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": wv})
 }
 
-// GET /watchvideo/:id
+// GET /separation/:id
 func GetSeparation(c *gin.Context) {
 	var separationS entity.Separation
 	id := c.Param("id")
@@ -74,7 +75,7 @@ func GetSeparation(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": separationS})
 }
 
-// GET /watch_videos
+// GET /separations
 func ListSeparations(c *gin.Context) {
 	var separationS []entity.Separation
 	if err := entity.DB().Preload("Employee").Preload("Reason").Preload("Shelving").Raw("SELECT * FROM separations").Find(&separationS).Error; err != nil {
@@ -85,7 +86,7 @@ func ListSeparations(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": separationS})
 }
 
-// DELETE /watch_videos/:id
+// DELETE /separations/:id
 func DeleteSeparation(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM separations WHERE id = ?", id); tx.RowsAffected == 0 {
@@ -96,7 +97,7 @@ func DeleteSeparation(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": id})
 }
 
-// PATCH /watch_videos
+// PATCH /separations
 func UpdateSeparation(c *gin.Context) {
 
 	var separationS entity.Separation
@@ -122,12 +123,12 @@ func UpdateSeparation(c *gin.Context) {
 		return
 	}
 	dc := entity.Separation{           
-		Date_Out:       separationS.Date_Out,
-		Employee:	    separationS.Employee,               
-		Shelving:	    shelving,               
-		Reason:	    	reason,               
-		Amount:	        separationS.Amount,  
-		Status:		    separationS.Status,     
+		Date_Out:       separationS.Date_Out,   // ตั้งค่าฟิลด์ Date_Out
+		Employee:	    separationS.Employee,   // โยงความสัมพันธ์กับ Entity Employee          
+		Shelving:	    shelving,               // โยงความสัมพันธ์กับ Entity Shelving
+		Reason:	    	reason,                 // โยงความสัมพันธ์กับ Entity Reason
+		Amount:	        separationS.Amount,     // ตั้งค่าฟิลด์ Amount
+		Status:		    separationS.Status,     // ตั้งค่าฟิลด์ Status
 	}
 	if _, err := govalidator.ValidateStruct(dc); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
