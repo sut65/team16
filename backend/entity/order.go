@@ -7,7 +7,7 @@ import (
 
 type Order struct {
 	gorm.Model
-	Quantity         int			`valid:"required~ระบุจำนวน,range(1|100)~จำนวนอยู่ในช่วง (1-100)"` 
+	Quantity         int			`valid:"required~ระบุจำนวน,range(1|100)~จำนวนอยู่ในช่วง (1-100),int~จำนวนต้องเป็นจำนวนเต็ม"` 
 	Prices           float64		`valid:"required~ระบุราคา,range(1|1000000)~ราคาอยู่ในช่วง (1-1000000)"` 
 	Shelving_ID      *uint			`valid:"-"`
 	Shelving         Shelving		`gorm:"references:id" valid:"-"`
