@@ -79,7 +79,7 @@ func DeleteStorage(c *gin.Context) {
 
 	if tx := entity.DB().Exec("DELETE FROM storages WHERE id = ?", id); tx.RowsAffected == 0 {
 
-		c.JSON(http.StatusBadRequest, gin.H{"error": "storage not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบที่จัดเก็บสินค้า"})
 
 		return
 
@@ -105,7 +105,7 @@ func UpdateStorage(c *gin.Context) {
 
 	if tx := entity.DB().Where("id = ?", storage.ID).First(&storage); tx.RowsAffected == 0 {
 
-		c.JSON(http.StatusBadRequest, gin.H{"error": "storage not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบที่จัดเก็บสินค้า"})
 
 		return
 

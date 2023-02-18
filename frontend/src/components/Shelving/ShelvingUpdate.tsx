@@ -38,7 +38,9 @@ function ShelvingUpdate() {
   const [employee, setEmployee] = React.useState<EmployeeInterface>();
   const [stock, setStock] = React.useState<StocksInterface[]>([]);
   const [label, setLabel] = React.useState<LabelsInterface[]>([]);
-
+  const [num, setNum] = React.useState(0);
+  const [amounts, setAmounts] = React.useState(0);
+  const [stID, setStID] = React.useState(0);
 
 
   const handleClose = (
@@ -52,7 +54,15 @@ function ShelvingUpdate() {
     setError(false);
   };
 
-
+  const handleInputNum = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof ShelvingUpdate;
+    const { value } = event.target;
+    setShelving({ ...shelving, [id]: value });
+    setNum(value)
+    console.log("Number: " + num);
+  };
 
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
@@ -113,7 +123,7 @@ function ShelvingUpdate() {
   }, []);
 
   let shelvingID = localStorage.getItem("shelvingID"); // เรีกใช้ค่าจากlocal storage
-
+  let ShNum = Number(localStorage.getItem("Number"));
   const requestOptions = {
     method: "GET",
     headers: {
@@ -126,9 +136,11 @@ function ShelvingUpdate() {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
   };
+  let quantity = (amounts + ShNum) - num;
+  console.log(quantity)
 
   async function increase() {
-    let quantity = amounts + num;
+    let quantity = (amounts + ShNum) - num;
     let data = {
       Amount: quantity,
     };

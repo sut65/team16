@@ -89,6 +89,8 @@ function Shelving() {
   const handleRowClick: GridEventListener<'rowClick'> = (params) => {
     setShelvingID(Number(params.row.ID));
     localStorage.setItem("shelvingID", params.row.ID);
+    localStorage.setItem("Number", params.row.Number);
+
   };
 
   const handleClose = () => {

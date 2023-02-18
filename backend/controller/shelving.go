@@ -26,17 +26,17 @@ func CreateShelving(c *gin.Context) {
 	}
 
 	if tx := entity.DB().Where("id = ?", shelving.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบพนักงาน"})
 		return
 	}
 
 	if tx := entity.DB().Where("id = ?", shelving.Label_ID).First(&label); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "label not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "เลือกชั้นวางของสินค้าที่ต้องการเพิ่ม"})
 		return
 	}
 
 	if tx := entity.DB().Where("id = ?", shelving.Stock_ID).First(&stock); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "stock not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "เลือกสินค้าที่ต้องการเพิ่ม"})
 		return
 	}
 
@@ -151,17 +151,17 @@ func UpdateShelving(c *gin.Context) {
 	}
 
 	if tx := entity.DB().Where("id = ?", shelving.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบพนักงาน"})
 		return
 	}
 
 	if tx := entity.DB().Where("id = ?", shelving.Label_ID).First(&label); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "label not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "เลือกชั้นวางของสินค้าที่ต้องการอัปเดต"})
 		return
 	}
 
 	if tx := entity.DB().Where("id = ?", shelving.Stock_ID).First(&stock); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "stock not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "เลือกสินค้าที่ต้องการอัปเดต"})
 		return
 	}
 
