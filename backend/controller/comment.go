@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// POST /watch_videos
+// POST /comment
 func CreateComment(c *gin.Context) {
 
 	var comment entity.Comment

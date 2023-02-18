@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// POST /videos
+// POST /reasons
 func CreateReason(c *gin.Context) {
 	var reasonS entity.Reason
 	if err := c.ShouldBindJSON(&reasonS); err != nil {
@@ -22,7 +22,7 @@ func CreateReason(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": reasonS})
 }
 
-// GET /video/:id
+// GET /reason/:id
 func GetReason(c *gin.Context) {
 	var reasonS entity.Reason
 
@@ -35,7 +35,7 @@ func GetReason(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": reasonS})
 }
 
-// GET /videos
+// GET /reasons
 func ListReasons(c *gin.Context) {
 	var reasonS []entity.Reason
 	if err := entity.DB().Raw("SELECT * FROM reasons").Find(&reasonS).Error; err != nil {
@@ -46,7 +46,7 @@ func ListReasons(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": reasonS})
 }
 
-// DELETE /videos/:id
+// DELETE /reasons/:id
 func DeleteReason(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM reasons WHERE id = ?", id); tx.RowsAffected == 0 {
@@ -57,7 +57,7 @@ func DeleteReason(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": id})
 }
 
-// PATCH /videos
+// PATCH /reasons
 func UpdateVideo(c *gin.Context) {
 	var reasonS entity.Reason
 	if err := c.ShouldBindJSON(&reasonS); err != nil {
