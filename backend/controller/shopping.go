@@ -29,7 +29,7 @@ func CreateCart(c *gin.Context) {
 			return
 		}
 	} else {print("") 
-		// ทำงานเมื่อ Member_ID เป็น nil
+		// ทำงานเมื่อ Member_ID เป็น null
 	}
 	
 	// 10: ค้นหา Employee ด้วย id
