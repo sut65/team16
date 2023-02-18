@@ -43,7 +43,7 @@ func TestNameNotBlank(t *testing.T) {
 	ok, err := govalidator.ValidateStruct(st)
 
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-	g.Expect(ok).ToNot(BeTrue())
+	g.Expect(ok).NotTo(BeTrue())
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
 	g.Expect(err).ToNot(BeNil())
