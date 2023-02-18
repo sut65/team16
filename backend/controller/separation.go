@@ -40,7 +40,7 @@ func CreateSeparation(c *gin.Context) {
 		return
 	}
 
-	// 12: สร้าง comment
+	// 12: สร้าง Separation
 	wv := entity.Separation{
 		Amount:      separation.Amount,		 // ตั้งค่าฟิลด์ Amount
 		Status:      separation.Status,		 // ตั้งค่าฟิลด์ Status
