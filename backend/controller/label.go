@@ -105,7 +105,7 @@ func UpdateLabel(c *gin.Context) {
 
 	if tx := entity.DB().Where("id = ?", Label.ID).First(&Label); tx.RowsAffected == 0 {
 
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Label not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "เลือกชั้นวางสินค้า"})
 
 		return
 

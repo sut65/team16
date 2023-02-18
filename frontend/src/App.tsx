@@ -54,6 +54,7 @@ import SeparationCreate from "./components/apisit/separationCreate";
 import OrderList from "./components/Shopping/OrderList";
 import OrderCreate from "./components/Shopping/OrderCreate";
 import OrderAdd from "./components/Shopping/OrderAdd";
+import OrderUpdate from "./components/Shopping/OrderUpdate";
 import Cart from "./components/Shopping/Cart";
 import Delivery from "./components/Delivery/Delivery";
 import DeliveryCreate from "./components/Delivery/DeliveryCreate";
@@ -202,9 +203,21 @@ export default function App() {
       secondary: {
         main: '#F2FFE9',
       },
+      info: {
+        main: '#AAD4E0',
+      },
+      success: {
+        main: '#F9EEB6',
+      },
+      warning: {
+        main: '#EEB189',
+      },
+      error: {
+        main: '#FAAE9F',
+      },
     },
   });
-
+  //"error" | "inherit" | "primary" | "secondary" | "success" | "info" | "warning" |
   return (
     <div className="App">
       <Router>
@@ -278,7 +291,7 @@ export default function App() {
                   <Link
                     to={item.path}
                     key={item.name}
-                    style={{ textDecoration: "none", color: "secondary" }}
+                    style={{ textDecoration: "none", color: "#557C55" }}  //name menu
                   >
                     <ListItem button>
                       <ListItemIcon>{item.icon}</ListItemIcon>
@@ -329,6 +342,7 @@ export default function App() {
                   <Route path="/OrderList" element={<OrderList />} />
                   <Route path="/OrderCreate" element={<OrderCreate />} />
                   <Route path="/OrderAdd" element={<OrderAdd />} />
+                  <Route path="/OrderUpdate" element={<OrderUpdate />} />
                   <Route path="/Cart" element={<Cart />} />
                   <Route path="/Payment" element={<Payment />} />
                   <Route path="/PaymentCreate" element={<PaymentCreate />} />

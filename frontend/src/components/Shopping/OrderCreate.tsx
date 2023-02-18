@@ -228,11 +228,12 @@ function OrderCreate() {
             });
 
     }
-
+    
     async function reduce() {
         let quantity = amounts - num;
         let data = {
-            Amount: quantity,
+            Number: quantity,
+            Cost: shevprice,
         };
         console.log(data)
 
@@ -245,21 +246,31 @@ function OrderCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/UpdateQuantity/${shevID}`, requestOptions)
+        let res = await fetch(`${apiUrl}/UpdateQuantity/${shevID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
+                    setSuccess2(true);
                     setErrorMessage("")
+                    return { status: true, message: res.data };
                 } else {
+                    setError2(true);
                     setErrorMessage(res.error)
+                    return { status: false, message: res.error };
                 }
             });
-
+        if (res.status) {
+            setAlertMessage("เพิ่มสินค้าลงตะกร้าแล้ว");
+            setSuccess2(true);
+        } else {
+            setAlertMessage("สินค้าหมด");
+            setError2(true);
+        }
     }
 
     async function addproduct() {
         let data = {
-            Quantity: typeof order.Quantity === "string" ? parseInt(order.Quantity) : 0,
+            Quantity: typeof order.Quantity === "string" ? parseFloat(order.Quantity) : 0,
             Prices: typeof order.Prices === "string" ? parseFloat(order.Prices) : total,
             Shelving_ID: convertType(order.Shelving_ID),
             Shopping_Cart_ID: latestCartId,
@@ -473,8 +484,6 @@ function OrderCreate() {
                         </Button>
                     </Grid>
                 </Grid>
-
-
                 <Grid container spacing={3} sx={{ padding: 2 }}>
 
                     <Grid item xs={6}>
@@ -483,7 +492,7 @@ function OrderCreate() {
                             <Autocomplete
                                 disablePortal
                                 id="Shelving_ID"
-                                getOptionLabel={(item: ShelvingsInterface) => `${item.Stock.Name} ราคา ${item.Stock.Price}`}
+                                getOptionLabel={(item: ShelvingsInterface) => `${item.Stock.Name} ราคา ${item.Cost}`}
                                 options={shelving}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) => option.ID === value.ID}
@@ -511,7 +520,7 @@ function OrderCreate() {
                                 variant="outlined"
                                 type="number"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1, max: 50 } }}
+                                InputProps={{ inputProps: { min: 0, max: amounts-1 } }}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}

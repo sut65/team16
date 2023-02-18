@@ -11,13 +11,8 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import Autocomplete from "@mui/material/Autocomplete";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { OrderInterface } from "../../models/Natthapon/IOrder";
-import { ShelvingsInterface } from "../../models/methas/IShelving";
-import PaymentIcon from '@mui/icons-material/Payment';
-
-
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -33,12 +28,10 @@ function OrderCreate() {
     const [errorMessage, setErrorMessage] = React.useState("");
     const [message, setAlertMessage] = React.useState("");
 
-    const [shelving, setShelving] = React.useState<ShelvingsInterface[]>([]);
     const [order, setOrder] = React.useState<OrderInterface>({});
 
     const [num, setNum] = React.useState(0);                    //จำนวนสินค้า input
     const [sumprice, setSumprice] = React.useState(0);          //รวมราคาในตะกร้า
-    const [shevID, setShevID] = React.useState(0);              //ID ชั้นวาง
     const [amounts, setAmounts] = React.useState(0);            //จำนวนสินค้าที่ชั้นวาง
     const [shevprice, setShevprice] = React.useState(0);        //ราคาสินค้าที่ชั้นวาง
 
@@ -85,18 +78,28 @@ function OrderCreate() {
     };
 
     const getShelving = async () => {
-        fetch(`${apiUrl}/shelv`, requestOptions)
+        fetch(`${apiUrl}/shelving/${shelvID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
                     console.log(res.data)
-                    setShelving(res.data);
+                    setAmounts(res.data.Number)
+                    setShevprice(res.data.Cost);
+                    console.log("Amount: " + amounts);
+                    console.log("shevprice: " + shevprice);
                 }
                 else { console.log("NO DATA") }
             });
     };
 
+    let OrderID = localStorage.getItem("orderID");
     let cartID = localStorage.getItem("cartID");
+    let shelvID = localStorage.getItem("shelvID");
+    let orderprice = localStorage.getItem("Prices");
+    let orderquantity = Number(localStorage.getItem("Quantity"));
+    //console.log(shelvID)
+    console.log("OrPrice: "+orderprice)
+    console.log("OrQuan: "+orderquantity)
 
     useEffect(() => {
         getShelving();
@@ -117,12 +120,16 @@ function OrderCreate() {
         return val;
     };
 
+    console.log("Num: "+ num)
+    let qu = (Number(amounts) + Number(orderquantity)) - Number(num);
+    console.log("quantity "+qu)
     async function reduce() {
-        let quantity = amounts - num;
+        let quantity = (Number(amounts) + Number(orderquantity)) - Number(num);
         let data = {
             Number: quantity,
-            //Cost: shevprice,
         };
+
+        console.log(quantity)
         console.log(data)
 
         const requestOptions = {
@@ -134,41 +141,30 @@ function OrderCreate() {
             body: JSON.stringify(data),
         };
 
-        let res = await fetch(`${apiUrl}/UpdateQuantity/${shevID}`, requestOptions)
+        fetch(`${apiUrl}/UpdateQuantity/${shelvID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
-                    setSuccess2(true);
                     setErrorMessage("")
-                    return { status: true, message: res.data };
                 } else {
-                    setError2(true);
                     setErrorMessage(res.error)
-                    return { status: false, message: res.error };
                 }
             });
-        if (res.status) {
-            setAlertMessage("เพิ่มสินค้าลงตะกร้าแล้ว");
-            setSuccess2(true);
-        } else {
-            setAlertMessage("สินค้าหมด");
-            setError2(true);
-        }
+
     }
 
-
-    async function addproduct() {
+    async function updateproduct() {
         let data = {
             Quantity: typeof order.Quantity === "string" ? parseFloat(order.Quantity) : 0,
             Prices: typeof order.Prices === "string" ? parseFloat(order.Prices) : total,
-            Shelving_ID: convertType(order.Shelving_ID),
-            Shopping_Cart_ID: Number(cartID),
+            //Shelving_ID: convertType(order.Shelving_ID),
+            //Shopping_Cart_ID: Number(cartID),
         };
 
         console.log(data)
 
         const requestOptions = {
-            method: "Post",
+            method: "PATCH",
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "application/json"
@@ -176,7 +172,7 @@ function OrderCreate() {
             body: JSON.stringify(data),
         };
 
-        let res = await fetch(`${apiUrl}/orders`, requestOptions)
+        let res = await fetch(`${apiUrl}/order/${OrderID}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -192,7 +188,7 @@ function OrderCreate() {
                 }
             });
         if (res.status) {
-            setAlertMessage("เพิ่มสินค้าลงตะกร้าแล้ว");
+            setAlertMessage("บันทึกสำเร็จ");
             setSuccess2(true);
         } else {
             setAlertMessage(res.message);
@@ -201,7 +197,7 @@ function OrderCreate() {
     }
 
     async function sum() {
-        let price = Number(sumprice) + Number(total)
+        let price = Number(sumprice) + Number(total) - Number(orderprice)
         let data = {
             Total: price,
             Status_ID: 1,
@@ -263,14 +259,14 @@ function OrderCreate() {
                             color="primary"
                             gutterBottom
                         >
-                            เพิ่มรายการสินค้า
+                            แก้ไขรายการสินค้า 
                         </Typography>
                     </Box>
 
                     <Box sx={{ paddingX: 1, paddingY: 0 }}>
                         <Button
                             component={RouterLink}
-                            to="/Cart"
+                            to="/OrderList"
                             variant="contained"
                             color="primary"
                             startIcon={<ArrowBackIcon />}
@@ -279,49 +275,12 @@ function OrderCreate() {
                         </Button>
                     </Box>
 
-                    <Box sx={{ paddingX: 1, paddingY: 0 }}>
-                        <Button
-                            component={RouterLink}
-                            to="/Pay"
-                            variant="contained"
-                            color="primary"
-                            startIcon={<PaymentIcon />}
-                        >
-                            ชำระสินค้า
-                        </Button>
-                    </Box>
-
                 </Box>
                 <Divider />
 
                 <Grid container spacing={3} sx={{ padding: 2 }}>
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">รายการสินค้า</p>
-                            <Autocomplete
-                                disablePortal
-                                id="Shelving_ID"
-                                getOptionLabel={(item: ShelvingsInterface) => `${item.Stock.Name} ราคา ${item.Cost}`}
-                                options={shelving}
-                                sx={{ width: 'auto' }}
-                                isOptionEqualToValue={(option, value) => option.ID === value.ID}
-                                onChange={(e, value) => {
-                                    order.Shelving_ID = value?.ID;
-                                    if (value) {
-                                        setAmounts(value.Number)
-                                        setShevID(value.ID)
-                                        setShevprice(value.Cost)
-                                    };
-                                    console.log("shevID: " + shevID);
-                                    console.log("Amount: " + amounts);
-                                    console.log("shevprice: " + shevprice);
-                                }}
-                                renderInput={(params) => <TextField {...params} label="เลือกสินค้า" />}
-                            />
-                        </FormControl>
-                    </Grid>
 
-                    <Grid item xs={3}>
+                    <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">จำนวน</p>
                             <TextField
@@ -329,17 +288,17 @@ function OrderCreate() {
                                 variant="outlined"
                                 type="number"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 0, max: amounts-1 } }}
+                                InputProps={{ inputProps: { min: 0, max: amounts -1 } }}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                                value={order.Quantity || ""}
+                                value={order.Quantity || orderquantity}
                                 onChange={handleInputChange}
                             />
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={3}>
+                    <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">รวมราคา</p>
                             <TextField
@@ -351,7 +310,7 @@ function OrderCreate() {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                                value={order.Prices || ""}
+                                value={order.Prices || orderprice}
                                 onChange={handleInputPrice}
                             />
                         </FormControl>
@@ -360,12 +319,12 @@ function OrderCreate() {
                     <Grid item xs={12}>
                         <Button
                             style={{ display: "flex", justifyContent: "center", margin: "0 auto" }}
-                            onClick={addproduct}
+                            onClick={updateproduct}
                             variant="contained"
                             color="primary"
                         >
                             <div className="good-font-white">
-                                ใส่ตะกร้า
+                                บันทึก
                             </div>
                         </Button>
                     </Grid>

@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// POST /watch_videos
+// POST /comment
 func CreateComment(c *gin.Context) {
 
 	var comment entity.Comment
@@ -16,46 +16,48 @@ func CreateComment(c *gin.Context) {
 	var type_comment entity.Type_Comment
 	var payment entity.Payment
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร watchVideo
+	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 6 จะถูก bind เข้าตัวแปร comment
 	if err := c.ShouldBindJSON(&comment); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// 9: ค้นหา video ด้วย id
-	if tx := entity.DB().Where("id = ?", comment.Review_point_ID).First(&review_point); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบคะแนนรีวิว"})
-		return
-	}
-
-	// 10: ค้นหา resolution ด้วย id
+	// 7: ค้นหา type_comment ด้วย id
 	if tx := entity.DB().Where("id = ?", comment.Type_Com_ID).First(&type_comment); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบชนิดความคิดเห็น"})
 		return
 	}
 
-	// 11: ค้นหา playlist ด้วย id
+	// 8: ค้นหา review_point ด้วย id
+	if tx := entity.DB().Where("id = ?", comment.Review_point_ID).First(&review_point); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบคะแนนรีวิว"})
+		return
+	}
+
+
+	// 9: ค้นหา payment ด้วย id
 	if tx := entity.DB().Where("id = ?", comment.Payment_ID).First(&payment); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบใบเสร็จ"})
 		return
 	}
-	// 12: สร้าง WatchVideo
+
+	// 12: สร้าง Comment
 	wv := entity.Comment{
-		Comments:		   comment.Comments,
-		Review_point:      review_point,                 // โยงความสัมพันธ์กับ Entity Resolution
-		Payment:           payment,               // โยงความสัมพันธ์กับ Entity Video
-		Type_Com:          type_comment,               // โยงความสัมพันธ์กับ Entity Playlist
-		Date_Now:          comment.Date_Now,    // ตั้งค่าฟิลด์ watchedTime
-		Bought_now:        comment.Bought_now, 
+		Comments:		   comment.Comments,      // ตั้งค่าฟิลด์ Comments
+		Review_point:      review_point,          // โยงความสัมพันธ์กับ Entity Review_Point
+		Payment:           payment,               // โยงความสัมพันธ์กับ Entity Payment
+		Type_Com:          type_comment,          // โยงความสัมพันธ์กับ Entity Type_Comment
+		Date_Now:          comment.Date_Now,      // ตั้งค่าฟิลด์ Date_Now
+		Bought_now:        comment.Bought_now,    // ตั้งค่าฟิลด์ Bought_now
 	}
 
-	// ขั้นตอนการ validate ที่นำมาจาก unit test
+	// 11, 12, 13: ขั้นตอนการ validate ที่นำมาจาก unit test
 	if _, err := govalidator.ValidateStruct(wv); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// 13: บันทึก
+	// 14: บันทึก
 	if err := entity.DB().Create(&wv).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -63,7 +65,7 @@ func CreateComment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": wv})
 }
 
-// GET /watchvideo/:id
+// GET /comment/:id
 func GetComment(c *gin.Context) {
 	var commentS entity.Comment
 	id := c.Param("id")
@@ -74,7 +76,7 @@ func GetComment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": commentS})
 }
 
-// GET /watch_videos
+// GET /comments
 func ListComments(c *gin.Context) {
 	var commentS []entity.Comment
 	if err := entity.DB().Preload("Review_point").Preload("Payment").Preload("Type_Com").Raw("SELECT * FROM comments").Find(&commentS).Error; err != nil {
@@ -85,7 +87,7 @@ func ListComments(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": commentS})
 }
 
-// DELETE /watch_videos/:id
+// DELETE /comments/:id
 func DeleteComment(c *gin.Context) {
 	id := c.Param("id")
 	if tx := entity.DB().Exec("DELETE FROM comments WHERE id = ?", id); tx.RowsAffected == 0 {
@@ -96,8 +98,7 @@ func DeleteComment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": id})
 }
 
-// PATCH /watch_videos
-
+// PATCH /comments
 func UpdateComment(c *gin.Context) {
 
 	var commentS entity.Comment
@@ -130,7 +131,7 @@ func UpdateComment(c *gin.Context) {
 		Date_Now:      		commentS.Date_Now,
 		Bought_now:	        commentS.Bought_now,  
 	}
-	// ขั้นตอนการ validate ที่นำมาจาก unit test
+	
 	if _, err := govalidator.ValidateStruct(dc); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
