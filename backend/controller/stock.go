@@ -26,17 +26,17 @@ func CreateStock(c *gin.Context) {
 	}
 
 	if tx := entity.DB().Where("id = ?", stock.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบพนักงาน"})
 		return
 	}
 
 	if tx := entity.DB().Where("id = ?", stock.Kind_ID).First(&kind); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "kind not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "เลือกชนิดของสินค้าที่ต้องการเพิ่ม"})
 		return
 	}
 
 	if tx := entity.DB().Where("id = ?", stock.Storage_ID).First(&storage); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "storage not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "เลือกที่จัดเก็บสินค้าที่ที่ต้องการเพิ่ม"})
 		return
 	}
 
@@ -101,7 +101,7 @@ func DeleteStock(c *gin.Context) {
 
 	if tx := entity.DB().Exec("DELETE FROM stocks WHERE id = ?", id); tx.RowsAffected == 0 {
 
-		c.JSON(http.StatusBadRequest, gin.H{"error": "stock not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบสต๊อกที่ต้องการจะลบ"})
 
 		return
 
@@ -130,17 +130,17 @@ func UpdateStock(c *gin.Context) {
 	}
 
 	if tx := entity.DB().Where("id = ?", stock.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ไม่พบพนักงาน"})
 		return
 	}
 
 	if tx := entity.DB().Where("id = ?", stock.Kind_ID).First(&kind); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "kind not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "เลือกชนิดสินค้าที่ต้องการอัปเดต"})
 		return
 	}
 
 	if tx := entity.DB().Where("id = ?", stock.Storage_ID).First(&storage); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "storage not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "เลือกที่จัดเก็บสินค้าที่ต้องการอัปเดต"})
 		return
 	}
 

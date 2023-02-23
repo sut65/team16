@@ -53,7 +53,7 @@ function Employeeattemdance() {
     };
 
     // function ลบข้อมูล
-    const deleteDiscount = async () => {
+    const deleteEmployeeattemdance = async () => {
         const apiUrl = `http://localhost:8080/employee_attendances/${EmployeeattemdanceID}`;
         const requestOptions = {
             method: "DELETE",
@@ -141,7 +141,7 @@ function Employeeattemdance() {
                         variant="contained"
                         color="primary"
                         //กด "ยืนยัน" เพื่อเรียก function ลบข้อมูล
-                        onClick={deleteDiscount}
+                        onClick={deleteEmployeeattemdance}
                     >
                         <div className="good-font">
                             ยืนยัน

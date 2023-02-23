@@ -151,7 +151,7 @@ function OrderCreate() {
             setAlertMessage("เพิ่มสินค้าลงตะกร้าแล้ว");
             setSuccess2(true);
         } else {
-            setAlertMessage("สินค้าหมด");
+            setAlertMessage(res.message);
             setError2(true);
         }
     }
@@ -301,7 +301,13 @@ function OrderCreate() {
                             <Autocomplete
                                 disablePortal
                                 id="Shelving_ID"
-                                getOptionLabel={(item: ShelvingsInterface) => `${item.Stock.Name} ราคา ${item.Cost}`}
+                                getOptionLabel={(item: ShelvingsInterface) => {
+                                    if (item && item.Stock) {
+                                      return `${item.Stock.Name} ราคา ${item.Cost}`;
+                                    }
+                                    return '';
+                                  }}
+                                  
                                 options={shelving}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) => option.ID === value.ID}

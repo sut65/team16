@@ -19,6 +19,7 @@ import { Autocomplete, Select, SelectChangeEvent } from "@mui/material";
 import { GetCurrentEmployee } from "../../services/HttpClientService";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { quartersInYear } from "date-fns";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -37,6 +38,9 @@ function ShelvingUpdate() {
   const [employee, setEmployee] = React.useState<EmployeeInterface>();
   const [stock, setStock] = React.useState<StocksInterface[]>([]);
   const [label, setLabel] = React.useState<LabelsInterface[]>([]);
+  const [num, setNum] = React.useState(0);
+  const [amounts, setAmounts] = React.useState(0);
+  const [stID, setStID] = React.useState(0);
 
 
   const handleClose = (
@@ -50,7 +54,15 @@ function ShelvingUpdate() {
     setError(false);
   };
 
-
+  const handleInputNum = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof ShelvingUpdate;
+    const { value } = event.target;
+    setShelving({ ...shelving, [id]: value });
+    setNum(value)
+    console.log("Number: " + num);
+  };
 
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
@@ -110,8 +122,8 @@ function ShelvingUpdate() {
     getEmployee();
   }, []);
 
-  let shelvingID = localStorage.getItem("shelvingID"); // เรีกใช้ค่าจากlocal storage 
-
+  let shelvingID = localStorage.getItem("shelvingID"); // เรีกใช้ค่าจากlocal storage
+  let ShNum = Number(localStorage.getItem("Number"));
   const requestOptions = {
     method: "GET",
     headers: {
@@ -124,6 +136,38 @@ function ShelvingUpdate() {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
   };
+  let quantity = (amounts + ShNum) - num;
+  console.log(quantity)
+
+  async function increase() {
+    let quantity = (amounts + ShNum) - num;
+    let data = {
+      Amount: quantity,
+    };
+
+    console.log(quantity)
+    console.log(data)
+
+    const requestOptions = {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+    };
+
+    fetch(`${apiUrl}/shelf/${stID}`, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setErrorMessage("")
+        } else {
+          setErrorMessage(res.error)
+        }
+      });
+
+  }
 
   async function submit() {
     let data = {
@@ -151,12 +195,14 @@ function ShelvingUpdate() {
       .then((res) => {
         if (res.data) {
           setSuccess(true);
+          increase()
           setErrorMessage("")
         } else {
           setError(true);
           setErrorMessage(res.error)
         }
       });
+
   }
 
   return (
@@ -210,8 +256,16 @@ function ShelvingUpdate() {
                 sx={{ width: 'auto' }}
                 isOptionEqualToValue={(option, value) =>
                   option.ID === value.ID}
-                onChange={(e, value) => { shelving.Stock_ID = value?.ID }}
-                renderInput={(params) => <TextField {...params} label="- Select Name -" />}
+                onChange={(e, value) => {
+                  shelving.Stock_ID = value?.ID;
+                  if (value) {
+                    setAmounts(value.Amount)
+                    setStID(value.ID)
+                  };
+                  console.log("stID: " + stID);
+                  console.log("Amount: " + amounts);
+                }}
+                renderInput={(params) => <TextField {...params} label="- เลือกสินค้า -" />}
               />
             </FormControl>
           </Grid>
@@ -228,42 +282,32 @@ function ShelvingUpdate() {
                 isOptionEqualToValue={(option, value) =>
                   option.ID === value.ID}
                 onChange={(e, value) => { shelving.Label_ID = value?.ID }}
-                renderInput={(params) => <TextField {...params} label="- Select Label -" />}
+                renderInput={(params) => <TextField {...params} label="- เลือกชั้นวาง -" />}
               />
             </FormControl>
           </Grid>
 
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-              <p className="good-font">จำนวน</p>
+              <p>จำนวน</p>
               <TextField
                 id="Number"
                 variant="outlined"
                 type="number"
                 size="medium"
-                InputProps={{ inputProps: { min: 1 } }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 value={shelving.Number || ""}
-                onChange={handleInputChange}
+                onChange={handleInputNum}
               />
             </FormControl>
           </Grid>
-
-
           <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
-              <p className="good-font">ราคา</p>
+              <p>ราคา</p>
               <TextField
                 id="Cost"
                 variant="outlined"
                 type="number"
                 size="medium"
-                InputProps={{ inputProps: { min: 1 } }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 value={shelving.Cost || ""}
                 onChange={handleInputChange}
               />

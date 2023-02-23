@@ -21,9 +21,9 @@ type Storage struct {
 
 type Stock struct {
 	gorm.Model
-	Name        string  `valid:"required~Name cannot be blank"`
-	Amount      int     `valid:"required~Amount must be in the range 1-1000,range(1|1000)~Amount must be in the range 1-1000"`
-	Price       float64 `valid:"required~Price must be in the range 1-1000,range(1|1000)~Price must be in the range 1-1000"`
+	Name        string  `valid:"required~ชื่อสินค้าห้ามเป็นค่าว่าง"`
+	Amount      int     `valid:"required~จำนวนสินค้าต้องอยู่ในช่วง 1 - 1000,range(1|1000)~จำนวนสินค้าต้องอยู่ในช่วง 1 - 1000"`
+	Price       float64 `valid:"required~ราคาสินค้าต้องอยู่ในช่วง 1 - 1000 บาท,range(1|1000)~ราคาสินค้าต้องอยู่ในช่วง 1 - 1000 บาท"`
 	Employee_ID *uint
 	Employee    Employee
 	Kind_ID     *uint
@@ -32,7 +32,7 @@ type Stock struct {
 	Storage     Storage
 	Shelving    []Shelving `gorm:"foreignKey:Stock_ID"`
 	// Discount    []Discount `gorm:"foreignKey:Stock_ID"`
-	DateTime    time.Time  `valid:"Past~DateTime must not be in the past,Future~DateTime must not be in the future,required~DateTime not null"`
+	DateTime time.Time `valid:"Past~เวลาต้องไม่เป็นอดีต,Future~เวลาต้องไม่เป็นอนาคต,required~เลือกเวลาที่ทำการบันทึก"`
 }
 
 // ฟังก์ชันที่จะใช่ในการ validation EntryTime

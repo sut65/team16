@@ -233,7 +233,7 @@ function OrderCreate() {
         let quantity = amounts - num;
         let data = {
             Number: quantity,
-            Cost: shevprice,
+            //Cost: shevprice,
         };
         console.log(data)
 
@@ -492,7 +492,13 @@ function OrderCreate() {
                             <Autocomplete
                                 disablePortal
                                 id="Shelving_ID"
-                                getOptionLabel={(item: ShelvingsInterface) => `${item.Stock.Name} ราคา ${item.Cost}`}
+                                getOptionLabel={(item: ShelvingsInterface) => {
+                                    if (item && item.Stock) {
+                                      return `${item.Stock.Name} ราคา ${item.Cost}`;
+                                    }
+                                    return '';
+                                  }}
+                                  
                                 options={shelving}
                                 sx={{ width: 'auto' }}
                                 isOptionEqualToValue={(option, value) => option.ID === value.ID}

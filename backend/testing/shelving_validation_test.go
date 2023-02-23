@@ -50,7 +50,7 @@ func TestNumberOf(t *testing.T) {
 		g.Expect(err).ToNot(BeNil())
 
 		// err.Error() ต้องมี message แสดงออกมา
-		g.Expect(err.Error()).To(Equal("Number must be in the range 1-20"))
+		g.Expect(err.Error()).To(Equal("จำนวนสินค้าต้องอยู่ในช่วง 1 - 20"))
 	}
 
 }
@@ -78,10 +78,9 @@ func TestCost(t *testing.T) {
 		g.Expect(err).ToNot(BeNil())
 
 		// err.Error() ต้องมี message แสดงออกมา
-		g.Expect(err.Error()).To(Equal("Cost must be in the range 1-1000"))
+		g.Expect(err.Error()).To(Equal("ราคาสินค้าต้องอยู่ในช่วง 1 - 1000 บาท"))
 	}
 }
-
 
 func TestDateTimeNotBePast(t *testing.T) {
 	g := NewGomegaWithT(t)
@@ -103,7 +102,7 @@ func TestDateTimeNotBePast(t *testing.T) {
 	g.Expect(err).NotTo(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("DateTime must not be in the past"))
+	g.Expect(err.Error()).To(Equal("เวลาต้องไม่เป็นอดีต"))
 }
 
 func TestDateTimeNotBeFuture(t *testing.T) {
@@ -126,5 +125,5 @@ func TestDateTimeNotBeFuture(t *testing.T) {
 	g.Expect(err).NotTo(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("DateTime must not be in the future"))
+	g.Expect(err.Error()).To(Equal("เวลาต้องไม่เป็นอนาคต"))
 }

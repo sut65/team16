@@ -75,7 +75,7 @@ function Order() {
         console.log("Quantity " + num)
         console.log("Price " + price)
     };
-    
+
     // function มีเพื่อปิดหน้าต่าง "ยืนยัน" การแก้ไข/ลบ
     const handleClose = () => {
         setOpendelete(false)
@@ -89,12 +89,17 @@ function Order() {
 
 
     async function sum() {
-        let minus = Number(Total) - Number(price)
+        let minus = Number(Total) - Number(price);
         let data = {
             Total: minus,
             Status_ID: 1,
         };
         console.log(data)
+
+        // เพิ่มเงื่อนไขอัพเดท Total ในกรณีที่ minus เป็น 0
+        if (minus === 0) {
+            data.Total = 0;
+        }
 
         const requestOptions = {
             method: "PATCH",
@@ -116,8 +121,10 @@ function Order() {
             });
 
     }
+
+
     let Num = Number(shelvnum) + Number(num);
-    console.log("Num "+ Num)
+    console.log("Num " + Num)
     async function restore() {
         let Num = Number(shelvnum) + Number(num);
         let data = {

@@ -43,13 +43,13 @@ func TestNameNotBlank(t *testing.T) {
 	ok, err := govalidator.ValidateStruct(st)
 
 	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-	g.Expect(ok).ToNot(BeTrue())
+	g.Expect(ok).NotTo(BeTrue())
 
 	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Name cannot be blank"))
+	g.Expect(err.Error()).To(Equal("ชื่อสินค้าห้ามเป็นค่าว่าง"))
 }
 
 // Amount
@@ -76,7 +76,7 @@ func TestAmount(t *testing.T) {
 		g.Expect(err).ToNot(BeNil())
 
 		// err.Error() ต้องมี message แสดงออกมา
-		g.Expect(err.Error()).To(Equal("Amount must be in the range 1-1000"))
+		g.Expect(err.Error()).To(Equal("จำนวนสินค้าต้องอยู่ในช่วง 1 - 1000"))
 	}
 }
 
@@ -104,7 +104,7 @@ func TestPrice(t *testing.T) {
 		g.Expect(err).ToNot(BeNil())
 
 		// err.Error() ต้องมี message แสดงออกมา
-		g.Expect(err.Error()).To(Equal("Price must be in the range 1-1000"))
+		g.Expect(err.Error()).To(Equal("ราคาสินค้าต้องอยู่ในช่วง 1 - 1000 บาท"))
 	}
 }
 
@@ -129,7 +129,7 @@ func TestDateTimeMustNotBePast(t *testing.T) {
 	g.Expect(err).NotTo(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("DateTime must not be in the past"))
+	g.Expect(err.Error()).To(Equal("เวลาต้องไม่เป็นอดีต"))
 }
 
 func TestDateTimeMustNotBeFuture(t *testing.T) {
@@ -152,5 +152,5 @@ func TestDateTimeMustNotBeFuture(t *testing.T) {
 	g.Expect(err).NotTo(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("DateTime must not be in the future"))
+	g.Expect(err.Error()).To(Equal("เวลาต้องไม่เป็นอนาคต"))
 }
