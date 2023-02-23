@@ -196,7 +196,6 @@ function PaymentCreate() {
               }
     }
     async function pay() {
-        let cartID = payment.Shopping_Cart_ID;
         let data = {
             Status_ID: 2,
         };
@@ -211,7 +210,7 @@ function PaymentCreate() {
             body: JSON.stringify(data),
         };
 
-        fetch(`${apiUrl}/cart/${cartID}`, requestOptions)
+        fetch(`${apiUrl}/cart/${latestCartId}`, requestOptions)
             .then((response) => response.json())
             .then((res) => {
                 if (res.data) {
@@ -270,12 +269,33 @@ function PaymentCreate() {
                             <TextField
                             id="Shopping_Cart_ID"
                             variant="outlined"
-                            defaultValue={latestCartId}
                             type="string"
                             size="medium"
                             value={latestCartId}
                             onChange={handleInputChange}
                             />
+                        </FormControl>
+                    </Grid>
+                    
+                    <Grid item xs={6}>
+                        <FormControl fullWidth variant="outlined">
+                            <p className="good-font">พนักงานที่บันทึก</p>
+                            <Select
+                                native
+                                value={payment.Employee_ID + ""}
+                                onChange={handleChange}
+                                disabled
+                                inputProps={{
+                                    name: "Employee_ID",
+                                }}
+                            >
+                                <option aria-label="None" value="">
+                                    เลือก
+                                </option>
+                                <option value={employee?.ID} key={employee?.ID}>
+                                    {employee?.Name}
+                                </option>
+                            </Select>
                         </FormControl>
                     </Grid>
 
@@ -315,29 +335,6 @@ function PaymentCreate() {
                     </Grid>
 
                     
-                    <Grid item xs={6}>
-                        <FormControl fullWidth variant="outlined">
-                            <p className="good-font">พนักงานที่บันทึก</p>
-                            <Select
-                                native
-                                value={payment.Employee_ID + ""}
-                                onChange={handleChange}
-                                disabled
-                                inputProps={{
-                                    name: "Employee_ID",
-                                }}
-                            >
-                                <option aria-label="None" value="">
-                                    เลือก
-                                </option>
-                                <option value={employee?.ID} key={employee?.ID}>
-                                    {employee?.Name}
-                                </option>
-                            </Select>
-                        </FormControl>
-                    </Grid>
-
-
                     <Grid item xs={6}>
                         <p className="good-font">ยอดชำระ</p>
                         <FormControl fullWidth variant="outlined">
