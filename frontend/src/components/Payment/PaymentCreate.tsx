@@ -154,7 +154,7 @@ function PaymentCreate() {
 
     async function submit() {
         let data = {
-            Paytotal: sumprice,
+            Paytotal: typeof payment.Paytotal === "string" ? parseFloat(payment.Paytotal) : sumprice,
             Time: payment.Time,
             Note: payment.Note ?? "",
             Shopping_Cart_ID: latestCartId,
@@ -314,20 +314,7 @@ function PaymentCreate() {
                         </FormControl>
                     </Grid>
 
-                    <Grid item xs={6}>
-                        <p className="good-font">หมายเหตุ</p>
-                        <FormControl fullWidth variant="outlined">
-                            <TextField
-                            id="Note"
-                            variant="outlined"
-                            type="string"
-                            size="medium"
-                            value={payment.Note || ""}
-                            onChange={handleInputChange}
-                            />
-                        </FormControl>
-                    </Grid>
-
+                    
                     <Grid item xs={6}>
                         <FormControl fullWidth variant="outlined">
                             <p className="good-font">พนักงานที่บันทึก</p>
@@ -347,6 +334,35 @@ function PaymentCreate() {
                                     {employee?.Name}
                                 </option>
                             </Select>
+                        </FormControl>
+                    </Grid>
+
+
+                    <Grid item xs={6}>
+                        <p className="good-font">ยอดชำระ</p>
+                        <FormControl fullWidth variant="outlined">
+                            <TextField
+                            id="Total"
+                            variant="outlined"
+                            type="string"
+                            size="medium"
+                            value={payment.Paytotal || sumprice}
+                            onChange={handleInputChange}
+                            />
+                        </FormControl>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        <p className="good-font">หมายเหตุ</p>
+                        <FormControl fullWidth variant="outlined">
+                            <TextField
+                            id="Note"
+                            variant="outlined"
+                            type="string"
+                            size="medium"
+                            value={payment.Note || ""}
+                            onChange={handleInputChange}
+                            />
                         </FormControl>
                     </Grid>
 
