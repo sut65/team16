@@ -22,22 +22,22 @@ func CreateEmployee_attendance(c *gin.Context) {
 	}
 	// 9: ค้นหา Employee ด้วย id
 	if tx := entity.DB().Where("id = ?", Em_IN.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเข้าสู่ระบบ"})
 		return
 	}
 	// 10: ค้นหา Duty ด้วย id
 	if tx := entity.DB().Where("id = ?", Em_IN.Duty_ID).First(&duty); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Duty not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกหน้าที่ในการทำงาน"})
 		return
 	}
 	// 11: ค้นหา working_time ด้วย id
 	if tx := entity.DB().Where("id = ?", Em_IN.Working_time_ID).First(&working_time); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "working_time not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกเวลาในการทำงาน"})
 		return
 	}
 	// 12 ค้นหา overtime ด้วย id
 	if tx := entity.DB().Where("id = ?", Em_IN.Overtime_ID).First(&overtime); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "overtime not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกการทำงานล่วงเวลา"})
 		return
 	}
 	Em_IN.Time_IN = Em_IN.Time_IN.Local()
@@ -101,26 +101,27 @@ func UpdateEmployee_attendance(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	// 9: ค้นหา Employee ด้วย id
 	if tx := entity.DB().Where("id = ?", Em_IN.Employee_ID).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเข้าสู่ระบบ"})
 		return
 	}
 	// 10: ค้นหา Duty ด้วย id
 	if tx := entity.DB().Where("id = ?", Em_IN.Duty_ID).First(&duty); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Duty not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกหน้าที่ในการทำงาน"})
 		return
 	}
 	// 11: ค้นหา working_time ด้วย id
 	if tx := entity.DB().Where("id = ?", Em_IN.Working_time_ID).First(&working_time); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "working_time not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกเวลาในการทำงาน"})
 		return
 	}
 	// 12 ค้นหา overtime ด้วย id
 	if tx := entity.DB().Where("id = ?", Em_IN.Overtime_ID).First(&overtime); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "overtime not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "กรุณาเลือกการทำงานล่วงเวลา"})
 		return
 	}
-	Em_IN.Time_IN = Em_IN.Time_IN.Local()
+	
 	// 13: สร้าง Employee_attendance
 	sc := entity.Employee_attendance{
 		Employee:     employee,        // โยงความสัมพันธ์กับ Entity Employee

@@ -80,11 +80,11 @@ function Record_employee_leaves_list() {
 
     const columns: GridColDef[] = [
         { field: "ID", headerName: "ID", width: 50 },
-        { field: "Employee", headerName: "พนักงาน", width: 220 ,headerAlign:"center" ,
+        { field: "Employee", headerName: "พนักงาน", width: 200 ,headerAlign:"center" ,
             valueFormatter: (params) => params.value.Name,
         },
         {
-            field: "Duty", headerName: "หน้าที่", width: 130,headerAlign:"center" ,
+            field: "Duty", headerName: "หน้าที่", width: 120,headerAlign:"center" ,
             valueFormatter: (params) => params.value.Name,
         },
         {
@@ -96,7 +96,7 @@ function Record_employee_leaves_list() {
             valueFormatter: (params) => params.value.Name,
         },
         {
-            field: "Time_Out", headerName: "เวลาออกงาน", width: 170,headerAlign:"center" ,
+            field: "Time_Out", headerName: "เวลาออกงาน", width: 200,headerAlign:"center" ,
             renderCell: (params) => moment(params.row.Time_Out).format('YYYY-MM-DD HH:mm:ss')
             
         },
