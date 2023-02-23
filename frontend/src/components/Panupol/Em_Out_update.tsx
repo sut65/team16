@@ -45,13 +45,14 @@ function Record_employee_leaves_update() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("")
+    const [message, setAlertMessage] = React.useState("");
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [duty, setduty] = React.useState<DutyInterface[]>([]);
     const [Working_time, setWorking_time] = React.useState<Working_timeInterface[]>([]);
     const [Overtime, setOvertime] = React.useState<OvertimeInterface[]>([]);
     const [Em_Out, setEm_Out] = React.useState<Partial<Record_employee_leave>>({
-      Time_Out: new Date(), Status_ID: false, 
+      Time_Out: new Date(),
     });
 
   
@@ -184,9 +185,11 @@ function Record_employee_leaves_update() {
       .then((res) => {
           if (res.data) {
               setSuccess(true);
+              setAlertMessage("บันทึกข้อมูลสำเร็จ");
               setErrorMessage("")
           } else {
               setError(true);
+              setAlertMessage(res.error);
               setErrorMessage(res.error)
           }
       });
@@ -202,12 +205,12 @@ function Record_employee_leaves_update() {
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           >
             <Alert onClose={handleClose} severity="success">
-              บันทึกข้อมูลสำเร็จ
+              {message}
             </Alert>
           </Snackbar>
-          <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+          <Snackbar open={error} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
             <Alert onClose={handleClose} severity="error">
-              บันทึกข้อมูลไม่สำเร็จ
+              {message}
             </Alert>
           </Snackbar>
           <Paper>
@@ -316,7 +319,7 @@ function Record_employee_leaves_update() {
      
               <Grid item xs={12}>
                 <Button component={RouterLink} to="/EmployeeattemdanceOUT" variant="contained">
-                  Back
+                  กลับ
                 </Button>
                 <Button
                   style={{ float: "right" }}
@@ -324,7 +327,7 @@ function Record_employee_leaves_update() {
                   variant="contained"
                   color="primary"
                 >
-                  Submit
+                  ยืนยันการแก้ไข
                 </Button>
               </Grid>
             </Grid>

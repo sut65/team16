@@ -14,6 +14,5 @@ export interface Employee_attendanceInterface {
     Overtime?: OvertimeInterface;
     Overtime_ID?: number;  // foreignkey.ID?
     Time_IN?: Date | null;
-	Status_ID?: boolean;
 	Number_Em?: string; 
 }

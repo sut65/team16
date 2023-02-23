@@ -134,9 +134,17 @@ func UpdateRecord_employee_leave(c *gin.Context) {
 		Duty:         duty,                          // โยงความสัมพันธ์กับ Entity Duty
 		Working_time: working_time,                  // โยงความสัมพันธ์กับ Entity Working_time
 		Overtime:     overtime,                      // โยงความสัมพันธ์กับ Entity Overtime
-		Time_OUT:      Em_Out.Time_OUT,   			// ตั้งค่าฟิลด์ Time_IN                         // ตั้งค่าฟิลด์ Status_ID
+		Time_OUT:      Em_Out.Time_OUT,   			// ตั้งค่าฟิลด์ Time_IN                        
 		Number_Em:    Em_Out.Number_Em, 				// ตั้งค่าฟิลด์ Number_Em
 	}
+
+	// ขั้นตอนการ validate ที่นำมาจาก unit test
+	
+	if _, err := govalidator.ValidateStruct(sc); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	
 	if err := entity.DB().Where("id = ?", id).Updates(&sc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

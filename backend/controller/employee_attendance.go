@@ -3,7 +3,6 @@ package controller
 import (
 	"net/http"
 
-
 	"github.com/Team16/farm_mart/entity"
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
@@ -44,17 +43,16 @@ func CreateEmployee_attendance(c *gin.Context) {
 	Em_IN.Time_IN = Em_IN.Time_IN.Local()
 	// 13: สร้าง Employee_attendance
 	sc := entity.Employee_attendance{
-		Employee:     employee,                      // โยงความสัมพันธ์กับ Entity Employee
-		Duty:         duty,                          // โยงความสัมพันธ์กับ Entity Duty
-		Working_time: working_time,                  // โยงความสัมพันธ์กับ Entity Working_time
-		Overtime:     overtime,                      // โยงความสัมพันธ์กับ Entity Overtime
-		Time_IN:      Em_IN.Time_IN,   // ตั้งค่าฟิลด์ Time_IN
-		Status_ID:    true,                          // ตั้งค่าฟิลด์ Status_ID
+		Employee:     employee,        // โยงความสัมพันธ์กับ Entity Employee
+		Duty:         duty,            // โยงความสัมพันธ์กับ Entity Duty
+		Working_time: working_time,    // โยงความสัมพันธ์กับ Entity Working_time
+		Overtime:     overtime,        // โยงความสัมพันธ์กับ Entity Overtime
+		Time_IN:      Em_IN.Time_IN,   // ตั้งค่าฟิลด์ Time_IN                
 		Number_Em:    Em_IN.Number_Em, // ตั้งค่าฟิลด์ Number_Em
 	}
-	
+
 	// ขั้นตอนการ validate ที่นำมาจาก unit test
-	
+
 	if _, err := govalidator.ValidateStruct(sc); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -125,14 +123,21 @@ func UpdateEmployee_attendance(c *gin.Context) {
 	Em_IN.Time_IN = Em_IN.Time_IN.Local()
 	// 13: สร้าง Employee_attendance
 	sc := entity.Employee_attendance{
-		Employee:     employee,                      // โยงความสัมพันธ์กับ Entity Employee
-		Duty:         duty,                          // โยงความสัมพันธ์กับ Entity Duty
-		Working_time: working_time,                  // โยงความสัมพันธ์กับ Entity Working_time
-		Overtime:     overtime,                      // โยงความสัมพันธ์กับ Entity Overtime
-		Time_IN:      Em_IN.Time_IN,   // ตั้งค่าฟิลด์ Time_IN
-		Status_ID:    true,                          // ตั้งค่าฟิลด์ Status_ID
+		Employee:     employee,        // โยงความสัมพันธ์กับ Entity Employee
+		Duty:         duty,            // โยงความสัมพันธ์กับ Entity Duty
+		Working_time: working_time,    // โยงความสัมพันธ์กับ Entity Working_time
+		Overtime:     overtime,        // โยงความสัมพันธ์กับ Entity Overtime
+		Time_IN:      Em_IN.Time_IN,   // ตั้งค่าฟิลด์ Time_IN                 
 		Number_Em:    Em_IN.Number_Em, // ตั้งค่าฟิลด์ Number_Em
 	}
+
+	// ขั้นตอนการ validate ที่นำมาจาก unit test
+
+	if _, err := govalidator.ValidateStruct(sc); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	if err := entity.DB().Where("id = ?", id).Updates(&sc).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

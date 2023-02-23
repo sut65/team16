@@ -45,13 +45,14 @@ function Employeeattemdance_IN() {
     const [success, setSuccess] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("")
+    const [message, setAlertMessage] = React.useState("");
 
     const [employee, setEmployee] = React.useState<EmployeeInterface>();
     const [duty, setduty] = React.useState<DutyInterface[]>([]);
     const [Working_time, setWorking_time] = React.useState<Working_timeInterface[]>([]);
     const [Overtime, setOvertime] = React.useState<OvertimeInterface[]>([]);
     const [Em_IN, setEm_IN] = React.useState<Partial<Employee_attendanceInterface>>({
-      Time_IN: new Date(), Status_ID: true, 
+      Time_IN: new Date(),
     });
 
   
@@ -165,7 +166,6 @@ function Employeeattemdance_IN() {
       Working_time_ID: convertType(Em_IN.Working_time_ID),
       Overtime_ID: convertType(Em_IN.Overtime_ID),
       Time_IN: new Date() ,
-      Status_ID: Em_IN.Status_ID,
       Number_Em: Em_IN.Number_Em ?? "",
     };
     
@@ -185,9 +185,11 @@ function Employeeattemdance_IN() {
       .then((res) => {
           if (res.data) {
               setSuccess(true);
+              setAlertMessage("บันทึกข้อมูลสำเร็จ");  
               setErrorMessage("")
           } else {
               setError(true);
+              setAlertMessage(res.error);
               setErrorMessage(res.error)
           }
       });
@@ -200,15 +202,15 @@ function Employeeattemdance_IN() {
             open={success}
             autoHideDuration={6000}
             onClose={handleClose}
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center"}}
           >
             <Alert onClose={handleClose} severity="success">
-              บันทึกข้อมูลสำเร็จ
+              {message}
             </Alert>
           </Snackbar>
-          <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
+          <Snackbar open={error} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: "bottom", horizontal: "center"}}>
             <Alert onClose={handleClose} severity="error">
-              บันทึกข้อมูลไม่สำเร็จ
+              {message}
             </Alert>
           </Snackbar>
           <Paper>
@@ -317,7 +319,7 @@ function Employeeattemdance_IN() {
      
               <Grid item xs={12}>
                 <Button component={RouterLink} to="/EmployeeattemdanceIN" variant="contained">
-                  Back
+                  กลับ
                 </Button>
                 <Button
                   style={{ float: "right" }}
@@ -325,7 +327,7 @@ function Employeeattemdance_IN() {
                   variant="contained"
                   color="primary"
                 >
-                  Submit
+                  ยืนยันการแก้ไข
                 </Button>
               </Grid>
             </Grid>

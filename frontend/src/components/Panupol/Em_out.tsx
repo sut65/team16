@@ -52,7 +52,7 @@ function Record_employee_leaves_create() {
     const [Working_time, setWorking_time] = React.useState<Working_timeInterface[]>([]);
     const [Overtime, setOvertime] = React.useState<OvertimeInterface[]>([]);
     const [Em_Out, setEm_Out] = React.useState<Partial<Record_employee_leave>>({
-      Time_Out: new Date(), Status_ID: false, 
+      Time_Out: new Date(),
     });
 
     const handleClose = (
@@ -164,7 +164,6 @@ function Record_employee_leaves_create() {
       Working_time_ID: convertType(Em_Out.Working_time_ID),
       Overtime_ID: convertType(Em_Out.Overtime_ID),
       Time_Out: new Date() ,
-      Status_ID: Em_Out.Status_ID,
       Number_Em: Em_Out.Number_Em ?? "",
     };
     
@@ -324,7 +323,7 @@ function Record_employee_leaves_create() {
      
               <Grid item xs={12}>
                 <Button component={RouterLink} to="/EmployeeattemdanceOUT" variant="contained">
-                  Back
+                  กลับ
                 </Button>
                 <Button
                   style={{ float: "right" }}
@@ -332,7 +331,7 @@ function Record_employee_leaves_create() {
                   variant="contained"
                   color="primary"
                 >
-                  Submit
+                  ออกงาน
                 </Button>
               </Grid>
             </Grid>
