@@ -51,7 +51,7 @@ function Employeeattemdance_IN() {
     const [Working_time, setWorking_time] = React.useState<Working_timeInterface[]>([]);
     const [Overtime, setOvertime] = React.useState<OvertimeInterface[]>([]);
     const [Em_IN, setEm_IN] = React.useState<Partial<Employee_attendanceInterface>>({
-      Time_IN: new Date(), Status_ID: true, 
+      Time_IN: new Date(),
     });
 
   
@@ -165,7 +165,6 @@ function Employeeattemdance_IN() {
       Working_time_ID: convertType(Em_IN.Working_time_ID),
       Overtime_ID: convertType(Em_IN.Overtime_ID),
       Time_IN: new Date() ,
-      Status_ID: Em_IN.Status_ID,
       Number_Em: Em_IN.Number_Em ?? "",
     };
     
@@ -319,7 +318,7 @@ function Employeeattemdance_IN() {
      
               <Grid item xs={12}>
                 <Button component={RouterLink} to="/EmployeeattemdanceIN" variant="contained">
-                  Back
+                  กลับ
                 </Button>
                 <Button
                   style={{ float: "right" }}
@@ -327,7 +326,7 @@ function Employeeattemdance_IN() {
                   variant="contained"
                   color="primary"
                 >
-                  Submit
+                  เข้างาน
                 </Button>
               </Grid>
             </Grid>

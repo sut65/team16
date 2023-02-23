@@ -39,8 +39,7 @@ type Employee_attendance struct {
 	Overtime_ID     *uint        `valid:"-"`
 	Overtime        Overtime     `valid:"-"`
 	Time_IN         time.Time    `valid:"-"`
-	Status_ID       bool         `valid:"-"`
-	Number_Em       string       `valid:"required~โปรดใส่เบอร์โทร,minstringlength(10)~ใส่เบอร์โทรไม่ครบ,maxstringlength(10)~ใส่เบอร์โทรเกิน"`
+	Number_Em       string       `valid:"required~โปรดใส่เบอร์โทร,minstringlength(10)~เบอร์โทรควรมีมากกว่า 9 ตัว,maxstringlength(10)~เบอร์โทรควรมีน้อยกว่า 11 ตัว"`
 }
 
 type Record_employee_leave struct {
@@ -54,5 +53,5 @@ type Record_employee_leave struct {
 	Overtime_ID     *uint        `valid:"-"`
 	Overtime        Overtime     `valid:"-"`
 	Time_OUT        time.Time    `valid:"-"`
-	Number_Em       string       `valid:"required~โปรดใส่เบอร์โทร,minstringlength(10)~ใส่เบอร์โทรไม่ครบ,maxstringlength(10)~ใส่เบอร์โทรเกิน"`
+	Number_Em       string       `valid:"required~โปรดใส่เบอร์โทร,minstringlength(10)~เบอร์โทรควรมีมากกว่า 9 ตัว,maxstringlength(10)~เบอร์โทรควรมีน้อยกว่า 11 ตัว"`
 }

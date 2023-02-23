@@ -14,6 +14,5 @@ export interface Record_employee_leave {
     Overtime?: OvertimeInterface;
     Overtime_ID?: number;  // foreignkey.ID?
     Time_Out?: Date | null;
-	Status_ID?: boolean;
 	Number_Em?: string; 
 }
