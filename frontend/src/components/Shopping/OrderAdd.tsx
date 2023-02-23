@@ -121,7 +121,7 @@ function OrderCreate() {
         let quantity = amounts - num;
         let data = {
             Number: quantity,
-            Cost: shevprice,
+            //Cost: shevprice,
         };
         console.log(data)
 
@@ -151,7 +151,7 @@ function OrderCreate() {
             setAlertMessage("เพิ่มสินค้าลงตะกร้าแล้ว");
             setSuccess2(true);
         } else {
-            setAlertMessage("สินค้าหมด");
+            setAlertMessage(res.message);
             setError2(true);
         }
     }

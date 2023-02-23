@@ -233,7 +233,7 @@ function OrderCreate() {
         let quantity = amounts - num;
         let data = {
             Number: quantity,
-            Cost: shevprice,
+            //Cost: shevprice,
         };
         console.log(data)
 
