@@ -140,7 +140,7 @@ function Discount() {
                         color="primary"
                         onClick={() => setOpenupdate(true)}
                     >
-                        Edit
+                        แก้ไข
                     </Button>
                 );
             },
@@ -154,7 +154,7 @@ function Discount() {
                         color="primary"
                         onClick={() => setOpendelete(true)}
                     >
-                        Delete
+                        ลบ
                     </Button>
                 );
             },

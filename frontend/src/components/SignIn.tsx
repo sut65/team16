@@ -102,7 +102,7 @@ function SignIn() {
             <Grid
                 item xs={false} sm={8} md={12} container component="main"
                 sx={{
-                    // backgroundImage: "url(https://rare-gallery.com/uploads/posts/563247-bright-colours.jpg)",
+                    backgroundImage: "url(https://rare-gallery.com/uploads/posts/563247-bright-colours.jpg)",
                     backgroundPosition: "center", height: "120vh", width: '100%', scale: "initial",
                     backgroundColor:"#F2FFE9",
                     [theme.breakpoints.down("sm")]: {height: "150vh"}

@@ -107,7 +107,7 @@ function Delivery() {
                         color="primary"
                         onClick={() => setOpenupdate(true)}
                     >
-                        Edit
+                        แก้ไข
                     </Button>
                 );
             },
@@ -121,7 +121,7 @@ function Delivery() {
                         color="primary"
                         onClick={() => setOpendelete(true)}
                     >
-                        Delete
+                        ลบ
                     </Button>
                 );
             },

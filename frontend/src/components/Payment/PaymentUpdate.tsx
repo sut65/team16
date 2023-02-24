@@ -302,7 +302,7 @@ function PaymentCreate() {
                                 defaultValue={total}
                                 type="number"
                                 size="medium"
-                                InputProps={{ inputProps: { min: 1 , max: 100000}}}
+                                InputProps={{ inputProps: { min: 0 , max: 100000}}}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
