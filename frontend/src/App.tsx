@@ -160,7 +160,7 @@ const menu = [
 
 export default function App() {
   const [token, setToken] = useState<String>("");
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -177,9 +177,9 @@ export default function App() {
       setToken(token);
     };
 
-    // setTimeout(() => {
-    //   setOpen(false);
-    // }, 500);
+    setTimeout(() => {
+      setOpen(false);
+    }, 500);
   }, []);
 
   if (!token) {
