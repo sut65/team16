@@ -34,7 +34,7 @@ func TestNumberEm_morethen10(t *testing.T) {
 	ok, err := govalidator.ValidateStruct(dis)
 	g.Expect(ok).NotTo(gomega.BeTrue())
 	g.Expect(err).ToNot(gomega.BeNil())
-	g.Expect(err.Error()).To(gomega.Equal("ใส่เบอร์โทรเกิน"))
+	g.Expect(err.Error()).To(gomega.Equal("เบอร์โทรควรมีน้อยกว่า 11 ตัว"))
 	})
 }
 
@@ -48,7 +48,7 @@ func TestNumberEm_lessthen10(t *testing.T) {
 	ok, err := govalidator.ValidateStruct(dis)
 	g.Expect(ok).NotTo(gomega.BeTrue())
 	g.Expect(err).ToNot(gomega.BeNil())
-	g.Expect(err.Error()).To(gomega.Equal("ใส่เบอร์โทรไม่ครบ"))
+	g.Expect(err.Error()).To(gomega.Equal("เบอร์โทรควรมีมากกว่า 9 ตัว"))
 	})
 }
 
