@@ -5,7 +5,7 @@ import { StoragesInterface } from "./IStorage";
 //ระบบสต๊อกสินค้า
 export interface StocksInterface{
     ID: number,
-    Name: string,
+    Name?: string,
     Amount: number,
     Price: number,
     Employee_ID: number,
